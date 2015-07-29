@@ -1,0 +1,86 @@
+body {
+    background-color: #e4e4e4;
+    height: auto;
+}
+
+#pic-wrapper {
+    /*padding-bottom: 56.25vh;*/
+}
+
+#pic {
+    padding-bottom: 56.25%;
+    background-image: url(/static/img/login_pic.png);
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    box-shadow: 0 0 15px rgb(0, 0, 0);
+}
+
+#logo {
+    width: 100%;
+}
+
+#pic-content-wrapper {
+    /*margin: 8.5% 32%;*/
+    padding: 7.3% 32%;
+}
+
+#form {
+    margin: 10% 0;
+}
+
+#form input {
+    height: 5vh;
+    font-size: 2vh;
+}
+
+#form > .ui.button {
+    width: 100%;
+    height: 5vh;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.95);
+    font-size: 2.3vh;
+}
+
+#form > .ui.button:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.95);
+}
+
+#submit {
+    margin-top: 5%;
+    background-color: #3b3f42;
+    color: #ffffff;
+}
+
+#signup {
+    margin-top: 5%;
+    background-color: #909292;
+    color: #313131;
+}
+
+@media screen and (min-aspect-ratio: 16/9) {
+    #pic-wrapper {
+        margin-left: calc((100vw - 144vh) / 2);
+        margin-right: calc((100vw - 144vh) / 2);
+        height: 81vh;
+        width: 144vh;
+        margin-top: 9vh;
+        margin-bottom: 9vh;
+    }
+}
+
+@media screen and (max-aspect-ratio: 16/9) {
+    #pic-wrapper {
+        margin-top: calc((100vh - 51.24vw) / 2);
+        margin-bottom: calc((100vh - 51.24vw) / 2);
+        width: 90vw;
+        height: 51.24vw;
+        margin-left: 5vw;
+        margin-right: 5vw;
+    }
+}
+
