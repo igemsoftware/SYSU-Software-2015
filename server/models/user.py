@@ -3,6 +3,7 @@ from .. import login_manager
 
 from message import Message
 from task import watched_tasks, Task
+from comment import Comment
 
 from datetime import datetime
 from flask.ext.login import UserMixin
@@ -34,8 +35,6 @@ class User(UserMixin, db.Model):
     def sent_messages(self):
         return Message.query.filter(Message.sender_id==self.id).all()
     watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
-
-
 
 
     def __init__(self, **kwargs):
@@ -76,9 +75,28 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         db.session.commit()
 
+    def make_comment(self, task_id, content):
+        c = Comment(content=content, task_id=task_id)
+        db.session.add(c)
+        db.session.commit()
+        return c
+
 
     def __repr__(self):
         return '<User[%d]: %r>' % (self.id, self.username)
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     # confirmed

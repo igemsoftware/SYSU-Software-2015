@@ -1,6 +1,6 @@
 from . import TestCase
 
-from server.models import User, Message, Task
+from server.models import User, Task
 from server import db
 
 class TestUser(TestCase):

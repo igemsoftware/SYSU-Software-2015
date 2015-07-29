@@ -17,6 +17,8 @@ class Task(db.Model):
     content = db.Column(db.Text)
     sender_id = db.Column(db.Integer, nullable=False)
 
+    comments = db.relationship('Comment', backref='task', lazy='dynamic')
+
     
 # try to add creator to watcher but fail for the recursive import
     def __init__(self, **kwargs):
