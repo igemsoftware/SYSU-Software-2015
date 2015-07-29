@@ -18,6 +18,7 @@ class Task(db.Model):
     sender_id = db.Column(db.Integer, nullable=False)
 
     
+# try to add creator to watcher but fail for the recursive import
     def __init__(self, **kwargs):
         #u = User.query.get(kwargs['sender_id'])
         super(Task, self).__init__(**kwargs)

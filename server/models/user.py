@@ -65,6 +65,12 @@ class User(UserMixin, db.Model):
         db.session.commit()
         return msg
 
+    def create_task(self, title, abstract, content):
+        t = Task(title=title, abstract=abstract, content=content, watcher=[self], sender_id=self.id)
+        db.session.add(t)
+        db.session.commit()
+        return t
+
     def watch_task(self, task_id):
         self.watched_tasks.append(Task.query.get(task_id))
         db.session.add(self)
