@@ -1,0 +1,45 @@
+<!-- change to anything fits the proj -->
+
+{% block doc -%}
+<!DOCTYPE html>
+<html {% block html_attribs %}{% endblock html_attribs %}>
+{%- block html %}
+    <head>
+    {%- block head %}
+    <title>{% block title %}</title>
+
+        {%- block styles %}
+        {%- endblock styles %}
+
+        {% block scripts %}
+            <script src="/static/js/jquery.min.js"></script>
+        {%- endblock scripts %}
+
+    {%- endblock head %}
+    </head>
+
+    <body{% block body_attribs %}{% endblock body_attribs %}>
+    {% block body -%}
+
+        {% block navbar %}
+        {%- endblock navbar %}
+
+        <div class="container">
+            <div class="col-md-12">
+            {% for message in get_flashed_messages() %}
+                <div class="alert alert-warning">
+                  <button type="button" class="close" data-dismiss="alert">&times;</button>
+                  {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+
+        {% block content -%}
+        {%- endblock content %}
+
+    {%- endblock body %}
+{%- endblock html %}
+</html>
+{% endblock doc -%}
+
