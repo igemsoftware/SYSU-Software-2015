@@ -1,4 +1,4 @@
-from . import config
+from config import config
 
 from flask import Flask
 #from flask.ext.bootstrap import Bootstrap
@@ -11,7 +11,7 @@ login_manager.session_protection = 'strong'
 #login_manager.login_view = 'auth.login'
 #bootstrap = Bootstrap()
 
-def create_app(config_name):
+def create_app(config_name='default'):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
 
@@ -21,5 +21,8 @@ def create_app(config_name):
 
     from .routes import main as main_blueprint
     app.register_blueprint(main_blueprint)
+
+    from .routes import auth as auth_blueprint
+    app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
     return app

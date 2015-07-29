@@ -1,42 +1,33 @@
 from .. import db
+from .. import login_manager
 
 from datetime import datetime
 from flask.ext.login import UserMixin
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+import random, string
 
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     # basic info
-    username = db.Column(db.String(128), nullable=False, unique=True) #, unique=True)
-    email = db.Column(db.String(128)) #, unique=True)
+    username = db.Column(db.String(128), nullable=False, unique=True)
+    email = db.Column(db.String(128), unique=True)
 
     # password
     password_hash = db.Column(db.String(128)) 
     salt = db.Column(db.String(32))
 
     # record
-    regdate = db.Column(db.DateTime, default=datetime.now)
+    reg_date = db.Column(db.DateTime, default=datetime.now)
     last_seen = db.Column(db.DateTime, default=datetime.now)
-    last_ip = db.Column(db.String(64))
+#   last_ip = db.Column(db.String(64))
 
     # confirmed
-    confirmed = db.Column(db.Boolean, default=False)
+#    confirmed = db.Column(db.Boolean, default=False)
     #confirm_token = db.Column(db.String(128))
-
-    def serialize(self):
-        return {
-                'id': self.id,
-                'username': self.username,
-                'email': self.email,
-                'role': self.role.name,
-                'regdate': self.regdate.strftime('%Y-%m-%d'),
-                'last_seen': self.last_seen.strftime('%Y-%m-%d'),
-                'confirmed': self.confirmed
-                }
 
     def ping(self, ip):
         last_seen = datetime.now()
@@ -54,6 +45,9 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password+self.salt)
+
+
+
 
     # confirmation
     def generate_confirmation_token(self, expiration=3600):
@@ -79,6 +73,7 @@ class User(UserMixin, db.Model):
         send_email(self.email, 'please comfirm your email.',
                     'auth/email/confirm', user=self, token=token)
         flash('Comfirmation email has been sent.')
+
 
     # change email 
     def generate_email_change_token(self, new_email, expiration=3600):
@@ -106,7 +101,8 @@ class User(UserMixin, db.Model):
                     'auth/email/change_email', user=self, token=token)
         flash('Comfirmation email has been sent.')
 
-    # reset
+
+    # reset password
     def generate_reset_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration, salt=self.salt)
         return s.dumps({'reset':self.id})
@@ -131,6 +127,5 @@ class User(UserMixin, db.Model):
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
 
 

@@ -28,6 +28,11 @@ class ProductionConfig(Config):
     DEBUG = False 
 #    SQLALCHEMY_DATABASE_URI = "mysql://"
 
+class TestingConfig(Config):
+    DEBUG = True
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/test.db"
+
 #   mail-bug-logging
 #   @classmethod
 #   def init_app(cls, app):
@@ -55,6 +60,7 @@ class ProductionConfig(Config):
 config = {
     'development': DevelopmentConfig,
     'production': ProductionConfig,
+    'testing': TestingConfig,
 
     'default': DevelopmentConfig
 }
