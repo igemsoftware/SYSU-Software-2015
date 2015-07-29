@@ -10,7 +10,7 @@ class Message(db.Model):
     isread = db.Column(db.Boolean, default=False)
 
     #sender_id = db.Column(db.Integer)
-    sender_id = db.Column(db.Integer) #, db.ForeignKey('user.id'))
+    sender_id = db.Column(db.Integer)#, db.ForeignKey('user.id'))
     receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     title = db.Column(db.String(128))

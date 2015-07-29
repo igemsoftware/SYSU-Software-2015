@@ -2,6 +2,7 @@ from .. import db
 from .. import login_manager
 
 from message import Message
+from task import watched_tasks, Task
 
 from datetime import datetime
 from flask.ext.login import UserMixin
@@ -28,7 +29,14 @@ class User(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime, default=datetime.now)
 
     # functional
-    recv_messages = db.relationship('Message', backref='user', lazy='dynamic')
+    recv_messages = db.relationship('Message', backref='receiver', lazy='dynamic')
+    @property
+    def sent_messages(self):
+        return Message.query.filter(Message.sender_id==self.id).all()
+    watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
+
+
+
 
     def __init__(self, **kwargs):
         kwargs['username'] = kwargs['username'][:128]
@@ -55,8 +63,12 @@ class User(UserMixin, db.Model):
         msg = Message(type=0, isread=False, sender_id=self.id, receiver_id=user.id, content=content, title=title)
         db.session.add(msg)
         db.session.commit()
+        return msg
 
-
+    def watch_task(self, task_id):
+        self.watched_tasks.append(Task.query.get(task_id))
+        db.session.add(self)
+        db.session.commit()
 
 
     def __repr__(self):
