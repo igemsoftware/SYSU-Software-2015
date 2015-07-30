@@ -58,3 +58,6 @@ target/
 
 # Swap file
 *.swp
+
+# virtual env
+env/
