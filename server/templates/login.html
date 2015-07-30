@@ -16,7 +16,8 @@
     <div id="pic-content-wrapper">
       <img src="/static/img/login_logo.png" alt="LOGO" id="logo" class="ui image">
       <form class="ui form" id="form" action={{ url_for("login") }} method="POST">
-        {% if error and 'username' in error %}
+
+        {% if form.username.errors %}
         <div class="ui error input field">
           <input type="text" placeholder="Account does not exist..." name="username">
         </div>
@@ -25,7 +26,8 @@
           <input type="text" placeholder="Please enter your account..." name="username">
         </div>
         {% endif %}
-        {% if error and 'password' in error %}
+
+        {% if form.password.errors %}
         <div class="ui error input field">
           <input type="password" placeholder="Password incorrect..." name="password">
         </div>
@@ -34,6 +36,7 @@
           <input type="password" placeholder="Please enter your password..." name="password">
         </div>
         {% endif %}
+
         <button class="ui button" type="submit" id="submit">Log In</button>
         <button class="ui button" id="signup">Create A Free Account</button>
       </form>
