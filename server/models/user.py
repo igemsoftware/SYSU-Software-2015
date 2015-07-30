@@ -1,6 +1,10 @@
 from .. import db
 from .. import login_manager
 
+from message import Message
+from task import watched_tasks, Task
+from comment import Comment
+
 from datetime import datetime
 from flask.ext.login import UserMixin
 
@@ -15,23 +19,30 @@ class User(UserMixin, db.Model):
     # basic info
     username = db.Column(db.String(128), nullable=False, unique=True)
     email = db.Column(db.String(128), unique=True)
+    avatar = db.Column(db.String()) # url
 
     # password
-    password_hash = db.Column(db.String(128)) 
+    password_hash = db.Column(db.String(32)) 
     salt = db.Column(db.String(32))
 
     # record
     reg_date = db.Column(db.DateTime, default=datetime.now)
     last_seen = db.Column(db.DateTime, default=datetime.now)
-#   last_ip = db.Column(db.String(64))
 
-    # confirmed
-#    confirmed = db.Column(db.Boolean, default=False)
-    #confirm_token = db.Column(db.String(128))
+    # functional
+    recv_messages = db.relationship('Message', backref='receiver', lazy='dynamic')
+    @property
+    def sent_messages(self):
+        return Message.query.filter(Message.sender_id==self.id).all()
+    watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
+
+
+    def __init__(self, **kwargs):
+        kwargs['username'] = kwargs['username'][:128]
+        super(User, self).__init__(**kwargs)
 
     def ping(self, ip):
         last_seen = datetime.now()
-        last_ip = ip
         db.session.add(self)
 
     @property
@@ -46,8 +57,51 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password+self.salt)
 
+    # functional
+    def send_message_to(self, title, content, user):
+        msg = Message(type=0, isread=False, sender_id=self.id, receiver_id=user.id, content=content, title=title)
+        db.session.add(msg)
+        db.session.commit()
+        return msg
+
+    def create_task(self, title, abstract, content):
+        t = Task(title=title, abstract=abstract, content=content, watcher=[self], sender_id=self.id)
+        db.session.add(t)
+        db.session.commit()
+        return t
+
+    def watch_task(self, task_id):
+        self.watched_tasks.append(Task.query.get(task_id))
+        db.session.add(self)
+        db.session.commit()
+
+    def make_comment(self, task_id, content):
+        c = Comment(content=content, task_id=task_id)
+        db.session.add(c)
+        db.session.commit()
+        return c
 
 
+    def __repr__(self):
+        return '<User[%d]: %r>' % (self.id, self.username)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # confirmed
+#    confirmed = db.Column(db.Boolean, default=False)
+    #confirm_token = db.Column(db.String(128))
 
     # confirmation
     def generate_confirmation_token(self, expiration=3600):

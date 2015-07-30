@@ -1,15 +1,17 @@
+from flask import current_app
 from flask.ext.wtf import Form
+from flask.ext.login import current_user
+
 from wtforms import StringField, PasswordField, BooleanField,\
         SubmitField, TextAreaField, IntegerField, RadioField, SelectField
 from wtforms.validators import Required, Length, Email, Regexp, EqualTo, NumberRange
 from wtforms import ValidationError
-from .models import User, Role, Permission
-from flask.ext.login import current_user
-from flask import current_app
+
+from ..models import User 
 
 class LoginFormWithUsername(Form):
-    username = StringField('Username', validators=[Required('Please input your username.')])
-    password = PasswordField('Password', validators=[Required('Please input your password.')])
+    username = StringField('Username', validators=[Required('Please input your username'), Length(0, 128)])
+    password = PasswordField('Password', validators=[Required('Please input your password.'), Length(0, 32)])
     #remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Login')
 
