@@ -3,10 +3,6 @@ body {
     height: auto;
 }
 
-#pic-wrapper {
-    /*padding-bottom: 56.25vh;*/
-}
-
 #pic {
     padding-bottom: 56.25%;
     background-image: url(/static/img/login_pic.png);
@@ -23,27 +19,19 @@ body {
 }
 
 #pic-content-wrapper {
-    /*margin: 8.5% 32%;*/
     padding: 7.3% 32%;
 }
 
 #form {
-    margin: 10% 0;
-}
-
-#form input {
-    height: 5vh;
-    font-size: 2vh;
+    margin: 5vh 0;
 }
 
 #form > .ui.button {
     width: 100%;
-    height: 5vh;
     margin-left: 0;
     margin-right: 0;
     border-radius: 0;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.95);
-    font-size: 2.3vh;
 }
 
 #form > .ui.button:hover {
@@ -64,23 +52,39 @@ body {
 
 @media screen and (min-aspect-ratio: 16/9) {
     #pic-wrapper {
-        margin-left: calc((100vw - 144vh) / 2);
-        margin-right: calc((100vw - 144vh) / 2);
+        margin-left: calc((100vw - 142vh) / 2);
+        margin-right: calc((100vw - 142vh) / 2);
         height: 81vh;
-        width: 144vh;
+        width: 142vh;
         margin-top: 9vh;
         margin-bottom: 9vh;
+    }
+    #form > .ui.button {
+        height: 5vh;
+        font-size: 2.3vh;
+    }
+    #form input {
+        height: 5vh;
+        font-size: 2vh;
     }
 }
 
 @media screen and (max-aspect-ratio: 16/9) {
     #pic-wrapper {
-        margin-top: calc((100vh - 51.24vw) / 2);
-        margin-bottom: calc((100vh - 51.24vw) / 2);
-        width: 90vw;
-        height: 51.24vw;
-        margin-left: 5vw;
-        margin-right: 5vw;
+        margin-top: calc((100vh - 41vw) / 2);
+        margin-bottom: calc((100vh - 41vw) / 2);
+        width: 72vw;
+        height: 41vw;
+        margin-left: 14vw;
+        margin-right: 14vw;
+    }
+    #form > .ui.button {
+        height: 2.6vw;
+        font-size: 1.3vw;
+    }
+    #form input {
+        height: 2.6vw;
+        font-size: 1.1vw;
     }
 }
 
