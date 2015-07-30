@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <title>Log In</title>
+  <link rel="stylesheet" href="/static/css/semantic.min.css">
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/semantic.min.js"></script>
-  <link rel="stylesheet" href="/static/css/semantic.min.css">
+  <link rel="stylesheet" href="/static/css/login_register_common.css">
   <link rel="stylesheet" href="/static/css/login.css">
 </head>
 <body>
@@ -14,16 +15,28 @@
   <div id="pic">
     <div id="pic-content-wrapper">
       <img src="/static/img/login_logo.png" alt="LOGO" id="logo" class="ui image">
-      <div class="ui form" id="form">
-        <div class="ui left icon field">
-          <input type="text" placeholder="Please enter your account..." id="account">
+      <form class="ui form" id="form" action={{ url_for("login") }} method="POST">
+        {% if error and 'username' in error %}
+        <div class="ui error input field">
+          <input type="text" placeholder="Account does not exist..." name="username">
         </div>
-        <div class="ui left icon field">
-          <input type="password" placeholder="Please enter your password..." id="password">
+        {% else %}
+        <div class="ui input field">
+          <input type="text" placeholder="Please enter your account..." name="username">
         </div>
+        {% endif %}
+        {% if error and 'password' in error %}
+        <div class="ui error input field">
+          <input type="password" placeholder="Password incorrect..." name="password">
+        </div>
+        {% else %}
+        <div class="ui input field">
+          <input type="password" placeholder="Please enter your password..." name="password">
+        </div>
+        {% endif %}
         <button class="ui button" type="submit" id="submit">Log In</button>
         <button class="ui button" id="signup">Create A Free Account</button>
-      </div>
+      </form>
     </div>
   </div>
 </div>
