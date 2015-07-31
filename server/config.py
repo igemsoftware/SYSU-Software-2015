@@ -8,13 +8,14 @@ class Config:
     SQLALCHEMY_RECORD_QUERIES = True
     #FLASKY_SLOW_DB_QUERY_TIME=0.5
 
-#   MAIL_SERVER = 'smtp.googlemail.com'
-#   MAIL_PORT = 587
-#   MAIL_USE_TLS = True
-#   MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
-#   MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
-#   FLASKY_MAIL_SUBJECT_PREFIX = '[sysu-software]'
-#   FLASKY_MAIL_SENDER = 'sysu-software admin<sysu-software@example.com>'
+    MAIL_SERVER = 'smtp.gmail.com'
+    MAIL_PORT = 465 
+    MAIL_USE_SSL = True
+    MAIL_USERNAME = 'sysu.software2015@gmail.com'
+    MAIL_PASSWORD = 'SYSU.Software2015@gmail' 
+    FLASKY_MAIL_SUBJECT_PREFIX = 'SYSU-Software'
+    FLASKY_MAIL_SENDER = 'SYSU Software 2015 <SYSU.Software2015@gmail.com>'
+
 
     @staticmethod
     def init_app(app):
