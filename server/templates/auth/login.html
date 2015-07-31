@@ -15,29 +15,30 @@
   <div id="pic">
     <div id="pic-content-wrapper">
       <img src="/static/img/login_logo.png" alt="LOGO" id="logo" class="ui image">
-      <form class="ui form" id="form" action={{ url_for("login") }} method="POST">
+      <form class="ui form" id="form" action={{ url_for("auth.login") }} method="POST">
+        {{ form.hidden_tag() }}
 
         {% if form.username.errors %}
         <div class="ui error input field">
-          <input type="text" placeholder="Account does not exist..." name="username">
+          {{ form.username(placeholder='Account does not exist...') }}
         </div>
         {% else %}
         <div class="ui input field">
-          <input type="text" placeholder="Please enter your account..." name="username">
+          {{ form.username(placeholder='Please enter your account...') }}
         </div>
         {% endif %}
 
         {% if form.password.errors %}
         <div class="ui error input field">
-          <input type="password" placeholder="Password incorrect..." name="password">
+          {{ form.password(placeholder='Password incorrect...') }}
         </div>
         {% else %}
         <div class="ui input field">
-          <input type="password" placeholder="Please enter your password..." name="password">
+          {{ form.password(placeholder='Please enter your password...') }}
         </div>
         {% endif %}
 
-        <button class="ui button" type="submit" id="submit">Log In</button>
+        {{ form.submit(class_='ui button') }}
         <button class="ui button" id="signup">Create A Free Account</button>
       </form>
     </div>
