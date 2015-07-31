@@ -12,6 +12,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 import random, string
 
+from ..tools.email import _send_email
+
 
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -40,6 +42,8 @@ class User(UserMixin, db.Model):
     def __init__(self, **kwargs):
         kwargs['username'] = kwargs['username'][:128]
         super(User, self).__init__(**kwargs)
+        self.send_email(subject='Welcome to FLAME', template='email/greeting',
+                        user=self)
 
     def ping(self, ip):
         last_seen = datetime.now()
@@ -81,9 +85,13 @@ class User(UserMixin, db.Model):
         db.session.commit()
         return c
 
-
     def __repr__(self):
         return '<User[%d]: %r>' % (self.id, self.username)
+
+    def send_email(self, subject, template, **kwargs):
+        _send_email(self.email, subject, template, **kwargs)
+
+
 
 
 

@@ -1,0 +1,3 @@
+<p>Dear {{user.username}},</p>
+<p>  Welcome to <b>FLAME</b>!</p>
+
