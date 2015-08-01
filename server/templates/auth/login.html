@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Log In</title>
+  <link rel="stylesheet" href="/static/css/semantic.min.css">
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/semantic.min.js"></script>
+  <link rel="stylesheet" href="/static/css/login_register_common.css">
+  <link rel="stylesheet" href="/static/css/login.css">
+</head>
+<body>
+
+<div id="pic-wrapper">
+  <div id="pic">
+    <div id="pic-content-wrapper">
+      <img src="/static/img/login_logo.png" alt="LOGO" id="logo" class="ui image">
+      <form class="ui form" id="form" action={{ url_for("auth.login") }} method="POST">
+        {{ form.hidden_tag() }}
+
+        {% if form.username.errors %}
+        <div class="ui error input field">
+          {{ form.username(placeholder='Account does not exist...') }}
+        </div>
+        {% else %}
+        <div class="ui input field">
+          {{ form.username(placeholder='Please enter your account...') }}
+        </div>
+        {% endif %}
+
+        {% if form.password.errors %}
+        <div class="ui error input field">
+          {{ form.password(placeholder='Password incorrect...') }}
+        </div>
+        {% else %}
+        <div class="ui input field">
+          {{ form.password(placeholder='Please enter your password...') }}
+        </div>
+        {% endif %}
+
+        {{ form.submit(class_='ui button') }}
+        <button class="ui button" id="signup">Create A Free Account</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

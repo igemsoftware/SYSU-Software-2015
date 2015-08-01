@@ -1,0 +1,62 @@
+#pic {
+    background-image: url(/static/img/login_pic.png);
+}
+
+#logo {
+    width: 100%;
+}
+
+#pic-content-wrapper {
+    padding: 7.3% 32%;
+}
+
+#form {
+    margin: 5vh 0;
+}
+
+#form > .ui.button {
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.95);
+}
+
+#form > .ui.button:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.95);
+}
+
+#submit {
+    margin-top: 5%;
+    background-color: #3b3f42;
+    color: #ffffff;
+}
+
+#signup {
+    margin-top: 5%;
+    background-color: #909292;
+    color: #313131;
+}
+
+@media screen and (min-aspect-ratio: 16/9) {
+    #form > .ui.button {
+        height: 5vh;
+        font-size: 2.3vh;
+    }
+    #form input {
+        height: 5vh;
+        font-size: 2vh;
+    }
+}
+
+@media screen and (max-aspect-ratio: 16/9) {
+    #form > .ui.button {
+        height: 2.6vw;
+        font-size: 1.3vw;
+    }
+    #form input {
+        height: 2.6vw;
+        font-size: 1.1vw;
+    }
+}
+
