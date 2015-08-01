@@ -1,22 +1,37 @@
 from . import auth
 
-from flask import flash, redirect
+from flask import flash, redirect, render_template, request, url_for
 from flask.ext.login import current_user, login_user, logout_user, login_required
 
-@auth.route('/register')
-def register():
-    return ''
+from ..models import User
+from ..forms.user_form import LoginForm, RegistrationForm
+from .. import db
 
-@login_required
-@auth.route('/login')
+@auth.route('/register', methods=['GET', 'POST'])
+def register():
+    form = RegistrationForm(request.form)
+    if request.method == 'POST' and form.validate():
+        u = User(username=form.username.data,
+                email=form.email.data,
+                password=form.password.data)
+        db.session.add(u)
+        db.session.commit()
+        return redirect(url_for('auth.login')) 
+    return render_template('auth/register.html', form=form)
+
+
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(email=form.email.data).first()
-        if user is not None and user.verify_password(form.password.data):
+    form = LoginForm(request.form)
+    if request.method == 'POST' and form.validate():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user is None:
+            form.username.errors = True 
+        elif not user.verify_password(form.password.data):
+            form.password.errors = True 
+        else:
             login_user(user)
             return redirect(request.args.get('next') or url_for('main.index'))
-        flash('Invalid username or password.')
     return render_template('auth/login.html', form=form)
 
 @login_required

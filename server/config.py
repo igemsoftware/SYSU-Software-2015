@@ -23,7 +23,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-#    SQLALCHEMY_DATABASE_URI = "mysql://"
+    SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/sysu2015_dev.db"
 
 class ProductionConfig(Config):
     DEBUG = False 

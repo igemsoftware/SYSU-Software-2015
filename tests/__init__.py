@@ -2,6 +2,7 @@ from flask.ext.testing import TestCase as _TestCase
 
 from server import create_app as _create_app
 from server import db
+from server.models import User
 
 class TestCase(_TestCase):
 
@@ -11,6 +12,11 @@ class TestCase(_TestCase):
 
     def setUp(self):
         db.create_all()
+
+        # administrator
+        u = User(username='Administrator', email='SYSU.Software2015@gmail.com', password='SYSU.Software')
+        db.session.add(u)
+        db.session.commit()
 
     def tearDown(self):
         db.session.remove()

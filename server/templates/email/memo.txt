@@ -1,0 +1,4 @@
+Dear {{user.username}},
+  It's time for {{memo.title}}
+  Its content is {{memo.content}}
+

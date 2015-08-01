@@ -3,7 +3,7 @@ from . import TestCase
 from server.models import User, Task, Comment
 from server import db
 
-class TestUser(TestCase):
+class TestComment(TestCase):
 
     def test_basic(self):
         u = User(username='alice', email='alice@example.com')
