@@ -10,10 +10,11 @@
 
 #logo-column {
     padding: 0;
+    width: 28.9%;
 }
 
 #logo {
-    padding: 4.3vh 2.8vw;
+    padding: 1.7rem 3.8rem 3rem 2rem;
 }
 
 #form-column {
@@ -23,6 +24,7 @@
     padding-left: 0;
     padding-bottom: 0.5rem;
     /*height: 100%;*/
+    width: 71.1%;
 }
 
 #form {
@@ -44,7 +46,7 @@
 
 #avatar {
     position: absolute;
-    right: 2vw;
+    right: 2rem;
     height: 17.6vh;
     width: 17.6vh;
     z-index: 10000;
@@ -66,11 +68,34 @@ p {
 }
 
 #tracks-grid {
-    padding-bottom: 3rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    border: 1px solid rgba(0, 0, 0, 0.8);
+}
+
+#tracks-grid > .column {
+    left: 3.125%;
+}
+
+.track.option .dimmer {
+    background-color: rgba(0, 0, 0, 0);
 }
 
 .track.option .dimmer p {
-    font-size: 0.8rem;
+    font-size: 1rem;
     text-align: center;
+    color: #313131;
+}
+
+.track.option {
+    transition: box-shadow .5s linear
+}
+
+.track.option.selected {
+    box-shadow: 0 0 12px rgba(0, 0, 0, 1);
+}
+
+#submit {
+    margin-top: 2rem;
 }
 

@@ -4,8 +4,16 @@ $(function() {
         closable: false
     });
 
+    $(".track.option").click(function() {
+        if ($(this).hasClass("selected")) {
+            $(this).removeClass("selected");
+        } else {
+            $(this).addClass("selected");
+        }
+    });
+
     setTimeout(function() {
-        $('.dimmer').dimmer('show')
+        $('#avatar').dimmer('show')
     }, 300);
 
     setTimeout(function() {
