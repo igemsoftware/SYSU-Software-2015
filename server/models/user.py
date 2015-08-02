@@ -134,6 +134,9 @@ class User(UserMixin, db.Model):
 
                 m.message_sent = True
 
+    def get_memos_during(self, start_time, end_time):
+        return self.memos.filter(start_time < Memo.plan_time, Memo.plan_time < end_time).all()
+        
 
 
 

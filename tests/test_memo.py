@@ -2,6 +2,7 @@ from . import TestCase
 
 from server.models import User, Task, Comment, Memo
 from server import db
+from datetime import datetime, timedelta
 
 class TestMemo(TestCase):
 
@@ -23,6 +24,11 @@ class TestMemo(TestCase):
 
         u.check_memo()
         assert len(u.recv_messages.all()) == 1
+
+        td1 = timedelta(hours=1)
+        td2 = timedelta(hours=2)
+        assert u.get_memos_during(m.plan_time-td2, m.plan_time-td1) == []
+        assert len(u.get_memos_during(m.plan_time-td2, m.plan_time+td1)) == 1
 
 
 
