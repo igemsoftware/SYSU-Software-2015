@@ -4,7 +4,7 @@ from server.models import User
 from server import db
 from server.tools.email import _send_raw_email 
 
-class TestUser(TestCase):
+class TestEmail(TestCase):
 
     def test_sending(self):
         _send_raw_email('hapiscesdream@163.com', 'Hi', 'Hello world')

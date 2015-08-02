@@ -3,9 +3,10 @@ from .. import login_manager
 
 from message import Message
 from task import watched_tasks, Task
+from memo import Memo
 from comment import Comment
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask.ext.login import UserMixin
 
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -31,14 +32,6 @@ class User(UserMixin, db.Model):
     reg_date = db.Column(db.DateTime, default=datetime.now)
     last_seen = db.Column(db.DateTime, default=datetime.now)
 
-    # functional
-    recv_messages = db.relationship('Message', backref='receiver', lazy='dynamic')
-    @property
-    def sent_messages(self):
-        return Message.query.filter(Message.sender_id==self.id).all()
-    watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
-
-
     def __init__(self, **kwargs):
         kwargs['username'] = kwargs['username'][:128]
         super(User, self).__init__(**kwargs)
@@ -49,6 +42,7 @@ class User(UserMixin, db.Model):
         last_seen = datetime.now()
         db.session.add(self)
 
+    # password
     @property
     def password(self):
         return "You should not see it"
@@ -61,12 +55,25 @@ class User(UserMixin, db.Model):
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password+self.salt)
 
-    # functional
+
+    # messages
+    recv_messages = db.relationship('Message', backref='receiver', lazy='dynamic')
+
     def send_message_to(self, title, content, user):
         msg = Message(type=0, isread=False, sender_id=self.id, receiver_id=user.id, content=content, title=title)
         db.session.add(msg)
         db.session.commit()
         return msg
+
+    @property
+    def sent_messages(self):
+        return Message.query.filter(Message.sender_id==self.id).all()
+
+
+
+
+    # tasks
+    watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
 
     def create_task(self, title, abstract, content):
         t = Task(title=title, abstract=abstract, content=content, watcher=[self], sender_id=self.id)
@@ -88,19 +95,48 @@ class User(UserMixin, db.Model):
     def __repr__(self):
         return '<User[%d]: %r>' % (self.id, self.username)
 
+    # email
     def send_email(self, subject, template, **kwargs):
         _send_email(self.email, subject, template, **kwargs)
 
 
 
+    # calendar
 
+    # calendar memos
+    memos = db.relationship('Memo', backref='owner', lazy='dynamic')
+    # before how long should we notify user ( in minutes )
+    memo_ahead = db.Column(db.Integer, default=60*6) # 6 hour ahead
+    # whether we send an email to user
+    memo_email = db.Column(db.Boolean, default=True)
 
+    def add_memo(self, title, content, timescale):
+        m = Memo(title = title, content=content, timescale=timescale)
+        self.memos.append(m)
 
+        db.session.add(m)
+        db.session.add(self)
+        db.session.commit()
+        return m
 
+    def check_memo(self):
+        td = timedelta(minutes=self.memo_ahead)
+        for m in self.memos:
+            if m.message_sent == True: continue
+            if (datetime.now()+td > m.plan_time):
+                # send via administrator
+                User.query.get(1).send_message_to('Notice: [%s]' % m.title, 
+                        'Memo: [%s...] is about to happen.' % m.content[:20], self)
 
+                # send email if needed
+                if self.memo_email == True:
+                    self.send_email('Notice: [%s]' % m.title, 'email/memo', memo=m, user=self)
 
+                m.message_sent = True
 
-
+    def get_memos_during(self, start_time, end_time):
+        return self.memos.filter(start_time < Memo.plan_time, Memo.plan_time < end_time).all()
+        
 
 
 

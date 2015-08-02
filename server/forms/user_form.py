@@ -15,11 +15,6 @@ class LoginForm(Form):
     # remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Login')
 
-    def validate_username(self, field):
-        u = User.query.filter_by(username=field.data).first()
-        if not u:
-            raise ValidationError('The username doesn\'t exist.')
-
 class RegistrationForm(Form):
     username = StringField('Username', validators=[
         Required('Cannot be empty'), Length(1, 64)])#, Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
