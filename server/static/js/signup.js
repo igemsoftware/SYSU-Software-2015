@@ -10,6 +10,7 @@ $(function() {
         } else {
             $(this).addClass("selected");
         }
+        $(this).children(".checkbox").checkbox('toggle');
     });
 
     setTimeout(function() {

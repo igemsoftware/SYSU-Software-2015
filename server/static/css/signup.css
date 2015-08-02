@@ -91,6 +91,10 @@ p {
     transition: box-shadow .5s linear
 }
 
+.track.option .dimmer .checkbox {
+    display: none;
+}
+
 .track.option.selected {
     box-shadow: 0 0 12px rgba(0, 0, 0, 1);
 }
