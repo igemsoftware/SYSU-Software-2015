@@ -6,8 +6,7 @@
   <link rel="stylesheet" href="/static/css/semantic.min.css">
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/semantic.min.js"></script>
-  <link rel="stylesheet" href="/static/css/jquery.mCustomScrollbar.min.css">
-  <script src="/static/js/jquery.mCustomScrollbar.concat.min.js"></script>
+  <link rel="stylesheet" href="/static/css/custom_scrollbar.css">
   <link rel="stylesheet" href="/static/css/login_register_common.css">
   <link rel="stylesheet" href="/static/css/signup.css">
   <script src="/static/js/signup.js"></script>
@@ -34,7 +33,7 @@
               <img src="/static/img/tracks/tracks_energy.png" alt="Avatar">
             </div>
 
-            <div class="ui padded grid" id="form-inner-grid">
+            <div class="ui padded right aligned grid" id="form-inner-grid">
 
               <div class="row">
                 <div class="three wide column">
@@ -71,193 +70,193 @@
 
             </div>
 
-              <p>Tracks:</p>
+            <p>Tracks:</p>
 
-              <div class="ui padded grid" id='tracks-grid'>
-
-
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Art & Design</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-artanddesign"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_artanddesign.png" alt="artanddesign">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Community Labs</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-communitylabs"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_communitylabs.png" alt="communitylabs">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Energy</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-energy"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_energy.png" alt="energy">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Environment</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-environment"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_environment.png" alt="environment">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Food & Nutrition</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-foodandnutrition"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_foodandnutrition.png" alt="foodandnutrition">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Foundational Advance</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-foundationaladvance"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_foundationaladvance.png" alt="foundationaladvance">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Health & Medicine</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-healthandmedicine"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_healthandmedicine.png" alt="healthandmedicine">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Information Processing</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-informationprocessing"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_informationprocessing.png" alt="informationprocessing">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Manufacturing</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-manufacturing"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_manufacturing.png" alt="manufacturing">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Measurement</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-measurement"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_measurement.png" alt="measurement">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>New Application</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-newapplication"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_newapplication.png" alt="newapplication">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Policy & Practices</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-policyandpractices"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_policyandpractices.png" alt="policyandpractices">
-                  </div>
-                </div>
-                <div class="three wide column">
-                  <div class="ui blurring dimmable image track option">
-                    <div class="ui dimmer transition hidden">
-                      <div class="content">
-                        <div class="center">
-                          <p>Software</p>
-                          <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-software"><label for=""></label></div>
-                        </div>
-                      </div>
-                    </div>
-                    <img src="/static/img/tracks/tracks_software.png" alt="software">
-                  </div>
-                </div>
+            <div class="ui padded grid" id='tracks-grid'>
 
 
-
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Art & Design</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-artanddesign"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_artanddesign.png" alt="artanddesign">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Community Labs</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-communitylabs"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_communitylabs.png" alt="communitylabs">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Energy</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-energy"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_energy.png" alt="energy">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Environment</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-environment"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_environment.png" alt="environment">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Food & Nutrition</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-foodandnutrition"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_foodandnutrition.png" alt="foodandnutrition">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Foundational Advance</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-foundationaladvance"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_foundationaladvance.png" alt="foundationaladvance">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Health & Medicine</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-healthandmedicine"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_healthandmedicine.png" alt="healthandmedicine">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Information Processing</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-informationprocessing"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_informationprocessing.png" alt="informationprocessing">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Manufacturing</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-manufacturing"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_manufacturing.png" alt="manufacturing">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Measurement</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-measurement"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_measurement.png" alt="measurement">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>New Application</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-newapplication"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_newapplication.png" alt="newapplication">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Policy & Practices</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-policyandpractices"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_policyandpractices.png" alt="policyandpractices">
+                </div>
+              </div>
+              <div class="three wide column">
+                <div class="ui blurring dimmable image track option">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center">
+                        <p>Software</p>
+                        <div class="ui fitted toggle checkbox"><input type="checkbox" name="track-software"><label for=""></label></div>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="/static/img/tracks/tracks_software.png" alt="software">
+                </div>
               </div>
 
 
-              <button class="ui blue button" type="submit" id="submit">Create Account</button>
 
-            </form>
-          </div>
+            </div>
+
+
+            <button class="ui blue button" type="submit" id="submit">Create Account</button>
+
+          </form>
         </div>
       </div>
     </div>
+  </div>
 
-  </body>
-  </html>
+</body>
+</html>
