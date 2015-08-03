@@ -18,25 +18,13 @@
       <form class="ui form" id="form" action={{ url_for("auth.login") }} method="POST">
         {{ form.hidden_tag() }}
 
-        {% if form.username.errors %}
-        <div class="ui error input field">
-          {{ form.username(placeholder='Account does not exist...') }}
-        </div>
-        {% else %}
         <div class="ui input field">
           {{ form.username(placeholder='Please enter your account...') }}
         </div>
-        {% endif %}
 
-        {% if form.password.errors %}
-        <div class="ui error input field">
-          {{ form.password(placeholder='Password incorrect...') }}
-        </div>
-        {% else %}
         <div class="ui input field">
           {{ form.password(placeholder='Please enter your password...') }}
         </div>
-        {% endif %}
 
         {{ form.submit(class_='ui button') }}
         <button class="ui button" id="signup">Create A Free Account</button>
@@ -44,6 +32,29 @@
     </div>
   </div>
 </div>
+
+{% if form.username.errors or form.password.errors %}
+<div class="ui basic modal" id="error-modal">
+  <div class="ui icon header"><i class="remove icon"></i>Your last attempt to log in has failed...</div>
+  <div class="content">
+    <div class="description">
+      <div class="ui bulleted list">
+        {% for e in form.username.errors %}
+        <div class="item">{{ e }}</div>
+        {% endfor %}
+        {% for e in form.password.errors %}
+        <div class="item">{{ e }}</div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui blue ok basic inverted button"><i class="checkmark icon"></i>Okay</div>
+  </div>
+</div>
+<script>$(function() { $('#error-modal').modal('show'); })</script>
+{% endif %}
+
 
 </body>
 </html>
