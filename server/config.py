@@ -16,6 +16,10 @@ class Config:
     FLASKY_MAIL_SUBJECT_PREFIX = 'SYSU-Software'
     FLASKY_MAIL_SENDER = 'SYSU Software 2015 <SYSU.Software2015@gmail.com>'
 
+    # inner picture server
+    UPLOAD_FOLDER = '/tmp'
+    ALLOWED_EXTENSIONS = set(['jpg','png','jpeg'])
+    MAX_CONTENT_LENGTH = 4 * 1024 * 1024 # 4MB
 
     @staticmethod
     def init_app(app):
