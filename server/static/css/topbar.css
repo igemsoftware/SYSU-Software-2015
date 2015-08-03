@@ -1,0 +1,74 @@
+body {
+    background-color: #e4e4e4;
+}
+
+#topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #2d2e30;
+    height: 60px;
+    padding-left: 10px;
+    padding-right: 120px;
+    margin: 0;
+    z-index: 10000;
+}
+
+#topbar .item {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#topbar .item > .button {
+    width: 50px;
+    height: 50px;
+    padding: 16px 15px;
+    background-color: #959595;
+}
+
+#topbar .item > #topbar-btn-index {
+    width: 100px;
+}
+
+#topbar .item > .button > i.icon {
+    /*vertical-align: -3px;*/
+    font-size: 20px;
+    line-height: 19px;
+}
+
+#topbar .item > #topbar-btn-design {
+    background-color: #ec5a5b;
+}
+
+#topbar .item > #topbar-btn-modeling {
+    background-color: #ebf595;
+}
+
+#topbar .item > #topbar-btn-experiment {
+    background-color: #72d3e3;
+}
+
+#topbar .item > #topbar-btn-help {
+    background-color: #9b83c1;
+}
+
+#main-container {
+    width: auto%;
+    background-color: #f8f8f8;
+    margin: 0 60px;
+    padding: 80px 300px;
+    font-size: 1.5rem;
+}
+
+#topbar-avatar {
+    position: fixed;
+    right: 12px;
+    top: 12px;
+    width: 100px;
+    height: 100px;
+    margin: 0;
+    padding: 0;
+    z-index: 20000;
+}
+
