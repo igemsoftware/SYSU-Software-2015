@@ -20,10 +20,8 @@ def create_app(config_name='default'):
     mail.init_app(app)
     login_manager.init_app(app)
 
-    from .routes import main as main_blueprint
-    app.register_blueprint(main_blueprint)
-
-    from .routes import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+    from .routes import views 
+    for view, view_prefix in views:
+        app.register_blueprint(view, url_prefix=view_prefix)
 
     return app

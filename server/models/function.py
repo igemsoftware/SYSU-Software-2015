@@ -76,10 +76,11 @@ class ComponentInstance():
             component_id = 1 # empty component
             c = ComponentPrototype.query.get(component_id)
 
-        self.component_id = component_id
+        self.prototype_id = component_id
         self.name = c.name
-        self.doc = c.doc
-        self.sequence = c.sequence
+        # can retrieve by querying
+        # self.doc = c.doc
+        # self.sequence = c.sequence
 
         self.x = x
         self.y = y
@@ -127,7 +128,8 @@ class Work(db.Model):
         db.session.commit()
 
     def clear(self):
-        self.content = ""
+        self.components = []
+        self.connections = []
 
     def add_component_by_id(self, component_id, **kwargs):
         c = ComponentInstance(component_id=component_id, **kwargs)
