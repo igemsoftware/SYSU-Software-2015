@@ -41,7 +41,7 @@
     height: 4.6vh;
     border-radius: 0;
     border-color: rgba(0, 0, 0, 0.3);
-    border-width: 2px;
+    border-width: 1px;
 }
 
 #avatar {
@@ -50,6 +50,10 @@
     height: 17.6vh;
     width: 17.6vh;
     z-index: 10000;
+}
+
+#change-avatar {
+    margin: 0;
 }
 
 /*#form .row > .three.wide.column > p {*/
@@ -71,6 +75,7 @@ p {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     border: 1px solid rgba(0, 0, 0, 0.8);
+    border-color: rgba(0, 0, 0, 0.3);
 }
 
 #tracks-grid > .column {
@@ -82,13 +87,15 @@ p {
 }
 
 .track.option .dimmer p {
-    font-size: 1rem;
+    font-size: 0.8rem;
     text-align: center;
+    padding: 0 0.15rem;
+    margin-bottom: 0;
     color: #313131;
 }
 
 .track.option {
-    transition: box-shadow .5s linear
+    transition: box-shadow .5s linear;
 }
 
 .track.option .dimmer .checkbox {
@@ -96,10 +103,21 @@ p {
 }
 
 .track.option.selected {
-    box-shadow: 0 0 12px rgba(0, 0, 0, 1);
+    box-shadow: 0 0 12px 3px rgba(0, 0, 0, 1);
 }
 
 #submit {
     margin-top: 2rem;
+    border-radius: 0;
+    background-color: #3b3f42;
+    color: #ffffff;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.95);
+    position: relative;
+    left: 4px;
+    font-size: 1.3rem;
+}
+
+#submit:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.95);
 }
 

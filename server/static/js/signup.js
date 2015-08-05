@@ -1,7 +1,11 @@
 $(function() {
     $(".dimmer").dimmer({
         on: 'hover',
-        closable: false
+        closable: false,
+        duration: {
+            show: 200,
+            hide: 200
+        }
     });
 
     $(".track.option").click(function() {
@@ -14,12 +18,12 @@ $(function() {
     });
 
     setTimeout(function() {
-        $('#avatar').dimmer('show')
+        $('.dimmer').dimmer('show')
     }, 300);
 
     setTimeout(function() {
         $('.dimmer').dimmer('hide')
-    }, 1500);
+    }, 1000);
 
     $('.track.option .checkbox').change(function(e) {
         var dimmer = $(this).parents('.dimmer');
