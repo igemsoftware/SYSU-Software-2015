@@ -7,3 +7,8 @@ from flask.ext.login import login_required
 @main.route('/')
 def index():
     return render_template('index.html')
+
+@login_required
+@main.route('/design')
+def design():
+    return render_template('design.html')
