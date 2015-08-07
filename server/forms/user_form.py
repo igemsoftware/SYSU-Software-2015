@@ -3,11 +3,11 @@ from flask.ext.wtf import Form
 from flask.ext.login import current_user
 
 from wtforms import StringField, PasswordField, BooleanField,\
-        SubmitField, TextAreaField, IntegerField, RadioField, SelectField
-from wtforms.validators import Required, Length, Email, Regexp, EqualTo, NumberRange
+        SubmitField, TextAreaField, IntegerField, RadioField, SelectField, SelectMultipleField
+from wtforms.validators import Required, Length, Email, Regexp, EqualTo, NumberRange, URL
 from wtforms import ValidationError
 
-from ..models import User 
+from ..models import User, Track
 
 class LoginForm(Form):
     username = StringField('Username', validators=[Required('Please input your username'), Length(0, 128)])
@@ -17,15 +17,17 @@ class LoginForm(Form):
 
 class RegistrationForm(Form):
     username = StringField('Username', validators=[
-        Required('Cannot be empty'), Length(1, 64)])#, Regexp('^[A-Za-z][A-Za-z0-9_.]*$', 0,
-                                   #        'Usernames must have only letters, '
-                                   #        'numbers, dots or underscores')])
-
-    email = StringField('Email', validators=[Required('Cannot be empty.'), Length(1, 64),
-                                           Email('Please input a valid email.')])
+        Required('Cannot be empty'), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_]*$', 0, 'Usernames must have only letters, numbers or underscores')])
     password = PasswordField('Password', validators=[
         Required('Cannot be emtpy.'), EqualTo('password2', message='Doesn\'t match,')])
     password2 = PasswordField('Reenter password', validators=[Required('Cannot be empty.')])
+
+    email = StringField('Email', validators=[Required('Cannot be empty.'), Length(1, 64),
+                                           Email('Please input a valid email.')])
+    avatar = StringField('Avatar url', validators=[URL(message='Invalid URL')]) 
+
+    tracks = SelectMultipleField('Tracks', coerce=int)
+
     submit = SubmitField('Register')
 
     def validate_email(self, field):
@@ -37,6 +39,17 @@ class RegistrationForm(Form):
         u = User.query.filter_by(username=field.data).first()
         if u and u != current_user:
             raise ValidationError('The username is existing.')
+
+    def validate_tracks(self, field):
+        print field.data
+        if field == []:
+            raise ValidationError('Must choice at lease one track.')
+
+
+
+
+
+
 
 class ChangePasswordForm(Form):
     old_password = PasswordField('Old password', validators=[Required('Cannot be empty.')])

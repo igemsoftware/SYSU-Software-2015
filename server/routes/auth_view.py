@@ -3,21 +3,24 @@ from . import auth
 from flask import flash, redirect, render_template, request, url_for
 from flask.ext.login import current_user, login_user, logout_user, login_required
 
-from ..models import User
+from ..models import User, Track
 from ..forms.user_form import LoginForm, RegistrationForm
 from .. import db
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm(request.form)
+    form.tracks.choices = [(track.id, track.name) for track in Track.query.all()]
+
     if request.method == 'POST' and form.validate():
-        u = User(username=form.username.data,
-                email=form.email.data,
-                password=form.password.data)
+        u = User(username=form.username.data, email=form.email.data, password=form.password.data, avatar=form.avatar.data)
+        for track_id in form.tracks.data:
+            u.tracks.append(Track.query.get(track_id))
         db.session.add(u)
         db.session.commit()
-        return redirect(url_for('auth.login')) 
-    return render_template('auth/register.html', form=form)
+        return 'success' #redirect(url_for('auth.login')) 
+    else:
+        return render_template('test/register.html', form=form, tracks=Track.query.all())
 
 
 @auth.route('/login', methods=['GET', 'POST'])

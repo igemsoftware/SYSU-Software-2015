@@ -1,0 +1,36 @@
+{% macro render_field(field) %}
+  <dt>{{ field.label }}
+  <dd>{{ field(**kwargs)|safe }}
+  {% if field.errors %}
+    <ul class=errors>
+    {% for error in field.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  </dd>
+{% endmacro %}
+
+{% macro render_selectMultiple(field, items) %}
+  <dt>{{ field.label }}
+   
+  <dt>
+  <!--we will not use default `field(**kwargs)|safe` here-->
+  <select id="{{field.id}}" multiple name="{{field.id}}">
+    {% for ele in items %}
+        <option value="{{ele.id}}">
+            <p>{{ele.name}}</p>
+            <img src="{{ele.pic_url}}" alt="{{ele.pic_url}}"></img>
+        </option>
+    {% endfor %}
+  </select>
+
+  {% if field.errors %}
+    <ul class=errors>
+    {% for error in field.errors %}
+      <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+  </dd>
+{% endmacro %}

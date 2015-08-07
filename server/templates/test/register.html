@@ -1,0 +1,21 @@
+{% from "test/toolkits.html" import render_field, render_selectMultiple %}
+
+<form method=post action="{{url_for('auth.register')}}">
+  {% if form.errors %}
+      <ul>
+          {% for error in form.errors %}<li>{{error}}</li>{% endfor %}
+      </ul>
+  {% endif %}
+
+  {{ form.hidden_tag() }}
+  <dl>
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
+    {{ render_field(form.password2) }}
+    {{ render_field(form.email) }}
+    {{ render_field(form.avatar) }}
+
+    {{ render_selectMultiple(form.tracks, tracks) }}
+  </dl>
+  <input type=submit value=Register>
+</form>
