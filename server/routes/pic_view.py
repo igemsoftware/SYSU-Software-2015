@@ -23,7 +23,7 @@ def upload():
             extension = '.'+filename.rsplit('.', 1)[1]
             
             # avoid filename collision
-            filename = hashlib.md5( filename+datetime.now().strftime('%y-%m-%d %H-%M-%S') ).hexdigest() + extension
+            filename = hashlib.md5( filename.encode('utf-8')+datetime.now().strftime('%y-%m-%d %H-%M-%S') ).hexdigest() + extension
             fileabsadr = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
             file.save(fileabsadr)
 

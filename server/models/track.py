@@ -6,8 +6,8 @@ tracks = db.Table('tracks',
 )
 
 class Track(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, index=True, primary_key=True)
 
     name = db.Column(db.String(128), unique=True)
-    pic_url = db.Column(db.Text)
+    description = db.Column(db.Text, default='')
 
