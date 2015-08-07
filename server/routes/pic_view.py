@@ -1,7 +1,7 @@
 from . import pic
 
 import os
-from flask import current_app, request, send_from_directory, abort
+from flask import current_app, request, send_from_directory, abort, jsonify, url_for
 from datetime import datetime
 from werkzeug import secure_filename
 import hashlib
@@ -11,13 +11,13 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1] in current_app.config['ALLOWED_EXTENSIONS']
 
 @pic.route('/upload', methods=['POST', 'GET'])
-def upload_file():
+def upload():
     if request.method == 'POST':
         file = request.files['file']
         if not file:
-            return 'Please select a file'
+            return jsonify(error='Please select a file')
         elif not allowed_file(file.filename):
-            return 'The file extension format is not allowed'
+            return jsonify(error='The file extension format is not allowed')
         else:
             filename = file.filename
             extension = '.'+filename.rsplit('.', 1)[1]
@@ -39,22 +39,17 @@ def upload_file():
             print fileabsadr
             img.save(fileabsadr)
 
-            return 'save to '+fileabsadr
+            return jsonify(url=url_for('pic.fetch', filename=filename))
     else:
         return '''
-                   <form action="" method=post enctype=multipart/form-data>
-                   <p><input type=file name=file>
-                       <input type=submit value=Upload>
-                   </form>
-                '''
-
-#   <form action="" method=post enctype=multipart/form-data>
-#   <p><input type=file name=file>
-#       <input type=submit value=Upload>
-#   </form>
+                <form action="" method=post enctype=multipart/form-data>
+                <p><input type=file name=file>
+                    <input type=submit value=Upload>
+                </form>
+            '''
 
 @pic.route('/fetch/<filename>')
-def fetch_pic(filename):
+def fetch(filename):
     filename = filename.strip()
     if '..' in filename or filename.startswith('/'):
         abort(404)
