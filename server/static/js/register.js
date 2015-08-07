@@ -1,4 +1,22 @@
 var selected_tracks = [];
+var avatar_url = '/static/img/avatar.jpg';
+
+function processAvatarUploadResponse(data) {
+    if (data.url !== undefined) {
+        avatar_url = data.url;
+        $('.avatar-image').attr('src', avatar_url);
+        $('#avatar-url-input').val(avatar_url);
+        $('#avatar-modal').modal('hide');
+    } else if (data.error !== undefined) {
+        $('#avatar-upload-error')
+            .text(data.error)
+            .parents('.message').removeClass('hidden');
+    } else {
+        $('#avatar-upload-error')
+            .text('Unknown error.')
+            .parents('.message').removeClass('hidden');
+    }
+}
 
 $(function() {
     $(".dimmer").dimmer({
@@ -40,6 +58,11 @@ $(function() {
 
     $('#change-avatar').click(function() {
         $("#avatar-modal").modal("show");
+    });
+
+    $("#avatar-form").ajaxForm({
+        dataType: 'json',
+        success: processAvatarUploadResponse
     });
 
 });

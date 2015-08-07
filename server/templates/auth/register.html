@@ -5,6 +5,7 @@
   <title>Sign Up</title>
   <link rel="stylesheet" href="/static/css/semantic.min.css">
   <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.form.min.js"></script>
   <script src="/static/js/semantic.min.js"></script>
   <link rel="stylesheet" href="/static/css/custom_scrollbar.css">
   <link rel="stylesheet" href="/static/css/login_register_common.css">
@@ -13,16 +14,49 @@
 </head>
 <body>
 
+  {% if form.username.errors or form.password.errors or form.email.errors %}
+  <div class="ui basic modal" id="error-modal">
+    <div class="ui icon header"><i class="remove icon"></i>Your last attempt to log in has failed...</div>
+    <div class="content">
+      <div class="description">
+        <div class="ui bulleted list">
+          {% for e in form.username.errors %}
+          <div class="item">{{ e }}</div>
+          {% endfor %}
+          {% for e in form.password.errors %}
+          <div class="item">{{ e }}</div>
+          {% endfor %}
+          {% for e in form.email.errors %}
+          <div class="item">{{ e }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui blue ok basic inverted button"><i class="checkmark icon"></i>Okay</div>
+    </div>
+  </div>
+  <script>$(function() { $('#error-modal').modal('show'); })</script>
+  {% endif %}
+
   <div class="ui modal" id="avatar-modal">
     <div class="header">Change Avatar</div>
     <div class="image content">
       <div class="ui medium image">
-        <img src="/static/img/avatar.jpg" alt="">
+        <img class="avatar-image" src="/static/img/avatar.jpg" alt="">
       </div>
       <div class="description">
         <p>We've prepared a default avatar for you, but it's highly recommended to upload your own:</p>
-        <input type="file" id="avatar-upload-input">
-        <button class="ui blue button">Upload</button>
+        <form enctype="multipart/form-data" action="/pic/upload" method="POST" id="avatar-form">
+          <input type="file" name="file" id="avatar-upload-input">
+          <input type="submit" class="ui blue button" value="Upload">
+        </form>
+        <div class="ui negative message hidden">
+          <div class="header">
+            Upload Failed
+          </div>
+          <p id="avatar-upload-error"></p>
+        </div>
       </div>
     </div>
     <div class="actions">
@@ -47,8 +81,9 @@
                   </div>
                 </div>
               </div>
-              <img src="/static/img/avatar.jpg" alt="Avatar">
+              <img class="avatar-image" src="/static/img/avatar.jpg" alt="Avatar">
             </div>
+            <input type="text" id="avatar-url-input" style="display: none;" name="avatar">
 
             <div class="ui padded right aligned grid" id="form-inner-grid">
 
