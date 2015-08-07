@@ -34,8 +34,16 @@ class Initialize(Command):
 
             # default tracks
             from server.models import Track 
-            t = Track(name='t1')
-            db.session.add(t)
+            track_names = ['artanddesign', 'communitylabs', 'energy', 'environment',
+                    'foodandnutrition', 'foundationaladvance', 'healthandmedicine',
+                    'informationprocessing', 'manufacturing', 'measurement',
+                    'newapplication', 'policyandpractices', 'software']
+            track_descriptions = ['Art & Design', 'Community Labs', 'Energy', 'Environment',
+                    'Food & Nutrition', 'Foundational Advance', 'Health & Medicine',
+                    'Information Processing', 'Manufacturing', 'Measurement',
+                    'New Application', 'Policy & Practices', 'Software']
+            for n, d in zip(track_names, track_descriptions):
+                db.session.add(Track(name=n, description=d))
             db.session.commit()
 
             print 'Done.'
