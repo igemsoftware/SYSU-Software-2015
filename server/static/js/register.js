@@ -33,20 +33,4 @@ $(function() {
         });
     });
 
-    $('#submit').click(function(e) {
-        if ($('#password2').val() !== $('#password').val()) {
-            $('#reenter-modal').modal({ closable: false, onApprove: function() { return false; } }).modal('show');
-            e.preventDefault();
-        }
-    });
-
-    $('#submit2').click(function(e){
-        if ($('#password2').val() !== $('#password').val()) {
-            $('#reenter-note').text('Password mismatch.');
-        } else {
-            $('#reenter-note').text('Password matched.');
-            $('#submit').click();
-        }
-    });
-
 });

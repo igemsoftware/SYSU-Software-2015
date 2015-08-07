@@ -13,29 +13,39 @@
 </head>
 <body>
 
-<div class="ui basic modal" id="reenter-modal">
-  <div class="ui icon header"><i class="lock icon"></i>Confirm Password</div>
-  <div class="content">
-    <div class="description">
-      <p id="reenter-note">Please re-enter the password you have just typed:</p>
-      <div class="ui input">
-        <input type="password" name="password2" id="password2">
+  {% if form.username.errors or form.password.errors or form.email.errors %}
+  <div class="ui basic modal" id="error-modal">
+    <div class="ui icon header"><i class="remove icon"></i>Your last attempt to log in has failed...</div>
+    <div class="content">
+      <div class="description">
+        <div class="ui bulleted list">
+          {% for e in form.username.errors %}
+          <div class="item">{{ e }}</div>
+          {% endfor %}
+          {% for e in form.password.errors %}
+          <div class="item">{{ e }}</div>
+          {% for e in form.email.errors %}
+          <div class="item">{{ e }}</div>
+          {% endfor %}
+        </div>
       </div>
     </div>
+    <div class="actions">
+      <div class="ui blue ok basic inverted button"><i class="checkmark icon"></i>Okay</div>
+    </div>
   </div>
-  <div class="actions">
-    <div class="ui blue ok basic inverted button" id="submit2"><i class="checkmark icon"></i>Submit</div>
-  </div>
-</div>
+  <script>$(function() { $('#error-modal').modal('show'); })</script>
+  {% endif %}
 
-<div id="pic-wrapper">
-  <div id="pic">
-    <div class="ui grid" id="pic-content-wrapper">
-      <div class="five wide column" id="logo-column">
-        <img src="/static/img/login_logo.png" alt="LOGO" id="logo" class="ui fluid image">
-      </div>
-      <div class="eleven wide column" id="form-column">
-        <form action="/register" class="ui form" id="form" method="POST">
+
+  <div id="pic-wrapper">
+    <div id="pic">
+      <div class="ui grid" id="pic-content-wrapper">
+        <div class="five wide column" id="logo-column">
+          <img src="/static/img/login_logo.png" alt="LOGO" id="logo" class="ui fluid image">
+        </div>
+        <div class="eleven wide column" id="form-column">
+          <form action="/register" class="ui form" id="form" method="POST">
 
             <div class="ui blurring dimmable circular image" id="avatar">
               <div class="ui dimmer transition">
