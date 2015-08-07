@@ -5,7 +5,7 @@ function processAvatarUploadResponse(data) {
     if (data.url !== undefined) {
         avatar_url = data.url;
         $('.avatar-image').attr('src', avatar_url);
-        $('#avatar-url-input').val(avatar_url);
+        $('#avatar-url-input').attr('value', avatar_url);
         $('#avatar-modal').modal('hide');
     } else if (data.error !== undefined) {
         $('#avatar-upload-error')
@@ -19,7 +19,7 @@ function processAvatarUploadResponse(data) {
 }
 
 $(function() {
-    $(".dimmer").dimmer({
+    $("#avatar .dimmer, .track.option .dimmer").dimmer({
         on: 'hover',
         closable: false,
         duration: {
@@ -29,11 +29,11 @@ $(function() {
     });
 
     setTimeout(function() {
-        $('.dimmer').dimmer('show')
+        $('#avatar .dimmer, .track.option .dimmer').dimmer('show')
     }, 300);
 
     setTimeout(function() {
-        $('.dimmer').dimmer('hide')
+        $('#avatar .dimmer, .track.option .dimmer').dimmer('hide')
     }, 1000);
 
     $(".track.option").click(function() {

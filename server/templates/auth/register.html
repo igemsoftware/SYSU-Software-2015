@@ -14,20 +14,14 @@
 </head>
 <body>
 
-  {% if form.username.errors or form.password.errors or form.email.errors %}
+  {% if form.errors %}
   <div class="ui basic modal" id="error-modal">
-    <div class="ui icon header"><i class="remove icon"></i>Your last attempt to log in has failed...</div>
+    <div class="ui icon header"><i class="remove icon"></i>Your last attempt to sign up has failed...</div>
     <div class="content">
       <div class="description">
         <div class="ui bulleted list">
-          {% for e in form.username.errors %}
-          <div class="item">{{ e }}</div>
-          {% endfor %}
-          {% for e in form.password.errors %}
-          <div class="item">{{ e }}</div>
-          {% endfor %}
-          {% for e in form.email.errors %}
-          <div class="item">{{ e }}</div>
+          {% for field, error in form.errors.iteritems() %}
+          <div class="item">{{ '%s: %s' % (field.capitalize(), error[0]) }}</div>
           {% endfor %}
         </div>
       </div>
@@ -47,7 +41,7 @@
       </div>
       <div class="description">
         <p>We've prepared a default avatar for you, but it's highly recommended to upload your own:</p>
-        <form enctype="multipart/form-data" action="/pic/upload" method="POST" id="avatar-form">
+        <form enctype="multipart/form-data" action="{{url_for('pic.upload')}}" method="POST" id="avatar-form">
           <input type="file" name="file" id="avatar-upload-input">
           <input type="submit" class="ui blue button" value="Upload">
         </form>
@@ -71,8 +65,10 @@
           <img src="/static/img/login_logo.png" alt="LOGO" id="logo" class="ui fluid image">
         </div>
         <div class="eleven wide column" id="form-column">
-          <form action="/register" class="ui form" id="form" method="POST">
+          <form action="{{url_for('auth.register')}}" class="ui form" id="form" method="POST">
+            {{ form.hidden_tag() }}
 
+            {% set avatar_url = form.avatar.data or '/static/img/avatar.jpg' %}
             <div class="ui blurring dimmable circular image" id="avatar">
               <div class="ui dimmer transition">
                 <div class="content">
@@ -81,9 +77,9 @@
                   </div>
                 </div>
               </div>
-              <img class="avatar-image" src="/static/img/avatar.jpg" alt="Avatar">
+              <img class="avatar-image" src="{{form.avatar.data or '/static/img/avatar.jpg'}}" alt="Avatar">
             </div>
-            <input type="text" id="avatar-url-input" style="display: none;" name="avatar">
+            {{ form.avatar(id="avatar-url-input", style="display: none;") }}
 
             <div class="ui padded right aligned grid" id="form-inner-grid">
 
@@ -93,7 +89,7 @@
                 </div>
                 <div class="eight wide column">
                   <div class="ui input field">
-                    <input type="text" id="username" name="username">
+                    {{form.username(id="username")}}
                   </div>
                 </div>
               </div>
@@ -104,7 +100,7 @@
                 </div>
                 <div class="eight wide column">
                   <div class="ui input field">
-                    <input type="password" id="password" name="password">
+                    {{form.password(id="password")}}
                   </div>
                 </div>
               </div>
@@ -115,7 +111,7 @@
                 </div>
                 <div class="eight wide column">
                   <div class="ui input field">
-                    <input type="text" id="email" name="email">
+                    {{form.email(id="email")}}
                   </div>
                 </div>
               </div>
@@ -126,186 +122,30 @@
 
             <div class="ui padded grid" id='tracks-grid'>
 
-
-
+              {% for track in tracks %}
               <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="artanddesign">
+                <div class="ui dimmable image track option" data-value="{{track.id}}">
                   <div class="ui dimmer transition hidden">
                     <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_artanddesign_bg.png)">
-                        <p>Art & Design</p>
+                      <div class="center" style="background-image: url({{'/static/img/tracks_bg/tracks_%s_bg.png' % track.name}})">
+                        <p>{{track.description}}</p>
                       </div>
                     </div>
                   </div>
-                  <img src="/static/img/tracks/tracks_artanddesign.png" alt="" class="ui fluid image">
+                  <img src="{{'/static/img/tracks/tracks_%s.png' % track.name}}" alt="" class="ui fluid image">
                 </div>
               </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="communitylabs">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_communitylabs_bg.png)">
-                        <p>Community Labs</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_communitylabs.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="energy">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_energy_bg.png)">
-                        <p>Energy</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_energy.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="environment">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_environment_bg.png)">
-                        <p>Environment</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_environment.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="foodandnutrition">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_foodandnutrition_bg.png)">
-                        <p>Food And Nutrition</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_foodandnutrition.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="foundationaladvance">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_foundationaladvance_bg.png)">
-                        <p>Foundational Advance</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_foundationaladvance.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="healthandmedicine">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_healthandmedicine_bg.png)">
-                        <p>Health & Medicine</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_healthandmedicine.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="informationprocessing">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_informationprocessing_bg.png)">
-                        <p>Information Processing</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_informationprocessing.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="manufacturing">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_manufacturing_bg.png)">
-                        <p>Manufacturing</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_manufacturing.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="measurement">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_measurement_bg.png)">
-                        <p>Measurement</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_measurement.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="newapplication">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_newapplication_bg.png)">
-                        <p>New Application</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_newapplication.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="policyandpractices">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_policyandpractices_bg.png)">
-                        <p>Policy & Practices</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_policyandpractices.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-              <div class="three wide column">
-                <div class="ui dimmable image track option" data-value="software">
-                  <div class="ui dimmer transition hidden">
-                    <div class="content">
-                      <div class="center" style="background-image: url(/static/img/tracks_bg/tracks_software_bg.png)">
-                        <p>Software</p>
-                      </div>
-                    </div>
-                  </div>
-                  <img src="/static/img/tracks/tracks_software.png" alt="" class="ui fluid image">
-                </div>
-              </div>
-
-
+              {% endfor %}
 
             </div>
 
             <select multiple id="select-tracks" style="display: none;" name="tracks">
-              <option value="artanddesign"></option>
-              <option value="communitylabs"></option>
-              <option value="energy"></option>
-              <option value="environment"></option>
-              <option value="foodandnutrition"></option>
-              <option value="foundationaladvance"></option>
-              <option value="healthandmedicine"></option>
-              <option value="informationprocessing"></option>
-              <option value="manufacturing"></option>
-              <option value="measurement"></option>
-              <option value="newapplication"></option>
-              <option value="policyandpractices"></option>
-              <option value="software"></option>
+              {% for track in tracks %}
+                <option value="{{track.id}}"></option>
+              {% endfor %}
             </select>
 
-            <button class="ui button" type="submit" id="submit">Create Account</button>
+            {{form.submit(class_="ui button", id="submit", value="Create Account")}}
 
           </form>
         </div>
