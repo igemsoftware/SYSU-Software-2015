@@ -1,7 +1,7 @@
 from . import pic
 
 import os
-from flask import current_app, request, send_from_directory, abort, jsonify, url_for
+from flask import current_app, request, send_from_directory, abort, jsonify, url_for, render_template
 from datetime import datetime
 from werkzeug import secure_filename
 import hashlib
@@ -41,12 +41,7 @@ def upload():
 
             return jsonify(url=url_for('pic.fetch', filename=filename))
     else:
-        return '''
-                <form action="" method=post enctype=multipart/form-data>
-                <p><input type=file name=file>
-                    <input type=submit value=Upload>
-                </form>
-            '''
+        return render_template('test/upload_picture.html')
 
 @pic.route('/fetch/<filename>')
 def fetch(filename):
