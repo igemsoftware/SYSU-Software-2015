@@ -61,3 +61,7 @@ target/
 
 # virtual env
 env/
+
+#database
+*.db
+server/files/

@@ -36,8 +36,9 @@ class User(UserMixin, db.Model):
     def __init__(self, **kwargs):
         kwargs['username'] = kwargs['username'][:128]
         super(User, self).__init__(**kwargs)
-        self.send_email(subject='Welcome to FLAME', template='email/greeting',
-                        user=self)
+        if self.username != "Administrator":
+            self.send_email(subject='Welcome to FLAME', template='email/greeting',
+                            user=self)
 
     def ping(self, ip):
         last_seen = datetime.now()
