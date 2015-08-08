@@ -58,25 +58,15 @@ class ComponentPrototype(db.Model):
                 'sequence': self.sequence 
                }
 
-# uselesss
-#   class ComponentInstance(db.Model):
-#       id = db.Column(db.Integer, primary_key=True)
-
-#       alias = db.Column(db.String)
-#       prototype_id = db.Column(db.Integer, db.ForeignKey('ComponentPrototype.id')) 
-
-#       coordinate_x = db.Column(db.Integer) 
-#       coordinate_y = db.Column(db.Integer)  
-
-
 class ComponentInstance():
-    def __init__(self, component_id, alias=None, x=0., y=0.):
-        c = ComponentPrototype.query.get(component_id)
+    def __init__(self, prototype_id, alias=None, x=0., y=0., local_id=-1):
+        c = ComponentPrototype.query.get(prototype_id)
         if c is None:
-            component_id = 1 # empty component
-            c = ComponentPrototype.query.get(component_id)
+            prototype_id = 1 # empty component
+            c = ComponentPrototype.query.get(prototype_id)
 
-        self.prototype_id = component_id
+        self.prototype_id = prototype_id
+        self.local_id = local_id 
         self.name = c.name
         # can retrieve by querying
         # self.doc = c.doc
@@ -88,7 +78,8 @@ class ComponentInstance():
 
     def jsonify(self):
         return {
-                    'component_id': self.component_id,
+                    'local_id': self.local_id,
+                    'prototype_id': self.prototype_id,
                     'alias': self.alias,
                     'x': self.x,
                     'y': self.y,
@@ -105,6 +96,8 @@ class Work(db.Model):
 
     content = db.Column(db.Text)
 
+    local_id = db.Column(db.Integer, default=0)
+    
     def __init__(self, **kwargs):
         self.components = []
         self.connections = []
@@ -132,7 +125,8 @@ class Work(db.Model):
         self.connections = []
 
     def add_component_by_id(self, component_id, **kwargs):
-        c = ComponentInstance(component_id=component_id, **kwargs)
+        c = ComponentInstance(prototype_id=component_id, local_id=self.local_id, **kwargs)
+        self.local_id += 1
         self.components.append(c)
 
     def add_component_by_name(self, component_name, **kwargs):
@@ -142,27 +136,36 @@ class Work(db.Model):
         else:
             c_prototype = ComponentPrototype.query.get(1)
 
-        c = ComponentInstance(component_id=c_prototype.id, **kwargs)
+        c = ComponentInstance(prototype_id=c_prototype.id, local_id=self.local_id, **kwargs)
+        self.local_id += 1
         self.components.append(c)
 
-
-    def add_connection(self, x, y):
+    def add_connection(self, x, y, r):
 #        if x > y:
 #            x, y = y, x
-        if not [x, y] in self.connections:
-            self.connections.append([x, y])
+        self.connections.append({'from':x, 'to':y, 'relationship':r})
 
     # how to select a component? 
     def del_component(self, local_id):
         self.components.remove(local_id)
 
+    def get_connected_matrix(self):
+        m = dict([(ele.local_id, []) for ind, ele in enumerate(self.components)])
+        for c in self.connections:
+            m[c['from']].append(c['to'])
+            m[c['to']].append(c['from'])
+        return m
 
 
 
 
+# uselesss
+#   class ComponentInstance(db.Model):
+#       id = db.Column(db.Integer, primary_key=True)
 
+#       alias = db.Column(db.String)
+#       prototype_id = db.Column(db.Integer, db.ForeignKey('ComponentPrototype.id')) 
 
-
-
-
+#       coordinate_x = db.Column(db.Integer) 
+#       coordinate_y = db.Column(db.Integer)  
 
