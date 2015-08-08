@@ -32,6 +32,13 @@ class Initialize(Command):
             db.session.add(c)
             db.session.commit()
 
+            # add upload file directory
+            import os
+            if not os.path.isdir(app.config['UPLOAD_FOLDER_FULL']):
+                os.makedirs(app.config['UPLOAD_FOLDER_FULL'])
+            
+
+
             # default tracks
             from server.models import Track 
             track_names = ['artanddesign', 'communitylabs', 'energy', 'environment',

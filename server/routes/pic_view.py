@@ -1,7 +1,9 @@
 from . import pic
 
 import os
-from flask import current_app, request, send_from_directory, abort, jsonify, url_for, render_template
+from flask import current_app, request, send_from_directory, \
+        abort, jsonify, url_for, render_template, \
+        send_from_directory, send_file, safe_join
 from datetime import datetime
 from werkzeug import secure_filename
 import hashlib
@@ -24,29 +26,32 @@ def upload():
             
             # avoid filename collision
             filename = hashlib.md5( filename.encode('utf-8')+datetime.now().strftime('%y-%m-%d %H-%M-%S') ).hexdigest() + extension
-            fileabsadr = os.path.join(current_app.config['UPLOAD_FOLDER'], filename)
-            file.save(fileabsadr)
+            fileadr = os.path.join(current_app.config['UPLOAD_FOLDER_FULL'], filename)
+            file.save(fileadr)
 
             # pic compress and crop 
             from PIL import Image
-            img = Image.open(fileabsadr)
+            img = Image.open(fileadr)
             l = min(*img.size)
             print (img.size[0]-l/2, img.size[1]-l/2,
                             img.size[0]+l/2, img.size[1]+l/2)
             print img.size
             img = img.crop((img.size[0]/2-l/2, img.size[1]/2-l/2,
                             img.size[0]/2+l/2, img.size[1]/2+l/2))
-            print fileabsadr
-            img.save(fileabsadr)
+            img.save(fileadr)
 
             return jsonify(url=url_for('pic.fetch', filename=filename))
     else:
         return render_template('test/upload_picture.html')
 
-@pic.route('/fetch/<filename>')
+@pic.route('/fetch/<path:filename>')
 def fetch(filename):
     filename = filename.strip()
     if '..' in filename or filename.startswith('/'):
+        return 'not found'
         abort(404)
-
+    else:
+        #print current_app.root_path
+        return send_file(safe_join(current_app.config['UPLOAD_FOLDER'], filename))
+#        return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
 

@@ -17,7 +17,8 @@ class Config:
     FLASKY_MAIL_SENDER = 'SYSU Software 2015 <SYSU.Software2015@gmail.com>'
 
     # inner picture server
-    UPLOAD_FOLDER = '/files'
+    UPLOAD_FOLDER = 'files/' # for flask
+    UPLOAD_FOLDER_FULL = 'server/files' # for other apps
     ALLOWED_EXTENSIONS = set(['jpg','png','jpeg'])
     MAX_CONTENT_LENGTH = 4 * 1024 * 1024 # 4MB
     PICTURE_CROP_SIZE = (50, 50)

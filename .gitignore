@@ -64,3 +64,4 @@ env/
 
 #database
 *.db
+server/files/
