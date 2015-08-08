@@ -15,34 +15,27 @@
   <div id="pic">
     <div id="pic-content-wrapper">
       <img src="/static/img/login_logo.png" alt="LOGO" id="logo" class="ui image">
-      <form class="ui form" id="form" action={{ url_for("auth.login") }} method="POST">
-        {{ form.hidden_tag() }}
-
+      <form class="ui form" id="form" action={{ url_for("login") }} method="POST">
         <div class="ui input field">
-          {{ form.username(placeholder='Please enter your account...') }}
+          <input type="text" placeholder="Please enter your account..." name="username">
         </div>
-
         <div class="ui input field">
-          {{ form.password(placeholder='Please enter your password...') }}
+          <input type="password" placeholder="Please enter your password..." name="password">
         </div>
-
-        {{ form.submit(class_='ui button') }}
+        <button class="ui button" type="submit" id="submit">Log In</button>
         <button class="ui button" id="signup">Create A Free Account</button>
       </form>
     </div>
   </div>
 </div>
 
-{% if form.username.errors or form.password.errors %}
+{% if error %}
 <div class="ui basic modal" id="error-modal">
   <div class="ui icon header"><i class="remove icon"></i>Your last attempt to log in has failed...</div>
   <div class="content">
     <div class="description">
       <div class="ui bulleted list">
-        {% for e in form.username.errors %}
-        <div class="item">{{ e }}</div>
-        {% endfor %}
-        {% for e in form.password.errors %}
+        {% for e in error %}
         <div class="item">{{ e }}</div>
         {% endfor %}
       </div>

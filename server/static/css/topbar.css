@@ -1,0 +1,93 @@
+body {
+    background-color: #e4e4e4;
+}
+
+#topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(#151618, #2d2e30, #4f4f50);
+    height: 48px;
+    padding-left: 10px;
+    padding-right: 100px;
+    margin: 0;
+    z-index: 800;
+    /*box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.75);*/
+    box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.75);
+}
+
+#topbar-bottom-line {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(to right, #bf4849, #ec5a5b, #e65859);
+}
+
+#topbar .item {
+    padding-left: 0;
+    padding-right: 0;
+    margin: 0;
+}
+
+#topbar .item > .button {
+    height: 48px;
+    padding: 16px 15px;
+    background-color: transparent;
+    color: #e4e4e4;
+    font-size: 20px;
+    line-height: 16px;
+    font-weight: lighter;
+    border-radius: 0;
+    transition: color .3s linear;
+}
+
+#topbar .item > .button:hover {
+    background: linear-gradient(#bfbaba, #e4e4e4, #f3eeee);
+    color: #2d2e30;
+}
+
+#topbar .item > #topbar-btn-index {
+    width: 100px;
+    background-color: grey;
+}
+
+#topbar .item > #topbar-btn-menu {
+    font-size: 30px;
+    line-height: 18px;
+    padding: 16px 10px;
+}
+
+#topbar-avatar {
+    position: fixed;
+    right: 6px;
+    top: 6px;
+    width: 90px;
+    height: 90px;
+    margin: 0;
+    padding: 0;
+    z-index: 900;
+    /*box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.75);*/
+    box-shadow: 0 0 10px rgba(50, 50, 50, 0.75);
+    transition: box-shadow .5s linear;
+}
+
+#topbar-avatar:hover {
+    /*box-shadow: 0 0 15px 5px #fffbbd;*/
+    box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.75);
+}
+
+#main-container {
+    width: auto;
+    background-color: #f8f8f8;
+    margin: 0 52px;
+    padding: 80px 300px;
+    font-size: 1.5rem;
+}
+
+#main-switcher .button {
+    margin: 30px;
+}
+

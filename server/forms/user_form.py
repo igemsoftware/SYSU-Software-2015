@@ -18,9 +18,9 @@ class LoginForm(Form):
 class RegistrationForm(Form):
     username = StringField('Username', validators=[
         Required('Cannot be empty'), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_]*$', 0, 'Usernames must have only letters, numbers or underscores')])
-    password = PasswordField('Password', validators=[
-        Required('Cannot be emtpy.'), EqualTo('password2', message='Doesn\'t match,')])
-    password2 = PasswordField('Reenter password', validators=[Required('Cannot be empty.')])
+    password = PasswordField('Password', validators=[Required('Cannot be empty.')])
+        #Required('Cannot be emtpy.'), EqualTo('password2', message='Doesn\'t match,')])
+    #password2 = PasswordField('Reenter password', validators=[Required('Cannot be empty.')])
 
     email = StringField('Email', validators=[Required('Cannot be empty.'), Length(1, 64),
                                            Email('Please input a valid email.')])
@@ -43,7 +43,7 @@ class RegistrationForm(Form):
     def validate_tracks(self, field):
         print field.data
         if field == []:
-            raise ValidationError('Must choice at lease one track.')
+            raise ValidationError('Must choose at lease one track.')
 
 
 

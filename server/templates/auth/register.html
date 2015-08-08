@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign Up</title>
+  <link rel="stylesheet" href="/static/css/semantic.min.css">
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/jquery.form.min.js"></script>
+  <script src="/static/js/semantic.min.js"></script>
+  <link rel="stylesheet" href="/static/css/custom_scrollbar.css">
+  <link rel="stylesheet" href="/static/css/login_register_common.css">
+  <link rel="stylesheet" href="/static/css/register.css">
+  <script src="/static/js/register.js"></script>
+</head>
+<body>
+
+  {% if form.errors %}
+  <div class="ui basic modal" id="error-modal">
+    <div class="ui icon header"><i class="remove icon"></i>Your last attempt to sign up has failed...</div>
+    <div class="content">
+      <div class="description">
+        <div class="ui bulleted list">
+          {% for field, error in form.errors.iteritems() %}
+          <div class="item">{{ '%s: %s' % (field.capitalize(), error[0]) }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui blue ok basic inverted button"><i class="checkmark icon"></i>Okay</div>
+    </div>
+  </div>
+  <script>$(function() { $('#error-modal').modal('show'); })</script>
+  {% endif %}
+
+  <div class="ui modal" id="avatar-modal">
+    <div class="header">Change Avatar</div>
+    <div class="image content">
+      <div class="ui medium image">
+        <img class="avatar-image" src="/static/img/avatar.jpg" alt="">
+      </div>
+      <div class="description">
+        <p>We've prepared a default avatar for you, but it's highly recommended to upload your own:</p>
+        <form enctype="multipart/form-data" action="{{url_for('pic.upload')}}" method="POST" id="avatar-form">
+          <input type="file" name="file" id="avatar-upload-input">
+          <input type="submit" class="ui blue button" value="Upload">
+        </form>
+        <div class="ui negative message hidden">
+          <div class="header">
+            Upload Failed
+          </div>
+          <p id="avatar-upload-error"></p>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <div class="ui ok right labeled icon button">OK<i class="checkmark icon"></i></div>
+    </div>
+  </div>
+
+  <div id="pic-wrapper">
+    <div id="pic">
+      <div class="ui grid" id="pic-content-wrapper">
+        <div class="five wide column" id="logo-column">
+          <img src="/static/img/login_logo.png" alt="LOGO" id="logo" class="ui fluid image">
+        </div>
+        <div class="eleven wide column" id="form-column">
+          <form action="{{url_for('auth.register')}}" class="ui form" id="form" method="POST">
+            {{ form.hidden_tag() }}
+
+            {% set avatar_url = form.avatar.data or '/static/img/avatar.jpg' %}
+            <div class="ui blurring dimmable circular image" id="avatar">
+              <div class="ui dimmer transition">
+                <div class="content">
+                  <div class="center">
+                    <div class="ui inverted button" id="change-avatar">Change</div>
+                  </div>
+                </div>
+              </div>
+              <img class="avatar-image" src="{{form.avatar.data or '/static/img/avatar.jpg'}}" alt="Avatar">
+            </div>
+            {{ form.avatar(id="avatar-url-input", style="display: none;") }}
+
+            <div class="ui padded right aligned grid" id="form-inner-grid">
+
+              <div class="row">
+                <div class="three wide column">
+                  <p>Account:</p>
+                </div>
+                <div class="eight wide column">
+                  <div class="ui input field">
+                    {{form.username(id="username")}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="three wide column">
+                  <p>Password:</p>
+                </div>
+                <div class="eight wide column">
+                  <div class="ui input field">
+                    {{form.password(id="password")}}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="three wide column">
+                  <p>E-mail:</p>
+                </div>
+                <div class="eight wide column">
+                  <div class="ui input field">
+                    {{form.email(id="email")}}
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <p>Tracks:</p>
+
+            <div class="ui padded grid" id='tracks-grid'>
+
+              {% for track in tracks %}
+              <div class="three wide column">
+                <div class="ui dimmable image track option" data-value="{{track.id}}">
+                  <div class="ui dimmer transition hidden">
+                    <div class="content">
+                      <div class="center" style="background-image: url({{'/static/img/tracks_bg/tracks_%s_bg.png' % track.name}})">
+                        <p>{{track.description}}</p>
+                      </div>
+                    </div>
+                  </div>
+                  <img src="{{'/static/img/tracks/tracks_%s.png' % track.name}}" alt="" class="ui fluid image">
+                </div>
+              </div>
+              {% endfor %}
+
+            </div>
+
+            <select multiple id="select-tracks" style="display: none;" name="tracks">
+              {% for track in tracks %}
+                <option value="{{track.id}}"></option>
+              {% endfor %}
+            </select>
+
+            {{form.submit(class_="ui button", id="submit", value="Create Account")}}
+
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

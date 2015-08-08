@@ -14,6 +14,10 @@
     margin: 5vh 0;
 }
 
+#form input {
+    border-radius: 0;
+}
+
 #form > .ui.button {
     width: 100%;
     margin-left: 0;
