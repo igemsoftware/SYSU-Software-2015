@@ -40,11 +40,11 @@ def work_fetch_parts(id):
 def work_fetch_relationship(id):
     w = work_check_and_update(id)
     
-    return jsonify(parts=w.connections)
+    return jsonify(relationship=w.connections)
 
 @main.route('/work/fetch/cmatrix/<int:id>')
 def work_fetch_cmatrix(id):
     w = work_check_and_update(id)
 
-    return jsonify(parts=w.get_connected_matrix())
+    return jsonify(cmatrix=w.get_connected_matrix())
 
