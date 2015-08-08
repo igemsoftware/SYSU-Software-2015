@@ -17,7 +17,7 @@ class Config:
     FLASKY_MAIL_SENDER = 'SYSU Software 2015 <SYSU.Software2015@gmail.com>'
 
     # inner picture server
-    UPLOAD_FOLDER = '/tmp/files'
+    UPLOAD_FOLDER = '/files'
     ALLOWED_EXTENSIONS = set(['jpg','png','jpeg'])
     MAX_CONTENT_LENGTH = 4 * 1024 * 1024 # 4MB
     PICTURE_CROP_SIZE = (50, 50)
@@ -28,7 +28,7 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/sysu2015_dev.db"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///sysu2015_dev.db"
 
 class ProductionConfig(Config):
     DEBUG = False 
@@ -37,7 +37,7 @@ class ProductionConfig(Config):
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-    SQLALCHEMY_DATABASE_URI = "sqlite:////tmp/test.db"
+    SQLALCHEMY_DATABASE_URI = "sqlite:///test.db"
 
 #   mail-bug-logging
 #   @classmethod

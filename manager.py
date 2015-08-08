@@ -18,7 +18,7 @@ class Initialize(Command):
     def run(self):
 
         with app.app_context():
-            # re-create the databse
+            # re-create the database
             db.drop_all()
             db.create_all()
 
