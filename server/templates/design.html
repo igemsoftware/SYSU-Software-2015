@@ -1,1 +1,54 @@
-<!--design page -->
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/static/css/semantic.min.css">
+    <link rel="stylesheet" href="/static/css/design.css">
+  </head>
+  <body>
+    <div id="left-sidebar">
+      <div class="ui button trigger-left">
+        <i class="chevron right big icon"></i>
+      </div>
+      <div class="ui fluid accordion">
+        <div class="title"><i class="dropdown icon"></i>Part</div>
+          <div class="content" id="parts">
+          </div>
+        <div class="title"><i class="dropdown icon"></i>Device</div>
+          <div class="content" id="devices">
+          </div>
+        <div class="title"><i class="dropdown icon"></i>System</div>
+          <div class="content">
+            <p class="transition hidden">...</p>
+          </div>
+      </div>
+    </div>
+    <div id="main-contain">
+      <div id="drawArea-menu">
+        <button class="ui button" id="save">save</button>
+        <button class="ui button" id="clear">clear</button>
+        <button class="ui button" id="load">load</button>
+        <button class="ui button" id="showImage">showImage</button>
+        <textarea id="jsonOutput" style="width:100%;height:100px;"></textarea>
+      </div>
+      <div class="" id="drawArea">
+          <div id="rubberband" style="border:1px solid green;display:none;"></div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/js/dom.jsPlumb-1.7.6.js"></script>
+    <script type="text/javascript" src="/static/js/semantic.min.js"></script>
+    <script type="text/javascript" src="/static/js/rgbcolor.js"></script> 
+    <script type="text/javascript" src="/static/js/StackBlur.js"></script>
+    <script type="text/javascript" src="/static/js/canvg.js"></script>
+    <script type="text/javascript" src="/static/js/html2canvas.js"></script>
+    <script type="text/javascript" src="/static/js/canvas-to-blob.min.js"></script>
+    <script type="text/javascript" src="/static/js/design.js"></script>
+  </body>
+</html>
