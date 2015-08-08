@@ -2,19 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Top Bar</title>
+  <title>Personal Center</title>
   <link rel="stylesheet" href="/static/css/semantic.min.css">
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/semantic.min.js"></script>
   <link rel="stylesheet" href="/static/css/main_common.css">
-  <script src="/static/js/vue.min.js"></script>
+  <script src="/static/js/vue.js"></script>
   <link rel="stylesheet" href="/static/css/personal_center.css">
-  <script src="/static/js/personal_center.js"></script>
 </head>
 <body>
-
-  <div class="ui circular image" id="topbar-avatar" data-content="Dashboard"><a href=""><img src="/static/img/avatar.jpg" alt="avatar"></a></div>
-  <script>$(function() {$("#topbar-avatar").popup();});</script>
 
   <div class="ui page dimmer" id="main-switcher">
     <div class="content">
@@ -29,38 +25,60 @@
 
 
   <div class="ui secondary menu" id="topbar">
+    <div class="ui circular image" id="topbar-avatar" data-content="Dashboard"><a href=""><img src="/static/img/avatar.jpg" alt="avatar"></a></div>
+    <script>$(function() {$("#topbar-avatar").popup();});</script>
+
     <div class="item" id="topbar-index">
       <div class="ui button" id="topbar-btn-index"></div>
     </div>
     <div class="item" id="topbar-menu">
       <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>
     </div>
-    <div class="item" id="topbar-undo">
-      <div class="ui button" id="topbar-btn-undo">Undo</div>
-    </div>
-    <div class="item" id="topbar-save">
-      <div class="ui button" id="topbar-btn-save">Save</div>
-    </div>
-    <div class="item" id="topbar-help">
-      <div class="ui button" id="topbar-btn-help">Help</div>
+    <div v-repeat="item : views" class="item" id="topbar-[[item]]">
+      <div class="ui button" id="topbar-btn-[[item]]" v-on="click: currentView = item">[[item | capitalize]]</div>
     </div>
     <div class="right menu">
-      <div class="item" id="topbar-design">
-        <div class="ui button" id="topbar-btn-design">Design</div>
-      </div>
-      <div class="item" id="topbar-modeling">
-        <div class="ui button" id="topbar-btn-modeling">Modeling</div>
-      </div>
-      <div class="item" id="topbar-experiment">
-        <div class="ui button" id="topbar-btn-experiment">Experiment</div>
+      <div v-repeat="item : rightMenu" class="item" id="topbar-[[item]]">
+        <div class="ui button" id="topbar-btn-[[item]]">[[item | capitalize]]</div>
       </div>
     </div>
-
     <div id="topbar-bottom-line"></div>
   </div>
 
   <div id="main-container">
+    <component id="main-view" is="[[ currentView ]]" keep-alive></component>
+    <script type="x-template" id="database-template">
+      <p>[[this | json 2]]</p>
+      <span class="database-record-count">[[databaseRecords.length]] [[databaseRecords.length | pluralize 'record' 'records']]</span>
+      <div>
+        <a v-on="click: editStatus = !editStatus" style="cursor: pointer;">Edit</a>
+        <span>Sort by
+          <div class="ui inline dropdown" id="order_dropdown">
+            <input type="hidden" v-model="currentOrder" lazy>
+            <div class="text">Time</div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="time">Time</div>
+              <div class="item" data-value="completeness">Completeness</div>
+            </div>
+          </div>
+          <a v-on="click: orderReverse = !orderReverse" style="cursor: pointer;">[[orderReverse ? '↓' : '↑']]</a>
+        </span>
+      <div v-show="databaseRecords.length">
+        <div v-repeat="rec : databaseRecords | orderBy currentOrder orderReverse">
+          <p>[[rec.title]]</p>
+          <p>[[rec.description]]</p>
+          <p>[[rec.tags]]</p>
+          <p>[[rec.completeness]]</p>
+        </div>
+      </div>
+    </script>
+    <script type="x-template" id="reminder-template">
+      <p>Bye idiot</p>
+    </script>
   </div>
+
+  <script src="/static/js/personal_center.js"></script>
 
 </body>
 </html>
