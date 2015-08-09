@@ -1,8 +1,5 @@
 Vue.config.delimiters = ['[[', ']]'];
 
-var records = [
-];
-
 var vueBody = new Vue({
     el: 'body',
     data: {

@@ -53,18 +53,13 @@
 
   <div id="main-container">
     <component id="main-view" is="[[ currentView ]]" keep-alive></component>
+    <script type="x-template" id="database-template" src="/static/vue/database.html"></script>
+  <script type="x-template" id="reminder-template">
+    <p>Hello Reminder</p>
+  </script>
+</div>
 
-    <script type="x-template" id="database-template">
-      {% include 'vue/database.html' %}
-    </script>
-
-    <script type="x-template" id="reminder-template">
-      {% include 'vue/reminder.html' %}
-    </script>
-
-  </div>
-
-  <script src="/static/js/personal_center.js"></script>
+<script src="/static/js/personal_center.js"></script>
 
 </body>
 </html>

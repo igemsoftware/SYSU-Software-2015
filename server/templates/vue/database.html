@@ -1,0 +1,29 @@
+<div id="view-database">
+  <div id="database-toolbar">
+    <span class="database-record-count">[[databaseRecords.length]] [[databaseRecords.length | pluralize 'record' 'records']]</span>
+    <div id="database-edit">
+      <a v-on="click: editStatus = !editStatus" style="cursor: pointer;">Edit</a>
+      <span>Sort by
+        <div class="ui inline dropdown" id="order_dropdown">
+          <input type="hidden" v-model="currentOrder" lazy>
+          <div class="text">Time</div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="item" data-value="[[ord]]" v-repeat="ord : orders">[[ord | capitalize]]</div>
+          </div>
+        </div>
+        <a v-on="click: orderReverse = !orderReverse" style="cursor: pointer;">[[orderReverse ? '↓' : '↑']]</a>
+      </span>
+    </div>
+  </div>
+  <div v-show="databaseRecords.length" class="database records no-scrollbar">
+    <div v-repeat="rec : databaseRecords | recordOrderBy currentOrder orderReverse" class="database record"
+    v-class="getRecordClass(rec.completeness)" v-transition>
+    <div class="header">[[rec.title]]</div>
+    <div class="tags"><div v-repeat="tag : rec.tags">[[tag | capitalize]]</div></div>
+    <div class="description">[[rec.description]]</div>
+    <div class="completeness"><span>completeness: </span><div class="completeness-wrapper"><div v-repeat="rec.completeness + 1" class="[[getRecordClass($index)]]"></div></div></div>
+    <a href="" class="more">more</a>
+  </div>
+ </div>
+</div>
