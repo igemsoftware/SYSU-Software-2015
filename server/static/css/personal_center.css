@@ -3,5 +3,139 @@
 }
 
 #main-container {
-    padding: 60px 52px;
+    padding-top: 60px;
+    padding-bottom: 0;
+    padding-left: 52px;
+    padding-right: 52px;
+    height: 100%;
+}
+
+.loader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+#view-database {
+    font-size: 1em;
+    padding-top: 20px;
+    height: 100%;
+}
+
+#database-toolbar {
+    width: 100%;
+    position: relative;
+}
+
+#database-toolbar > * {
+    display: inline-block;
+}
+
+#database-edit {
+    text-align: right;
+    float: right;
+}
+
+#database-edit > * {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.database.records {
+    margin-top: 20px;
+    overflow-y: auto;
+    height: calc(100% - 60px);
+}
+
+.database.records > .database.record {
+    padding: 17px;
+    margin-bottom: 10px;
+    /*height: 160px;*/
+    position: relative;
+}
+
+.database.records > .database.record > .header {
+    color: #313131;
+    font-size: 2.0em;
+    margin-bottom: 0.5em;
+}
+
+.database.records > .database.record > .description {
+    color: #7d7d7d;
+    font-size: 1.4em;
+    line-height: 1.6em;
+    margin-bottom: 0.5em;
+}
+
+.database.records > .database.record > .more {
+    text-decoration: underline;
+    position: absolute;
+    bottom: 17px;
+    right: 13px;
+}
+
+.database.records > .database.record > .tags {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
+
+.database.records > .database.record > .tags > div {
+    display: inline-block;
+    font-size: 1.1em;
+    line-height: 1.4em;
+    padding: 0 5px;
+    margin-left: 7px;
+    border: 1px #7d7d7d solid;
+    color: #7d7d7d;
+    border-radius: 5px;
+}
+
+.database.records > .database.record > .completeness {
+    height: auto;
+    position: relative;
+    width: 100%;
+}
+
+.database.records > .database.record > .completeness > span {
+    font-size: 1.2rem;
+}
+
+.database.records > .database.record > .completeness > .completeness-wrapper {
+    width: calc(100% - 130px);
+    height: 100%;
+    display: inline-block;
+}
+
+.database.records > .database.record > .completeness > .completeness-wrapper > div {
+    height: 10px;
+    width: 31.8%;
+    display: inline-block;
+    margin-right: 1.3%;
+}
+
+.database.records > .database.record > .completeness >  .completeness-wrapper >.design {
+    background-color: #ec5a5b;
+}
+
+.database.records > .database.record > .completeness >  .completeness-wrapper >.modeling {
+    background-color: #ebf595;
+}
+
+.database.records > .database.record > .completeness >  .completeness-wrapper >.experiment {
+    background-color: #72d3e3;
+}
+
+.database.records > .database.record.design {
+    background-color: #f5d0d1;
+}
+
+.database.records > .database.record.modeling {
+    background-color: #f5f7df;
+}
+
+.database.records > .database.record.experiment {
+    background-color: #d6eff3;
 }
