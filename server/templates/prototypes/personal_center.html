@@ -19,7 +19,6 @@
       </div>
     </div>
   </div>
-  <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
 
   <div class="ui segment" v-show="loader.loading" id="loader">
     <div class="ui dimmer" v-class="active: loader.loading">
@@ -29,7 +28,6 @@
 
   <div class="ui secondary menu" id="topbar">
     <div class="ui circular image" id="topbar-avatar" data-content="Dashboard"><a href=""><img src="/static/img/avatar.jpg" alt="avatar"></a></div>
-    <script>$(function() {$("#topbar-avatar").popup();});</script>
 
     <div class="item" id="topbar-index">
       <div class="ui button" id="topbar-btn-index"></div>
@@ -66,6 +64,9 @@
   <script src="/static/js/semantic.min.js"></script>
   <script src="/static/js/vue.js"></script>
   <script src="/static/js/personal_center.js"></script>
+
+  <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
+  <script>$(function() {$("#topbar-avatar").popup();});</script>
 
 </body>
 </html>

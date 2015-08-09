@@ -9,7 +9,6 @@
 <body>
 
   <div class="ui circular image" id="topbar-avatar" data-content="Dashboard"><a href=""><img src="/static/img/avatar.jpg" alt="avatar"></a></div>
-  <script>$(function() {$("#topbar-avatar").popup();});</script>
 
   <div class="ui page dimmer" id="main-switcher">
     <div class="content">
@@ -20,7 +19,6 @@
       </div>
     </div>
   </div>
-  <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
 
 
   <div class="ui secondary menu" id="topbar">
@@ -76,6 +74,8 @@
 
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/semantic.min.js"></script>
+  <script>$(function() {$("#topbar-avatar").popup();});</script>
+  <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
 
 </body>
 </html>
