@@ -1,0 +1,174 @@
+.red {
+	color: red;
+}
+
+#main-contain {
+    width: 100%;
+    position: absolute;
+/*    background-color:rgba(150, 106, 106, 0.3);*/
+    padding-top: 5%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+
+#drawArea {
+	width: 100%;
+	height: 600px;
+	position: relative;
+	border: solid 1px black;
+	z-index: 0;
+    background-color: white;
+}
+
+#left-sidebar {
+    position: fixed;
+    top: 50px;
+    left:-400px;
+    width: 400px;
+    height: 100%;
+    padding:0 0; 
+    z-index: 900;
+    transition: right 0.5s;
+    -webkit-transition: right 0.5s;   /* Safari 和 Chrome */
+    /*background-color: rgba(45, 46, 48, 0.4);*/
+    background-color: rgba(179, 179, 179, 0.26);
+    -moz-box-shadow: 5px 2px 10px #989898;/*firefox*/  
+    -webkit-box-shadow: 5px 2px 10px #989898;/*webkit*/  
+    box-shadow: 5px 2px 10px #989898;/*opera或ie9*/  
+}
+
+#left-sidebar .trigger-left {
+    position: absolute;
+    width:1px;
+    right: -1px;
+    top: 45%;
+    background:none;
+    padding:0;
+    border:none;
+}
+
+#left-sidebar .accordion {
+    height: 100%;
+    background: none;
+    background-color: rgba(248, 248, 248, 0.46);
+}
+
+#left-sidebar .accordion .title{
+    color: white;
+    background-color: rgba(149, 149, 149, 0.8);
+}
+
+#left-sidebar .accordion .title.active {
+    background-color: rgba(239, 130, 130, 0.8);
+}
+
+#left-sidebar #parts {
+    height: 100%;
+    overflow: auto;
+    width: 100%;
+}
+
+#left-sidebar #devices {
+    height: 100%;
+    overflow: auto;
+    width: 425px;
+}
+
+
+/*======================================================*/
+#right-sidebar {
+    position: fixed;
+    top: 50px;
+    right:-400px;
+    width: 400px;
+    height: 100%;
+    padding:0 0; 
+    z-index: 900;
+    transition: right 0.5s;
+    -webkit-transition: left 0.5s;   /* Safari 和 Chrome */
+    background-color: rgba(228, 228, 228, 0.46);
+    -moz-box-shadow: -5px 2px 10px #989898;/*firefox*/  
+    -webkit-box-shadow: -5px 2px 10px #989898;/*webkit*/  
+    box-shadow: -5px 2px 10px #989898;/*opera或ie9*/  
+}
+
+#right-sidebar .trigger-right {
+    position: absolute;
+    width:1px;
+    left: -40px;
+    top: 45%;
+    background:none;
+    padding:0;
+    border:none;
+}
+
+#right-sidebar > .accordion {
+    height: 100%;
+    background: none;
+    background-color: rgba(179, 179, 179, 0.46);
+}
+
+#right-sidebar > .accordion > .title{
+    color: white;
+    background-color: rgba(45, 46, 48, 0.8);
+}
+
+#right-sidebar > .accordion > .title.active {
+    background-color: rgba(239, 130, 130, 0.8);
+}
+
+#right-sidebar #parts {
+    height: 100%;
+    overflow: auto;
+    width: 100%;
+}
+
+#right-sidebar #devices {
+    height: 100%;
+    overflow: auto;
+    width: 425px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 5px;
+    height: 8px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 0;
+    background-color: rgba(179, 179, 179, 0.46);;
+    border: none;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(179, 179, 179, 0.9);
+}
+
+.selected {
+    border: 2px solid #09FF0B;
+}
+
+/*.ui .search {
+    width: 100%;
+}
+*/
+.ui .search {
+    margin-bottom: 15px;
+}
+
+.data {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.no-margin {
+    margin: 0 0;
+}
+
+#rubberband {
+    border: 2px solid #FF949B !important;
+}
