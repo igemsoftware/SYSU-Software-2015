@@ -15,84 +15,6 @@
 
   </head>
   <body>
-    <div id="left-sidebar">
-      <div class="ui button trigger-left">
-        <i class="chevron right big icon"></i>
-      </div>
-      <div class="ui attached tabular menu">
-        <a class="item active" data-tab="Add">Add</a>
-        <a class="item" data-tab="Relative">Relative</a>
-      </div>
-      <div class="ui bottom attached tab segment active" data-tab="Add">
-
-        <div class="ui fluid category search">
-          <div class="ui fluid icon input">
-            <input class="prompt" placeholder="Search parts..." type="text">
-            <i class="search icon"></i>
-          </div>
-          <div class="results"></div>
-        </div>
-
-        <div class="ui styled accordion">
-          <div class="title"><i class="dropdown icon"></i>Part</div>
-            <div class="content" id="parts">
-              <div class="data">
-                <div class="item">
-                  <img class="ui left floated image" src="/static/img/design/promoter_60.png">
-                  <h4 class="ui no-margin">Promoter1</h4>
-                </div>
-                <span>In genetics, a promoter is a region of DNA that initiates transcription of a particular gene....</span>
-                <button class="ui mini button">more</button>
-              </div>
-              <div class="data">
-                <div class="item">
-                  <img class="ui left floated image" src="/static/img/design/promoter_60.png">
-                  <h4 class="ui no-margin">Promoter1</h4>
-                </div>
-                <span>In genetics, a promoter is a region of DNA that initiates transcription of a particular gene....</span>
-                <button class="ui mini button">more</button>
-              </div>
-            </div>
-          <div class="title"><i class="dropdown icon"></i>Device</div>
-            <div class="content" id="devices">
-            </div>
-          <div class="title"><i class="dropdown icon"></i>System</div>
-            <div class="content">
-              <p class="transition hidden"></p>
-            </div>
-        </div>
-      </div>
-      <div class="ui bottom attached tab segment" data-tab="Relative">
-
-        <div class="ui fluid category search">
-          <div class="ui fluid icon input">
-            <input class="prompt" placeholder="Search relative parts..." type="text">
-            <i class="search icon"></i>
-          </div>
-          <div class="results"></div>
-        </div>
-
-      </div>
-    </div>
-
-    <div id="right-sidebar">
-      <div class="ui button trigger-right">
-        <i class="chevron left big icon"></i>
-      </div>
-      <div class="ui styled accordion">
-        <div class="title"><i class="dropdown icon"></i>Part</div>
-          <div class="content" id="parts">
-          </div>
-        <div class="title"><i class="dropdown icon"></i>Device</div>
-          <div class="content" id="devices">
-          </div>
-        <div class="title"><i class="dropdown icon"></i>System</div>
-          <div class="content">
-            <p class="transition hidden"></p>
-          </div>
-      </div>
-    </div>
-
 <!-- Top bar -->
   <div class="ui circular image" id="topbar-avatar" data-content="Dashboard"><a href=""><img src="/static/img/avatar.jpg" alt="avatar"></a></div>
   <script>$(function() {$("#topbar-avatar").popup();});</script>
@@ -140,13 +62,94 @@
     <div id="topbar-bottom-line"></div>
   </div>
 
+    <div id="left-sidebar">
+      <div class="ui button trigger-left">
+        <i class="chevron right big icon"></i>
+      </div>
+      <div class="ui attached tabular menu">
+        <a class="item active" data-tab="Add">Add</a>
+        <a class="item" data-tab="Relative">Relative</a>
+      </div>
+      <div class="ui bottom attached tab segment active" data-tab="Add">
+
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input class="prompt" placeholder="Search parts..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+
+        <div class="ui styled accordion">
+          <div class="title"><i class="dropdown icon"></i>Part</div>
+            <div class="content" id="parts">
+              <!-- <div class="data">
+                <div class="item">
+                  <img class="ui left floated image" src="/static/img/design/promoter_60.png">
+                  <h4 class="ui no-margin">Promoter1</h4>
+                </div>
+                <span>In genetics, a promoter is a region of DNA that initiates transcription of a particular gene....</span>
+                <button class="ui mini button" data-content="Read more about this part">more</button>
+              </div>
+              <div class="ui inverted divider"></div>
+              <div class="data">
+                <div class="item">
+                  <img class="ui left floated image" src="/static/img/design/promoter_60.png">
+                  <h4 class="ui no-margin">Promoter1</h4>
+                </div>
+                <span>In genetics, a promoter is a region of DNA that initiates transcription of a particular gene....</span>
+                <button class="ui mini button" data-content="Read more about this part">more</button>
+              </div> -->
+            </div>
+          <div class="title"><i class="dropdown icon"></i>Device</div>
+            <div class="content" id="devices">
+            </div>
+          <div class="title"><i class="dropdown icon"></i>System</div>
+            <div class="content">
+              <p class="transition hidden"></p>
+            </div>
+        </div>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="Relative">
+
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input class="prompt" placeholder="Search relative parts..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="right-sidebar">
+      <div class="ui button trigger-right">
+        <i class="chevron left big icon"></i>
+      </div>
+      <div class="ui styled accordion">
+        <div class="title"><i class="dropdown icon"></i>Part</div>
+          <div class="content" id="parts">
+          </div>
+        <div class="title"><i class="dropdown icon"></i>Device</div>
+          <div class="content" id="devices">
+          </div>
+        <div class="title"><i class="dropdown icon"></i>System</div>
+          <div class="content">
+            <p class="transition hidden"></p>
+          </div>
+      </div>
+    </div>
   <!-- main-contain -->
     <div id="main-contain">
       <div id="drawArea-menu">
-        <button class="ui button" id="save">save</button>
-        <button class="ui button" id="clear">clear</button>
-        <button class="ui button" id="load">load</button>
-        <button class="ui button" id="showImage">showImage</button>
+        <div class="ui large icon buttons">
+          <button class="ui grey button" id="save" data-content="Save your circuit"><i class="save icon"></i></button>
+          <button class="ui grey button" id="clear" data-content="Clear your circuit"><i class="trash outline icon"></i></button>
+          <button class="ui grey button" id="cut" data-content="Delete this part"><i class="minus icon"></i></button>
+          <button class="ui grey button" id="load"data-content="Download this image" ><i class="download icon"></i></button>
+      <!--     <button class="ui button" id="showImage"></button> -->
+        </div>
       </div>
       <div class="" id="drawArea">
           <div id="rubberband" style="border:1px solid green;display:none;"></div>

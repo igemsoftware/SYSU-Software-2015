@@ -19,6 +19,7 @@ var rightBarWidth = 400;
 var drawArea_menu = $("#drawArea-menu");
 var putPartElemList = [];
 var relationList = new Array();
+var isSelectOne = false;
 var rubberbandInstance = new Rubberband();
 var type = {
     'promoter1': 'promoter',
@@ -71,6 +72,13 @@ var relation = {
 };
 
 
+function Part() {
+    var that = this;
+    this.name = "";
+    this.relations = [];
+    this.view;
+}
+
 /**
  * @class Relation
  *
@@ -103,14 +111,14 @@ function makeItJqeryDraggable(div) {
     });
 }
 
-function addLine(partA) {
+function addPromoteAndInhibitionLine(partA) {
     var partNameA = partA.attr('part-name');
     for (var i in putPartElemList) {
         var partB = putPartElemList[i];
         var partNameB = partB.attr('part-name');
-        if (isHasRelation(partNameA, partNameB)) {
+        if (isHasPromoteOrInhibitionRelation(partNameA, partNameB)) {
             drawLine(partA, partB);
-        } else if (isHasRelation(partNameB, partNameA)) {
+        } else if (isHasPromoteOrInhibitionRelation(partNameB, partNameA)) {
             drawLine(partB, partA);
         }
     }
@@ -160,10 +168,23 @@ function getLineType(fromPartA, toPartB) {
     return "";
 }
 
-function isHasRelation(fromPartA, toPartB) {
+function isHasPromoteOrInhibitionRelation(fromPartA, toPartB) {
     for (var i in relationList) {
         if (relationList[i].fromPartA === fromPartA &&
-            relationList[i].toPartB === toPartB) {
+            relationList[i].toPartB === toPartB && 
+            (relationList[i].relationType == "promotion" ||
+                relationList[i].relationType == "inhibition")) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function isHasNormalRelation(fromPartA, toPartB) {
+    for (var i in relationList) {
+        if (relationList[i].fromPartA === fromPartA &&
+            relationList[i].toPartB === toPartB && 
+            relationList[i].relationType == "normal") {
             return true;
         }
     }
@@ -185,16 +206,37 @@ function initDesignPage() {
         var img = $("<img></img>");
         var partType = getType(each);
         var imgPath = getImagePath(partType);
-        img.addClass("ui middle aligned tiny image");
+        img.addClass("ui left floated image");
         img.attr("src", imgPath);
         img.appendTo(div);
 
-        var p = $("<p></p>");
-        p.text(each);
-        p.appendTo(div);
+        var h4 = $("<h4></h4>");
+        h4.addClass("ui no-margin");
+        h4.text(each);
+        h4.appendTo(div);
+
+        var dataDiv = $("<div></div>");
+        dataDiv.addClass("data");
+        div.appendTo(dataDiv);
+
+        var span = $("<span></span>");
+        span.text("In genetics, a promoter is a region of DNA that initiates transcription of a particular gene....");
+        span.appendTo(dataDiv);
+
+        var button = $("<button></button>");
+        button.addClass("ui mini button");
+        button.attr("data-content", "Read more about this part");
+        button.text("more");
+        button.appendTo(dataDiv);
+        button.popup();
+
+        dataDiv.appendTo($("#parts"));
+
+        var divider = $("<div></div>");
+        divider.addClass("ui inverted divider");
+        divider.appendTo($("#parts"));
 
         makeItJqeryDraggable(div);
-        div.appendTo($("#parts"));
     }
 }
 
@@ -240,6 +282,7 @@ Rubberband.prototype.diagramContainer_MouseUp = function(event) {
 }
 
 Rubberband.prototype.diagramContainer_MouseDown = function(event) {
+    if ($(event.target).attr("class") == "filterDiv") return;
     this.x = event.pageX;         
     this.y = event.pageY;
              
@@ -252,6 +295,7 @@ Rubberband.prototype.diagramContainer_Click = function(event) {
     {   
         jsPlumb.clearDragSelection();
         $(".node").each(function() {
+            isSelectOne = false;
             $(this).removeClass("selected");
         });
     }
@@ -282,6 +326,7 @@ function diagramContainer_FindSelectedItem() {
             itemOffset.left > rubberbandOffset.left &&
             itemOffset.right < rubberbandOffset.right &&
             itemOffset.bottom < rubberbandOffset.bottom) {
+            isSelectOne = true;
             $(this).addClass("selected");
  
             var elementid = $(this).attr('id');
@@ -383,6 +428,8 @@ function saveCircuitToImage() {
         }
     }); 
 }
+
+$(initDesignPage);
 //make item draggable
 $(".item").draggable({
     helper: 'clone',
@@ -446,9 +493,9 @@ $(".trigger-right").click(function() {
             right: '-' + rightBarWidth + 'px'
         }, 500);
 
-        $("#main-contain").animate({
-            right: '0px'
-        }, 500);
+        // $("#main-contain").animate({
+        //     right: '0px'
+        // }, 500);
         $("#right-sidebar .trigger-right > i").removeClass("right").addClass("left");
     } else {
         isOpenRightBar = true;
@@ -457,9 +504,9 @@ $(".trigger-right").click(function() {
             right: '0px'
         }, 500);
 
-        $("#main-contain").animate({
-            right: rightBarWidth + 'px'
-        }, 500);
+        // $("#main-contain").animate({
+        //     right: rightBarWidth + 'px'
+        // }, 500);
 
         $("#right-sidebar .trigger-right > i").removeClass("left").addClass("right");
     }
@@ -477,21 +524,72 @@ $("#drawArea").droppable({
     drop:function(e, ui) {
         var dropedElement = ui.helper.clone();
         ui.helper.remove();
-
         $(dropedElement).removeAttr("class");
+
+        var filterDiv = $("<div></div>");
+        filterDiv.addClass("filterDiv");
+        filterDiv.appendTo(dropedElement);
 
         $(dropedElement).find("img").removeAttr("class");
         dropedElement.addClass("node");
         dropedElement.appendTo('#drawArea');
-        
+        dropedElement.attr("normal-connect-num", 0);
+
         var left = $(dropedElement).position().left - leftBar.width();
         var top  = $(dropedElement).position().top - drawArea_menu.height();
 
         $(dropedElement).css({left:left, top:top});
         addDraggable(dropedElement);
-        addLine(dropedElement);
+        addPromoteAndInhibitionLine(dropedElement);
+
+        jsPlumb.makeSource(dropedElement, {
+            filter: ".filterDiv",
+            anchor: "Continuous",
+            connector: ["Flowchart"],
+            // connectorStyle: { strokeStyle: "green", lineWidth: 2 },
+            endpoint:"Blank",
+            // maxConnections: 1,
+            overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]],
+            allowLoopback: false
+            // Container: "drawArea"
+        })
+
+        jsPlumb.makeTarget(dropedElement, {
+            // maxConnections: 1,
+            dropOptions: { hoverClass: "dragHover"},
+            anchor: "Continuous",
+            endpoint:"Blank",
+            allowLoopback: false
+        })
 
         putPartElemList.push(dropedElement);
+    }
+});
+
+jsPlumb.bind("connection", function(CurrentConnection) {
+    var target = $(CurrentConnection.connection.target);
+    var source = $(CurrentConnection.connection.source);
+    var targetNormalNum = parseInt(target.attr("normal-connect-num"));
+    var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
+    if (targetNormalNum === 2 || sourceNormalNum === 2) {
+        if (targetNormalNum === 2) {
+            alert("111");
+            target.attr("data-content", "Most link to two objects");
+            target.popup('show');
+            target.popup('remove');
+        }
+        if (sourceNormalNum === 2) {
+            // alert("222");
+            source.attr("data-content", "Most link to two objects");
+            source.popup('show');
+            source.popup('remove');
+        }
+        jsPlumb.detach(CurrentConnection.connection);
+    } else {
+        targetNormalNum += 1;
+        sourceNormalNum += 1;
+        target.attr("normal-connect-num", targetNormalNum);
+        source.attr("normal-connect-num", sourceNormalNum);
     }
 });
 
@@ -522,7 +620,6 @@ var searchTitle = [
   { title: 'urea' },
   { title: 'carbon_dioxide+ammonia' },
   { title: 'lacl_gene' }
-  // etc
 ];
 
 $('.ui.search')
@@ -531,21 +628,13 @@ $('.ui.search')
   })
 ;
 
+$('.button')
+  .popup()
+;
+
 jsPlumb.ready(function() {
     jsPlumb.setContainer($("#drawArea"));
 });
-
-// $(initDesignPage);
-
-// $("#showsidebar").click(function() {
-//     $('.ui.wide.sidebar')
-//     .sidebar({
-//               'scrollLock': true,
-//               'dimPage': false,
-//               'returnScroll': true
-//             })
-//     .sidebar('toggle');
-// });
 
 addRelation('promoter1', 'lacZ_gene', 'normal');
 addRelation('arsD_protein', 'promoter1', 'inhibition');

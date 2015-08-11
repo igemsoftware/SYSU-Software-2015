@@ -51,12 +51,16 @@
 #left-sidebar .accordion {
     height: 100%;
     background: none;
-    background-color: rgba(248, 248, 248, 0.46);
+    background-color: rgba(248, 248, 248, 1);
 }
 
 #left-sidebar .accordion .title{
     color: white;
     background-color: rgba(149, 149, 149, 0.8);
+}
+
+#left-sidebar .accordion .title:hover{
+    background-color: rgba(100, 100, 100, 0.8);
 }
 
 #left-sidebar .accordion .title.active {
@@ -75,6 +79,10 @@
     width: 425px;
 }
 
+.ui.bottom.attached.tab.segment {
+    height: 100%;
+   /* overflow-x: auto;*/
+}
 
 /*======================================================*/
 #right-sidebar {
@@ -88,7 +96,7 @@
     transition: right 0.5s;
     -webkit-transition: left 0.5s;   /* Safari 和 Chrome */
     background-color: rgba(228, 228, 228, 0.46);
-    -moz-box-shadow: -5px 2px 10px #989898;/*firefox*/  
+    -moz-box-shadow: -5px 2px 10px #989898;/*firefox  
     -webkit-box-shadow: -5px 2px 10px #989898;/*webkit*/  
     box-shadow: -5px 2px 10px #989898;/*opera或ie9*/  
 }
@@ -148,6 +156,12 @@
     background-color: rgba(179, 179, 179, 0.9);
 }
 
+/*======================================================*/
+#drawArea-menu button {
+    background-color: rgba(179, 179, 179);
+}
+
+
 .selected {
     border: 2px solid #09FF0B;
 }
@@ -171,4 +185,20 @@
 
 #rubberband {
     border: 2px solid #FF949B !important;
+}
+
+.filterDiv {
+    position: absolute;
+    bottom: 30%;
+    right: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: #FFA500;
+    cursor: pointer;
+    box-shadow: 0px 0px 2px #000;
+    transition: box-shadow 0.25s ease-in 0s;
+}
+
+.dragHover { 
+    border: 2px solid orange;
 }
