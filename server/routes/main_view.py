@@ -58,4 +58,19 @@ def data_fetch_adjmatrix():
 
     return jsonify(adjmatrix=l)
 
+@main.route('/data/fetch/device')
+def data_fetch_device():
+    devices = [] 
+    for w in Work.query.filter_by(type='device').all():
+        w.update_from_db()
+        devices.append({'title': w.title,
+                  'parts': map(lambda x: x.jsonify(), w.parts),
+                  'relationship': w.relationship,
+                  'interfaceA': w.interfaceA,
+                  'interfaceB': w.interfaceB
+                  })
+
+    return jsonify(deviceList=devices)
+
+
 

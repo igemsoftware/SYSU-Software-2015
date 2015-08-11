@@ -1,0 +1,12 @@
+# title
+# the source, protocol and other stuff
+# type
+# interfaceA,interfaceB
+# table of the devices
+# table of the devices
+# table of the devices
+# table of the devices
+# table of the devices
+# table of the devices
+# table of the devices
+# A, A type, B, B type, relationship type
