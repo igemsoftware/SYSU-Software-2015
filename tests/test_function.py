@@ -6,11 +6,11 @@ from server import db
 class TestWork(TestCase):
 
     def test_component(self):
-        c = ComponentInstance(2)
-        assert c.name == 'Promotor'
+        c = ComponentInstance('Promotor')
+        assert c.id == 'Promotor'
 
         c = ComponentInstance(100)
-        assert c.name == 'None'
+        assert c.id == 'None'
 
     def test_relationship(self):
         pro = ComponentPrototype.query.get(2)
@@ -27,31 +27,31 @@ class TestWork(TestCase):
 
     
     def test_work(self):
-        w = Work(title='test', log='asdf')
+        w = Work(title='test', doc='asdf')
         w.commit_to_db() # use this method to commit
 
-        assert w.components == [] 
-        assert w.connections == [] 
+        assert w.parts == [] 
+        assert w.relationship == [] 
 
-        w.add_component_by_id(2)
-        assert len(w.components) == 1
-        assert w.components[0].x == 0.0
+        c1 = w.add_component_by_id(2)
+        assert len(w.parts) == 1
+        assert w.parts[0].positionX == 300.0
 
-        w.add_component_by_id(2, alias='Promotor 2', x=0.3)
-        w.add_component_by_name('foo', alias='haha 3')
-        w.add_connection(1, 2, 'Promote')
+        c2 = w.add_component_by_id(2, id='Promotor 2', positionX=0.3)
+        w.add_component_by_name('foo', id='haha 3')
+        w.add_connection(c1.id, c2.id, 'Promote')
 
         w.commit_to_db() # use this method to commit
         w.update_from_db() # use this method to get
 
-        assert w.components[1].local_id == 1
-        assert w.components[1].x == 0.3
-        assert w.components[0].alias == 'Promotor'
-        assert w.components[1].alias == 'Promotor 2'
-        assert w.components[2].name == 'None'
-        assert w.connections[0]['from'] == 1
-        assert w.connections[0]['to'] == 2
-        assert w.connections[0]['relationship'] == 'Promote'
+        assert w.parts[1].positionX == 0.3
+        assert w.parts[0].id == 'Promotor'
+        assert w.parts[1].id == 'Promotor 2'
+        assert w.parts[2].id == 'None'
+        assert w.relationship[0]['start'] == c1.id
+        assert w.relationship[0]['end'] == c2.id
+        assert w.relationship[0]['type'] == 'Promote'
+
 
 
 
