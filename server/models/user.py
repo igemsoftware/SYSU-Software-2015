@@ -218,7 +218,18 @@ class User(UserMixin, db.Model):
 #                  'auth/email/reset_password', user=self, token=token)
 #       flash('Reset comfirm email has been sent')
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+
+
+from flask.ext.login import AnonymousUserMixin
+
+class AnonymousUser(AnonymousUserMixin):
+    pass 
+
+login_manager.anonymous_user = AnonymousUser
+
+

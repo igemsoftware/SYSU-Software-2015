@@ -11,6 +11,7 @@ class TestCase(_TestCase):
         return app
 
     def setUp(self):
+        db.drop_all()
         db.create_all()
 
         # administrator
@@ -24,9 +25,11 @@ class TestCase(_TestCase):
         db.session.commit()
 
         # add testing component prototype
-        c = ComponentPrototype(name='Test Part1', doc='This is test part no. 1', sequence='ATCG')
-        db.session.add(c)
+        pro = ComponentPrototype(name='Promotor', doc='I\'m Promotor', sequence='')
+        rbs = ComponentPrototype(name='RBS', doc='I\'m RBS', sequence='')
+        db.session.add_all([pro, rbs])
         db.session.commit()
+
 
     def tearDown(self):
         db.session.remove()

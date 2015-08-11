@@ -2,15 +2,13 @@ from server import create_app, db
 from flask.ext.script import Manager, Shell, Command
 #from flask.ext.migrate import Migrate, MigrateCommand
 
-from server.models import User, Track, Message, Task, Comment, Memo
-from server.models import Work, ComponentPrototype 
+from server.models import * 
 
 app = create_app('default')
 
 manager = Manager(app)
 def make_shell_context():
-    return dict(app=app, db=db, User=User, Track=Track,
-            Message=Message, Task=Task, Comment=Comment, Memo=Memo) 
+    return dict(app=app, db=db, **manager_dict)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 
 #migrate = Migrate(app, db)
@@ -71,28 +69,69 @@ def init(slient=False):
         print bcolors.OKGREEN+'OK'+'\nInit done.'+bcolors.ENDC
 
 @manager.command
-def testinit(slient=False):
-    init(slient)
+def testinit(slient=False, noinit=False):
+    if not noinit: init(slient)
     with app.app_context():
         if not slient: print bcolors.HEADER+'Adding test components ...',
         # add testing component prototype
-        c = ComponentPrototype(name='Gene 1', doc='This is test part no. 1', sequence='ATCG')
-        db.session.add(c)
+        prototypes = [
+                        ('Pcon', 'Promoter'),
+                        ('Luxl', 'Gene'),
+                        ('CheZ', 'Gene'),
+                        ('CHeZ', 'Gene'),
+                        ('A-RBS', 'RBS'),
+                        ('AHL', 'Chemical'),
+                        ('Cl', 'Gene'),
+                        ('Plux', 'Promoter'),
+                        ('RBS', 'RBS'),
+                        ('Pluxl', 'Protein'),
+                        ('Pcl', 'Promoter'),
+                        ('homoserine', 'Chemical'),
+                        ('tetr', 'Gene'),
+                        ('Ptet', 'Promoter'),
+                        ('Plux/Cl', 'Promoter'),
+                        ('LuxR', 'Gene'),
+                        ('PluxR', 'Protein')
+                     ]
+        for prototype, type in prototypes:
+            p = ComponentPrototype(name=prototype, doc='', sequence='', type=type)
+            db.session.add(p)
         db.session.commit()
-        c = ComponentPrototype(name='Gene 2', doc='This is test part no. 2', sequence='')
-        db.session.add(c)
+
+        relationships = [
+                         ('RBS', 'Cl', 'normal'),
+                         ('homoserine', 'PluxR', 'normal'),
+                         ('Pcl', 'RBS', 'normal'),
+                         ('Luxl', 'RBS', 'normal'),
+                         ('RBS', 'CHeZ', 'normal'),
+                         ('AHL', 'PluxR', 'normal'),
+                         ('Ptet', 'RBS', 'normal'),
+                         ('tetr', 'Ptet', 'inhibition'),
+                         ('homoserine', 'AHL', 'normal'),
+                         ('LuxR', 'PluxR', 'promotion'),
+                         ('RBS', 'tetr', 'normal'),
+                         ('RBS', 'CheZ', 'normal'),
+                         ('Plux/Cl', 'RBS', 'normal'),
+                         ('CHeZ', 'Pcl', 'normal'),
+                         ('Cl', 'Plux/Cl', 'inhibition'),
+                         ('Cl', 'Pcl', 'inhibition'),
+                         ('Luxl', 'Pluxl', 'promotion'),
+                         ('Pluxl', 'homoserine', 'normal'),
+                         ('PluxR', 'Plux/Cl', 'promotion'),
+                         ('Plux', 'RBS', 'normal'),
+                         ('RBS', 'LuxR', 'normal'),
+                         ('Pcon', 'A-RBS', 'normal'),
+                         ('PluxR', 'Plux', 'promotion'),
+                         ('LuxR', 'Pcon', 'normal'),
+                         ('A-RBS', 'Cl', 'normal'),
+                         ('A-RBS', 'Luxl', 'normal')
+                        ]
+        for start, end, type in relationships:
+            s = ComponentPrototype.query.filter_by(name=start).first()
+            e = ComponentPrototype.query.filter_by(name=end).first()
+            r = Relationship(start=s, end=e, type=type)
+            db.session.add(r)
         db.session.commit()
-
-        w = Work(title='test', log='asdf')
-        w.commit_to_db() # use this method to commit
-
-        w.add_component_by_id(2, alias='part 1 (gene 1)')
-        w.add_component_by_id(2, alias='part 2 (gene 1)')
-        w.add_component_by_id(3, alias='part 3 (gene 2)')
-        w.add_connection(1, 2, 'promote')
-
-        w.commit_to_db() # use this method to commit
-        w.update_from_db() # use this method to get
 
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
 
