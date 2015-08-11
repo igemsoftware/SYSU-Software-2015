@@ -31,14 +31,14 @@ def work_check_and_update(work_id):
     return w
 
 @main.route('/data/fetch/parts')
-def work_fetch_parts():
+def data_fetch_parts():
     l = {} 
     for c in ComponentPrototype.query.all():
         l[c.name] = c.type
     return jsonify(parts=l)
 
 @main.route('/data/fetch/relationship')
-def work_fetch_relationship():
+def data_fetch_relationship():
     l = []
     for r in Relationship.query.all():
         l.append({'start': r.start.name,
@@ -46,14 +46,14 @@ def work_fetch_relationship():
                   'type': r.type})
     return jsonify(relationship=l)
 
-@main.route('/data/fetch/cmatrix')
-def work_fetch_cmatrix():
+@main.route('/data/fetch/adjmatrix')
+def data_fetch_adjmatrix():
     l = {} 
     for c in ComponentPrototype.query.all():
         l[c.name] = list(set(map(lambda x: x.end.name, c.point_to.all()) + 
                              map(lambda x: x.start.name, c.be_point.all())
                             ))
 
-    return jsonify(cmatrix=l)
+    return jsonify(adjmatrix=l)
 
 
