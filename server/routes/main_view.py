@@ -20,7 +20,7 @@ def design():
     return render_template('design.html')
 
 
-from ..models import Work, ComponentPrototype, ComponentInstance
+from ..models import Work, ComponentPrototype, ComponentInstance, Relationship
 from flask import jsonify
 
 def work_check_and_update(work_id):
