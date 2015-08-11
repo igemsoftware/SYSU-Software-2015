@@ -34,6 +34,7 @@ def work_check_and_update(work_id):
 def data_fetch_parts():
     l = {} 
     for c in ComponentPrototype.query.all():
+        if c.id == 1: continue
         l[c.name] = c.type
     return jsonify(parts=l)
 
@@ -50,6 +51,7 @@ def data_fetch_relationship():
 def data_fetch_adjmatrix():
     l = {} 
     for c in ComponentPrototype.query.all():
+        if c.id == 1: continue
         l[c.name] = list(set(map(lambda x: x.end.name, c.point_to.all()) + 
                              map(lambda x: x.start.name, c.be_point.all())
                             ))
