@@ -20,7 +20,7 @@ def design():
     return render_template('design.html')
 
 
-from ..models import Work, ComponentPrototype, ComponentInstance
+from ..models import Work, ComponentPrototype, ComponentInstance, Relationship
 from flask import jsonify
 
 def work_check_and_update(work_id):
@@ -30,21 +30,30 @@ def work_check_and_update(work_id):
     w.update_from_db()
     return w
 
-@main.route('/work/fetch/parts/<int:id>')
-def work_fetch_parts(id):
-    w = work_check_and_update(id)
+@main.route('/data/fetch/parts')
+def work_fetch_parts():
+    l = {} 
+    for c in ComponentPrototype.query.all():
+        l[c.name] = c.type
+    return jsonify(parts=l)
 
-    return jsonify(parts=map(lambda x: x.jsonify(), w.components))
+@main.route('/data/fetch/relationship')
+def work_fetch_relationship():
+    l = []
+    for r in Relationship.query.all():
+        l.append({'start': r.start.name,
+                  'end': r.end.name,
+                  'type': r.type})
+    return jsonify(relationship=l)
 
-@main.route('/work/fetch/relationship/<int:id>')
-def work_fetch_relationship(id):
-    w = work_check_and_update(id)
-    
-    return jsonify(relationship=w.connections)
+@main.route('/data/fetch/cmatrix')
+def work_fetch_cmatrix():
+    l = {} 
+    for c in ComponentPrototype.query.all():
+        l[c.name] = list(set(map(lambda x: x.end.name, c.point_to.all()) + 
+                             map(lambda x: x.start.name, c.be_point.all())
+                            ))
 
-@main.route('/work/fetch/cmatrix/<int:id>')
-def work_fetch_cmatrix(id):
-    w = work_check_and_update(id)
+    return jsonify(cmatrix=l)
 
-    return jsonify(cmatrix=w.get_connected_matrix())
 

@@ -37,26 +37,34 @@
 from .. import db
 import json
 
+class Relationship(db.Model):
+    start_id = db.Column(db.Integer, db.ForeignKey('componentprototypes.id'),
+                            primary_key=True)
+    end_id = db.Column(db.Integer, db.ForeignKey('componentprototypes.id'),
+                            primary_key=True)
+    type = db.Column(db.String(64), default='normal')
+
 class ComponentPrototype(db.Model):
+    __tablename__ = 'componentprototypes'
+    
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String, unique=True)
-    # url, descriptions or something
     doc = db.Column(db.Text) 
-    # DNA sequence. The component is a not a DNA sequence if sequence is empty  
-    sequence = db.Column(db.String, default='')
+    sequence = db.Column(db.Text, default='')
     # picture ...
-
-    # Instances of this Component 
-    # instances = db.relationship('ComponentInstance', backref='prototype', lazy='dynamic')
-    # instance is in json 
-
-    def jsonify(self):
-        return {
-                'name': self.name,
-                'doc' : self.doc,
-                'sequence': self.sequence 
-               }
+    
+    point_to = db.relationship('Relationship', 
+                               foreign_keys=[Relationship.start_id],
+                               backref=db.backref('start', lazy='joined'),
+                               lazy='dynamic',
+                               cascade='all, delete-orphan')
+    be_point = db.relationship('Relationship', 
+                               foreign_keys=[Relationship.end_id],
+                               backref=db.backref('end', lazy='joined'),
+                               lazy='dynamic',
+                               cascade='all, delete-orphan')
+    type = db.Column(db.String(64), default='None')
 
 class ComponentInstance():
     def __init__(self, prototype_id, alias=None, x=0., y=0., local_id=-1):
@@ -78,9 +86,9 @@ class ComponentInstance():
 
     def jsonify(self):
         return {
+                    'alias': self.alias,
                     'local_id': self.local_id,
                     'prototype_id': self.prototype_id,
-                    'alias': self.alias,
                     'x': self.x,
                     'y': self.y,
                }
@@ -108,7 +116,7 @@ class Work(db.Model):
         json_obj = json.loads(self.content)
         self.components = map(lambda x: ComponentInstance(**x), json_obj['components'])
         self.connections = json.loads((json_obj['connections'] ))
-
+        
     def commit_to_db(self):
 #        print self.connections
         json_obj = {
@@ -128,6 +136,7 @@ class Work(db.Model):
         c = ComponentInstance(prototype_id=component_id, local_id=self.local_id, **kwargs)
         self.local_id += 1
         self.components.append(c)
+        return c
 
     def add_component_by_name(self, component_name, **kwargs):
         c_prototype = ComponentPrototype.query.filter_by(name=component_name).all()
@@ -139,10 +148,9 @@ class Work(db.Model):
         c = ComponentInstance(prototype_id=c_prototype.id, local_id=self.local_id, **kwargs)
         self.local_id += 1
         self.components.append(c)
+        return c
 
     def add_connection(self, x, y, r):
-#        if x > y:
-#            x, y = y, x
         self.connections.append({'from':x, 'to':y, 'relationship':r})
 
     # how to select a component? 
