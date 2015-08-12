@@ -74,22 +74,22 @@ class ComponentPrototype(db.Model):
 
 class ComponentInstance():
 # jingjin's Model
-    def __init__(self, prototype, id=None, positionX=300., positionY=300.):
-        c = ComponentPrototype.query.filter_by(name=prototype).first()
+    def __init__(self, partName, partID=None, positionX=300., positionY=300.):
+        c = ComponentPrototype.query.filter_by(name=partName).first()
         if c is None:
-            print 'No prototype named %s' % prototype
-            id = prototype = 'None'
-            c = ComponentPrototype.query.filter_by(name=prototype).first()
+            print 'No prototype named %s' % partName 
+            partID = partName = 'None'
+            c = ComponentPrototype.query.filter_by(name=partName).first()
 
-        self.id = id if id else prototype
-        self.prototype = prototype
+        self.partID = partID if partID else partName 
+        self.partName = partName 
         self.positionX = positionX
         self.positionY = positionY
 
     def jsonify(self):
         return {
-                    'id': self.id,
-                    'prototype': self.prototype,
+                    'partID': self.partID,
+                    'partName': self.partName,
                     'positionX': self.positionX,
                     'positionY': self.positionY,
                }
@@ -172,12 +172,12 @@ class Work(db.Model):
         c_prototype = ComponentPrototype.query.get(prototype_id)
         if not c_prototype: 
             c_prototpye = ComponentPrototype.query.get(1)
-        c = ComponentInstance(prototype=c_prototype.name, **kwargs)
+        c = ComponentInstance(partName=c_prototype.name, **kwargs)
         self.parts.append(c)
         return c
 
     def add_component_by_name(self, component_name, **kwargs):
-        c = ComponentInstance(prototype=component_name, **kwargs)
+        c = ComponentInstance(partName=component_name, **kwargs)
         self.parts.append(c)
         return c
 
@@ -204,10 +204,10 @@ class Work(db.Model):
 
         # add component if not exist
         if new_instance:
-            instance = self.add_component_by_name(pname, id=name)
+            instance = self.add_component_by_name(pname, partID=name)
         else:
             for ins in self.parts:
-                if ins.id==name:
+                if ins.partID==name:
                     instance = ins
                     break
 
@@ -241,11 +241,12 @@ class Work(db.Model):
                 db.session.add(r)
 
             # add relationship for instance
-            self.add_connection(A_instance.id, B_instance.id, R_type)
-
+            self.add_connection(A_instance.partID, B_instance.partID, R_type)
         self.commit_to_db()
+
         from pprint import pprint
         pprint(json.loads(self.content))
+        
         return self
 
 
