@@ -73,65 +73,11 @@ def testinit(slient=False, noinit=False):
     if not noinit: init(slient)
     with app.app_context():
         if not slient: print bcolors.HEADER+'Adding test components ...',
-        # add testing component prototype
-        prototypes = [
-                        ('Pcon', 'Promoter'),
-                        ('Luxl', 'Gene'),
-                        ('CheZ', 'Gene'),
-                        ('CHeZ', 'Gene'),
-                        ('A-RBS', 'RBS'),
-                        ('AHL', 'Chemical'),
-                        ('Cl', 'Gene'),
-                        ('Plux', 'Promoter'),
-                        ('RBS', 'RBS'),
-                        ('Pluxl', 'Protein'),
-                        ('Pcl', 'Promoter'),
-                        ('homoserine', 'Chemical'),
-                        ('tetr', 'Gene'),
-                        ('Ptet', 'Promoter'),
-                        ('Plux/Cl', 'Promoter'),
-                        ('LuxR', 'Gene'),
-                        ('PluxR', 'Protein')
-                     ]
-        for prototype, type in prototypes:
-            p = ComponentPrototype(name=prototype, doc='', sequence='', type=type)
-            db.session.add(p)
-        db.session.commit()
 
-        relationships = [
-                         ('RBS', 'Cl', 'normal'),
-                         ('homoserine', 'PluxR', 'normal'),
-                         ('Pcl', 'RBS', 'normal'),
-                         ('Luxl', 'RBS', 'normal'),
-                         ('RBS', 'CHeZ', 'normal'),
-                         ('AHL', 'PluxR', 'normal'),
-                         ('Ptet', 'RBS', 'normal'),
-                         ('tetr', 'Ptet', 'inhibition'),
-                         ('homoserine', 'AHL', 'normal'),
-                         ('LuxR', 'PluxR', 'promotion'),
-                         ('RBS', 'tetr', 'normal'),
-                         ('RBS', 'CheZ', 'normal'),
-                         ('Plux/Cl', 'RBS', 'normal'),
-                         ('CHeZ', 'Pcl', 'normal'),
-                         ('Cl', 'Plux/Cl', 'inhibition'),
-                         ('Cl', 'Pcl', 'inhibition'),
-                         ('Luxl', 'Pluxl', 'promotion'),
-                         ('Pluxl', 'homoserine', 'normal'),
-                         ('PluxR', 'Plux/Cl', 'promotion'),
-                         ('Plux', 'RBS', 'normal'),
-                         ('RBS', 'LuxR', 'normal'),
-                         ('Pcon', 'A-RBS', 'normal'),
-                         ('PluxR', 'Plux', 'promotion'),
-                         ('LuxR', 'Pcon', 'normal'),
-                         ('A-RBS', 'Cl', 'normal'),
-                         ('A-RBS', 'Luxl', 'normal')
-                        ]
-        for start, end, type in relationships:
-            s = ComponentPrototype.query.filter_by(name=start).first()
-            e = ComponentPrototype.query.filter_by(name=end).first()
-            r = Relationship(start=s, end=e, type=type)
-            db.session.add(r)
-        db.session.commit()
+        # add testing component prototype
+        if app.config.has_key('INIT_PRELOAD_WORKS'):
+            for filename in app.config['INIT_PRELOAD_WORKS']:
+                w = Work().load_from_file(filename)
 
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
 
