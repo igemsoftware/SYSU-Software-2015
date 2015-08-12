@@ -41,7 +41,7 @@ def init(slient=False):
 
         # add empty component prototype
         if not slient: print bcolors.OKGREEN+'OK'+bcolors.HEADER+'\nCreating None prototype ...',
-        c = ComponentPrototype(name='None', doc='This is the empty component', sequence='')
+        c = ComponentPrototype(name='None', introduction='This is the empty component')
         db.session.add(c)
         db.session.commit()
 

@@ -32,10 +32,15 @@ def work_check_and_update(work_id):
 
 @main.route('/data/fetch/parts')
 def data_fetch_parts():
-    l = {} 
+    l = [] 
     for c in ComponentPrototype.query.all():
         if c.id == 1: continue
-        l[c.name] = c.type
+        l.append( {'name': c.name,
+                   'introduction': c.introduction,
+                   'source': c.source,
+                   'safe_rank': c.safe_rank,
+                   'type': c.type
+                   })
     return jsonify(parts=l)
 
 @main.route('/data/fetch/relationship')
@@ -67,7 +72,10 @@ def data_fetch_device():
                   'parts': map(lambda x: x.jsonify(), w.parts),
                   'relationship': w.relationship,
                   'interfaceA': w.interfaceA,
-                  'interfaceB': w.interfaceB
+                  'interfaceB': w.interfaceB,
+                   'introduction': w.introduction,
+                   'source': w.source,
+                   'safe_rank': w.safe_rank,
                   })
 
     return jsonify(deviceList=devices)

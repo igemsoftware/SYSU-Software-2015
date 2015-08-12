@@ -1,5 +1,7 @@
 # title
-# the source, protocol and other stuff
+# introduction
+# source
+# safe_rank
 # type
 # interfaceA,interfaceB
 # table of the devices

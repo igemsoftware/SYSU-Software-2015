@@ -53,9 +53,10 @@ class ComponentPrototype(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String, unique=True)
-    doc = db.Column(db.Text) 
-    sequence = db.Column(db.Text, default='')
-    # picture ...
+
+    introduction = db.Column(db.Text, default="No introduction yet.")
+    source = db.Column(db.Text, default="Come from no where.")
+    safe_rank = db.Column(db.String(128), default="Unknow")
     
     point_to = db.relationship('Relationship', 
                                foreign_keys=[Relationship.start_id],
@@ -129,8 +130,12 @@ class Work(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     title = db.Column(db.String(32))
-    doc = db.Column(db.Text)
     type = db.Column(db.String(32), default='Normal')
+
+    introduction = db.Column(db.Text, default="No introduction yet.")
+    source = db.Column(db.Text, default="Come from no where.")
+    safe_rank = db.Column(db.String(128), default="Unknow")
+
 
     content = db.Column(db.Text)
 
@@ -217,7 +222,9 @@ class Work(db.Model):
         print 'loading %s ...' % filename
         f = open(filename, 'r')
         self.title = f.readline().strip()
-        self.doc = f.readline().strip()
+        self.introduction = f.readline().strip()
+        self.source = f.readline().strip()
+        self.saferank = f.readline().strip()
         self.type = f.readline().strip()
         self.interfaceA, self.interfaceB = f.readline().strip().split(',') 
 
