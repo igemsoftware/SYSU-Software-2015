@@ -21,7 +21,7 @@ class Config:
     UPLOAD_FOLDER_FULL = 'server/files' # for other apps
     ALLOWED_EXTENSIONS = set(['jpg','png','jpeg'])
     MAX_CONTENT_LENGTH = 4 * 1024 * 1024 # 4MB
-    PICTURE_CROP_SIZE = (50, 50)
+    PICTURE_CROP_SIZE = (50, 50) 
 
     @staticmethod
     def init_app(app):
@@ -30,6 +30,12 @@ class Config:
 class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///sysu2015_dev.db"
+
+    # init
+    INIT_PRELOAD_WORKS = ['server/models/devices/NJU2013-1.txt',
+                          'server/models/devices/NJU2013-2.txt',
+                          'server/models/devices/NJU2013-3.txt']
+
 
 class ProductionConfig(Config):
     DEBUG = False 

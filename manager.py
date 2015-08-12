@@ -75,9 +75,9 @@ def testinit(slient=False, noinit=False):
         if not slient: print bcolors.HEADER+'Adding test components ...',
 
         # add testing component prototype
-        w = Work().load_from_file('server/models/devices/NJU2013-1.txt')
-        w = Work().load_from_file('server/models/devices/NJU2013-2.txt')
-        w = Work().load_from_file('server/models/devices/NJU2013-3.txt')
+        if app.config.has_key('INIT_PRELOAD_WORKS'):
+            for filename in app.config['INIT_PRELOAD_WORKS']:
+                w = Work().load_from_file(filename)
 
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
 
