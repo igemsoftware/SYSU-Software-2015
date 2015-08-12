@@ -10,11 +10,11 @@ A-RBS_2	RBS	Luxl_1	gene	normal
 Luxl_1	gene	Pluxl_1	protein	promotion
 Luxl_1	gene	RBS_1	RBS	normal
 RBS_1	RBS	LuxR_1	gene	normal
-LuxR_1	gene	PluxR_1	Protein	promotion
+LuxR_1	gene	PluxR_1	protein	promotion
 Pluxl_1	protein	homoserine_1	chemical	normal
 homoserine_1	chemical	AHL_1	chemical	normal
-AHL_1	chemical	PluxR_1	Protein	normal
-PluxR_1	Protein	Plux/Cl_1	promoter	promotion
+AHL_1	chemical	PluxR_1	protein	normal
+PluxR_1	protein	Plux/Cl_1	promoter	promotion
 Cl_1	gene	Plux/Cl_1	promoter	inhibition
 Plux/Cl_1	promoter	RBS_2	RBS	normal
 RBS_2	RBS	CheZ_1	gene	normal
