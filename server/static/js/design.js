@@ -18,66 +18,19 @@ var leftBarWidth = 400;
 var rightBarWidth = 400;
 var drawArea_menu = $("#drawArea-menu");
 var putPartElemList = [];
-var relationList = new Array();
+var relationFromAtoB = [];
 var isSelectOne = false;
 var rubberbandInstance = new Rubberband();
-var type = {
-    'promoter1': 'promoter',
-    'promoter2': 'promoter',
-    'promoter3': 'promoter',
-    'promoter4': 'promoter',
-    'lacZ_gene': 'gene',
-    'lacZ_protein': 'protein',
-    'lactose': 'factor',
-    'lactose_acid+acetic_acid': 'factor',
-    's-gal': 'factor',
-    'black_factor': 'factor',
-    'promoter_pompc': 'promoter',
-    'arsD_protein': 'protein',
-    'arsD_gene': 'gene',
-    'arsenic_ion': 'factor',
-    'arsR_proteion': 'protein',
-    'arsR_gene': 'gene',
-    'CI_gene': 'gene',
-    'CI_protein': 'protein',
-    'lacl_protein': 'protein',
-    'urease_gene': 'gene',
-    'urease_protein': 'protein',
-    'urea': 'factor',
-    'carbon_dioxide+ammonia': 'factor',
-    'lacl_gene': 'gene'
-};
+var typeTable = [];
+var relationAdjmatrix = [];
+var isProOrInhiLink = false;
+var isConnectPart = true;
+var isMinusOpen = false;
+var devicesList = [];
+var partCount = 0;
+var searchTitle = [];
 
-var relation = {
-    'promoter1': ['lacZ_gene', 'arsD_protein', 'arsD_gene'],
-    'lacZ_gene':['lacZ_protein', 'promoter_pompc', 'promot er1'],
-    'lacZ_protein':['lactose', 's-gal', 'lacZ_gene'],
-    'lactose':['lactose_acid+acetic_acid', 'lacZ_protein'],
-    's-gal':['black_factor', 'lacZ_protein'],
-    'promoter_pompc':['lacZ_gene'],
-    'arsD_protein':['arsD_gene', 'arsenic_ion', 'promoter1'],
-    'arsD_gene': ['arsD_protein', 'promoter1'],
-    'arsenic_ion':['arsR_proteion', 'arsD_protein', 'lacl_protein'],
-    'arsR_proteion':['arsR_gene', 'arsenic_ion'],
-    'arsR_gene':['CI_gene', 'promoter2', 'arsR_proteion'],
-    'promoter2':['arsR_gene'],
-    'CI_gene':['CI_protein','arsR_gene'],
-    'CI_protein':['promoter4', 'CI_gene'],
-    'promoter4':['lacl_protein', 'urease_gene', 'CI_protein'],
-    'lacl_protein':['lacl_gene', 'promoter4'],
-    'lacl_gene':['promoter3', 'lacl_protein'],
-    'urease_gene':['urease_protein', 'promoter4'],
-    'urease_protein':['urea','urease_gene'],
-    'urea':['carbon_dioxide+ammonia', 'urease_protein']
-};
-
-
-function Part() {
-    var that = this;
-    this.name = "";
-    this.relations = [];
-    this.view;
-}
+var flowChartJson = {};
 
 /**
  * @class Relation
@@ -94,7 +47,7 @@ function Relation(fromPartA, toPartB, relationType) {
 }
 
 function getType(part) {
-    return type[part];
+    return typeTable[part];
 };
 
 function getImagePath(type, imgSize) {
@@ -117,20 +70,23 @@ function addPromoteAndInhibitionLine(partA) {
         var partB = putPartElemList[i];
         var partNameB = partB.attr('part-name');
         if (isHasPromoteOrInhibitionRelation(partNameA, partNameB)) {
-            drawLine(partA, partB);
+            var lineType = getLineType(partNameA, partNameB);
+            drawLine(partA, partB, lineType);
         } else if (isHasPromoteOrInhibitionRelation(partNameB, partNameA)) {
-            drawLine(partB, partA);
+            var lineType = getLineType(partNameB, partNameA);
+            drawLine(partB, partA, lineType);
         }
     }
 }
 
-function drawLine(fromPartA, toPartB) {
+function drawLine(fromPartA, toPartB, lineType) {
     var that = this;
-    var fromPartNameA = fromPartA.attr('part-name');
-    var fromPartNameB = toPartB.attr('part-name');
-    var lineType = getLineType(fromPartNameA, fromPartNameB);
+    // var fromPartNameA = fromPartA.attr('part-name');
+    // var fromPartNameB = toPartB.attr('part-name');
     var overlaysClass = getOverLaysClass(lineType);
     var strokeStyle = getStorkeStyle(lineType);
+    // var anchor = getAnchorStyle(lineType);
+    isProOrInhiLink = true;
     jsPlumb.connect({
         connector: ["Flowchart"],
         anchor: "Continuous",
@@ -142,9 +98,18 @@ function drawLine(fromPartA, toPartB) {
         overlays: [overlaysClass],
         // overlays: [['Arrow', {width:25, length: 15, location:1, foldback:0.3}]],
         allowLoopback: true,
-        Container: "drawArea"
+        Container: "drawArea",
+        scope: lineType
     });
 }
+
+// function getAnchorStyle(lineType) {
+//     if (lineType == "normal") {
+//         return ["Continuous", { faces:[ "left", "right" ] }];
+//     } else if (lineType == "inhibition" || lineType == "promotion") {
+//         return ["Continuous", { faces:[ "top", "bottom"] }];
+//     }
+// }
 
 function getStorkeStyle(lineType) {
     if (lineType == 'normal') return "green";
@@ -159,21 +124,21 @@ function getOverLaysClass(lineType) {
 }
 
 function getLineType(fromPartA, toPartB) {
-    for (var i in relationList) {
-        if (relationList[i].fromPartA === fromPartA &&
-            relationList[i].toPartB === toPartB) {
-            return relationList[i].relationType;
+    for (var i in relationFromAtoB) {
+        if (relationFromAtoB[i].start === fromPartA &&
+            relationFromAtoB[i].end === toPartB) {
+            return relationFromAtoB[i].type;
         }
     }
     return "";
 }
 
 function isHasPromoteOrInhibitionRelation(fromPartA, toPartB) {
-    for (var i in relationList) {
-        if (relationList[i].fromPartA === fromPartA &&
-            relationList[i].toPartB === toPartB && 
-            (relationList[i].relationType == "promotion" ||
-                relationList[i].relationType == "inhibition")) {
+    for (var i in relationFromAtoB) {
+        if (relationFromAtoB[i].start === fromPartA &&
+            relationFromAtoB[i].end === toPartB && 
+            (relationFromAtoB[i].type == "promotion" ||
+                relationFromAtoB[i].type == "inhibition")) {
             return true;
         }
     }
@@ -181,23 +146,25 @@ function isHasPromoteOrInhibitionRelation(fromPartA, toPartB) {
 }
 
 function isHasNormalRelation(fromPartA, toPartB) {
-    for (var i in relationList) {
-        if (relationList[i].fromPartA === fromPartA &&
-            relationList[i].toPartB === toPartB && 
-            relationList[i].relationType == "normal") {
+    for (var i in relationFromAtoB) {
+        if (relationFromAtoB[i].start === fromPartA &&
+            relationFromAtoB[i].end === toPartB && 
+            relationFromAtoB[i].type == "normal") {
             return true;
         }
     }
     return false;
 }
 
-function addRelation(fromPartA, toPartB, relationType) {
-    relationList.push(new Relation(fromPartA, toPartB, relationType))
-}
+// function addRelation(fromPartA, toPartB, relationType) {
+//     relationFromAtoB.push(new Relation(fromPartA, toPartB, relationType))
+// }
 
 function initDesignPage() {
     //create left-bar data list
-    for (var each in type) {
+    for (var each in typeTable) {
+        searchTitle.push({title: each});
+        
         var div = $("<div></div>");
         div.attr('id', each);
         div.attr('part-name', each);
@@ -336,50 +303,109 @@ function diagramContainer_FindSelectedItem() {
 }
 
 function saveCircuitchart(){
-    var nodes = []
+    var parts = []
     $(".node").each(function (idx, elem) {
         var $elem = $(elem);
-        nodes.push({
+        parts.push({
+            partID: $elem.attr('part-id'),
             partName: $elem.attr('part-name'),
             positionX: parseInt($elem.css("left"), 10),
             positionY: parseInt($elem.css("top"), 10)
         });
     });
 
+    var connections = [];
+    $.each(jsPlumb.getAllConnections(), function (idx, CurrentConnection) {
+        connections.push({
+            start: $(CurrentConnection.source).attr("part-id"),
+            end: $(CurrentConnection.target).attr("part-id"),
+            type: CurrentConnection.scope
+        });
+    });
+
     var curcuitChart = {};
-    curcuitChart.nodes = nodes;
+    curcuitChart.parts = parts;
+    curcuitChart.title = "curcuit1";
+    curcuitChart.relationship = connections;
+    curcuitChart.interfaceA = "Pcl_1";
+    curcuitChart.interfaceB = "cl_1";
 
-    var flowChartJson = JSON.stringify(curcuitChart);
+    flowChartJson = JSON.stringify(curcuitChart);
 
-    $('#jsonOutput').val(flowChartJson);
+    // console.log(flowChartJson);
 }
 
-function loadCircuitchart(){
-    var circuitChartJson = $('#jsonOutput').val();
-    var curcuitChart = JSON.parse(circuitChartJson);
-    var nodes = curcuitChart.nodes;
-    $.each(nodes, function( index, elem ) {
+function loadCircuitchart(curcuitChart){
+    // var circuitChartJson = flowChartJson;
+    // var curcuitChart = JSON.parse(circuitChartJson);
+    var parts = curcuitChart.parts;
+    var connections = curcuitChart.relationship;
+    var nodeElems = loadCircuitNodes(parts);
+
+    // console.log(nodeElems);
+    loadCircuitLinks(connections, nodeElems);
+
+    //update id
+        //     partCount += 1;
+        // div.attr("part-id", elem.partName + "_" + String(partCount));
+
+}
+
+function loadCircuitNodes(parts) {
+    var nodeElems = [];
+    $.each(parts, function( index, elem ) {
         var div = $("<div></div>");
         var left = elem.positionX;
         var top = elem.positionY;
         div.css({left: left, top: top});
         div.css({position: "absolute"});
+        div.attr("part-name", elem.partName);
+        div.attr("normal-connect-num", 0);
+        div.addClass("node");
+        div.appendTo($("#drawArea"));
 
         var img = $("<img></img>");
         var partType = getType(elem.partName);
         var imgPath = getImagePath(partType);
-        img.addClass("ui middle aligned tiny image");
+        img.addClass("ui left floated image no-margin");
         img.attr("src", imgPath);
         img.appendTo(div);
 
-        div.attr("part-name", elem.partName);
-        div.addClass("node");
-        div.appendTo($("#drawArea"));
-        addDraggable(div);
-        addLine(div);
+        var h4 = $("<h4></h4>");
+        h4.addClass("ui no-margin text-center");
+        h4.text(elem.partName);
+        h4.appendTo(div);
 
-        putPartElemList.push(div);
+        var filterDiv = $("<div></div>");
+        filterDiv.addClass("filterDiv");
+        filterDiv.appendTo(div);
+
+        var minusCircle = $("<div></div>");
+        var icon = $("<i></i>");
+        icon.addClass("minus circle icon");
+        icon.appendTo(minusCircle);
+        minusCircle.addClass("minusCircle");
+        minusCircle.appendTo(div);
+
+        addDraggable(div);
+
+        var partID = elem.partID;
+        nodeElems.push([partID, div]);
     });
+
+    return nodeElems;
+}
+
+function loadCircuitLinks(connections, nodeElems) {
+    $.each(connections, function(index, elem ) {
+        var startElem;
+        var endElem;
+        for (var index in nodeElems) {
+            if (nodeElems[index][0] == elem.start) startElem = nodeElems[index][1];
+            if (nodeElems[index][0] == elem.end) endElem = nodeElems[index][1];
+        }
+        drawLine(startElem, endElem, elem.type);
+    }); 
 }
 
 function clearCircuitchart() {
@@ -387,14 +413,13 @@ function clearCircuitchart() {
     putPartElemList = [];
 }
 
-function saveCircuitToImage() {
+function changeCircuitToImage() {
     var el = $("#drawArea"); // get flow container div
     html2canvas(el, {
         onrendered: function(canvas) {
             var that = this;
             this.canvas = document.createElement('canvas');
             this.ctx = canvas.getContext('2d');
-            console.log(this.ctx);
             // # Render Flows/connections on top of same canvas
             this.flows = $('> svg', el);
 
@@ -402,7 +427,6 @@ function saveCircuitToImage() {
                 var svg = $(this)
                 var offset = svg.position();
                 var svgStr = this.outerHTML;
-                console.log(that.ctx);
                 that.ctx.drawSvg(svgStr, offset.left, offset.top);
             });
 
@@ -429,7 +453,33 @@ function saveCircuitToImage() {
     }); 
 }
 
-$(initDesignPage);
+function getInitDataFromServer() {
+    $.get("/data/fetch/parts", function(data, status) {
+        typeTable = data['parts'];
+        $(initDesignPage);
+        $('.ui.search')
+          .search({
+            source: searchTitle
+          })
+        ;
+    });
+
+    $.get("/data/fetch/relationship", function(data, status) {
+        relationFromAtoB = data['relationship'];
+    });
+
+    $.get("/data/fetch/adjmatrix", function(data, status) {
+        relationAdjmatrix = data['adjmatrix'];
+    });
+
+    $.get("/data/fetch/device", function(data, status) {
+        devicesList = data['deviceList'];
+        loadCircuitchart(devicesList[0]);
+    });
+}
+
+$(getInitDataFromServer);
+
 //make item draggable
 $(".item").draggable({
     helper: 'clone',
@@ -444,7 +494,11 @@ $("#save").click(function() {
     saveCircuitchart();
 });
 
-$("#load").click(function() {
+$("#download").click(function() {
+    changeCircuitToImage();
+});
+
+$("#openFile").click(function() {
     loadCircuitchart();
 });
 
@@ -453,7 +507,35 @@ $("#clear").click(function() {
 });
 
 $("#showImage").click(function() {
-    saveCircuitToImage();
+    changeCircuitToImage();
+});
+
+$("#connect-part").click(function() {
+    if (isConnectPart == true) {
+        isConnectPart = false;
+        $(".filterDiv").each(function() {
+            $(this).css("display", "none");
+        });
+    } else {
+        isConnectPart = true;
+        $(".filterDiv").each(function() {
+            $(this).css("display", "block");
+        });
+    }
+});
+
+$("#minus").click(function() {
+    if (isMinusOpen == false) {
+        isMinusOpen = true;
+        $(".minusCircle").each(function() {
+            $(this).css("display", "block");
+        });
+    } else {
+        isMinusOpen = false;
+        $(".minusCircle").each(function() {
+            $(this).css("display", "none");
+        });
+    }
 });
 
 $(".trigger-left").click(function() {
@@ -526,9 +608,20 @@ $("#drawArea").droppable({
         ui.helper.remove();
         $(dropedElement).removeAttr("class");
 
+        $(dropedElement).find("img").addClass("no-margin");
+        $(dropedElement).find("h4").addClass("text-center");
+        $(dropedElement).find("h4").css("bottom", "-100px");
+
         var filterDiv = $("<div></div>");
         filterDiv.addClass("filterDiv");
         filterDiv.appendTo(dropedElement);
+
+        var minusCircle = $("<div></div>");
+        var icon = $("<i></i>");
+        icon.addClass("minus circle icon");
+        icon.appendTo(minusCircle);
+        minusCircle.addClass("minusCircle");
+        minusCircle.appendTo(dropedElement);
 
         $(dropedElement).find("img").removeAttr("class");
         dropedElement.addClass("node");
@@ -542,11 +635,15 @@ $("#drawArea").droppable({
         addDraggable(dropedElement);
         addPromoteAndInhibitionLine(dropedElement);
 
+        partCount += 1;
+        var partName = dropedElement.attr("part-name");
+        dropedElement.attr("part-id", partName + "_" + String(partCount));
+
         jsPlumb.makeSource(dropedElement, {
             filter: ".filterDiv",
-            anchor: "Continuous",
             connector: ["Flowchart"],
             // connectorStyle: { strokeStyle: "green", lineWidth: 2 },
+            anchor: "Continuous",
             endpoint:"Blank",
             // maxConnections: 1,
             overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]],
@@ -556,8 +653,8 @@ $("#drawArea").droppable({
 
         jsPlumb.makeTarget(dropedElement, {
             // maxConnections: 1,
-            dropOptions: { hoverClass: "dragHover"},
             anchor: "Continuous",
+            dropOptions: { hoverClass: "dragHover"},
             endpoint:"Blank",
             allowLoopback: false
         })
@@ -571,62 +668,36 @@ jsPlumb.bind("connection", function(CurrentConnection) {
     var source = $(CurrentConnection.connection.source);
     var targetNormalNum = parseInt(target.attr("normal-connect-num"));
     var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
-    if (targetNormalNum === 2 || sourceNormalNum === 2) {
-        if (targetNormalNum === 2) {
-            alert("111");
-            target.attr("data-content", "Most link to two objects");
-            target.popup('show');
-            target.popup('remove');
-        }
+    if (isProOrInhiLink == false) {
+        CurrentConnection.connection.scope = "normal";
         if (sourceNormalNum === 2) {
-            // alert("222");
             source.attr("data-content", "Most link to two objects");
             source.popup('show');
-            source.popup('remove');
+            source.removeAttr("data-content");
+            jsPlumb.detach(CurrentConnection.connection);
+            return;
         }
-        jsPlumb.detach(CurrentConnection.connection);
-    } else {
-        targetNormalNum += 1;
+        if (targetNormalNum === 2){
+            target.attr("data-content", "Most link to two objects");
+            target.popup('show');
+            target.removeAttr("data-content");
+            jsPlumb.detach(CurrentConnection.connection);
+            return;
+        }
         sourceNormalNum += 1;
-        target.attr("normal-connect-num", targetNormalNum);
         source.attr("normal-connect-num", sourceNormalNum);
+        targetNormalNum += 1;
+        target.attr("normal-connect-num", targetNormalNum);
+    } else {
+        isProOrInhiLink = false;
     }
 });
 
+jsPlumb.on("#drawArea", "click", ".minus", function() {
+    jsPlumb.remove(this.parentNode.parentNode);
+});
+
 $('.menu .item').tab();
-
-var searchTitle = [
-  { title: 'promoter1' },
-  { title: 'promoter2' },
-  { title: 'promoter3' },
-  { title: 'promoter4' },
-  { title: 'lacZ_gene' },
-  { title: 'lacZ_protein' },
-  { title: 'lactose' },
-  { title: 'lactose_acid+acetic_acid' },
-  { title: 's-gal' },
-  { title: 'black_factor' },
-  { title: 'promoter_pompc' },
-  { title: 'arsD_protein' },
-  { title: 'arsD_gene' },
-  { title: 'arsenic_ion' },
-  { title: 'arsR_proteion' },
-  { title: 'arsR_gene' },
-  { title: 'CI_gene' },
-  { title: 'CI_protein' },
-  { title: 'lacl_protein' },
-  { title: 'urease_gene' },
-  { title: 'urease_protein' },
-  { title: 'urea' },
-  { title: 'carbon_dioxide+ammonia' },
-  { title: 'lacl_gene' }
-];
-
-$('.ui.search')
-  .search({
-    source: searchTitle
-  })
-;
 
 $('.button')
   .popup()
@@ -635,27 +706,3 @@ $('.button')
 jsPlumb.ready(function() {
     jsPlumb.setContainer($("#drawArea"));
 });
-
-addRelation('promoter1', 'lacZ_gene', 'normal');
-addRelation('arsD_protein', 'promoter1', 'inhibition');
-addRelation('lacZ_gene', 'lacZ_protein', 'promotion');
-addRelation('lacZ_protein', 'lactose', 'promotion');
-addRelation('lacZ_protein', 's-gal', 'promotion');
-addRelation('lactose', 'lactose_acid+acetic_acid', 'promotion');
-addRelation('s-gal', 'black_factor', 'promotion');
-addRelation('arsD_gene', 'promoter1', 'normal');
-addRelation('arsD_gene', 'arsD_protein', 'promotion');
-addRelation('arsenic_ion', 'arsD_protein', 'inhibition');
-addRelation('arsR_proteion', 'arsenic_ion', 'inhibition');
-addRelation('arsR_gene', 'arsR_proteion', 'promotion');
-addRelation('arsR_gene', 'CI_gene', 'normal');
-addRelation('promoter2', 'arsR_gene', 'normal');
-addRelation('CI_gene', 'CI_protein', 'promotion');
-addRelation('CI_protein', 'promoter4', 'inhibition');
-addRelation('lacl_protein', 'promoter4', 'inhibition');
-addRelation('promoter4', 'urease_gene', 'normal');
-addRelation('lacl_gene', 'lacl_protein', 'promotion');
-addRelation('promoter3', 'lacl_gene', 'normal');
-addRelation('urease_gene', 'urease_protein', 'promotion');
-addRelation('urease_protein', 'urea', 'promotion');
-addRelation('urea', 'carbon_dioxide+ammonia', 'promotion');

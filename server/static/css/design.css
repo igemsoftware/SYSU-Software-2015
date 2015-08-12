@@ -180,7 +180,7 @@
 }
 
 .no-margin {
-    margin: 0 0;
+    margin: 0 0 !important;
 }
 
 #rubberband {
@@ -189,8 +189,8 @@
 
 .filterDiv {
     position: absolute;
-    bottom: 30%;
-    right: 5px;
+    bottom: 40%;
+    right: 40%;
     width: 10px;
     height: 10px;
     background-color: #FFA500;
@@ -201,4 +201,18 @@
 
 .dragHover { 
     border: 2px solid orange;
+}
+
+.minusCircle {
+    position: absolute;
+    top:1px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    display: none;
+}
+
+.text-center {
+    text-align: center;
 }
