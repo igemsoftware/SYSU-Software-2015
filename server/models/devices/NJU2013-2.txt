@@ -16,9 +16,9 @@ Luxl_1	gene	Pluxl_1	protein	promotion
 Pluxl_1	protein	homoserine_1	chemical	normal
 Luxl_1	gene	RBS_4	RBS	normal
 RBS_4	RBS	LuxR_1	gene	normal
-LuxR_1	gene	PluxR_1	Protein	promotion
-homoserine_1	chemical	PluxR_1	Protein	normal
-PluxR_1	Protein	Plux_1	promoter	promotion
+LuxR_1	gene	PluxR_1	protein	promotion
+homoserine_1	chemical	PluxR_1	protein	normal
+PluxR_1	protein	Plux_1	promoter	promotion
 LuxR_1	gene	Pcon_2	promoter	normal
 Pcon_2	promoter	A-RBS_2	RBS	normal
 A-RBS_2	RBS	Cl_2	gene	normal

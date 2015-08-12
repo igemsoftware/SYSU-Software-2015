@@ -7,10 +7,10 @@ class TestWork(TestCase):
 
     def test_component(self):
         c = ComponentInstance('Promotor')
-        assert c.id == 'Promotor'
+        assert c.partID == 'Promotor'
 
         c = ComponentInstance(100)
-        assert c.id == 'None'
+        assert c.partID == 'None'
 
     def test_relationship(self):
         pro = ComponentPrototype.query.get(2)
@@ -37,19 +37,19 @@ class TestWork(TestCase):
         assert len(w.parts) == 1
         assert w.parts[0].positionX == 300.0
 
-        c2 = w.add_component_by_id(2, id='Promotor 2', positionX=0.3)
-        w.add_component_by_name('foo', id='haha 3')
-        w.add_connection(c1.id, c2.id, 'Promote')
+        c2 = w.add_component_by_id(2, partID='Promotor 2', positionX=0.3)
+        w.add_component_by_name('foo', partID='haha 3')
+        w.add_connection(c1.partID, c2.partID, 'Promote')
 
         w.commit_to_db() # use this method to commit
         w.update_from_db() # use this method to get
 
         assert w.parts[1].positionX == 0.3
-        assert w.parts[0].id == 'Promotor'
-        assert w.parts[1].id == 'Promotor 2'
-        assert w.parts[2].id == 'None'
-        assert w.relationship[0]['start'] == c1.id
-        assert w.relationship[0]['end'] == c2.id
+        assert w.parts[0].partID == 'Promotor'
+        assert w.parts[1].partID == 'Promotor 2'
+        assert w.parts[2].partID == 'None'
+        assert w.relationship[0]['start'] == c1.partID
+        assert w.relationship[0]['end'] == c2.partID
         assert w.relationship[0]['type'] == 'Promote'
 
 
