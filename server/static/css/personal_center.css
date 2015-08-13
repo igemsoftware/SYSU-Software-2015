@@ -112,7 +112,7 @@
 #detail-header {
     width: 100%;
     border-bottom: 1px solid #e4e4e4;
-    line-height: 2rem;
+    line-height: 2.0rem;
     padding-bottom: 10px;
 }
 
@@ -135,12 +135,12 @@
 
 #detail-completeness > .completeness {
     display: inline-block;
-    width: 1em;
-    height: 1em;
-    border-radius: 1em;
+    width: 0.8em;
+    height: 0.8em;
+    border-radius: 0.8em;
     position: relative;
-    top: 0.2em;
-    margin-left: 2px;
+    top: 0.1em;
+    margin-right: 5px;
 }
 
 #detail-completeness > .completeness.design {

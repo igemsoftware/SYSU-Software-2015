@@ -101,6 +101,7 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
         },
     },
     ready : function() {
+        $('.completeness[data-content]').popup({position: 'top center'});
     },
     methods : {
         getRecordClass: function(completeness) {
