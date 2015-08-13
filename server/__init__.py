@@ -23,5 +23,4 @@ def create_app(config_name='default'):
     from .routes import views 
     for view, view_prefix in views:
         app.register_blueprint(view, url_prefix=view_prefix)
-
     return app

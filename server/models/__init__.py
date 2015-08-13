@@ -5,8 +5,8 @@ from .comment import Comment
 from .memo import Memo
 from .track import Track
 
-from .function import ComponentPrototype, ComponentInstance, Relationship
-from .function import Protocol, Device, Circuit 
+from .synbio import ComponentPrototype, ComponentInstance, Relationship
+from .synbio import Protocol, Device, Circuit 
 
 
 model_list = [User, Track, Message, Task, Comment, Memo,

@@ -1,0 +1,21 @@
+NJU2013-3
+Circuit 3. The greatest difference between circuit 2 and circuit 3, as you can see, is that the cascade in circuit 2 have been replaced by the hybridize promoter, Plux/CI. Then, we got a new organism that will respond quickly to the presence of AHL.
+http://2013.igem.org/Team:Nanjing-China
+3
+Pcon_1,CHeZ_1
+Pcon_1	A-RBS_1	normal
+A-RBS_1	Cl_1	normal
+Cl_1	Plux/Cl_1	inhibition
+Pcon_2	A-RBS_2	normal
+A-RBS_2	Luxl_1	normal
+Luxl_1	Pluxl_1	promotion
+Luxl_1	RBS_1	normal
+RBS_1	LuxR_1	normal
+LuxR_1	PluxR_1	promotion
+Pluxl_1	homoserine_1	normal
+homoserine_1	AHL_1	normal
+AHL_1	PluxR_1	normal
+PluxR_1	Plux/Cl_1	promotion
+Cl_1	Plux/Cl_1	inhibition
+Plux/Cl_1	RBS_2	normal
+RBS_2	CheZ_1	normal
