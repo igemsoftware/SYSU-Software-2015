@@ -1,1 +1,176 @@
-<!--design page -->
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/static/css/semantic.min.css">
+    <link rel="stylesheet" href="/static/css/topbar.css">
+    <link rel="stylesheet" href="/static/css/design.css">
+
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+
+  </head>
+  <body>
+<!-- Top bar -->
+  <div class="ui circular image" id="topbar-avatar" data-content="Dashboard"><a href=""><img src="/static/img/avatar.jpg" alt="avatar"></a></div>
+  <script>$(function() {$("#topbar-avatar").popup();});</script>
+
+  <div class="ui page dimmer" id="main-switcher">
+    <div class="content">
+      <div class="center">
+        <div class="ui inverted blue circular icon button"><i class="massive idea icon"></i></div>
+        <div class="ui inverted red circular icon button"><i class="massive database icon"></i></div>
+        <div class="ui inverted green circular icon button"><i class="massive checkmark icon"></i></div>
+      </div>
+    </div>
+  </div>
+  <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
+
+
+  <div class="ui secondary menu" id="topbar">
+    <div class="item" id="topbar-index">
+      <div class="ui button" id="topbar-btn-index"></div>
+    </div>
+    <div class="item" id="topbar-menu">
+      <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>
+    </div>
+    <div class="item" id="topbar-undo">
+      <div class="ui button" id="topbar-btn-undo">Undo</div>
+    </div>
+    <div class="item" id="topbar-save">
+      <div class="ui button" id="topbar-btn-save">Save</div>
+    </div>
+    <div class="item" id="topbar-help">
+      <div class="ui button" id="topbar-btn-help">Help</div>
+    </div>
+    <div class="right menu">
+      <div class="item" id="topbar-design">
+        <div class="ui button" id="topbar-btn-design">Design</div>
+      </div>
+      <div class="item" id="topbar-modeling">
+        <div class="ui button" id="topbar-btn-modeling">Modeling</div>
+      </div>
+      <div class="item" id="topbar-experiment">
+        <div class="ui button" id="topbar-btn-experiment">Experiment</div>
+      </div>
+    </div>
+
+    <div id="topbar-bottom-line"></div>
+  </div>
+
+    <div id="left-sidebar">
+      <div class="ui button trigger-left">
+        <i class="chevron right big icon"></i>
+      </div>
+      <div class="ui attached tabular menu">
+        <a class="item active" data-tab="New">New</a>
+        <a class="item" data-tab="relate">Relate</a>
+      </div>
+      <div class="ui bottom attached tab segment active" data-tab="New">
+
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input id="searchNew" class="prompt" placeholder="Search parts..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+
+        <div class="ui styled accordion">
+          <div class="title"><i class="dropdown icon"></i>Part</div>
+            <div class="content" id="parts">
+            </div>
+          <div class="title"><i class="dropdown icon"></i>Device</div>
+            <div class="content" id="devices">
+            </div>
+          <div class="title"><i class="dropdown icon"></i>System</div>
+            <div class="content">
+              <p class="transition hidden"></p>
+            </div>
+        </div>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="relate">
+
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input id="searchRelate" class="prompt" placeholder="Search relative parts..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="right-sidebar">
+      <div class="ui button trigger-right">
+        <i class="chevron left big icon"></i>
+      </div>
+
+      <div class="ui attached tabular menu">
+        <a class="item active" data-tab="added">Added</a>
+        <a class="item" data-tab="equation">Equation</a>
+        <a class="item" data-tab="history">history</a>
+      </div>
+
+      <div class="ui bottom attached tab segment active" data-tab="added"> 
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input id="searchNew" class="prompt" placeholder="Search added parts..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+
+        <div class="ui styled accordion">
+          <div class="title"><i class="dropdown icon"></i>Part</div>
+            <div class="content" id="parts">
+            </div>
+          <div class="title"><i class="dropdown icon"></i>Device</div>
+            <div class="content" id="devices">
+            </div>
+          <div class="title"><i class="dropdown icon"></i>System</div>
+            <div class="content">
+              <p class="transition hidden"></p>
+            </div>
+        </div>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="equation">
+        
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="history" id="history">
+        <div class="ui feed">
+        </div>
+      </div>
+    </div>
+  <!-- main-contain -->
+    <div id="main-contain">
+      <div id="drawArea-menu">
+        <div class="ui large icon buttons">
+          <button class="ui grey button" id="openFile" data-content="Open an circuit"><i class="folder open icon"></i></button>
+          <button class="ui grey button" id="save" data-content="Save your circuit"><i class="save icon"></i></button>
+          <button class="ui grey button" id="clear" data-content="Clear all parts"><i class="trash outline icon"></i></button>
+          <button class="ui grey button" id="connect-part" data-content="Connect two parts" ><i class="compress icon"></i></button>
+          <button class="ui grey button" id="minus" data-content="Delete a part"><i class="minus icon"></i></button>
+          <button class="ui grey button" id="download" data-content="Download this image" ><i class="download icon"></i></button>
+        </div>
+      </div>
+      <div class="" id="drawArea">
+          <div id="rubberband" style="border:1px solid green;display:none;"></div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/js/design/dom.jsPlumb-1.7.6-min.js"></script>
+    <script type="text/javascript" src="/static/js/semantic.min.js"></script>
+    <script type="text/javascript" src="/static/js/design/rgbcolor.js"></script> 
+    <script type="text/javascript" src="/static/js/design/StackBlur.js"></script>
+    <script type="text/javascript" src="/static/js/design/canvg.js"></script>
+    <script type="text/javascript" src="/static/js/design/html2canvas.js"></script>
+    <script type="text/javascript" src="/static/js/design/timeago.js"></script>
+    <script type="text/javascript" src="/static/js/design/design.js"></script>
+  </body>
+</html>
