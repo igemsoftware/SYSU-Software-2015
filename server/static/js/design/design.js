@@ -16,14 +16,11 @@ var rightBar;
 var rubberband;
 var designMenu;
 
-<<<<<<< HEAD
 var typeTable = [];
 var relationFromAtoB = [];
 var relationAdjmatrix = [];
 var devicesList = [];
 
-=======
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
 /**
  * @class OperationLog
  *
@@ -105,14 +102,6 @@ function Design() {
     this._isProOrInhiLink = false;
     this._putPartElemList = [];
     this._partCount = 0;
-<<<<<<< HEAD
-=======
-
-    this.typeTable = [];
-    this.relationFromAtoB = [];
-    this.relationAdjmatrix = [];
-    this.devicesList = [];
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
 };
 
 Design.prototype.clear = function() {
@@ -173,36 +162,21 @@ Design.prototype._getOverLaysClass = function(lineType) {
 };
 
 Design.prototype._getLineType = function(fromPartA, toPartB) {
-<<<<<<< HEAD
     for (var i in relationFromAtoB) {
         if (relationFromAtoB[i].start === fromPartA &&
             relationFromAtoB[i].end === toPartB) {
             return relationFromAtoB[i].type;
-=======
-    for (var i in this.relationFromAtoB) {
-        if (this.relationFromAtoB[i].start === fromPartA &&
-            this.relationFromAtoB[i].end === toPartB) {
-            return this.relationFromAtoB[i].type;
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
         }
     }
     return "";
 };
 
 Design.prototype._isHasPromoteOrInhibitionRelation = function(fromPartA, toPartB) {
-<<<<<<< HEAD
     for (var i in relationFromAtoB) {
         if (relationFromAtoB[i].start === fromPartA &&
             relationFromAtoB[i].end === toPartB && 
             (relationFromAtoB[i].type == "promotion" ||
                 relationFromAtoB[i].type == "inhibition")) {
-=======
-    for (var i in this.relationFromAtoB) {
-        if (this.relationFromAtoB[i].start === fromPartA &&
-            this.relationFromAtoB[i].end === toPartB && 
-            (this.relationFromAtoB[i].type == "promotion" ||
-                this.relationFromAtoB[i].type == "inhibition")) {
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
             return true;
         }
     }
@@ -676,13 +650,10 @@ function LeftBar() {
     this.isOpenLeftBar = false;
     this._leftBarWidth = 400;
     this._searchTitle = [];
-<<<<<<< HEAD
 
     this.elemsDataList = [];
     this.searchRelateBox = $("searchRelate");
     this.searchNewBox = $("searchNew");
-=======
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
 }
 
 LeftBar.prototype.init = function() {
@@ -692,11 +663,7 @@ LeftBar.prototype.init = function() {
     $('.menu .item').tab();
 };
 
-<<<<<<< HEAD
 LeftBar.prototype.showData = function() {
-=======
-LeftBar.prototype.showData = function(dataList) {
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
         //create left-bar data list
     for (var each in dataList) {
         this._searchTitle.push({title: each});
@@ -724,22 +691,13 @@ LeftBar.prototype.showData = function(dataList) {
         btn.appendTo(dataDiv);
         btn.popup();
 
-<<<<<<< HEAD
         this.elemsDataList.push(dataDiv);
-=======
-        dataDiv.appendTo($("#parts"));
-
-        var divider = $("<div></div>");
-        divider.addClass("ui inverted divider");
-        divider.appendTo($("#parts"));
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
 
         // newList.push(div);
         this._makeItJqeryDraggable(div);
     }
 }
 
-<<<<<<< HEAD
 LeftBar.prototype.showData = function() {
     dataDiv.appendTo($("#parts"));
 
@@ -748,8 +706,6 @@ LeftBar.prototype.showData = function() {
     divider.appendTo($("#parts"));
 }
 
-=======
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
 LeftBar.prototype._makeItJqeryDraggable = function(elem) {
     elem.draggable({
         helper: 'clone',
@@ -789,7 +745,6 @@ LeftBar.prototype._leftTriggerAnimation = function() {
     });
 }
 
-<<<<<<< HEAD
 LeftBar.prototype.enableSearchNewBox = function() {
     var that = this;
     this.searchNewBox.keyup(function() {
@@ -800,8 +755,6 @@ LeftBar.prototype.enableSearchNewBox = function() {
     });
 }
 
-=======
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
 // $("#searchNew").keyup(function() {
 //     if ($(this).val() == "") {
         
@@ -867,11 +820,7 @@ RightBar.prototype.leftTriggerAnimation = function() {
 function Util() {};
 
 Util.getType = function(part) {
-<<<<<<< HEAD
     return typeTable[part];
-=======
-    return design.typeTable[part];
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
 };
 
 Util.getImagePath = function(type, imgSize) {
@@ -915,13 +864,8 @@ Util.createItemBtn = function() {
 //===============================================================================
 function getInitDataFromServer() {
     $.get("/data/fetch/parts", function(data, status) {
-<<<<<<< HEAD
         typeTable = data['parts'];
         // leftBar.showData(typeTable);
-=======
-        design.typeTable = data['parts'];
-        leftBar.showData(design.typeTable);
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
         // $('.ui.search')
         //   .search({
         //     source: searchTitle
@@ -930,7 +874,6 @@ function getInitDataFromServer() {
     });
 
     $.get("/data/fetch/relationship", function(data, status) {
-<<<<<<< HEAD
         relationFromAtoB = data['relationship'];
     });
 
@@ -940,17 +883,6 @@ function getInitDataFromServer() {
 
     $.get("/data/fetch/device", function(data, status) {
         devicesList = data['deviceList'];
-=======
-        design.relationFromAtoB = data['relationship'];
-    });
-
-    $.get("/data/fetch/adjmatrix", function(data, status) {
-        design.relationAdjmatrix = data['adjmatrix'];
-    });
-
-    $.get("/data/fetch/device", function(data, status) {
-        design.devicesList = data['deviceList'];
->>>>>>> 884198387c7335962d84cb072e155e86a05214f2
         // loadCircuitchart(devicesList[0]);
     });
 };
