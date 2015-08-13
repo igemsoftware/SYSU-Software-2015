@@ -32,6 +32,31 @@ var searchTitle = [];
 
 var flowChartJson = {};
 
+function OperationLog() {
+    jQuery.timeago.settings.allowFuture = true;
+    jQuery("time.timeago").timeago();
+};
+
+// OperationLog.prototype.addPart(partName) {
+
+// };
+
+// OperationLog.prototype.removePart(partName) {
+
+// };
+
+// OperationLog.prototype.openFile() {
+
+// };
+
+// OperationLog.prototype.connectPart(partNameA, partNameB) {
+
+// };
+
+// OperationLog.prototype.writeToRightBar(elem) {
+
+// };
+
 /**
  * @class Relation
  *
@@ -610,7 +635,7 @@ $("#drawArea").droppable({
 
         $(dropedElement).find("img").addClass("no-margin");
         $(dropedElement).find("h4").addClass("text-center");
-        $(dropedElement).find("h4").css("bottom", "-100px");
+        $(dropedElement).find("h4").css("bottom", "px");
 
         var filterDiv = $("<div></div>");
         filterDiv.addClass("filterDiv");

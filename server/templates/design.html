@@ -67,14 +67,14 @@
         <i class="chevron right big icon"></i>
       </div>
       <div class="ui attached tabular menu">
-        <a class="item active" data-tab="Add">Add</a>
-        <a class="item" data-tab="Relative">Relative</a>
+        <a class="item active" data-tab="New">New</a>
+        <a class="item" data-tab="relate">Relate</a>
       </div>
-      <div class="ui bottom attached tab segment active" data-tab="Add">
+      <div class="ui bottom attached tab segment active" data-tab="New">
 
         <div class="ui fluid category search">
           <div class="ui fluid icon input">
-            <input class="prompt" placeholder="Search parts..." type="text">
+            <input id="searchNew" class="prompt" placeholder="Search parts..." type="text">
             <i class="search icon"></i>
           </div>
           <div class="results"></div>
@@ -83,23 +83,6 @@
         <div class="ui styled accordion">
           <div class="title"><i class="dropdown icon"></i>Part</div>
             <div class="content" id="parts">
-              <!-- <div class="data">
-                <div class="item">
-                  <img class="ui left floated image" src="/static/img/design/promoter_60.png">
-                  <h4 class="ui no-margin">Promoter1</h4>
-                </div>
-                <span>In genetics, a promoter is a region of DNA that initiates transcription of a particular gene....</span>
-                <button class="ui mini button" data-content="Read more about this part">more</button>
-              </div>
-              <div class="ui inverted divider"></div>
-              <div class="data">
-                <div class="item">
-                  <img class="ui left floated image" src="/static/img/design/promoter_60.png">
-                  <h4 class="ui no-margin">Promoter1</h4>
-                </div>
-                <span>In genetics, a promoter is a region of DNA that initiates transcription of a particular gene....</span>
-                <button class="ui mini button" data-content="Read more about this part">more</button>
-              </div> -->
             </div>
           <div class="title"><i class="dropdown icon"></i>Device</div>
             <div class="content" id="devices">
@@ -110,11 +93,11 @@
             </div>
         </div>
       </div>
-      <div class="ui bottom attached tab segment" data-tab="Relative">
+      <div class="ui bottom attached tab segment" data-tab="relate">
 
         <div class="ui fluid category search">
           <div class="ui fluid icon input">
-            <input class="prompt" placeholder="Search relative parts..." type="text">
+            <input id="searchRelate" class="prompt" placeholder="Search relative parts..." type="text">
             <i class="search icon"></i>
           </div>
           <div class="results"></div>
@@ -127,29 +110,88 @@
       <div class="ui button trigger-right">
         <i class="chevron left big icon"></i>
       </div>
-      <div class="ui styled accordion">
-        <div class="title"><i class="dropdown icon"></i>Part</div>
-          <div class="content" id="parts">
+
+      <div class="ui attached tabular menu">
+        <a class="item active" data-tab="added">Added</a>
+        <a class="item" data-tab="equation">Equation</a>
+        <a class="item" data-tab="history">history</a>
+      </div>
+
+      <div class="ui bottom attached tab segment active" data-tab="added"> 
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input class="prompt" placeholder="Search added parts..." type="text">
+            <i class="search icon"></i>
           </div>
-        <div class="title"><i class="dropdown icon"></i>Device</div>
-          <div class="content" id="devices">
+          <div class="results"></div>
+        </div>
+
+        <div class="ui styled accordion">
+          <div class="title"><i class="dropdown icon"></i>Part</div>
+            <div class="content" id="parts">
+            </div>
+          <div class="title"><i class="dropdown icon"></i>Device</div>
+            <div class="content" id="devices">
+            </div>
+          <div class="title"><i class="dropdown icon"></i>System</div>
+            <div class="content">
+              <p class="transition hidden"></p>
+            </div>
+        </div>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="equation">
+        
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="history" id="history">
+        <div class="ui feed">
+<!--           <div class="event">
+            <div class="label">
+               <i class="folder open icon"></i>
+            </div>
+            <div class="content">
+              <div class="summary">Open a new file</div>
+            </div>
           </div>
-        <div class="title"><i class="dropdown icon"></i>System</div>
-          <div class="content">
-            <p class="transition hidden"></p>
+          <div class="event">
+            <div class="label">
+              <i class="plus icon"></i>
+            </div>
+            <div class="content">Today
+              <div class="summary">Added a <a>Stevie Feliciano's</a> part. <time class="date timeago" datetime="2008-07-17T09:24:17Z">Today</time>
+              </div>
+            </div>
           </div>
+          <div class="event">
+            <div class="label">
+              <i class="remove icon"></i>
+            </div>
+            <div class="content">
+              <div class="summary">Removed a <a>Stevie Feliciano's</a> part. <time class="date timeago" datetime="2008-07-17T09:24:17Z">Today</time>
+              </div>
+            </div>
+          </div>
+          <div class="event">
+            <div class="label">
+              <i class="compress icon"></i>
+            </div>
+            <div class="content">
+              <div class="summary">Connected <a>RBS</a> and <a>Pcl</a>. <time class="date timeago" datetime="2008-07-17T09:24:17Z">Today</time>
+              </div>
+            </div>
+          </div> -->
+        </div>
       </div>
     </div>
   <!-- main-contain -->
     <div id="main-contain">
       <div id="drawArea-menu">
         <div class="ui large icon buttons">
+          <button class="ui grey button" id="openFile" data-content="Open an circuit"><i class="folder open icon"></i></button>
           <button class="ui grey button" id="save" data-content="Save your circuit"><i class="save icon"></i></button>
           <button class="ui grey button" id="clear" data-content="Clear all parts"><i class="trash outline icon"></i></button>
-          <button class="ui grey button" id="minus" data-content="Delete a part"><i class="minus icon"></i></button>
           <button class="ui grey button" id="connect-part" data-content="Connect two parts" ><i class="compress icon"></i></button>
+          <button class="ui grey button" id="minus" data-content="Delete a part"><i class="minus icon"></i></button>
           <button class="ui grey button" id="download" data-content="Download this image" ><i class="download icon"></i></button>
-          <button class="ui grey button" id="openFile" data-content="Open an circuit"><i class="folder open icon"></i></button>
         </div>
       </div>
       <div class="" id="drawArea">
@@ -157,12 +199,13 @@
       </div>
     </div>
     <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/static/js/dom.jsPlumb-1.7.6-min.js"></script>
+    <script type="text/javascript" src="/static/js/design/dom.jsPlumb-1.7.6-min.js"></script>
     <script type="text/javascript" src="/static/js/semantic.min.js"></script>
-    <script type="text/javascript" src="/static/js/rgbcolor.js"></script> 
-    <script type="text/javascript" src="/static/js/StackBlur.js"></script>
-    <script type="text/javascript" src="/static/js/canvg.js"></script>
-    <script type="text/javascript" src="/static/js/html2canvas.js"></script>
-    <script type="text/javascript" src="/static/js/design.js"></script>
+    <script type="text/javascript" src="/static/js/design/rgbcolor.js"></script> 
+    <script type="text/javascript" src="/static/js/design/StackBlur.js"></script>
+    <script type="text/javascript" src="/static/js/design/canvg.js"></script>
+    <script type="text/javascript" src="/static/js/design/html2canvas.js"></script>
+    <script type="text/javascript" src="/static/js/design/timeago.js"></script>
+    <script type="text/javascript" src="/static/js/design/design.js"></script>
   </body>
 </html>

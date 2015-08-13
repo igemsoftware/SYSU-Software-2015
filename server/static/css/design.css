@@ -81,9 +81,15 @@
 
 .ui.bottom.attached.tab.segment {
     height: 100%;
+/*    opacity:0.8;*/
    /* overflow-x: auto;*/
 }
 
+
+.visible.transition {
+    display: block;
+    visibility: visible;
+}
 /*======================================================*/
 #right-sidebar {
     position: fixed;
@@ -117,13 +123,17 @@
     background-color: rgba(179, 179, 179, 0.46);
 }
 
-#right-sidebar > .accordion > .title{
-    color: white;
-    background-color: rgba(45, 46, 48, 0.8);
+#right-sidebar .accordion .title:hover{
+    background-color: rgba(100, 100, 100, 0.8);
 }
 
-#right-sidebar > .accordion > .title.active {
+#right-sidebar .accordion .title.active {
     background-color: rgba(239, 130, 130, 0.8);
+}
+
+#right-sidebar .accordion .title{
+    color: white;
+    background-color: rgba(149, 149, 149, 0.8);
 }
 
 #right-sidebar #parts {
@@ -155,6 +165,12 @@
     border-radius: 5px;
     background-color: rgba(179, 179, 179, 0.9);
 }
+
+/*--------------------------------------------------------*/
+#history {
+    overflow: auto;
+}
+
 
 /*======================================================*/
 #drawArea-menu button {
