@@ -15,6 +15,12 @@ class LoginForm(Form):
     # remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Login')
 
+
+    def validate_username(self, field):
+        u = User.query.filter_by(username=field.data).first()
+        if u == None:
+            raise ValidationError('The username does not exist.')
+
 class RegistrationForm(Form):
     username = StringField('Username', validators=[
         Required('Cannot be empty'), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_]*$', 0, 'Usernames must have only letters, numbers or underscores')])
@@ -24,7 +30,7 @@ class RegistrationForm(Form):
 
     email = StringField('Email', validators=[Required('Cannot be empty.'), Length(1, 64),
                                            Email('Please input a valid email.')])
-    avatar = StringField('Avatar url', validators=[URL(message='Invalid URL')]) 
+    avatar = StringField('Avatar url', validators=[URL(message='Invalid URL', require_tld=False)]) # allow localhost
 
     tracks = SelectMultipleField('Tracks', coerce=int)
 

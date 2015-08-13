@@ -40,7 +40,7 @@ def upload():
                             img.size[0]/2+l/2, img.size[1]/2+l/2))
             img.save(fileadr)
 
-            return jsonify(url=url_for('pic.fetch', filename=filename))
+            return jsonify(url=url_for('pic.fetch', filename=filename, _external=True))
     else:
         return render_template('test/upload_picture.html')
 

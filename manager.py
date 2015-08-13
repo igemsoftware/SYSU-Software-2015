@@ -77,7 +77,7 @@ def testinit(slient=False, noinit=False):
         # add testing component prototype
         if app.config.has_key('INIT_PRELOAD_WORKS'):
             for filename in app.config['INIT_PRELOAD_WORKS']:
-                w = Work().load_from_file(filename)
+                device = Device().load_from_file(filename)
 
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
 
