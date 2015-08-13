@@ -82,7 +82,7 @@ class Relationship(db.Model):
             self.__equation = value.json_dumps()
         elif isinstance(value, dict):
             self.__equation = json.dumps(value)
-        elif isinstance(value, str):
+        elif isinstance(value, str) or isinstance(value, unicode):
             self.__equation = value 
     __equation = db.Column(db.Text, default='')
 
