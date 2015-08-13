@@ -1,6 +1,6 @@
 from . import main
 
-from flask import render_template, jsonify, request, current_app
+from flask import render_template, jsonify, request, current_app, url_for
 from flask.ext.login import login_required
 
 @main.before_app_request 

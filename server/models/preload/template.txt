@@ -2,7 +2,6 @@
 # introduction
 # source
 # safe_rank
-# type
 # interfaceA,interfaceB
 # table of the devices
 # table of the devices
@@ -11,4 +10,4 @@
 # table of the devices
 # table of the devices
 # table of the devices
-# A, A type, B, B type, relationship type
+# A, B, relationship type

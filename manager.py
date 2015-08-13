@@ -3,6 +3,7 @@ from flask.ext.script import Manager, Shell, Command
 #from flask.ext.migrate import Migrate, MigrateCommand
 
 from server.models import * 
+from server.tools.preload import preload_parts
 
 app = create_app('default')
 
@@ -73,11 +74,16 @@ def testinit(slient=False, noinit=False):
     if not noinit: init(slient)
     with app.app_context():
         if not slient: print bcolors.HEADER+'Adding test components ...',
+        # useless
+#        db.engine.raw_connection().connection.text_factory = 'utf8'
+
+        # add testing parts
+        for filename in app.config.get('INIT_PRELOAD_PARTS', []):
+            preload_parts(filename)
 
         # add testing component prototype
-        if app.config.has_key('INIT_PRELOAD_WORKS'):
-            for filename in app.config['INIT_PRELOAD_WORKS']:
-                device = Device().load_from_file(filename)
+        for filename in app.config.get('INIT_PRELOAD_DEVICES', []):
+            device = Device().load_from_file(filename)
 
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
 

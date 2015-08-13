@@ -6,7 +6,7 @@ from task import watched_tasks, Task
 from memo import Memo
 from comment import Comment
 from track import Track, tracks
-from function import Favorite_circuit
+from synbio import Favorite_circuit
 
 from datetime import datetime, timedelta
 from flask.ext.login import UserMixin

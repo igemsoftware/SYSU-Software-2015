@@ -64,6 +64,8 @@ class Protocol(db.Model):
                                    lazy='dynamic',
                                    cascade='all, delete-orphan')
 
+from equation import Equation
+
 class Relationship(db.Model):
     start_id = db.Column(db.Integer, db.ForeignKey('componentprototype.id'),
                             primary_key=True)
@@ -71,8 +73,26 @@ class Relationship(db.Model):
                             primary_key=True)
     type = db.Column(db.String(64), default='normal')
 
+    @property
+    def equation(self):
+        return Equation(jsonstr=self.__equation)
+    @equation.setter
+    def equation(self, value):
+        if isinstance(value, Equation):
+            self.__equation = value.json_dumps()
+        elif isinstance(value, dict):
+            self.__equation = json.dumps(value)
+        elif isinstance(value, str):
+            self.__equation = value 
+    __equation = db.Column(db.Text, default='')
+
+    def __init__(self, **kwargs):
+        super(Relationship, self).__init__(**kwargs)
+        self.equation = {'parameters':{}, 'content':''}
+
     def __repr__(self):
         return '<Relationship: %s->%s>' % (self.start.name, self.end.name)
+
 
 class ComponentPrototype(db.Model):
     __tablename__ = 'componentprototype'
@@ -80,9 +100,12 @@ class ComponentPrototype(db.Model):
 
     name = db.Column(db.String, unique=True)
 
+    type = db.Column(db.String(64), default='None')
     introduction = db.Column(db.Text, default="No introduction yet.")
     source = db.Column(db.Text, default="Come from no where.")
-    safe_rank = db.Column(db.String(128), default="Unknow")
+    risk = db.Column(db.Integer, default="-1")
+    BBa = db.Column(db.String, default='')
+    bacterium = db.Column(db.String, default='')
     
     point_to = db.relationship('Relationship', 
                                foreign_keys=[Relationship.start_id],
@@ -94,7 +117,6 @@ class ComponentPrototype(db.Model):
                                backref=db.backref('end', lazy='joined'),
                                lazy='dynamic',
                                cascade='all, delete-orphan')
-    type = db.Column(db.String(64), default='None')
 
     def __repr__(self):
         return '<ComponentPrototype: %s>' % self.name
@@ -185,7 +207,7 @@ class Device(db.Model, BioBase):
 
     introduction = db.Column(db.Text, default="No introduction yet.")
     source = db.Column(db.Text, default="Come from no where.")
-    safe_rank = db.Column(db.String(128), default="Unknow")
+    risk = db.Column(db.Integer, default="-1")
     pic_url = db.Column(db.Text, default='')
 
     recommended_protocol = db.relationship('ProtocolRecommend',
@@ -199,14 +221,15 @@ class Device(db.Model, BioBase):
         BioBase.__init__(self)
 
     # load from file
-    def __load_prototype_and_instance(self, name, type, new_instance):
+    def __load_prototype_and_instance(self, name, new_instance):
         pname = name.split('_')[0]
         # add Prototype if not exist
         c = ComponentPrototype.query.filter_by(name=pname).first()
         if c==None:
-            c = ComponentPrototype(name=pname, type=type)
-        db.session.add(c)
-        db.session.commit()
+            raise Exception('No prototype [%s].'%pname)
+#           c = ComponentPrototype(name=pname, type=type)
+#       db.session.add(c)
+#       db.session.commit()
 
         # add component if not exist
         if new_instance:
@@ -226,21 +249,22 @@ class Device(db.Model, BioBase):
         self.introduction = f.readline().strip()
         self.source = f.readline().strip()
         self.saferank = f.readline().strip()
-        self.type = f.readline().strip()
+        # self.type = f.readline().strip()
         self.interfaceA, self.interfaceB = f.readline().strip().split(',') 
 
         rec = set() 
         for line in f:
-            if len(line.strip().split('\t')) != 5:
-                raise Exception('Format error (No extra empty line after the table).')
-            A_name, A_type, B_name, B_type, R_type = line.strip().split('\t')
+            if len(line.strip(' \n').split('\t')) != 3:
+                #raise Exception('Format error (No extra empty line after the table).')
+                print('Warning: Format error. Skip line [%s].'%line.strip(' \n'))
+            A_name, B_name, R_type = line.strip().split('\t')
 
             # add a
-            A_prototype, A_instance = self.__load_prototype_and_instance(A_name, A_type, not A_name in rec)
+            A_prototype, A_instance = self.__load_prototype_and_instance(A_name, not A_name in rec)
             rec.add(A_name)
 
             # add b
-            B_prototype, B_instance = self.__load_prototype_and_instance(B_name, B_type, not B_name in rec)
+            B_prototype, B_instance = self.__load_prototype_and_instance(B_name, not B_name in rec)
             rec.add(B_name)
 
             # add relationship for prototype

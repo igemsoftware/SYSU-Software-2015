@@ -19,7 +19,7 @@ def data_fetch_parts():
         l.append( {'name': c.name,
                    'introduction': c.introduction,
                    'source': c.source,
-                   'safe_rank': c.safe_rank,
+                   'risk': c.risk,
                    'type': c.type
                    })
     return jsonify(parts=l)
@@ -47,7 +47,7 @@ def data_fetch_adjmatrix():
 @design.route('/data/fetch/device')
 def data_fetch_device():
     devices = [] 
-    for device in Device.query.filter_by(type='device').all():
+    for device in Device.query.filter_by().all():
         device.update_from_db()
         devices.append({'title': device.title,
                   'parts': map(lambda x: x.jsonify(), device.parts),
@@ -56,7 +56,7 @@ def data_fetch_device():
                   'interfaceB': device.interfaceB,
                    'introduction': device.introduction,
                    'source': device.source,
-                   'safe_rank': device.safe_rank,
+                   'risk': device.risk,
                   })
 
     return jsonify(deviceList=devices)

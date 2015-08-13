@@ -32,9 +32,10 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///sysu2015_dev.db"
 
     # init
-    INIT_PRELOAD_WORKS = ['server/models/devices/NJU2013-1.txt',
-                          'server/models/devices/NJU2013-2.txt',
-                          'server/models/devices/NJU2013-3.txt']
+    INIT_PRELOAD_DEVICES = ['server/models/preload/NJU2013-1.txt',
+                            'server/models/preload/NJU2013-2.txt',
+                            'server/models/preload/NJU2013-3.txt']
+    INIT_PRELOAD_PARTS = ['server/models/preload/parts.txt']
 
 
 class ProductionConfig(Config):
