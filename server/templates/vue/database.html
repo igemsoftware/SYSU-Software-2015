@@ -1,3 +1,4 @@
+<!--
 <div id="view-database">
   <div id="database-toolbar">
     <span class="database-record-count">[[databaseRecords.length]] [[databaseRecords.length | pluralize 'record' 'records']]</span>
@@ -26,4 +27,39 @@
     <a href="" class="more">more</a>
   </div>
  </div>
+</div>
+-->
+
+<div id="view-database">
+  <div id="database-sidebar">
+    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'all'" v-on="click: selectTag('all', true, null, null, false)">All</button>
+    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'drafts'" v-on="click: selectTag('drafts', true, 2, 'completeness', true)">Drafts</button>
+    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'finished'" v-on="click: selectTag('finished', true, 2, 'completeness', false)">Finished</button>
+    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'favorites'" v-on="click: selectTag('favorites', false, null, null, false)">Favorites</button>
+    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'share'" v-on="click: selectTag('share', true, 'share', 'tags', false)">My Sharings</button>
+    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'public'" v-on="click: selectTag('public', true, 'public', 'tags', false)">My Publics</button>
+    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'task'" v-on="click: selectTag('task', true, 'task', 'tags', false)">Mentioned In TaskHall</button>
+  </div>
+
+  <div id="database-main">
+    <div id="database-list">
+      <div class="database items" v-show="filterMine">
+        <button class="ui fluid button database item"
+          v-repeat="rec in databaseRecords | recordFilterBy filterData in filterKey filterRev"
+          v-class="selected: selectedRecord === rec"
+          v-on="click: selectedRecord = rec">
+          [[rec.title]]
+        </button>
+      </div>
+
+      <div class="database items" v-show="!filterMine">
+
+      </div>
+    </div>
+    <div id="database-detail">
+      <div id="detail-header"></div>
+      <div id="detail-tabs"></div>
+    </div>
+  </div>
+
 </div>
