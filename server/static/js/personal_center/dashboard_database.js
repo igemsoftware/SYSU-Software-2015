@@ -17,10 +17,12 @@ var helper = {
 
 
 var vDatabaseComponent = Vue.component('dashboard-database', {
+    template: '#database-template',
     data    : function() {
         return {
             databaseRecords : [
             {
+                id              : 0,
                 title           : 'DNA and Protein 1',
                 description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
                 tags            : ['Task', 'Share'],
@@ -28,6 +30,7 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
                 time            : 2,
             },
             {
+                id              : 1,
                 title           : 'DNA and Protein 2',
                 description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
                 tags            : ['Public'],
@@ -35,6 +38,7 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
                 time            : 1,
             },
             {
+                id              : 2,
                 title           : 'DNA and Protein 3',
                 description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
                 tags            : ['Public'],
@@ -42,6 +46,7 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
                 time            : 1,
             },
             {
+                id              : 3,
                 title           : 'DNA and Protein',
                 description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
                 tags            : ['Public'],
@@ -49,6 +54,7 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
                 time            : 1,
             },
             {
+                id              : 4,
                 title           : 'DNA and Protein',
                 description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
                 tags            : ['Public'],
@@ -56,6 +62,7 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
                 time            : 1,
             },
             {
+                id              : 5,
                 title           : 'DNA and Protein',
                 description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
                 tags            : ['Public'],
@@ -63,6 +70,7 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
                 time            : 1,
             },
             {
+                id              : 6,
                 title           : 'DNA and Protein',
                 description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
                 tags            : ['Task'],
@@ -70,21 +78,29 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
                 time            : 3,
             }
             ],
+            favoriteRecords : [],
             currentOrder    : 'time',
             orderReverse    : true,
             orders          : ['time', 'completeness', 'Task', 'Public', 'Share'],
             editStatus      : false,
-            filterData      : null,
-            filterKey       : null,
-            filterRev       : false,
-            filterMine      : true,
+            tagData         : null,
+            tagKey          : null,
+            tagRev          : false,
+            tagMine         : true,
             selectedRecord  : null,
             selectedTag     : 'all',
+            selectedTab     : 0,
+            searchTerm      : '',
         }
     },
-    template: '#database-template',
+    computed: {
+        recordsBeingDisplayed: function() {
+            return this.$eval('(this.tagMine ? this.databaseRecords : this.favoriteRecords)' +
+                              '| recordFilterBy tagData in tagKey tagRev' +
+                              '| filterBy searchTerm');
+        },
+    },
     ready : function() {
-        $(function() { $("#order_dropdown").dropdown(); });
     },
     methods : {
         getRecordClass: function(completeness) {
@@ -92,10 +108,14 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
         },
         selectTag: function(tag, mine, data, key, reverse) {
             this.selectedTag = tag;
-            this.filterMine = mine;
-            this.filterData = data;
-            this.filterKey = key;
-            this.filterRev = reverse;
+            this.tagMine = mine;
+            this.tagData = data;
+            this.tagKey = key;
+            this.tagRev = reverse;
+        },
+        selectRecord: function(rec) {
+            this.selectedTab = 0;
+            this.selectedRecord = rec;
         },
     },
     filters : {
@@ -121,7 +141,6 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
             });
         },
         recordFilterBy : function (arr, search, delimiter, dataKey, reverse) {
-            console.log(search);
             if (search == null)
                 return arr;
             search = ('' + search).toLowerCase();

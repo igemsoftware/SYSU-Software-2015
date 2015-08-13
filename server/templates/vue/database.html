@@ -1,36 +1,4 @@
-<!--
-<div id="view-database">
-  <div id="database-toolbar">
-    <span class="database-record-count">[[databaseRecords.length]] [[databaseRecords.length | pluralize 'record' 'records']]</span>
-    <div id="database-edit">
-      <a v-on="click: editStatus = !editStatus" style="cursor: pointer;">Edit</a>
-      <span>Sort by
-        <div class="ui inline dropdown" id="order_dropdown">
-          <input type="hidden" v-model="currentOrder" lazy>
-          <div class="text">Time</div>
-          <i class="dropdown icon"></i>
-          <div class="menu">
-            <div class="item" data-value="[[ord]]" v-repeat="ord : orders">[[ord | capitalize]]</div>
-          </div>
-        </div>
-        <a v-on="click: orderReverse = !orderReverse" style="cursor: pointer;">[[orderReverse ? '↓' : '↑']]</a>
-      </span>
-    </div>
-  </div>
-  <div v-show="databaseRecords.length" class="database records no-scrollbar">
-    <div v-repeat="rec : databaseRecords | recordOrderBy currentOrder orderReverse" class="database record"
-    v-class="getRecordClass(rec.completeness)" v-transition>
-    <div class="header">[[rec.title]]</div>
-    <div class="tags"><div v-repeat="tag : rec.tags">[[tag | capitalize]]</div></div>
-    <div class="description">[[rec.description]]</div>
-    <div class="completeness"><span>completeness: </span><div class="completeness-wrapper"><div v-repeat="rec.completeness + 1" class="[[getRecordClass($index)]]"></div></div></div>
-    <a href="" class="more">more</a>
-  </div>
- </div>
-</div>
--->
-
-<div id="view-database">
+<div id="view-database" v-cloak>
   <div id="database-sidebar">
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'all'" v-on="click: selectTag('all', true, null, null, false)">All</button>
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'drafts'" v-on="click: selectTag('drafts', true, 2, 'completeness', true)">Drafts</button>
@@ -43,22 +11,46 @@
 
   <div id="database-main">
     <div id="database-list">
-      <div class="database items" v-show="filterMine">
+      <p id="database-stats">[[recordsBeingDisplayed.length]] records <a v-on="click: editStatus = !editStatus">Edit</a></p>
+      <div id="database-search" class="ui left icon input">
+        <input type="text" placeholder="Search..." v-model="searchTerm" debounce="500">
+        <i class="search icon"></i>
+      </div>
+      <div class="database items">
         <button class="ui fluid button database item"
-          v-repeat="rec in databaseRecords | recordFilterBy filterData in filterKey filterRev"
+          v-repeat="rec in recordsBeingDisplayed"
           v-class="selected: selectedRecord === rec"
-          v-on="click: selectedRecord = rec">
+          v-on="click: selectRecord(rec)">
           [[rec.title]]
         </button>
       </div>
 
-      <div class="database items" v-show="!filterMine">
-
-      </div>
     </div>
-    <div id="database-detail">
-      <div id="detail-header"></div>
-      <div id="detail-tabs"></div>
+    <div id="database-detail" v-show="selectedRecord !== null">
+      <div id="detail-header">
+        <div class="title">[[selectedRecord.title]]</div>
+        <div id="detail-completeness" class="detail header meta">
+          <div class="text">completeness:</div>
+          <div v-repeat="item in ['design', 'modeling', 'experiment']"
+               v-show="selectedRecord.completeness >= $index"
+               class="completeness [[item]]"
+               data-content="[[item | capitalize]]"></div>
+        </div>
+        <div id="detail-tags" class="detail header meta">
+          <div class="text">tags:</div>
+          <a class="ui tag label" v-repeat="tag in selectedRecord.tags">[[tag]]</a>
+        </div>
+      </div>
+      <div id="detail-tabs">
+        <div class="ui pointing secondary menu">
+          <a v-repeat="i in ['Description', 'Graph']"
+             class="item"
+             v-class="active: selectedTab === $index"
+             v-on="click: selectedTab = $index">[[i]]</a>
+        </div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 0" id="details-description-tab">[[selectedRecord.description]]</div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 1"></div>
+      </div>
     </div>
   </div>
 

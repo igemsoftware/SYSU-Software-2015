@@ -35,9 +35,6 @@
     <div class="item" id="topbar-menu">
       <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>
     </div>
-    <div v-repeat="item : views" class="item" id="topbar-[[item]]">
-      <div class="ui button" id="topbar-btn-[[item]]" v-on="click: currentView = item">[[item | capitalize]]</div>
-    </div>
     <div class="right menu">
       <div v-repeat="item : rightMenu" class="item" id="topbar-[[item]]">
         <div class="ui button" id="topbar-btn-[[item]]">[[item | capitalize]]</div>
