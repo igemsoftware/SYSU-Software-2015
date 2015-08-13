@@ -6,7 +6,7 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
-    type = db.Column(db.Integer) # reply:0 or lab:1 reminder
+    type = db.Column(db.String) # enum? 'lab', 'database', 'task' 
     isread = db.Column(db.Boolean, default=False)
 
     #sender_id = db.Column(db.Integer)

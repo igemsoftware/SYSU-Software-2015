@@ -6,6 +6,7 @@ from task import watched_tasks, Task
 from memo import Memo
 from comment import Comment
 from track import Track, tracks
+from function import Favorite_circuit
 
 from datetime import datetime, timedelta
 from flask.ext.login import UserMixin
@@ -70,8 +71,6 @@ class User(UserMixin, db.Model):
     @property
     def sent_messages(self):
         return Message.query.filter(Message.sender_id==self.id).all()
-
-
 
 
     # tasks
@@ -140,6 +139,13 @@ class User(UserMixin, db.Model):
 
     # track
     tracks = db.relationship('Track', secondary=tracks, backref=db.backref('user', lazy='dynamic')) 
+
+    # favoriate circuit
+    favorite_circuits = db.relationship('Circuit', secondary=Favorite_circuit, backref=db.backref('user', lazy='dynamic'))
+
+
+
+
 
     # confirmed
 #    confirmed = db.Column(db.Boolean, default=False)

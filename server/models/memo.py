@@ -23,7 +23,10 @@ class Memo(db.Model):
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
 
     # in discussion
-    project_id = db.Column(db.Integer) 
+    #project_id = db.Column(db.Integer) 
+    record = db.Column(db.Text)
+    error_record = db.Column(db.Text)
+
 
     # change the plan time
     def change_plan_time(self, time):
