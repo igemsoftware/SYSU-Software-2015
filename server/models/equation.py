@@ -24,6 +24,14 @@ class Equation():
             res = res.replace('{{'+p+'}}', str(v))
         return res
 
+# javascript
+# function render(e) { 
+#       var res = e.content;  
+#       for (var key in e.parameters) 
+#       res=res.replace('{{'+key+'}}', e.parameters[key]); 
+#       return res; 
+# }
+
     def json_dumps(self):
         return json.dumps({ 
                  'content': self.content,
@@ -32,4 +40,8 @@ class Equation():
     
     def __repr__(self):
         return self.render()
+
+    def jsonify(self):
+        return {'content': self.content,
+                'parameters': self.parameters}
 

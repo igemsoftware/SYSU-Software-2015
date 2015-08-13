@@ -30,7 +30,9 @@ def data_fetch_relationship():
     for r in Relationship.query.all():
         l.append({'start': r.start.name,
                   'end': r.end.name,
-                  'type': r.type})
+                  'type': r.type,
+                  'equation':r.equation.jsonify() #render()
+                  })
     return jsonify(relationship=l)
 
 @design.route('/data/fetch/adjmatrix')
