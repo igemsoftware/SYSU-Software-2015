@@ -20,13 +20,13 @@ class TestCase(_TestCase):
         db.session.commit()
 
         # add empty component prototype
-        c = ComponentPrototype(name='None', doc='This is the empty component', sequence='')
+        c = ComponentPrototype(name='None', introduction='This is the empty component')
         db.session.add(c)
         db.session.commit()
 
         # add testing component prototype
-        pro = ComponentPrototype(name='Promotor', doc='I\'m Promotor', sequence='')
-        rbs = ComponentPrototype(name='RBS', doc='I\'m RBS', sequence='')
+        pro = ComponentPrototype(name='Promotor', introduction='I\'m Promotor')
+        rbs = ComponentPrototype(name='RBS', introduction='I\'m RBS')
         db.session.add_all([pro, rbs])
         db.session.commit()
 
