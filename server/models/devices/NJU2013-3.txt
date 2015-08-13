@@ -1,5 +1,7 @@
 NJU2013-3
 [cuicuit 3](http://2013.igem.org/Team:Nanjing-China)
+http://2013.igem.org/Team:Nanjing-China
+Unknown
 device
 Pcon_1,CHeZ_1
 Pcon_1	promoter	A-RBS_1	RBS	normal

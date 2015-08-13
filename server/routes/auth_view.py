@@ -12,6 +12,8 @@ def register():
     form = RegistrationForm(request.form)
     form.tracks.choices = [(track.id, track.name) for track in Track.query.all()]
 
+    print form.avatar.data
+
     if request.method == 'POST' and form.validate():
         u = User(username=form.username.data, email=form.email.data, password=form.password.data, avatar=form.avatar.data)
         for track_id in form.tracks.data:
@@ -28,13 +30,8 @@ def login():
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
         user = User.query.filter_by(username=form.username.data).first()
-        if user is None:
-            form.username.errors = True 
-        elif not user.verify_password(form.password.data):
-            form.password.errors = True 
-        else:
-            login_user(user)
-            return redirect(request.args.get('next') or url_for('main.index'))
+        login_user(user)
+        return redirect(request.args.get('next') or url_for('person.index'))
     return render_template('auth/login.html', form=form)
 
 @login_required

@@ -37,10 +37,37 @@
 from .. import db
 import json
 
-class Relationship(db.Model):
-    start_id = db.Column(db.Integer, db.ForeignKey('componentprototypes.id'),
+
+class ProtocolRecommend(db.Model):
+    protocol_id = db.Column(db.Integer, db.ForeignKey('protocol.id'),
                             primary_key=True)
-    end_id = db.Column(db.Integer, db.ForeignKey('componentprototypes.id'),
+    device_id = db.Column(db.Integer, db.ForeignKey('device.id'),
+                            primary_key=True)
+
+    def __repr__(self):
+        return '<ProtocolRecommend: %s->%s>' % (self.prototype.name, self.device.name)
+
+class Protocol(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    name = db.Column(db.String(128), default='', index=True)
+    introduction = db.Column(db.Text, default='')
+    content = db.Column(db.Text, default='')
+    timescale = db.Column(db.Integer)
+
+    liked = db.Column(db.Integer, default=0)
+    used_times = db.Column(db.Integer, default=0)
+
+    recommend_to = db.relationship('ProtocolRecommend',
+                                   foreign_keys=[ProtocolRecommend.protocol_id],
+                                   backref=db.backref('protocol', lazy='joined'),
+                                   lazy='dynamic',
+                                   cascade='all, delete-orphan')
+
+class Relationship(db.Model):
+    start_id = db.Column(db.Integer, db.ForeignKey('componentprototype.id'),
+                            primary_key=True)
+    end_id = db.Column(db.Integer, db.ForeignKey('componentprototype.id'),
                             primary_key=True)
     type = db.Column(db.String(64), default='normal')
 
@@ -48,14 +75,14 @@ class Relationship(db.Model):
         return '<Relationship: %s->%s>' % (self.start.name, self.end.name)
 
 class ComponentPrototype(db.Model):
-    __tablename__ = 'componentprototypes'
-    
+    __tablename__ = 'componentprototype'
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String, unique=True)
-    doc = db.Column(db.Text) 
-    sequence = db.Column(db.Text, default='')
-    # picture ...
+
+    introduction = db.Column(db.Text, default="No introduction yet.")
+    source = db.Column(db.Text, default="Come from no where.")
+    safe_rank = db.Column(db.String(128), default="Unknow")
     
     point_to = db.relationship('Relationship', 
                                foreign_keys=[Relationship.start_id],
@@ -93,55 +120,18 @@ class ComponentInstance():
                     'positionX': self.positionX,
                     'positionY': self.positionY,
                }
-        
-# Original Model
-#   def __init__(self, prototype_id, alias=None, x=0., y=0., local_id=-1):
-#       c = ComponentPrototype.query.get(prototype_id)
-#       if c is None:
-#           prototype_id = 1 # empty component
-#           c = ComponentPrototype.query.get(prototype_id)
-
-#       self.prototype_id = prototype_id
-#       self.local_id = local_id 
-#       self.name = c.name
-#       # can retrieve by querying
-#       # self.doc = c.doc
-#       # self.sequence = c.sequence
-
-#       self.x = x
-#       self.y = y
-#       self.alias = alias if alias else self.name 
-
-#   def jsonify(self):
-#       return {
-#                   'alias': self.alias,
-#                   'local_id': self.local_id,
-#                   'prototype_id': self.prototype_id,
-#                   'x': self.x,
-#                   'y': self.y,
-#              }
 
     def __repr__(self):
         return repr(self.jsonify())
 
 
-class Work(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-
-    title = db.Column(db.String(32))
-    doc = db.Column(db.Text)
-    type = db.Column(db.String(32), default='Normal')
-
+class BioBase():
     content = db.Column(db.Text)
-
-#    local_id = db.Column(db.Integer, default=0)
-    
-    def __init__(self, **kwargs):
+    def __init__(self):
         self.parts = []
         self.relationship = []
         self.interfaceA = ''
         self.interfaceB = ''
-        super(Work, self).__init__(**kwargs)
 
     def update_from_db(self):
         #print self.connections
@@ -188,9 +178,25 @@ class Work(db.Model):
     def del_component(self, local_id):
         self.relationship.remove(local_id)
 
+class Device(db.Model, BioBase):
+    id = db.Column(db.Integer, primary_key=True)
 
+    title = db.Column(db.String(32))
 
+    introduction = db.Column(db.Text, default="No introduction yet.")
+    source = db.Column(db.Text, default="Come from no where.")
+    safe_rank = db.Column(db.String(128), default="Unknow")
+    pic_url = db.Column(db.Text, default='')
 
+    recommended_protocol = db.relationship('ProtocolRecommend',
+                                   foreign_keys=[ProtocolRecommend.device_id],
+                                   backref=db.backref('device', lazy='joined'),
+                                   lazy='dynamic',
+                                   cascade='all, delete-orphan')
+
+    def __init__(self, **kwargs):
+        # super(Work, self).__init__(**kwargs)
+        BioBase.__init__(self)
 
     # load from file
     def __load_prototype_and_instance(self, name, type, new_instance):
@@ -217,7 +223,9 @@ class Work(db.Model):
         print 'loading %s ...' % filename
         f = open(filename, 'r')
         self.title = f.readline().strip()
-        self.doc = f.readline().strip()
+        self.introduction = f.readline().strip()
+        self.source = f.readline().strip()
+        self.saferank = f.readline().strip()
         self.type = f.readline().strip()
         self.interfaceA, self.interfaceB = f.readline().strip().split(',') 
 
@@ -250,16 +258,58 @@ class Work(db.Model):
         return self
 
 
+from datetime import datetime
 
+Favorite_circuit = db.Table('Favorite_circuit',
+    db.Column('circuit_id', db.Integer, db.ForeignKey('circuit.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+)
 
+class Circuit(db.Model, BioBase):
+    id = db.Column(db.Integer, primary_key=True)
 
-# uselesss
-#   class ComponentInstance(db.Model):
-#       id = db.Column(db.Integer, primary_key=True)
+    is_finished = db.Column(db.Boolean, default=False)
+    is_shared = db.Column(db.Boolean, default=False)
+    is_public = db.Column(db.Boolean, default=False)
+    task_related = db.Column(db.Integer, default=-1)
 
-#       alias = db.Column(db.String)
-#       prototype_id = db.Column(db.Integer, db.ForeignKey('ComponentPrototype.id')) 
+    create_time = db.Column(db.DateTime, index=True, default=datetime.now)
+    progress = db.Column(db.Integer, default=0)
+    name = db.Column(db.String(128), default='No name')
+    introduction = db.Column(db.Text)
 
-#       coordinate_x = db.Column(db.Integer) 
-#       coordinate_y = db.Column(db.Integer)  
+    # in public database
+    db_create_time = db.Column(db.DateTime)
+    liked = db.Column(db.Integer, default=0)
+    favoriter = db.relationship('User', secondary=Favorite_circuit, backref=db.backref('circuit', lazy='dynamic')) 
+    grade = db.Column(db.Text) # how ?
+    
+
+# Original Model
+#   def __init__(self, prototype_id, alias=None, x=0., y=0., local_id=-1):
+#       c = ComponentPrototype.query.get(prototype_id)
+#       if c is None:
+#           prototype_id = 1 # empty component
+#           c = ComponentPrototype.query.get(prototype_id)
+
+#       self.prototype_id = prototype_id
+#       self.local_id = local_id 
+#       self.name = c.name
+#       # can retrieve by querying
+#       # self.doc = c.doc
+#       # self.sequence = c.sequence
+
+#       self.x = x
+#       self.y = y
+#       self.alias = alias if alias else self.name 
+
+#   def jsonify(self):
+#       return {
+#                   'alias': self.alias,
+#                   'local_id': self.local_id,
+#                   'prototype_id': self.prototype_id,
+#                   'x': self.x,
+#                   'y': self.y,
+#              }
+
 
