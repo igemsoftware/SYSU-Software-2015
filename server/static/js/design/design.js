@@ -1089,3 +1089,21 @@ $(function() {
     DataManager.getRelationAdjDataFromServer();
     DataManager.getRelationShipDataFromServer();
 })
+
+
+//===============================================================================
+//===============================================================================
+//===============================================================================
+//===============================================================================
+
+$("#createCustomPart").click(function() {
+	$('#createCustomPartModal').modal("show");
+})
+
+$('.dropdown').dropdown();
+
+$(".cancel").each(function() {
+	$(this).click(function() {
+		$('.modal').modal("hide");
+	});
+});

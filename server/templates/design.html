@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="/static/css/semantic.min.css">
-    <link rel="stylesheet" href="/static/css/topbar.css">
+    <link rel="stylesheet" href="/static/css/main_common.css">
     <link rel="stylesheet" href="/static/css/design.css">
 
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>
@@ -92,7 +92,7 @@
           </div>
           <div class="title"><i class="dropdown icon"></i>Custom</div>
           <div class="content" id="Custom">
-            <button class="ui fluid labeled icon button">Create a part<i class="add icon"></i></button>
+            <button id="createCustomPart" class="ui fluid labeled icon button">Create a part<i class="add icon"></i></button>
             <div class="ui inverted divider"></div>
             <button class="ui fluid labeled icon button">Import a chart<i class="add icon"></i></button>
             <div class="ui inverted divider"></div>
@@ -118,6 +118,67 @@
           <div class="title"><i class="dropdown icon"></i>System</div>
             <div class="content" id="relateSystems">
               <p class="transition hidden"></p>
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="ui small modal" id="createCustomPartModal">
+        <div class="header">Create a custom part</div>
+          <div class="content">
+            <div class="ui grid">
+              <div class="three wide column">
+                <img class="ui tiny image" src="/static/img/design/promoter_70.png">
+              </div>
+              <div class="thirteen wide column">
+                <form class="ui form">
+                  <div class="two fields">
+                    <div class="field">
+                      <label>Part Type</label>
+                      <div class="ui fluid selection dropdown">
+                        <input name="partType" type="hidden">
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Select a type</div>
+                        <div class="menu">
+                          <div class="item" data-value="jenny">
+                            <img class="ui mini avatar image" src="/static/img/design/promoter_70.png">
+                            Promoter
+                          </div>
+                          <div class="item" data-value="elliot">
+                            <img class="ui mini avatar image" src="/static/img/design/RBS_70.png">
+                            RBS
+                          </div>
+                          <div class="item" data-value="stevie">
+                            <img class="ui mini avatar image" src="/static/img/design/gene_70.png">
+                            Gene
+                          </div>
+                          <div class="item" data-value="christian">
+                            <img class="ui mini avatar image" src="/static/img/design/terminator_70.png">
+                            Terminator
+                          </div>
+                          <div class="item" data-value="matt">
+                            <img class="ui mini avatar image" src="/static/img/design/protein_70.png">
+                            Protein
+                          </div>
+                          <div class="item" data-value="justen">
+                            <img class="ui mini avatar image" src="/static/img/design/chemical_70.png">
+                            Chemical
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <label>Part Name</label>
+                      <input type="text">
+                    </div>
+                  </div>
+                  <div class="fluid text-right">
+                    <div class="ui cancel button">Cancel</div>
+                    <div class="ui submit button">Submit</div>
+                  </div>
+                </form>
+              </div>
             </div>
         </div>
       </div>
