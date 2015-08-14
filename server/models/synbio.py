@@ -323,6 +323,19 @@ class Circuit(db.Model, BioBase):
 
         return self
 
+    def jsonify(self):
+        tags = []
+        if self.is_shared: tags.append('Share')
+        if self.is_public: tags.append('Public')
+        if self.task_related > 0: tags.append('Task')
+        return {
+            'id': self.id,
+            'tags': tags,
+            'progress': self.progress,
+            'title': self.name,
+            'description': self.introduction,
+        }
+
 
 
 # Original Model
