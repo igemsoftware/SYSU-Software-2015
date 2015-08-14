@@ -1,8 +1,8 @@
 <div id="view-database" v-cloak>
   <div id="database-sidebar">
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'all'" v-on="click: selectTag('all', true, null, null, false)">All</button>
-    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'drafts'" v-on="click: selectTag('drafts', true, 2, 'completeness', true)">Drafts</button>
-    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'finished'" v-on="click: selectTag('finished', true, 2, 'completeness', false)">Finished</button>
+    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'drafts'" v-on="click: selectTag('drafts', true, 2, 'progress', true)">Drafts</button>
+    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'finished'" v-on="click: selectTag('finished', true, 2, 'progress', false)">Finished</button>
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'favorites'" v-on="click: selectTag('favorites', false, null, null, false)">Favorites</button>
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'share'" v-on="click: selectTag('share', true, 'share', 'tags', false)">My Sharings</button>
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'public'" v-on="click: selectTag('public', true, 'public', 'tags', false)">My Publics</button>
@@ -29,11 +29,11 @@
     <div id="database-detail" v-show="selectedRecord !== null">
       <div id="detail-header">
         <div class="title">[[selectedRecord.title]]</div>
-        <div id="detail-completeness" class="detail header meta">
-          <div class="text">completeness:</div>
+        <div id="detail-progress" class="detail header meta">
+          <div class="text">progress:</div>
           <div v-repeat="item in ['design', 'modeling', 'experiment']"
-               v-show="selectedRecord.completeness >= $index"
-               class="completeness [[item]]"
+               v-show="selectedRecord.progress >= $index"
+               class="progress [[item]]"
                data-content="[[item | capitalize]]"></div>
         </div>
         <div id="detail-tags" class="detail header meta">

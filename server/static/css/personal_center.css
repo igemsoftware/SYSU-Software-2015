@@ -133,7 +133,7 @@
     margin-right: 5px;
 }
 
-#detail-completeness > .completeness {
+#detail-progress > .progress {
     display: inline-block;
     width: 0.8em;
     height: 0.8em;
@@ -143,15 +143,15 @@
     margin-right: 5px;
 }
 
-#detail-completeness > .completeness.design {
+#detail-progress > .progress.design {
     background-color: #ec5a5b;
 }
 
-#detail-completeness > .completeness.modeling {
+#detail-progress > .progress.modeling {
     background-color: #ebf595;
 }
 
-#detail-completeness > .completeness.experiment {
+#detail-progress > .progress.experiment {
     background-color: #72d3e3;
 }
 

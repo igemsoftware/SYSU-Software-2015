@@ -20,68 +20,11 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
     template: '#database-template',
     data    : function() {
         return {
-            databaseRecords : [
-            {
-                id              : 0,
-                title           : 'DNA and Protein 1',
-                description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
-                tags            : ['Task', 'Share'],
-                completeness    : 0,
-                time            : 2,
-            },
-            {
-                id              : 1,
-                title           : 'DNA and Protein 2',
-                description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
-                tags            : ['Public'],
-                completeness    : 2,
-                time            : 1,
-            },
-            {
-                id              : 2,
-                title           : 'DNA and Protein 3',
-                description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
-                tags            : ['Public'],
-                completeness    : 2,
-                time            : 1,
-            },
-            {
-                id              : 3,
-                title           : 'DNA and Protein',
-                description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
-                tags            : ['Public'],
-                completeness    : 2,
-                time            : 1,
-            },
-            {
-                id              : 4,
-                title           : 'DNA and Protein',
-                description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
-                tags            : ['Public'],
-                completeness    : 2,
-                time            : 1,
-            },
-            {
-                id              : 5,
-                title           : 'DNA and Protein',
-                description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
-                tags            : ['Public'],
-                completeness    : 2,
-                time            : 1,
-            },
-            {
-                id              : 6,
-                title           : 'DNA and Protein',
-                description     : 'They listened in silence. No one interrupted.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consectetur aut officia necessitatibus possimus neque vitae expedita dolor autem, reprehenderit reiciendis ad esse ab sapiente minus, inventore voluptatem molestias assumenda rerum!',
-                tags            : ['Task'],
-                completeness    : 1,
-                time            : 3,
-            }
-            ],
+            databaseRecords : [],
             favoriteRecords : [],
             currentOrder    : 'time',
             orderReverse    : true,
-            orders          : ['time', 'completeness', 'Task', 'Public', 'Share'],
+            orders          : ['time', 'progress', 'Task', 'Public', 'Share'],
             editStatus      : false,
             tagData         : null,
             tagKey          : null,
@@ -101,12 +44,16 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
         },
     },
     ready : function() {
-        $('.completeness[data-content]').popup({position: 'top center'});
+        $('.progress[data-content]').popup({position: 'top center'});
+        var store = this;
+        $.get('/person/mine', function(data) {
+            store.$set('databaseRecords', data.mine);
+        });
+        $.get('/person/favorite', function(data) {
+            store.$set('favoriteRecords', data.favorite);
+        });
     },
     methods : {
-        getRecordClass: function(completeness) {
-            return ['design', 'modeling', 'experiment'][completeness];
-        },
         selectTag: function(tag, mine, data, key, reverse) {
             this.selectedTag = tag;
             this.tagMine = mine;
@@ -123,7 +70,7 @@ var vDatabaseComponent = Vue.component('dashboard-database', {
         recordOrderBy: function(arr, sortKey, reverse) {
             if (!sortKey)
                 return arr;
-            if (sortKey === 'time' || sortKey === 'completeness')
+            if (sortKey === 'time' || sortKey === 'progress')
                 return Vue.filter('orderBy')(arr, sortKey, reverse);
             var order = 1;
             if (arguments.length > 2) {
