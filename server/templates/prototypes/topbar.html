@@ -4,14 +4,11 @@
   <meta charset="UTF-8">
   <title>Top Bar</title>
   <link rel="stylesheet" href="/static/css/semantic.min.css">
-  <script src="/static/js/jquery.min.js"></script>
-  <script src="/static/js/semantic.min.js"></script>
-  <link rel="stylesheet" href="/static/css/topbar.css">
+  <link rel="stylesheet" href="/static/css/main_common.css">
 </head>
 <body>
 
   <div class="ui circular image" id="topbar-avatar" data-content="Dashboard"><a href=""><img src="/static/img/avatar.jpg" alt="avatar"></a></div>
-  <script>$(function() {$("#topbar-avatar").popup();});</script>
 
   <div class="ui page dimmer" id="main-switcher">
     <div class="content">
@@ -22,7 +19,6 @@
       </div>
     </div>
   </div>
-  <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
 
 
   <div class="ui secondary menu" id="topbar">
@@ -74,6 +70,12 @@
     <div class="ui tiny header">Fifth Header</div>
     <p>Sed molestias quisquam iste dolorem sunt voluptatum nihil illum pariatur quod omnis commodi soluta neque mollitia esse assumenda, consequatur minima dolores ducimus nobis blanditiis corporis excepturi suscipit eveniet. Veniam, iure!</p>
   </div>
+
+
+  <script src="/static/js/jquery.min.js"></script>
+  <script src="/static/js/semantic.min.js"></script>
+  <script>$(function() {$("#topbar-avatar").popup();});</script>
+  <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
 
 </body>
 </html>

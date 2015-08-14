@@ -15,7 +15,7 @@ class TestMemo(TestCase):
         db.session.add(u)
         db.session.commit()
 
-        m = u.add_memo('Sleep', 'I want to sleep', 60*8)
+        m = u.add_memo(title='Sleep', content='I want to sleep', time_scale=60*8)
         assert m.id is not None # added into db
 
         assert len(u.recv_messages.all()) == 0

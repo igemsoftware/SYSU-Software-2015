@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .red {
 	color: red;
 }
@@ -231,3 +232,8 @@
 .text-center {
     text-align: center;
 }
+=======
+#topbar-bottom-line {
+    background: linear-gradient(to right, #bf4849, #ec5a5b, #e65859);
+}
+>>>>>>> 45afa563d50ba4acd300ac62c7c14d3dc08e1c55

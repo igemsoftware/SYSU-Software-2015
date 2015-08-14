@@ -31,3 +31,9 @@
     background-color: #888;
     -webkit-border-radius: 2px;
 }
+
+
+/* no scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}

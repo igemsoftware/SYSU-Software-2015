@@ -88,6 +88,27 @@ def testinit(slient=False, noinit=False):
         Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
         Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
 
+        # circuit 
+        u = User(username='test', email='test@example.com', password='test', async_mail=False)
+        db.session.add(u)
+        c = Circuit(name='My first circuit', introduction='First circuit', owner=u, is_shared=True)._copy_from_device(1)
+        c = Circuit(name='My second circuit', introduction='Second circuit', owner=u, is_public=True)._copy_from_device(1)
+        c = Circuit(name='My third circuit', introduction='3rd circuit', owner=u)._copy_from_device(2)
+
+        admin = User.query.first()
+        c = Circuit(name='My first circuit', introduction='First circuit', owner=admin)._copy_from_device(1)
+        u.favorite_circuits.append(c)
+
+        # memo
+        u = User.query.filter_by(username='test').first()
+        from datetime import datetime, timedelta
+        m = u.add_memo(title='Sleep', content='I want to sleep', time_scale=60*8)
+        m.change_plan_time(datetime.now() + timedelta(minutes=60*2))
+        u.add_memo(title='Sleep', content='I want to sleep', time_scale=60*8)
+        m.change_plan_time(datetime.strptime('15-08-08 08-08-08', '%y-%m-%d %H-%M-%S'))
+
+
+
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
 
 
