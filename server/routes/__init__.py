@@ -8,6 +8,7 @@ person = Blueprint('person', __name__)
 db = Blueprint('db', __name__)
 design = Blueprint('design', __name__)
 taskhall = Blueprint('taskhall', __name__)
+calendar = Blueprint('calendar', __name__)
 
 views = [(main, ''),
          (auth, '/auth'),
@@ -16,8 +17,14 @@ views = [(main, ''),
          (db, '/db'),
          (design, '/design'),
          (taskhall, '/taskhall'),
+         (calendar, '/calendar'),
          ]
 
-from . import main_view, auth_view, \
-            pic_view, person_view, db_view, \
-            design_view, taskhall_view
+from . import main_view,\
+            auth_view, \
+            pic_view,\
+            person_view,\
+            db_view, \
+            design_view,\
+            taskhall_view,\
+            calendar_view

@@ -34,12 +34,12 @@ class User(UserMixin, db.Model):
     reg_date = db.Column(db.DateTime, default=datetime.now)
     last_seen = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, **kwargs):
+    def __init__(self, async_mail=True, **kwargs):
         kwargs['username'] = kwargs['username'][:128]
         super(User, self).__init__(**kwargs)
         if self.username != "Administrator":
             self.send_email(subject='Welcome to FLAME', template='email/greeting',
-                            user=self)
+                            user=self, async=async_mail)
 
     def ping(self):
         last_seen = datetime.now()
@@ -62,7 +62,7 @@ class User(UserMixin, db.Model):
     # messages
     recv_messages = db.relationship('Message', backref='receiver', lazy='dynamic')
 
-    def send_message_to(self, **kwargs):
+    def send_message_to(self, user, **kwargs):
         msg = Message(type=0, isread=False, sender_id=self.id, receiver_id=user.id, **kwargs)
         db.session.add(msg)
         db.session.commit()
@@ -109,8 +109,9 @@ class User(UserMixin, db.Model):
     # whether we send an email to user
     memo_email = db.Column(db.Boolean, default=True)
 
-    def add_memo(self, title, content, timescale):
-        m = Memo(title = title, content=content, timescale=timescale)
+    def add_memo(self, **kwargs):#title, content, timescale):
+        m = Memo(**kwargs)
+        #title = title, content=content, timescale=timescale)
         self.memos.append(m)
 
         db.session.add(m)
@@ -124,8 +125,8 @@ class User(UserMixin, db.Model):
             if m.message_sent == True: continue
             if (datetime.now()+td > m.plan_time):
                 # send via administrator
-                User.query.get(1).send_message_to('Notice: [%s]' % m.title, 
-                        'Memo: [%s...] is about to happen.' % m.content[:20], self)
+                User.query.get(1).send_message_to(self, title='Notice: [%s]' % m.title, 
+                    content='Memo: [%s...] is about to happen.' % m.content[:20])
 
                 # send email if needed
                 if self.memo_email == True:
