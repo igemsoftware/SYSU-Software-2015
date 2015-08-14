@@ -91,8 +91,8 @@ def testinit(slient=False, noinit=False):
         # test 
         u = User(username='test', email='test@example.com', password='test')
         db.session.add(u)
-        c = Circuit(name='My first circuit', introduction='First circuit', owner=u)._copy_from_device(1)
-        c = Circuit(name='My second circuit', introduction='Second circuit', owner=u)._copy_from_device(1)
+        c = Circuit(name='My first circuit', introduction='First circuit', owner=u, is_shared=True)._copy_from_device(1)
+        c = Circuit(name='My second circuit', introduction='Second circuit', owner=u, is_public=True)._copy_from_device(1)
         c = Circuit(name='My third circuit', introduction='3rd circuit', owner=u)._copy_from_device(2)
 
         admin = User.query.first()
