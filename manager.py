@@ -88,6 +88,19 @@ def testinit(slient=False, noinit=False):
         Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
         Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
 
+        # test 
+        u = User(username='test', email='test@example.com', password='test')
+        db.session.add(u)
+        c = Circuit(name='My first circuit', introduction='First circuit', owner=u)._copy_from_device(1)
+        c = Circuit(name='My second circuit', introduction='Second circuit', owner=u)._copy_from_device(1)
+        c = Circuit(name='My third circuit', introduction='3rd circuit', owner=u)._copy_from_device(2)
+
+        admin = User.query.first()
+        c = Circuit(name='My first circuit', introduction='First circuit', owner=admin)._copy_from_device(1)
+        u.favorite_circuit.append(c)
+
+
+
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
 
 

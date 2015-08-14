@@ -41,7 +41,7 @@ class User(UserMixin, db.Model):
             self.send_email(subject='Welcome to FLAME', template='email/greeting',
                             user=self)
 
-    def ping(self, ip):
+    def ping(self):
         last_seen = datetime.now()
         db.session.add(self)
 
@@ -62,8 +62,8 @@ class User(UserMixin, db.Model):
     # messages
     recv_messages = db.relationship('Message', backref='receiver', lazy='dynamic')
 
-    def send_message_to(self, title, content, user):
-        msg = Message(type=0, isread=False, sender_id=self.id, receiver_id=user.id, content=content, title=title)
+    def send_message_to(self, **kwargs):
+        msg = Message(type=0, isread=False, sender_id=self.id, receiver_id=user.id, **kwargs)
         db.session.add(msg)
         db.session.commit()
         return msg
@@ -71,7 +71,6 @@ class User(UserMixin, db.Model):
     @property
     def sent_messages(self):
         return Message.query.filter(Message.sender_id==self.id).all()
-
 
     # tasks
     watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
@@ -142,6 +141,7 @@ class User(UserMixin, db.Model):
 
     # favoriate circuit
     favorite_circuits = db.relationship('Circuit', secondary=Favorite_circuit, backref=db.backref('user', lazy='dynamic'))
+    circuits = db.relationship('Circuit', backref='owner', lazy='dynamic')
 
 
 

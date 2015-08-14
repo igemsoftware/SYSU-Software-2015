@@ -31,6 +31,7 @@ def login():
     if request.method == 'POST' and form.validate():
         user = User.query.filter_by(username=form.username.data).first()
         login_user(user)
+        user.ping()
         return redirect(request.args.get('next') or url_for('person.index'))
     return render_template('auth/login.html', form=form)
 
