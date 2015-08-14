@@ -12,7 +12,7 @@ class TestMessage(TestCase):
         db.session.add(j)
         db.session.commit()
 
-        m = i.send_message_to('Greeting', 'hello j', j)
+        m = i.send_message_to(j, title='Greeting', content='hello j')
         assert Message.query.get(1).sender_id == i.id
         assert Message.query.get(1).receiver_id == j.id
         assert j.recv_messages[0] == Message.query.get(1)

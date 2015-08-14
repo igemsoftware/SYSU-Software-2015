@@ -15,7 +15,7 @@ class Memo(db.Model):
     # when I want to start
     plan_time = db.Column(db.DateTime, default=datetime.now) # now
     # how long it takes
-    timescale = db.Column(db.Integer) # in minutes
+    time_scale = db.Column(db.Integer) # in minutes
     # whether the system has sent a message to user
     message_sent = db.Column(db.Boolean, default=False)
 
@@ -30,13 +30,14 @@ class Memo(db.Model):
 
     # change the plan time
     def change_plan_time(self, time):
-        plan_time = time
+        self.plan_time = time
 
         db.session.add(self)
         db.session.commit()
+        return self
 
     # when it will end
     def get_end_time(self):
-        return self.create_time + timedelta(minutes=self.timescale)
+        return self.create_time + timedelta(minutes=self.time_scale)
 
 
