@@ -291,6 +291,7 @@ Favorite_circuit = db.Table('Favorite_circuit',
 
 class Circuit(db.Model, BioBase):
     id = db.Column(db.Integer, primary_key=True)
+    owner_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
 
     is_finished = db.Column(db.Boolean, default=False)
     is_shared = db.Column(db.Boolean, default=False)
@@ -307,7 +308,22 @@ class Circuit(db.Model, BioBase):
     liked = db.Column(db.Integer, default=0)
     favoriter = db.relationship('User', secondary=Favorite_circuit, backref=db.backref('circuit', lazy='dynamic')) 
     grade = db.Column(db.Text) # how ?
-    
+
+    def _copy_from_device(self, device_id):
+        d = Device.query.get(device_id)
+        if not d: raise Exception('No device #%d' % device_id) 
+        d.update_from_db()
+
+        self.introduction = self.introduction+' (COPYED: '+d.introduction+')'
+        self.parts = d.parts
+        self.relationship = d.relationship
+        self.interfaceA = d.interfaceA
+        self.interfaceB = d.interfaceB
+        self.commit_to_db()
+
+        return self
+
+
 
 # Original Model
 #   def __init__(self, prototype_id, alias=None, x=0., y=0., local_id=-1):

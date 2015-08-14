@@ -41,7 +41,7 @@ class User(UserMixin, db.Model):
             self.send_email(subject='Welcome to FLAME', template='email/greeting',
                             user=self)
 
-    def ping(self, ip):
+    def ping(self):
         last_seen = datetime.now()
         db.session.add(self)
 
@@ -141,6 +141,7 @@ class User(UserMixin, db.Model):
 
     # favoriate circuit
     favorite_circuits = db.relationship('Circuit', secondary=Favorite_circuit, backref=db.backref('user', lazy='dynamic'))
+    circuits = db.relationship('Circuit', backref='owner', lazy='dynamic')
 
 
 
