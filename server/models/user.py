@@ -75,12 +75,10 @@ class User(UserMixin, db.Model):
     # tasks
     watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
 
-    def create_task(self, title, abstract, content):
-        t = Task(title=title, abstract=abstract, content=content, watcher=[self], sender_id=self.id)
+    def create_task(self, **kwargs):
+        t = Task(watcher=[self], sender_id=self.id, **kwargs)
         db.session.add(t)
         db.session.commit()
-
-        self.watch_task(t)
         return t
 
     def watch_task(self, task):

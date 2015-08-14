@@ -23,6 +23,9 @@ class Config:
     MAX_CONTENT_LENGTH = 4 * 1024 * 1024 # 4MB
     PICTURE_CROP_SIZE = (50, 50) 
 
+    #
+    FLASKY_TASKS_PER_PAGE = 2
+
     @staticmethod
     def init_app(app):
         pass

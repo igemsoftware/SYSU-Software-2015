@@ -108,7 +108,18 @@ def testinit(slient=False, noinit=False):
         u.add_memo(title='Sleep', content='I want to sleep', time_scale=60*8)
         m.change_plan_time(datetime.strptime('15-08-08 08-08-08', '%y-%m-%d %H-%M-%S'))
 
-
+        # task
+        u = User.query.filter_by(username='test').first()
+        u.create_task(title='Hidden features of Python',
+                content='What are the lesser-known but useful features of the Python programming language?',
+                votes=23, views=12)
+        u.create_task(title='What IDE to use for Python?',
+                content='What IDEs ("GUIs/editors") do others use for Python coding?',
+                votes=12, views=24) 
+        u.create_task(title='What is the name of the "-->" operator in C?',
+                content='int x = 10;\n while (x --> 0) {\\\\ x count down to 0\n \\\\foo\n}',
+                votes=20, views=19) 
+        
 
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
 
