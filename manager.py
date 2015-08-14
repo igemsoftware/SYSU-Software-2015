@@ -97,7 +97,7 @@ def testinit(slient=False, noinit=False):
 
         admin = User.query.first()
         c = Circuit(name='My first circuit', introduction='First circuit', owner=admin)._copy_from_device(1)
-        u.favorite_circuit.append(c)
+        u.favorite_circuits.append(c)
 
 
 
