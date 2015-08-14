@@ -75,20 +75,20 @@ class User(UserMixin, db.Model):
     # tasks
     watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
 
-    def create_task(self, title, abstract, content):
-        t = Task(title=title, abstract=abstract, content=content, watcher=[self], sender_id=self.id)
+    def create_task(self, **kwargs):
+        t = Task(watcher=[self], sender_id=self.id, **kwargs)
         db.session.add(t)
         db.session.commit()
         return t
 
-    def watch_task(self, task_id):
-        self.watched_tasks.append(Task.query.get(task_id))
+    def watch_task(self, task):
+        self.watched_tasks.append(task)
         db.session.add(self)
         db.session.commit()
 
     # comment
     def make_comment(self, task_id, content):
-        c = Comment(content=content, task_id=task_id)
+        c = Comment(content=content, task_id=task_id, sender_id=self.id)
         db.session.add(c)
         db.session.commit()
         return c
