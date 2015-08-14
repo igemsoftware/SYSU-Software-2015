@@ -20,7 +20,9 @@ def data_fetch_parts():
                    'introduction': c.introduction,
                    'source': c.source,
                    'risk': c.risk,
-                   'type': c.type
+                   'type': c.type,
+                   'BBa': c.BBa,
+                   'bacterium': c.bacterium
                    })
     return jsonify(parts=l)
 
