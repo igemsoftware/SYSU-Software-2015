@@ -63,7 +63,7 @@
 #database-list {
     width: 350px;
     min-width: 350px;
-    height: calc(100% - 100px);
+    height: 100%;
     padding: 1rem;
     border-right: 1px solid #e4e4e4;
 }
@@ -85,7 +85,7 @@
 
 #database-list .database.items {
     overflow-y: auto;
-    height: 100%;
+    height: calc(100% - 100px);
 }
 
 #database-list .database.item {

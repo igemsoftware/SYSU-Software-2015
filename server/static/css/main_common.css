@@ -11,7 +11,7 @@ body {
     background: linear-gradient(#151618, #2d2e30, #4f4f50);
     height: 48px;
     padding-left: 10px;
-    padding-right: 100px;
+    padding-right: 90px;
     margin: 0;
     z-index: 800;
     /*box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.75);*/
@@ -63,10 +63,10 @@ body {
 
 #topbar-avatar {
     position: fixed;
-    right: 6px;
-    top: 6px;
-    width: 90px;
-    height: 90px;
+    right: 10px;
+    top: 9px;
+    width: 80px;
+    height: 80px;
     margin: 0;
     padding: 0;
     z-index: 900;
@@ -116,9 +116,9 @@ body {
 }
 
 #topbar-avatar-popup > .link.list > .item > .label {
-    font-size: 0.8rem;
-    padding: 4px!important;
-    vertical-align: middle;
+    /*font-size: 0.8rem;*/
+    /*padding: 4px!important;*/
+    vertical-align: 3px;
 }
 
 #topbar-avatar-popup > .link.list > .item + .item {

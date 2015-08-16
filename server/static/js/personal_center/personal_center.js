@@ -6,7 +6,6 @@ var vueBody = new Vue({
         user            : 'leasunhy',
         rightMenu       : ['design', 'modeling', 'experiment'],
         currentView     : 'database',
-        loader          : {active: false, text: 'Loading'},
         notifications   : 2,
     },
     components: {

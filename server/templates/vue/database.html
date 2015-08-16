@@ -11,7 +11,7 @@
 
   <div id="database-main">
     <div id="database-list">
-      <p id="database-stats">[[recordsBeingDisplayed.length]] records <a v-on="click: editStatus = !editStatus">Edit</a></p>
+      <p id="database-stats">[[recordsBeingDisplayed.length]] [[recordsBeingDisplayed.length | pluralize 'record' 'records']] <a v-on="click: editStatus = !editStatus">Edit</a></p>
       <div id="database-search" class="ui left icon input">
         <input type="text" placeholder="Search..." v-model="searchTerm" debounce="500">
         <i class="search icon"></i>
@@ -43,13 +43,18 @@
       </div>
       <div id="detail-tabs">
         <div class="ui pointing secondary menu">
-          <a v-repeat="i in ['Description', 'Graph']"
+          <a v-repeat="i in ['Description', 'Graph', 'Equations', 'Plasmid', 'Protocols', 'References']"
              class="item"
              v-class="active: selectedTab === $index"
              v-on="click: selectedTab = $index">[[i]]</a>
         </div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 0" id="details-description-tab">[[selectedRecord.description]]</div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 1"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 2"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 3"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 4"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 5"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 6"></div>
       </div>
     </div>
   </div>
