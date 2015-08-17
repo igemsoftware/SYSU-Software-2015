@@ -62,7 +62,7 @@
         </div>
         <div class="eleven wide column" id="form-column">
           <form action="{{url_for('auth.register')}}" class="ui form" id="form" method="POST">
-            {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
 
             {% set avatar_url = form.avatar.data or '/static/img/avatar.jpg' %}
             <div class="ui blurring dimmable circular image" id="avatar">
