@@ -20,6 +20,9 @@ var vueBody = new Vue({
             offset: "-1",
             on: "click",
         });
+        $('#topbar-menu').click(function() {
+            $('#main-switcher').modal('show');
+        });
     },
 });
 
