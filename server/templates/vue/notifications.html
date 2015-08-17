@@ -1,0 +1,34 @@
+<div id="view-notifications" v-cloak>
+
+  <div class="ui container" id="notifications-main">
+
+    <div id="notifications-sidebar" class="pc-sidebar">
+      <div class="upper">
+        <button class="ui fluid button"
+                v-class="selected: selectedTab === 'unread'"
+                v-on="click: selectedTab = 'unread'">
+                Unread
+                <a class="ui red circular label">[[unreadNotifications.length]]</a>
+        </button>
+        <button class="ui fluid button"
+                v-class="selected: selectedTab === 'all'"
+                v-on="click: selectedTab = 'all'">
+                All
+                <a class="ui red circular label">[[notifications.length]]</a>
+        </button>
+      </div>
+      <div class="lower">
+        <button v-repeat="item in tags" class="ui fluid button notifications tag" v-class="selected: selectedTab === item" v-on="click: selectedTab = item">[[item | capitalize]]</button>
+      </div>
+    </div>
+
+    <div id="notifications-list" class="ui container">
+      <div class="notification items">
+        <div v-repeat="i in displayingList" class="notification item">
+          [[i.content]]
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

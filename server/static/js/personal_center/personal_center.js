@@ -3,16 +3,14 @@ Vue.config.delimiters = ['[[', ']]'];
 var vueBody = new Vue({
     el: 'body',
     data: {
-        user            : 'leasunhy',
-        rightMenu       : ['design', 'modeling', 'experiment'],
-        currentView     : 'database',
-        notifications   : 2,
+        user                : 'leasunhy',
+        rightMenu           : ['design', 'modeling', 'experiment'],
+        currentView         : 'database',
+        notificationCount   : 2,
     },
     components: {
-        database: Vue.component('dashboard-database'),
-        reminder: {
-            template: '#reminder-template'
-        },
+        database     : Vue.component('dashboard-database'),
+        notifications: Vue.component('dashboard-notifications'),
     },
     ready: function() {
         $('#topbar-avatar').popup({

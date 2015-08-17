@@ -1,5 +1,5 @@
 <div id="view-database" v-cloak>
-  <div id="database-sidebar">
+  <div id="database-sidebar" class="pc-sidebar">
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'all'" v-on="click: selectTag('all', true, null, null, false)">All</button>
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'drafts'" v-on="click: selectTag('drafts', true, 2, 'progress', true)">Drafts</button>
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'finished'" v-on="click: selectTag('finished', true, 2, 'progress', false)">Finished</button>

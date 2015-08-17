@@ -1,16 +1,7 @@
+/* Common */
 #topbar-bottom-line {
     background: linear-gradient(to right, #ec5a5b, #ebf595, #72d3e3, #9b83c1);
 }
-
-/*
-#main-container {
-    padding-top: 60px;
-    padding-bottom: 0;
-    padding-left: 52px;
-    padding-right: 52px;
-    height: 100%;
-}
-*/
 
 .loader {
     position: fixed;
@@ -19,6 +10,35 @@
     height: 100vh;
     width: 100vw;
 }
+
+.pc-sidebar {
+    height: 100%;
+    padding-top: 3em;
+}
+
+.pc-sidebar .button {
+    border-radius: 0;
+    padding-left: 60px;
+    text-align: left;
+    font-size: 1.2rem;
+    font-weight: lighter;
+    transition: all .3s ease;
+    background: transparent;
+    position: relative;
+}
+
+.pc-sidebar .button.selected {
+    background-color: #2d2e30;
+    color: #f8f8f8;
+}
+
+.pc-sidebar .button > .label {
+    position: absolute;
+    right: 20px;
+    top: 10px;
+}
+
+/* Database */
 
 #view-database {
     padding-top: 52px;
@@ -32,24 +52,7 @@
 }
 
 #database-sidebar {
-    height: 100%;
     width: 210px;
-    padding-top: 3em;
-}
-
-#database-sidebar > .database.tag {
-    border-radius: 0;
-    padding-left: 60px;
-    text-align: left;
-    font-size: 1.2rem;
-    font-weight: lighter;
-    transition: all .3s ease;
-    background: transparent;
-}
-
-#database-sidebar > .database.tag.selected {
-    background-color: #2d2e30;
-    color: #f8f8f8;
 }
 
 #database-main {
@@ -166,4 +169,65 @@
 #details-description-tab {
     font-size: 1.2rem;
     line-height: 2rem;
+}
+
+/* Notifications */
+
+#view-notifications {
+    padding-top: 52px;
+    padding-bottom: 0;
+    margin-right: 52px;
+    margin-left: 52px;
+    height: 100%;
+    width: auto;
+    font-size: 1.2rem;
+    background-color: #f8f8f8;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+#notifications-main {
+    height: 100%;
+    display: flex;
+}
+
+#notifications-sidebar {
+    width: 280px;
+    border-right: 1px solid #e4e4e4;
+    padding-top: 5rem;
+}
+
+#notifications-sidebar > .upper {
+    border-bottom: 1px solid #e4e4e4;
+    padding-bottom: 1rem;
+}
+
+#notifications-sidebar > .lower {
+    padding-top: 1rem;
+}
+
+#notifications-list {
+    flex: 1;
+    padding-top: 4rem;
+    padding-left: 7rem;
+}
+
+#notifications-list > .notification.items {
+    border: 1px solid #e4e4e4;
+}
+
+#notifications-list > .notification.items > .notification.item {
+    border-bottom: 1px solid #e4e4e4;
+    vertical-align: middle;
+    font-size: 1em;
+    line-height: 1.2em;
+    padding: 0.7em 2em;
+    background-color: #eeeeee;
+}
+
+#notifications-list > .notification.items > .notification.item:nth-child(2n) {
+    background-color: #ffffff;
+}
+
+#notifications-list > .notification.items > .notification.item:last-child {
+    border: none;
 }

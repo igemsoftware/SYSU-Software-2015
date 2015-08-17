@@ -23,12 +23,12 @@
   <div class="ui secondary menu" id="topbar">
     <div class="ui circular image" id="topbar-avatar">
       <img src="/static/img/avatar.jpg" alt="avatar">
-      <div class="ui red circular label">[[notifications]]</div>
+      <div class="ui red circular label">[[notificationCount]]</div>
     </div>
     <div class="ui popup transition hidden" id="topbar-avatar-popup">
       <div class="ui link list">
-        <a href="/dashboard" class="item">Dashboard</a>
-        <a href="/notifications" class="item">Notifications <div class="ui red circular label">[[notifications]]</div></a>
+        <a v-on="click: currentView = 'database'" class="item">Dashboard</a>
+        <a v-on="click: currentView = 'notifications'" class="item">Notifications <div class="ui red circular label">[[notificationCount]]</div></a>
         <a href="/logout" class="item">Log Out</a>
       </div>
     </div>
@@ -53,14 +53,15 @@
     {% include 'vue/database.html' %}
   </script>
 
-  <script type="x-template" id="reminder-template">
-    {% include 'vue/reminder.html' %}
+  <script type="x-template" id="notifications-template">
+    {% include 'vue/notifications.html' %}
   </script>
 
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/semantic.min.js"></script>
   <script src="/static/js/vue.js"></script>
   <script src="/static/js/personal_center/dashboard_database.js"></script>
+  <script src="/static/js/personal_center/dashboard_notifications.js"></script>
   <script src="/static/js/personal_center/personal_center.js"></script>
 
   <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
