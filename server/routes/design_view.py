@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from . import design
 
 from ..models import ComponentPrototype, ComponentInstance, Relationship

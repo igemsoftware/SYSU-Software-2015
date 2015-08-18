@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from . import taskhall
 from ..models import Task
 from ..tools.parser import json_parser

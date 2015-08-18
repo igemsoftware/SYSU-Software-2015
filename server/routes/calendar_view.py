@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from . import calendar
 from ..models import Memo
 from ..tools.parser import json_parser

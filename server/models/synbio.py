@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 # parts:
 #   id (databased, used to identify in program)
 #   type (? system/registry/custom)

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from .. import db
 from .. import login_manager
 
@@ -19,6 +21,10 @@ from ..tools.email import _send_email
 
 
 class User(UserMixin, db.Model):
+    '''
+        Model for user
+    '''
+        
     id = db.Column(db.Integer, primary_key=True)
 
     # basic info

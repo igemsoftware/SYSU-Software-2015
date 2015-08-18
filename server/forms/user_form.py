@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask import current_app
 from flask.ext.wtf import Form
 from flask.ext.login import current_user
