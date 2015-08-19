@@ -1,16 +1,10 @@
-Vue.config.delimiters = ['[[', ']]'];
-
-var vueBody = new Vue({
+var vueBody = new coreBody({
     el: 'body',
     data: {
         user                : 'leasunhy',
         rightMenu           : ['design', 'modeling', 'experiment'],
-        currentView         : 'database',
+        currentView         : 'dashboard-database',
         notificationCount   : 2,
-    },
-    components: {
-        database     : Vue.component('dashboard-database'),
-        notifications: Vue.component('dashboard-notifications'),
     },
     ready: function() {
         $('#topbar-avatar').popup({
@@ -25,5 +19,3 @@ var vueBody = new Vue({
         });
     },
 });
-
-

@@ -27,8 +27,8 @@
     </div>
     <div class="ui popup transition hidden" id="topbar-avatar-popup">
       <div class="ui link list">
-        <a v-on="click: currentView = 'database'" class="item">Dashboard</a>
-        <a v-on="click: currentView = 'notifications'" class="item">Notifications <div class="ui red circular label">[[notificationCount]]</div></a>
+        <a v-on="click: currentView = 'dashboard-database'" class="item">Dashboard</a>
+        <a v-on="click: currentView = 'dashboard-notifications'" class="item">Notifications <div class="ui red circular label">[[notificationCount]]</div></a>
         <a href="/logout" class="item">Log Out</a>
       </div>
     </div>
@@ -60,6 +60,7 @@
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/semantic.min.js"></script>
   <script src="/static/js/vue.js"></script>
+  <script src="/static/js/core_common.js"></script>
   <script src="/static/js/personal_center/dashboard_database.js"></script>
   <script src="/static/js/personal_center/dashboard_notifications.js"></script>
   <script src="/static/js/personal_center/personal_center.js"></script>
