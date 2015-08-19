@@ -1,0 +1,19 @@
+{% extends 'core_common.html' %}
+
+{% block title %}Task Hall{% endblock %}
+
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block body %}
+  {{ super() }}
+
+  <script type="x-template" id="index-template">
+    {% include 'task/index.html' %}
+  </script>
+
+  <script src="/static/js/taskhall/taskhall_index.js"></script>
+  <script src="/static/js/taskhall/taskhall.js"></script>
+
+{% endblock %}

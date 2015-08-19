@@ -5,6 +5,12 @@ from ..models import Task
 from ..tools.parser import json_parser
 
 from flask import request, current_app, jsonify
+from flask import request, current_app, jsonify, render_template
+
+@taskhall.route('/')
+@taskhall.route('/index')
+def taskhall_index():
+    return render_template('task/taskhall.html')
 
 @taskhall.route('/list')
 def get_task_list():
