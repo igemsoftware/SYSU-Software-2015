@@ -173,18 +173,6 @@
 
 /* Notifications */
 
-#view-notifications {
-    padding-top: 52px;
-    padding-bottom: 0;
-    margin-right: 52px;
-    margin-left: 52px;
-    height: 100%;
-    width: auto;
-    font-size: 1.2rem;
-    background-color: #f8f8f8;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-}
-
 #notifications-main {
     height: 100%;
     display: flex;

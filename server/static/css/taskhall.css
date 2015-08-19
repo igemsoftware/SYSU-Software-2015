@@ -1,0 +1,17 @@
+#view-taskhall-index {
+    height: auto;
+    padding-top: 80px;
+}
+
+#taskhall-index-main {
+    height: 100%;
+}
+
+#taskhall-index-sticky > .button {
+    background-color: transparent;
+    border-radius: 30px;
+}
+
+#taskhall-index-sticky > .button.selected {
+    background-color: orange;
+}

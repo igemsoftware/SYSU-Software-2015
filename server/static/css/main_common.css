@@ -125,15 +125,17 @@ body {
     border-top: 1px solid #e4e4e4;
 }
 
-/*
-#main-container {
+.main-container {
+    padding-top: 52px;
+    padding-bottom: 0;
+    margin-right: 52px;
+    margin-left: 52px;
+    height: 100%;
     width: auto;
+    font-size: 1.2rem;
     background-color: #f8f8f8;
-    margin: 0 52px;
-    padding: 60px 300px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
-*/
 
 #main-switcher .button {
     margin: 30px;

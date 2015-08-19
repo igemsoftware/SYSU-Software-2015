@@ -15,6 +15,10 @@ var coreBody = Vue.extend({
             offset: "-1",
             on: "click",
         });
+        $('#topbar-menu').click(function() {
+            $('#main-switcher').modal('show');
+        });
+        console.log('coreBody init done.')
     },
 });
 
