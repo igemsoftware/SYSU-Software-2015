@@ -1,54 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Personal Center</title>
-  <link rel="stylesheet" href="/static/css/semantic.min.css">
-  <link rel="stylesheet" href="/static/css/main_common.css">
+{% extends 'vue/core_common.html' %}
+
+{% block title %}Personal Center{% endblock %}
+
+{% block head %}
+  {{ super() }}
   <link rel="stylesheet" href="/static/css/custom_scrollbar.css">
   <link rel="stylesheet" href="/static/css/personal_center.css">
-</head>
-<body>
+{% endblock %}
 
-  <div class="ui page dimmer" id="main-switcher">
-    <div class="content">
-      <div class="center">
-        <div class="ui inverted blue circular icon button"><i class="massive idea icon"></i></div>
-        <div class="ui inverted red circular icon button"><i class="massive database icon"></i></div>
-        <div class="ui inverted green circular icon button"><i class="massive checkmark icon"></i></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="ui secondary menu" id="topbar">
-    <div class="ui circular image" id="topbar-avatar">
-      <img src="/static/img/avatar.jpg" alt="avatar">
-      <div class="ui red circular label">[[notificationCount]]</div>
-    </div>
-    <div class="ui popup transition hidden" id="topbar-avatar-popup">
-      <div class="ui link list">
-        <a v-on="click: currentView = 'dashboard-database'" class="item">Dashboard</a>
-        <a v-on="click: currentView = 'dashboard-notifications'" class="item">Notifications <div class="ui red circular label">[[notificationCount]]</div></a>
-        <a href="/logout" class="item">Log Out</a>
-      </div>
-    </div>
-
-    <div class="item" id="topbar-index">
-      <div class="ui button" id="topbar-btn-index"></div>
-    </div>
-    <div class="item" id="topbar-menu">
-      <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>
-    </div>
-    <div class="right menu">
-      <div v-repeat="item : rightMenu" class="item" id="topbar-[[item]]">
-        <div class="ui button" id="topbar-btn-[[item]]">[[item | capitalize]]</div>
-      </div>
-    </div>
-    <div id="topbar-bottom-line"></div>
-  </div>
-
-  <component id="main-view" is="[[ currentView ]]" keep-alive></component>
-
+{% block body %}
+  {{ super() }}
   <script type="x-template" id="database-template">
     {% include 'vue/database.html' %}
   </script>
@@ -57,13 +18,8 @@
     {% include 'vue/notifications.html' %}
   </script>
 
-  <script src="/static/js/jquery.min.js"></script>
-  <script src="/static/js/semantic.min.js"></script>
-  <script src="/static/js/vue.js"></script>
-  <script src="/static/js/core_common.js"></script>
   <script src="/static/js/personal_center/dashboard_database.js"></script>
   <script src="/static/js/personal_center/dashboard_notifications.js"></script>
   <script src="/static/js/personal_center/personal_center.js"></script>
+{% endblock %}
 
-</body>
-</html>
