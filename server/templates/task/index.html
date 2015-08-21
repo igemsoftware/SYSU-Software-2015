@@ -2,43 +2,73 @@
 
   <div class="ui container" id="taskhall-index-main">
     <h1 class="ui header">Task Hall</h1>
-    <div id="taskhall-index-navbar">
-      <h1 class="ui header">[[selectedTab | capitalize]]</h1>
-      <div class="ui icon input"><i class="search icon"></i><input type="text" placeholder="Search for questions..."></div>
-    </div>
     <div class="ui padded grid">
       <div class="thirteen wide column">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur velit animi autem facilis voluptatibus necessitatibus possimus, quidem doloribus officiis fuga sequi veniam iure et magnam minima officia similique ducimus, neque.</p>
-        <p>Laborum ullam pariatur autem ut facilis recusandae magni, quisquam id! Placeat nisi optio ea cum consequuntur! Enim quia ex, nulla facere perferendis quis quaerat inventore fuga vero officiis molestiae minima.</p>
-        <p>Excepturi ipsa totam accusamus necessitatibus commodi maxime, optio aspernatur? Itaque libero sed architecto est quos. Odit deleniti in, aut veniam quidem excepturi quisquam distinctio earum, non consectetur rerum neque officia!</p>
-        <p>Rerum nostrum placeat distinctio aliquam aperiam consequatur quidem nihil fuga totam quo! Vitae porro beatae saepe voluptas quidem laboriosam sequi, officiis quia, quod deserunt modi facilis quas id dignissimos similique!</p>
-        <p>Aspernatur laborum sunt nulla. Culpa quasi eaque iure cum repellat odio assumenda minima temporibus nam qui in debitis eius praesentium nesciunt, perspiciatis itaque excepturi voluptatibus! Suscipit eius quos id laudantium.</p>
-        <p>Quia dolorum esse saepe fuga animi perferendis suscipit illum nemo minus quisquam veniam, unde vero incidunt omnis nobis officia quas facere a blanditiis consequatur laborum. Ullam, error! Blanditiis, minima, vero.</p>
-        <p>Rerum quis, corporis, optio quidem magnam maiores qui voluptate praesentium suscipit perferendis, eius ullam accusantium incidunt. Magnam quae, deleniti, repellendus eveniet rerum ipsa nihil modi recusandae dolorem officiis veritatis a.</p>
-        <p>Ab harum ipsa cum cumque provident nemo quos quae, enim alias blanditiis cupiditate amet, recusandae sunt laborum necessitatibus modi animi dolore beatae praesentium in eius. Et tempora accusamus esse quos.</p>
-        <p>Voluptate laborum cumque, adipisci exercitationem maxime tempore non itaque unde consectetur eos, temporibus vero voluptatum saepe, dignissimos hic rerum quas sint fuga ipsa deleniti a, officiis at necessitatibus! Iste, voluptates.</p>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore ea blanditiis quas, vero maiores, obcaecati sed voluptate ab, doloremque reprehenderit quaerat accusantium dolore dignissimos perspiciatis cumque asperiores, enim ipsam est!</p>
-        <p>Perspiciatis ipsam nisi quia, molestiae est odit iusto repellendus modi, animi reiciendis adipisci corporis sequi ad, cum impedit odio hic maiores ea! Sapiente recusandae provident, rem sunt ea iusto fuga.</p>
-        <p>Suscipit quibusdam earum, repellat nemo ut ratione pariatur cum, quasi rerum quaerat quas inventore impedit velit vitae dolorem voluptas, doloribus, ipsum nobis ex. Doloribus aut officia, maiores repellendus culpa pariatur!</p>
-        <p>Tenetur illum quidem doloribus, laborum explicabo, esse libero aperiam beatae dolores consequuntur laboriosam maxime nulla dolor fugiat, odio, nesciunt! Repellendus totam voluptas, nihil soluta culpa laborum. Nam magnam dolores, in.</p>
-        <p>Dolor animi officiis voluptatibus voluptas rem voluptate! Ea expedita, incidunt reprehenderit facere, nemo ipsum. Dolores veniam numquam optio, quam, laborum nemo perferendis dolorum minima, deleniti, explicabo adipisci libero. Deleniti, at.</p>
-        <p>Cum, dolor placeat adipisci animi facere. Maxime, enim placeat dolore praesentium magni nobis corrupti, magnam esse? Unde, perspiciatis dolore ipsum, quae autem enim sunt earum incidunt aliquid, nulla facere impedit.</p>
-        <p>Veniam voluptatum distinctio quo nemo. Provident, cum deserunt omnis earum blanditiis, quae accusamus dolores quis dolore, qui saepe praesentium? Facilis veniam vel rem mollitia, iure optio eligendi quaerat voluptates aspernatur.</p>
-        <p>Ullam vel accusantium, alias quae rem culpa ducimus, ratione minima recusandae inventore vitae facere omnis, repellendus. Laudantium et accusamus delectus, tenetur ab accusantium a doloribus, voluptates nam asperiores aliquid. Libero.</p>
-        <p>Ad excepturi, sint. Deserunt, unde debitis quos eligendi, rerum voluptates praesentium dolorem, excepturi dolorum error, minus. Error quam, molestias nihil, cum tempora atque! Rerum culpa enim earum quisquam vel aut.</p>
-      </div>
-      <div class="three wide column">
-        <div class="ui sticky" id="taskhall-index-sticky">
-          <div class="ui small statistic">
-            <div class="value">[[questionCount]]</div>
-            <div class="label">Questions</div>
+        <div id="taskhall-index-navbar">
+          <div class="left part">
+            [[selectedTab | capitalize]]
           </div>
-          <div class="ui button" v-on="click: selectedTab = 'question'" v-class="selected: selectedTab === 'question'">Question</div>
-          <div class="ui button" v-on="click: selectedTab = 'unanswered'" v-class="selected: selectedTab === 'unanswered'">Unanswered</div>
-          <div class="ui button">Ask a question</div>
+          <div class="right part">
+            <div class="ui icon input" id="taskhall-index-search-input"><i class="search icon"></i><input type="text" placeholder="Search for questions..."></div>
+            <div class="ui inline dropdown" id="taskhall-index-order-dropdown">
+              <input type="hidden" v-model="currentOrder" lazy>
+              <div class="text">vote</div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item" data-value="[[ord]]" v-repeat="ord : orders">[[ord]]</div>
+              </div>
+            </div>
+          </div>
         </div>
+
+      <div class="taskhall-index question item">
+        <div class="question statistics">
+          <div class="ui statistic">
+            <div class="value">17</div>
+            <div class="label">views</div>
+          </div>
+          <div class="ui statistic">
+            <div class="value">293</div>
+            <div class="label">votes</div>
+          </div>
+          <div class="ui statistic">
+            <div class="value">10</div>
+            <div class="label">answers</div>
+          </div>
+        </div>
+        <div class="question main">
+          <div class="header"><a href="">Question Title</a></div>
+          <div class="detail">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
+          </div>
+        </div>
+        <div class="question author">
+          <div class="ui small image"><img src="/static/img/avatar.jpg" alt="author"></div>
+          <div class="info">
+            <div class="date">asked 8-12</div>
+            <div class="author name">leasunhy</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="three wide column">
+      <div class="ui sticky" id="taskhall-index-sticky">
+        <div class="ui small statistic">
+          <div class="value">[[questionCount]]</div>
+          <div class="label">questions</div>
+        </div>
+        <div class="ui button" v-on="click: selectedTab = 'question'" v-class="selected: selectedTab === 'question'">Question</div>
+        <div class="ui button" v-on="click: selectedTab = 'unanswered'" v-class="selected: selectedTab === 'unanswered'">Unanswered</div>
+        <div class="ui button">Ask a question</div>
       </div>
     </div>
   </div>
+</div>
 
 </div>

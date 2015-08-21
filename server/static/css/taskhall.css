@@ -1,17 +1,134 @@
 #view-taskhall-index {
     height: auto;
     padding-top: 80px;
+    min-height: 100%;
 }
 
 #taskhall-index-main {
     height: 100%;
 }
 
+#taskhall-index-search-input {
+    vertical-align: 1px;
+}
+
+#taskhall-index-search-input > input {
+    border-radius: 15px;
+    padding: 0.5em 1em;
+}
+
+#taskhall-index-order-dropdown {
+    border-radius: 15px;
+    background-color: #e1e1e1;
+    padding: 0 0.2rem;
+    line-height: 35px;
+    font-size: 1.4rem;
+    margin-left: 10px;
+}
+
+#taskhall-index-sticky > .statistic > .label {
+    text-transform: none;
+}
+
 #taskhall-index-sticky > .button {
     background-color: transparent;
-    border-radius: 30px;
+    border-radius: 15px;
+    font-size: 1.3rem;
+    padding: 0.5rem 1rem;
 }
 
 #taskhall-index-sticky > .button.selected {
-    background-color: orange;
+    background-color: #ecd683;
 }
+
+#taskhall-index-navbar {
+    position: relative;
+    margin-bottom: 30px;
+    line-height: 50px;
+    vertical-align: middle;
+    background-color: #ffffff;
+    padding: 0 1rem;
+}
+
+#taskhall-index-navbar > .part {
+    display: inline-block;
+    position: relative;
+}
+
+#taskhall-index-navbar > .left.part {
+    font-size: 2rem;
+    padding: 1px;
+}
+
+#taskhall-index-navbar > .right.part {
+    position: absolute;
+    right: 1rem;
+    top: 3px;
+}
+
+.taskhall-index.question.item {
+    display: flex;
+    padding: 2rem 0 1rem 0;
+    background-color: #ffffff;
+}
+
+.taskhall-index.question.item > .statistics {
+    width: 100px;
+}
+
+.taskhall-index.question.item > .statistics > .ui.statistic {
+    width: 100%;
+    display: block;
+    margin: 0;
+}
+
+.taskhall-index.question.item > .statistics > .ui.statistic + .ui.statistic {
+    margin: 1rem 0 0 0;
+}
+
+.taskhall-index.question.item > .statistics > .ui.statistic > .value {
+    font-size: 1.4rem;
+    font-weight: bolder;
+}
+
+.taskhall-index.question.item > .statistics > .ui.statistic > .label {
+    text-transform: none;
+    font-weight: normal;
+}
+
+.taskhall-index.question.item > .question.main {
+    flex: 1;
+    height: 230px;
+}
+
+.taskhall-index.question.item > .question.main > .header {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+
+.taskhall-index.question.item > .question.main > .detail {
+    height: calc(100% - 30px);
+    width: 100%;
+}
+
+.taskhall-index.question.item > .question.author {
+    margin-left: 20px;
+    width: 200px;
+    display: flex;
+    margin-top: auto;
+}
+
+.taskhall-index.question.item > .question.author > .small.image {
+    width: 55px;
+}
+
+.taskhall-index.question.item > .question.author > .info {
+    flex: 1;
+    margin-left: 10px;
+    padding-top: 5px;
+}
+
+.taskhall-index.question.item > .question.author > .info > .author.name {
+    font-size: 1.6rem;
+}
+
