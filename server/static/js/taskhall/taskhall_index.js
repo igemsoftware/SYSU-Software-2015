@@ -14,15 +14,20 @@ Vue.component('taskhall-index', {
             offset: 60,
         });
         $('#taskhall-index-order-dropdown').dropdown();
-        this.$eval('updateTasks(this, this.page, this.currentOrder)');
-        this.$watch('page', function() {
-            this.$eval('updateTasks(this, this.page, this.currentOrder)');
+        $('.question.author').popup({
+            inline: true,
+            position: 'right center',
+            width: '300px',
         });
-        this.$watch('currentOrder', function() {
-            this.page = 1;
-            this.$eval('updateTasks(this, this.page, this.currentOrder)');
-        });
-        $('.taskhall-index.question.item > .question.main > .detail').ellipsis();
+        this.$eval('fakeTasks(this)');
+        //this.$eval('updateTasks(this, this.page, this.currentOrder)');
+        //this.$watch('page', function() {
+        //    this.$eval('updateTasks(this, this.page, this.currentOrder)');
+        //});
+        //this.$watch('currentOrder', function() {
+        //    this.page = 1;
+        //    this.$eval('updateTasks(this, this.page, this.currentOrder)');
+        //});
     },
     methods: {
         updateTasks : function(store, page, currentOrder) {
@@ -30,7 +35,12 @@ Vue.component('taskhall-index', {
                 store.tasks = data.tasks;
                 console.log(data);
             });
+            $('.taskhall-index.question.item > .question.main > .detail').ellipsis();
             $("html, body").animate({ scrollTop: 0 }, "slow");
+        },
+        fakeTasks : function(store) {
+            store.tasks = [];
+            $('.taskhall-index.question.item > .question.main > .detail').ellipsis();
         },
     },
 });
