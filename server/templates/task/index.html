@@ -1,5 +1,25 @@
 <div id="view-taskhall-index" class="main-container" v-cloak>
 
+  <div class="ui modal" id="taskhall-index-ask-modal">
+    <div class="ui inverted segment">
+      <div class="ui inverted header">Ask A Question</div>
+      <i class="big close icon"></i>
+    </div>
+    <div class="ui segment">
+      <form class="ui form">
+        <div class="field">
+          <label>Title:</label>
+          <input type="text" name="title">
+        </div>
+        <div class="field">
+          <label>Detail:</label>
+          <textarea name="detail"></textarea>
+        </div>
+        <input type="submit" class="ui yellow button">
+      </form>
+    </div>
+  </div>
+
   <div id="taskhall-index-main">
     <h1 class="ui header">Task Hall</h1>
     <div id="taskhall-index-grid">
@@ -294,7 +314,7 @@
           <div class="ui button" v-on="click: selectedTab = 'unanswered'" v-class="selected: selectedTab === 'unanswered'">Unanswered</div>
         </div>
         <div class="dummy container">
-          <div class="ui button">Ask a question</div>
+          <div class="ui button" v-on="click: showAskModal()">Ask a question</div>
         </div>
       </div>
     </div>

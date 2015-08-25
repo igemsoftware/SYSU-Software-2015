@@ -30,6 +30,9 @@ Vue.component('taskhall-index', {
         //});
     },
     methods: {
+        showAskModal : function() {
+            $('#taskhall-index-ask-modal').modal('show');
+        },
         updateTasks : function(store, page, currentOrder) {
             $.get('/taskhall/list?page=' + page + '&keyword=' + currentOrder, function(data) {
                 store.tasks = data.tasks;

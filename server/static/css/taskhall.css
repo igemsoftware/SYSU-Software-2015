@@ -9,6 +9,28 @@
     min-height: 100%;
 }
 
+#taskhall-index-ask-modal > .segment {
+    border: none;
+    border-radius: 0;
+    position: relative;
+}
+
+#taskhall-index-ask-modal > .inverted.segment > .header {
+    margin-bottom: 0;
+}
+
+#taskhall-index-ask-modal > .inverted.segment > .close.icon {
+    position: absolute;
+    right: 10px;
+    top: 0.375em;
+    cursor: pointer;
+}
+
+#taskhall-index-ask-modal > .segment > .form > .button {
+    display: block;
+    margin-left: auto;
+}
+
 #taskhall-index-main {
     height: 100%;
     padding: 0 60px;
