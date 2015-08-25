@@ -40,10 +40,13 @@
           <div class="text">tags:</div>
           <a class="ui tag label" v-repeat="tag in selectedRecord.tags">[[tag]]</a>
         </div>
+        <div id="detail-short-desc" class="detail header meta">
+          <div class="text">short desc:</div>
+        </div>
       </div>
       <div id="detail-tabs">
         <div class="ui pointing secondary menu">
-          <a v-repeat="i in ['Description', 'Graph', 'Equations', 'Plasmid', 'Protocols', 'References']"
+          <a v-repeat="i in ['Description', 'Circuits', 'Equations', 'Charts', 'Plasmids', 'Protocols', 'References']"
              class="item"
              v-class="active: selectedTab === $index"
              v-on="click: selectedTab = $index">[[i]]</a>
