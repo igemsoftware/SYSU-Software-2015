@@ -2,6 +2,7 @@
     background: linear-gradient(to right, #e5d685, #edd686);
 }
 
+/* taskhall index */
 #view-taskhall-index {
     height: auto;
     padding-top: 80px;
@@ -208,3 +209,95 @@
     color: rgba(0, 0, 0, 0.8);
 }
 
+/* taskhall detail */
+
+#view-taskhall-detail {
+    height: auto;
+    padding-top: 80px;
+    padding-bottom: 40px;
+    min-height: 100%;
+}
+
+#taskhall-detail-main {
+    height: 100%;
+    padding: 0 60px;
+}
+
+#taskhall-detail-question {
+    min-height: 300px;
+}
+
+#taskhall-detail-question > .header {
+    font-size: 2.2rem;
+    line-height: 2.4rem;
+    padding-bottom: 12px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e4e4e4;
+}
+
+#taskhall-detail-question > .content {
+    display: flex;
+}
+
+#taskhall-detail-question > .content > .author {
+    width: 140px;
+    margin-right: 10px;
+}
+
+#taskhall-detail-question > .content > .author > .avatar {
+    width: 100px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+#taskhall-detail-question > .content > .author > .name {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#taskhall-detail-question > .content > .author > .tracks {
+    text-align: center;
+}
+
+#taskhall-detail-question > .content > .author > .tracks > .image {
+    width: 20px;
+}
+
+#taskhall-detail-question > .content > .main {
+    flex: 1;
+}
+
+#taskhall-detail-question > .content > .main > .toolbar {
+    text-align: right;
+}
+
+#taskhall-detail-question > .content > .main > .toolbar > a {
+    display: inline-block;
+    color: black;
+    font-size: 1.3rem;
+    margin-left: 10px;
+}
+
+#taskhall-detail-question > .content > .info {
+    width: 180px;
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+#taskhall-detail-question > .content > .info > .meta {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+#taskhall-detail-question > .content > .info > .meta > .icon {
+    width: 1rem;
+    margin-right: 10px;
+}
+
+#taskhall-detail-question > .content > .info > .meta > .content {
+    flex: 1;
+}
+
+#taskhall-detail-question > .content > .info > .meta > .content > .title + .number {
+    margin-top: 8px;
+}

@@ -1,0 +1,102 @@
+{% extends 'core_common.html' %}
+
+{% block title %}Task Hall{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/taskhall.css">
+{% endblock %}
+
+{% block body %}
+{{ super() }}
+
+<div id="view-taskhall-detail" class="main-container" v-cloak>
+
+  <div id="taskhall-detail-main">
+    <h1 class="ui header">Task Hall</h1>
+    <div id="taskhall-detail-question" class="ui segment">
+      <div class="header">Question Title question title?</div>
+      <div class="content">
+        <div class="author">
+          <div class="avatar">
+            <img class="ui image" src="/static/img/avatar.jpg"></img>
+          </div>
+          <div class="name">Leasunhy</div>
+          <div class="tracks">
+            <div class="ui circular image"><img src="/static/img/tracks/tracks_artanddesign.png" alt=""></div>
+            <div class="ui circular image"><img src="/static/img/tracks/tracks_software.png" alt=""></div>
+            <div class="ui circular image"><img src="/static/img/tracks/tracks_newapplication.png" alt=""></div>
+            <div class="ui circular image"><img src="/static/img/tracks/tracks_energy.png" alt=""></div>
+            <div class="ui circular image"><img src="/static/img/tracks/tracks_foundationaladvance.png" alt=""></div>
+          </div>
+        </div>
+        <div class="main">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?
+          <div class="toolbar">
+            <a href=""><i class="blue thumbs up outline icon"></i> 21</a>
+            <a href=""><i class="red star icon"></i></a>
+            <a href=""><i class="green checkmark icon"></i></a>
+          </div>
+        </div>
+        <div class="info">
+          <div class="meta date">
+            <i class="clock icon"></i>
+            <div class="content">
+              <div class="title">asked</div>
+              <div class="number">17:00 8-10</div>
+            </div>
+          </div>
+          <div class="meta views">
+            <i class="eye icon"></i>
+            <div class="content">
+              <div class="title">viewed</div>
+              <div class="number">233 times</div>
+            </div>
+          </div>
+          <div class="meta active">
+            <i class="sun icon"></i>
+            <div class="content">
+              <div class="title">active</div>
+              <div class="number">today</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="taskhall-detail-answers ui segment">
+    <h1 class="ui header">2 answers</h1>
+    <div class="answer">
+      <div class="author">
+        <div class="avatar">
+          <img class="ui image" src="/static/img/avatar.jpg"></img>
+        </div>
+        <div class="name">Leasunhy</div>
+        <div class="tracks">
+          <div class="ui circular image"><img src="/static/img/tracks/tracks_artanddesign.png" alt=""></div>
+          <div class="ui circular image"><img src="/static/img/tracks/tracks_software.png" alt=""></div>
+          <div class="ui circular image"><img src="/static/img/tracks/tracks_newapplication.png" alt=""></div>
+          <div class="ui circular image"><img src="/static/img/tracks/tracks_energy.png" alt=""></div>
+          <div class="ui circular image"><img src="/static/img/tracks/tracks_foundationaladvance.png" alt=""></div>
+        </div>
+      </div>
+  </div>
+
+  </div>
+
+</div>
+
+
+<script src="/static/js/jquery.autoellipsis-1.0.10.min.js"></script>
+<script src="/static/js/taskhall/taskhall_detail.js"></script>
+
+{% endblock %}

@@ -12,9 +12,13 @@ from flask import request, current_app, jsonify, render_template
 def taskhall_index():
     return render_template('task/taskhall.html')
 
+@taskhall.route('/detail')
+def taskhall_detail():
+    return render_template('task/detail.html')
+
 @taskhall.route('/list')
 def get_task_list():
-    page = request.args.get('page', 1, type=int) 
+    page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page', 
             current_app.config['FLASKY_TASKS_PER_PAGE'], type=int)
     keyword = request.args.get('keyword', 'time', type=str)

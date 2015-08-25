@@ -1,13 +1,16 @@
-Vue.component('taskhall-index', {
-    template: '#index-template',
-    data: function() { return {
-        questionCount: 2723,
-        selectedTab  : 'question',
-        currentOrder : 'vote',
-        orders       : ['vote', 'view', 'time'],
-        page         : 1,
-        tasks        : [],
-    }},
+var vueBody = new coreBody({
+    el: 'body',
+    data : {
+        user                : "leasunhy",
+        rightMenu           : ['design', 'modeling', 'experiment'],
+        notificationCount   : 2,
+        questionCount       : 2723,
+        selectedTab         : 'question',
+        currentOrder        : 'vote',
+        orders              : ['vote', 'view', 'time'],
+        page                : 1,
+        tasks               : [],
+    },
     ready: function() {
         var store = this;
         $('#taskhall-index-sticky').sticky({
@@ -47,3 +50,4 @@ Vue.component('taskhall-index', {
         },
     },
 });
+
