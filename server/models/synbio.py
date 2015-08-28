@@ -248,7 +248,7 @@ class Device(db.Model, BioBase):
         print 'loading %s ...' % filename
         f = open(filename, 'r')
         self.title = f.readline().strip()
-        self.introduction = f.readline().strip()
+        self.introduction = f.readline().strip().decode('ISO-8859-1')
         self.source = f.readline().strip()
         self.saferank = f.readline().strip()
         # self.type = f.readline().strip()

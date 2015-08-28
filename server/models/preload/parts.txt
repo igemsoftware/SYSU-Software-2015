@@ -14,3 +14,18 @@ PluxR	Protein
 Ptet	promoter			
 RBS	RBS			
 tetr	gene		2	P.Aeruginosa
+Pconst	promoter			
+Cas9-VP16	gene	BBa_K1150020	2	Mammalian cells
+Terminator	terminator			
+PCas9VP16	protein			
+EMX	gene		2	Mammalian cells
+Pmin	promoter			
+SEAP	gene		2	Mammalian cells
+PSEAP	protein			
+tracr/crRNA	gene	(BBa_K1150034)	2	Mammalian cells
+Ptracr/crRNA	protein			
+tetR-VP16	gene		2	Mammalian cells
+PtetR-VP16	protein			
+tetO	gene		2	Mammalian cells
+Cas9-KRAB	gene	BBa_K1150002 	2	Mammalian cells
+PCas9KRAB	protein			

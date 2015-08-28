@@ -39,7 +39,10 @@ class DevelopmentConfig(Config):
     # init
     INIT_PRELOAD_DEVICES = ['server/models/preload/NJU2013-1.txt',
                             'server/models/preload/NJU2013-2.txt',
-                            'server/models/preload/NJU2013-3.txt']
+                            'server/models/preload/NJU2013-3.txt',
+                            'server/models/preload/Freiburg_2013_1.txt',
+                            'server/models/preload/Freiburg_2013_2.txt',
+                            ]
     INIT_PRELOAD_PARTS = ['server/models/preload/parts.txt']
 
 
