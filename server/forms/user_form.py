@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+'''
+    The forms for login, registration and other interactions using wtforms
+    Use default forms to login or create your own forms
+'''
+
 from flask import current_app
 from flask.ext.wtf import Form
 from flask.ext.login import current_user
@@ -12,11 +17,14 @@ from wtforms import ValidationError
 from ..models import User, Track
 
 class LoginForm(Form):
+    '''
+        Login with username
+    '''
+
     username = StringField('Username', validators=[Required('Please input your username'), Length(0, 128)])
     password = PasswordField('Password', validators=[Required('Please input your password.'), Length(0, 32)])
     # remember_me = BooleanField('Keep me logged in')
     submit = SubmitField('Login')
-
 
     def validate_username(self, field):
         u = User.query.filter_by(username=field.data).first()
@@ -24,6 +32,10 @@ class LoginForm(Form):
             raise ValidationError('The username does not exist.')
 
 class RegistrationForm(Form):
+    '''
+        RegistrationForm 
+    '''
+
     username = StringField('Username', validators=[
         Required('Cannot be empty'), Length(1, 64), Regexp('^[A-Za-z][A-Za-z0-9_]*$', 0, 'Usernames must have only letters, numbers or underscores')])
     password = PasswordField('Password', validators=[Required('Cannot be empty.')])

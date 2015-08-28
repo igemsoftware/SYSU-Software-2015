@@ -6,8 +6,6 @@ from ..tools.parser import json_parser
 
 from flask import request, current_app, jsonify
 
-
-
 @taskhall.route('/list')
 def get_task_list():
     page = request.args.get('page', 1, type=int) 
