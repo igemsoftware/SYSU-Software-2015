@@ -225,6 +225,8 @@
 
 #taskhall-detail-question {
     min-height: 300px;
+    margin-left: 40px;
+    margin-right: 40px;
 }
 
 #taskhall-detail-question > .header {
@@ -265,10 +267,12 @@
 
 #taskhall-detail-question > .content > .main {
     flex: 1;
+    text-align: justify;
 }
 
 #taskhall-detail-question > .content > .main > .toolbar {
     text-align: right;
+    margin-top: 20px;
 }
 
 #taskhall-detail-question > .content > .main > .toolbar > a {
@@ -300,4 +304,78 @@
 
 #taskhall-detail-question > .content > .info > .meta > .content > .title + .number {
     margin-top: 8px;
+}
+
+#taskhall-detail-answers {
+    margin-top: 50px;
+    margin-left: 40px;
+    margin-right: 140px;
+    padding-right: 30px;
+}
+
+#taskhall-detail-answers > .header {
+    border-bottom: 1px solid #eee;
+}
+
+#taskhall-detail-answers > .answer {
+    display: flex;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#taskhall-detail-answers > .answer + .answer {
+    border-top: 1px solid #eee;
+}
+
+#taskhall-detail-answers > .answer > .author {
+    width: 140px;
+    margin-right: 10px;
+}
+
+#taskhall-detail-answers > .answer > .author > .avatar {
+    width: 100px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+#taskhall-detail-answers > .answer > .author > .name {
+    text-align: center;
+    font-size: 1.2rem;
+    line-height: 1.2rem;
+}
+
+#taskhall-detail-answers > .answer > .author > .date {
+    text-align: center;
+    color: rgba(0, 0, 0, 0.3);
+}
+
+#taskhall-detail-answers > .answer > .content {
+    flex: 1;
+    text-align: justify;
+}
+
+#taskhall-detail-answers > .answer > .content > .comment.link {
+    display: block;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+#taskhall-detail-answers > .answer > .content > .comments {
+    background-color: #f0f0f0;
+    padding: 10px 20px;
+}
+
+#taskhall-detail-answers > .answer > .content > .comments > .comment + .comment {
+    margin-top: 5px;
+    padding-top: 5px;
+    border-top: 1px solid #ccc;
+}
+
+#taskhall-detail-answers > .answer > .content > .comments > .comment > .meta {
+    margin-top: 5px;
+}
+
+#taskhall-detail-answers > .answer > .content > .comments > .comment > .meta > * {
+    display: inline-block;
+    margin-right: 10px;
 }
