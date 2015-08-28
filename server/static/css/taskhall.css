@@ -344,6 +344,7 @@
     margin-bottom: 20px;
 }
 
+/*
 #taskhall-detail-answers > .answer > .content > .comments {
     background-color: #f0f0f0;
     padding: 10px 20px;
@@ -363,6 +364,7 @@
     display: inline-block;
     margin-right: 10px;
 }
+*/
 
 #taskhall-detail-main > .info {
     width: 180px;
