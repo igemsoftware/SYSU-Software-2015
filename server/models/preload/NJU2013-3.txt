@@ -2,7 +2,8 @@ NJU2013-3
 Circuit 3. The greatest difference between circuit 2 and circuit 3, as you can see, is that the cascade in circuit 2 have been replaced by the hybridize promoter, Plux/CI. Then, we got a new organism that will respond quickly to the presence of AHL.
 http://2013.igem.org/Team:Nanjing-China
 3
-Pcon_1,CHeZ_1
+Pcon_1
+CHeZ_1
 Pcon_1	A-RBS_1	normal
 A-RBS_1	Cl_1	normal
 Cl_1	Plux/Cl_1	inhibition

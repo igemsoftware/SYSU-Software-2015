@@ -252,7 +252,8 @@ class Device(db.Model, BioBase):
         self.source = f.readline().strip()
         self.saferank = f.readline().strip()
         # self.type = f.readline().strip()
-        self.interfaceA, self.interfaceB = f.readline().strip().split(',') 
+        self.interfaceA = f.readline().strip() 
+        self.interfaceB = f.readline().strip() #.split(',') 
 
         rec = set() 
         for line in f:
