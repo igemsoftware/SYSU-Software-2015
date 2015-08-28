@@ -118,18 +118,16 @@
         </div>
         <a href="" class="comment link">3 comments</a>
         <div class="ui minimal comments">
-          <div class="comment">
-            <div class="content">
-              <span class="author">Leasunhy</span>
-              <div class="metadata">
-                <span class="date">28 Aug, 2015</span>
-              </div>
-              <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim eum at nihil magnam, aut neque, quasi inventore accusantium odit ducimus accusamus, ullam quo quod laboriosam cum maiores quisquam iste ea!</div>
-              <div class="actions">
-                <a href="" class="reply">Reply</a>
-              </div>
-            </div>
-          </div>
+          <v-comment>
+            <span class="author">Leasunhy</span>
+            <span class="date">28 Aug, 2015</span>
+            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim eum at nihil magnam, aut neque, quasi inventore accusantium odit ducimus accusamus, ullam quo quod laboriosam cum maiores quisquam iste ea!</div>
+          </v-comment>
+          <v-comment>
+            <span class="author">Leasunhy</span>
+            <span class="date">28 Aug, 2015</span>
+            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim eum at nihil magnam, aut neque, quasi inventore accusantium odit ducimus accusamus, ullam quo quod laboriosam cum maiores quisquam iste ea!</div>
+          </v-comment>
         </div>
       </div>
   </div>
@@ -165,6 +163,31 @@
   </div>
 
 </div>
+
+<template id="comment-template">
+  <div>
+    <div class="comment">
+      <div class="content">
+        <content select="span.author"></content>
+        <div class="metadata">
+          <content select="span.date"></content>
+        </div>
+        <content select="div.text"></content>
+        <div class="actions">
+          <a class="reply" v-on="click: showReply = !showReply">[[showReply ? 'Hide' : 'Reply']]</a>
+        </div>
+      </div>
+    </div>
+    <form action="" class="ui reply form" v-show="showReply">
+      <div class="field">
+        <textarea></textarea>
+      </div>
+      <div class="ui small blue labeled icon button">
+        <i class="edit icon"></i>Reply
+      </div>
+    </form>
+  </div>
+</template>
 
 
 <script src="/static/js/jquery.autoellipsis-1.0.10.min.js"></script>
