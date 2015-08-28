@@ -89,7 +89,7 @@ def testinit(slient=False, noinit=False):
         Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
 
         # circuit 
-        u = User(username='test', email='test@example.com', password='test', async_mail=False)
+        u = User(username='test', email='test@example.com', password='test', send_email=False)
         db.session.add(u)
         c = Circuit(name='My first circuit', introduction='First circuit', owner=u, is_shared=True)._copy_from_device(1)
         c = Circuit(name='My second circuit', introduction='Second circuit', owner=u, is_public=True)._copy_from_device(1)
@@ -118,7 +118,16 @@ def testinit(slient=False, noinit=False):
         u.create_task(title='What is the name of the "-->" operator in C?',
                 content='int x = 10;\n while (x --> 0) {\\\\ x count down to 0\n \\\\foo\n}',
                 votes=20, views=19) 
-        
+
+
+        # message
+        u = User.query.filter_by(username='test').first()
+        for m in [Message(content='Warning, we have 21 days left.', source="Experiment Reminders"),
+                  Message(content='Today is 2015.08.28.', source="Experiment Records"),
+                  Message(content='Your database is empty.', source="Database"),
+                  Message(content='via Taskhall', source='Taskhall')]:
+            u.msg_box.append(m)
+            db.session.add(m)
 
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
 

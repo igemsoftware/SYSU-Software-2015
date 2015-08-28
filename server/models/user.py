@@ -34,10 +34,10 @@ class User(UserMixin, db.Model):
     reg_date = db.Column(db.DateTime, default=datetime.now)
     last_seen = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, async_mail=True, **kwargs):
+    def __init__(self, async_mail=True, send_email=True, **kwargs):
         kwargs['username'] = kwargs['username'][:128]
         super(User, self).__init__(**kwargs)
-        if self.username != "Administrator":
+        if self.username != "Administrator" and send_email:
             self.send_email(subject='Welcome to FLAME', template='email/greeting',
                             user=self, async=async_mail)
 
@@ -60,10 +60,10 @@ class User(UserMixin, db.Model):
 
 
     # messages
-    recv_messages = db.relationship('Message', backref='receiver', lazy='dynamic')
+    msg_box = db.relationship('Message', backref='receiver', lazy='dynamic')
 
     def send_message_to(self, user, **kwargs):
-        msg = Message(type=0, isread=False, sender_id=self.id, receiver_id=user.id, **kwargs)
+        msg = Message(isread=False, receiver_id=user.id, source='User', **kwargs) #sender_id=self.id,
         db.session.add(msg)
         db.session.commit()
         return msg
