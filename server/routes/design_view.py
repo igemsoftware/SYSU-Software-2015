@@ -24,7 +24,8 @@ def data_fetch_parts():
                    'risk': c.risk,
                    'type': c.type,
                    'BBa': c.BBa,
-                   'bacterium': c.bacterium
+                   'bacterium': c.bacterium,
+                   'attr': c.attr
                    })
     return jsonify(parts=l)
 

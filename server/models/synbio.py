@@ -120,6 +120,10 @@ class ComponentPrototype(db.Model):
                                lazy='dynamic',
                                cascade='all, delete-orphan')
 
+    @property
+    def attr(self):
+        return self.name+':'+self.BBa if self.BBa else self.name
+
     def __repr__(self):
         return '<ComponentPrototype: %s>' % self.name
 
