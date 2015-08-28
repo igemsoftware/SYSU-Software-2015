@@ -9,7 +9,7 @@ var vueBody = new coreBody({
     el: 'body',
     data : {
         user                : "leasunhy",
-        rightMenu           : ['design', 'modeling', 'experiment'],
+        rightMenu           : ['All Questions', 'Unanswered'],
         notificationCount   : 2,
     },
 });
