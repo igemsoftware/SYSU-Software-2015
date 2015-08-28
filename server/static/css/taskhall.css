@@ -221,12 +221,21 @@
 #taskhall-detail-main {
     height: 100%;
     padding: 0 60px;
+    display: flex;
+}
+
+#taskhall-detail-main > .main {
+    flex: 1;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+#taskhall-detail-main > .info {
+    width: 180px;
 }
 
 #taskhall-detail-question {
     min-height: 300px;
-    margin-left: 40px;
-    margin-right: 40px;
 }
 
 #taskhall-detail-question > .header {
@@ -239,6 +248,7 @@
 
 #taskhall-detail-question > .content {
     display: flex;
+    padding-right: 20px;
 }
 
 #taskhall-detail-question > .content > .author {
@@ -282,34 +292,8 @@
     margin-left: 10px;
 }
 
-#taskhall-detail-question > .content > .info {
-    width: 180px;
-    margin-left: 20px;
-    padding-left: 20px;
-}
-
-#taskhall-detail-question > .content > .info > .meta {
-    margin-bottom: 20px;
-    display: flex;
-}
-
-#taskhall-detail-question > .content > .info > .meta > .icon {
-    width: 1rem;
-    margin-right: 10px;
-}
-
-#taskhall-detail-question > .content > .info > .meta > .content {
-    flex: 1;
-}
-
-#taskhall-detail-question > .content > .info > .meta > .content > .title + .number {
-    margin-top: 8px;
-}
-
 #taskhall-detail-answers {
     margin-top: 50px;
-    margin-left: 40px;
-    margin-right: 140px;
     padding-right: 30px;
 }
 
@@ -378,4 +362,28 @@
 #taskhall-detail-answers > .answer > .content > .comments > .comment > .meta > * {
     display: inline-block;
     margin-right: 10px;
+}
+
+#taskhall-detail-main > .info {
+    width: 180px;
+    padding-left: 20px;
+    padding-top: 100px;
+}
+
+#taskhall-detail-main > .info > .meta {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+#taskhall-detail-main > .info > .meta > .icon {
+    width: 1rem;
+    margin-right: 10px;
+}
+
+#taskhall-detail-main > .info > .meta > .content {
+    flex: 1;
+}
+
+#taskhall-detail-main > .info > .meta > .content > .title + .number {
+    margin-top: 8px;
 }
