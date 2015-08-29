@@ -919,7 +919,7 @@ function RightBar() {
     this.view.devices = $("#addedDevices");
     this.view.systems = $("#addedSystems");
     this.view.customs = $("#addedCustoms");
-    this.view.searchAddBox = $("#searchAddBox");
+    this.view.searchAddBox = $("#searchAdd");
 
     this.rightbarWorker = new SideBarWorker();
     this._searchTitle = [];
@@ -927,6 +927,7 @@ function RightBar() {
 
 RightBar.prototype.init = function() {
     this._rightTriggerAnimation();
+    this.enableSearchAddBox();
 }
 
 RightBar.prototype._rightTriggerAnimation = function() {
@@ -1013,6 +1014,29 @@ RightBar.prototype.isPartAdded = function(part) {
 RightBar.prototype.updateSearchBar = function() {
     this.view.searchAddBox.search({source: this._searchTitle});
 }
+
+RightBar.prototype.enableSearchAddBox = function() {
+    var that = this;
+    this.view.searchAddBox.keyup(function() {
+    	var val = that.view.searchAddBox.val().toLowerCase();
+        if (val != "") {
+        	var searchElemPartList = [];
+        	for (var i in that.elemsPartList) {
+        		var partName = $(that.elemsPartList[i].find("div")[0]).attr("part-name").toLowerCase();
+        		if (partName.indexOf(val) != -1) {
+        			searchElemPartList.push(that.elemsPartList[i]);
+        		}
+        	}
+        	if (searchElemPartList !== []) {
+				that.view.parts.prev().addClass("active");
+				that.view.parts.addClass("active");
+			}
+        	that.rightbarWorker.showView(searchElemPartList, that.view.parts);
+        } else {
+        	that.rightbarWorker.showView(that.elemsPartList, that.view.parts);
+        }
+    });
+};
 
 RightBar.prototype.showEquation = function(partNameA, partNameB) {
     var equation = DataManager.getEquation(partNameA, partNameB);
