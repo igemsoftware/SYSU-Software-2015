@@ -3,7 +3,7 @@ from ..models import Memo
 from ..tools.parser import json_parser
 
 from flask.ext.login import login_required, current_user
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 
 from sqlalchemy import or_
 from datetime import datetime, timedelta
@@ -26,3 +26,8 @@ def get_all():
     l = map(json_parser, l)
     return jsonify(memos=l)
 
+
+@login_required
+@calendar.route('/experiment')
+def experiment():
+    return render_template('experiment.html')
