@@ -16,11 +16,6 @@ var rightBar;
 var rubberband;
 var designMenu;
 
-// var typeTable = [];
-// var relationShipList = [];
-// var relationAdjmatrix = [];
-// var devicesList = [];
-
 /**
  * @class OperationLog
  *
@@ -99,9 +94,13 @@ function Design() {
     this.nodes = $(".node");
     this.drawArea = $("#drawArea");
     this.drawMenu = $("#drawArea-menu");
-    this._isProOrInhiLink = false;
+    // this._isProOrInhiLink = false;
+    this._isPromoteLink = false;
+    this._isInhibitLink = false;
     this._putPartElemList = [];
     this._partCount = 0;
+
+    this.risk = 1;
 };
 
 Design.prototype.clear = function() {
@@ -116,13 +115,10 @@ Design.prototype.init = function() {
 };
 
 Design.prototype.addProAndInhibitLine = function(partA) {
-	console.log("11");
     var partNameA = partA.attr('part-name');
     for (var i in this._putPartElemList) {
         var partB = this._putPartElemList[i];
         var partNameB = partB.attr('part-name');
-        console.log(DataManager.isProOrInhibitRelation(partNameA, partNameB));
-        console.log(DataManager.isProOrInhibitRelation(partNameB, partNameA));
         if (DataManager.isProOrInhibitRelation(partNameA, partNameB)) {
             var lineType = DataManager.getLineType(partNameA, partNameB);
             this.drawLine(partA, partB, lineType);
@@ -136,7 +132,9 @@ Design.prototype.addProAndInhibitLine = function(partA) {
 Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
     var overlaysClass = this._getOverLaysClass(lineType);
     var strokeStyle = this._getStorkeStyle(lineType);
-    this._isProOrInhiLink = true;
+    if (lineType == "promotion") this._isPromoteLink = true;
+    if (lineType == "inhibition") this._isInhibitLink = true;
+    // this._isProOrInhiLink = true;
     jsPlumb.connect({
         connector: ["Flowchart"],
         anchor: "Continuous",
@@ -176,7 +174,7 @@ Design.prototype._makeDrawAreaDroppabble = function() {
 
             $(dropedElement).find("img").addClass("no-margin");
             $(dropedElement).find("h4").addClass("text-center");
-            $(dropedElement).find("h4").css("bottom", "px");
+            // $(dropedElement).find("h4").css("bottom", "px");
 
             var filterDiv = $("<div></div>");
             filterDiv.addClass("filterDiv");
@@ -203,6 +201,11 @@ Design.prototype._makeDrawAreaDroppabble = function() {
             dropedElement.attr("part-id", partName + "_" + String(that._partCount));
 
             that._putPartElemList.push(dropedElement);
+            //Add to right bar
+            var part = DataManager.getPartByName(partName);
+            rightBar.processDropedPart(part);
+            that.updateRisk(part);
+            //write log
             operationLog.addPart(dropedElement.attr("part-name"));
         }
     });
@@ -228,12 +231,19 @@ Design.prototype.makeSourceAndTarget = function(elem) {
 };
 
 Design.prototype._initJsPlumbOption = function() {
+	var that = this;
     jsPlumb.bind("connection", function(CurrentConnection) {
         var target = $(CurrentConnection.connection.target);
         var source = $(CurrentConnection.connection.source);
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
-        if (this._isProOrInhiLink == false) {
+        if (that._isInhibitLink == true) {
+        	CurrentConnection.connection.scope = "inhibition";
+            that._isInhibitLink = false;
+        } else if (that._isPromoteLink == true) {
+        	CurrentConnection.connection.scope = "promotion";
+        	that._isPromoteLink = false;
+        } else {
             CurrentConnection.connection.scope = "normal";
             if (sourceNormalNum === 2) {
                 source.attr("data-content", "Most link to two objects");
@@ -255,16 +265,14 @@ Design.prototype._initJsPlumbOption = function() {
             target.attr("normal-connect-num", targetNormalNum);
 
             operationLog.connectPart(source.attr("part-name"), target.attr("part-name"))
-        } else {
-            this._isProOrInhiLink = false;
         }
     });
 
     jsPlumb.ready(function() {
-        jsPlumb.setContainer(this.drawArea);
+        jsPlumb.setContainer(that.drawArea);
     });
 
-    jsPlumb.on(this.drawArea, "click", ".minus", function() {
+    jsPlumb.on(that.drawArea, "click", ".minus", function() {
         operationLog.removePart($(this.parentNode.parentNode).attr("part-name"));
         jsPlumb.remove(this.parentNode.parentNode);
     });
@@ -276,6 +284,36 @@ Design.prototype.addDraggable = function(elem) {
     })
 };
 
+Design.prototype.updateRisk = function(part) {
+    if (this.risk < part.risk) {
+        this.updateRiskView(part.risk);
+    }
+}
+
+Design.prototype.updateRiskView = function(risk) {
+    var color;
+    var popupStr;
+    if (risk == 1) {
+        color = "green";
+        popupStr = "Low risk(1)";
+    }
+    if (risk == 2) {
+        color = "orange";
+        popupStr = "Moderate risk(2)"
+    }
+    if (risk == 3) {
+        color = "pink";
+        popupStr = "High risk(3)";
+    }
+    if (risk == 4) {
+        color = "red";
+        popupStr = "Extreme risk(4)"
+    }
+    $("#risk").removeClass("green orange pink red");
+    $("#risk").addClass(color);
+    $("#risk").attr("data-content", popupStr);
+    $("#risk").popup("show");
+}
 //========================================================================================
 /**
  * @class Rubberband
@@ -352,7 +390,7 @@ Rubberband.prototype._listenDrawAreaClick = function() {
         {   
             jsPlumb.clearDragSelection();
             $(".node").each(function() {
-                $(that).removeClass("selected");
+                $(this).removeClass("selected");
             });
         }
     });
@@ -403,7 +441,6 @@ function DesignMenu() {
     this.downloadBtn = $("#download");
     this.openFileBtn = $("#openFile");
     this.clearBtn = $("#clear");
-    this.changeChartToImageBtn = $("#showImage");
     this.connPartBtn = $("#connect-part");
     this.minusBtn = $("#minus");
 
@@ -413,12 +450,23 @@ function DesignMenu() {
 
 DesignMenu.prototype.init = function() {
     this.enableSaveCircuitchartBtn();
-    this.enableChangeCircuitToImageBtn();
+    this.enableDownloadBtn();
     this.enableLoadCircuitchartBtn();
     this.enableClearCircuitchartBtn();
-    this.enableChangeCircuitToImageBtn();
     this.enableConnectPartBtn();
     this.enableRemovePartBtn();
+    this.popUpAllButton();
+
+    $("#risk").popup();
+}
+
+DesignMenu.prototype.popUpAllButton = function() {
+    this.saveBtn.popup();
+    this.downloadBtn.popup();
+    this.openFileBtn.popup();
+    this.clearBtn.popup();
+    this.connPartBtn.popup();
+    this.minusBtn.popup();
 }
 
 DesignMenu.prototype.enableRemovePartBtn = function() {
@@ -464,60 +512,75 @@ DesignMenu.prototype.enableClearCircuitchartBtn = function() {
 
 DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
     this.saveBtn.click(function() {
-        var parts = []
-        design.nodes.each(function (idx, elem) {
-            var $elem = $(elem);
-            parts.push({
-                partID: $elem.attr('part-id'),
-                partName: $elem.attr('part-name'),
-                positionX: parseInt($elem.css("left"), 10),
-                positionY: parseInt($elem.css("top"), 10)
-            });
-        });
-
-        var connections = [];
-        $.each(jsPlumb.getAllConnections(), function (idx, CurrentConnection) {
-            connections.push({
-                start: $(CurrentConnection.source).attr("part-id"),
-                end: $(CurrentConnection.target).attr("part-id"),
-                type: CurrentConnection.scope
-            });
-        });
-
-        var curcuitChart = {};
-        curcuitChart.parts = parts;
-        curcuitChart.title = "curcuit1";
-        curcuitChart.relationship = connections;
-        curcuitChart.interfaceA = "Pcl_1";
-        curcuitChart.interfaceB = "cl_1";
+        $("#saveModal").modal("show");
     });
 };
 
+DesignMenu.prototype.getDesignChartData = function() {
+    var parts = this.getDesignParts();
+    var connections = this.getDesignConns();
+    var curcuitChart = {};
+    curcuitChart.parts = parts;
+    curcuitChart.title = "deviceName";
+    curcuitChart.relationship = connections;
+    curcuitChart.interfaceA = "interfaceB-partName";
+    curcuitChart.interfaceB = "interfaceA-partName";
+    return curcuitChart;
+}
+
+DesignMenu.prototype.getDesignConns = function() {
+	var connections = [];
+    $.each(jsPlumb.getAllConnections(), function (idx, CurrentConnection) {
+        connections.push({
+            start: $(CurrentConnection.source).attr("part-id"),
+            end: $(CurrentConnection.target).attr("part-id"),
+            type: CurrentConnection.scope
+        });
+    });
+    return connections;
+}
+
+DesignMenu.prototype.getDesignParts = function() {
+    var parts = []
+    $(".node").each(function (idx, elem) {
+        var $elem = $(elem);
+        parts.push({
+            partID: $elem.attr('part-id'),
+            partName: $elem.attr('part-name'),
+            positionX: parseInt($elem.css("left"), 10),
+            positionY: parseInt($elem.css("top"), 10)
+        });
+    });
+    return parts;
+}
+
 DesignMenu.prototype.enableLoadCircuitchartBtn = function(curcuitChart) {
-    // var that = this;
-    // this.openFileBtn.click(function() {
-    //     var parts = curcuitChart.parts;
-    //     var connections = curcuitChart.relationship;
+    var that = this;
+    this.openFileBtn.click(function() {
+    	var curcuitChart = {"parts":[{"partID":"Cl_1","partName":"Cl","positionX":185,"positionY":110},{"partID":"Pcl_2","partName":"Pcl","positionX":305,"positionY":121}],"title":"curcuit1","relationship":[{"start":"Cl_1","end":"Pcl_2","type":"inhibition"}],"interfaceA":"Pcl_1","interfaceB":"cl_1"};
+        var parts = curcuitChart.parts;
+        var connections = curcuitChart.relationship;
 
-    //     var nodeElems = that._loadCircuitNodes(parts);
-    //     that._loadCircuitLinks(connections, nodeElems);
+        var nodeElems = that._loadCircuitNodes(parts);
+        that._loadCircuitLinks(connections, nodeElems);
 
-    //     //update id
-    //         //     partCount += 1;
-    //         // div.attr("part-id", elem.partName + "_" + String(partCount));
-    // });
+        //update id
+            //     partCount += 1;
+            // div.attr("part-id", elem.partName + "_" + String(partCount));
+    });
 
 };
 
 DesignMenu.prototype._loadCircuitNodes = function(parts) {
     var nodeElems = [];
+    var that = this;
     $.each(parts, function(index, elem ) {
-        var node = this._createNewNode(elem);
+        var node = that._createNewNode(elem);
         node.appendTo(design.drawArea);
 
         design.addDraggable(node);
         design.addProAndInhibitLine(node);
-        design.makeSourceAndTargetake(node);
+        design.makeSourceAndTarget(node);
 
         // putPartElemList.push(div);
         var partID = elem.partID;
@@ -538,7 +601,8 @@ DesignMenu.prototype._createNewNode = function(elem) {
     node.addClass("node");
 
 //need debug
-    var img = Util.createImageDiv(elem.partName);
+	var partType = DataManager.getPartType(elem.partName)
+    var img = Util.createImageDiv(partType);
     img.appendTo(node);
 
     var titleDiv = Util.createTitleDiv(elem.partName);
@@ -569,52 +633,127 @@ DesignMenu.prototype._loadCircuitLinks = function(connections, nodeElems) {
         endNormalNum += 1;
         $(startElem).attr("normal-connect-num", startNormalNum);
         $(endElem).attr("normal-connect-num", endNormalNum);
-        drawLine(startElem, endElem, elem.type);
+
+        design.drawLine(startElem, endElem, elem.type);
     }); 
 };
 
-DesignMenu.prototype.enableChangeCircuitToImageBtn =function() {
-    this.changeChartToImageBtn.click(function() {
-        html2canvas(design.drawArea, {
-            onrendered: function(canvas) {
-                var that = this;
-                this.canvas = document.createElement('canvas');
-                this.ctx = canvas.getContext('2d');
-                // # Render Flows/connections on top of same canvas
-                this.flows = $('> svg', el);
+DesignMenu.prototype.enableDownloadBtn =function() {
+	var that = this;
+	this.downloadBtn.click(function() {
+		$('#downloadModal').modal("show");
+	});
 
-                this.flows.each(function() {
-                    var svg = $(this)
-                    var offset = svg.position();
-                    var svgStr = this.outerHTML;
-                    that.ctx.drawSvg(svgStr, offset.left, offset.top);
-                });
+	$("#downloadsubmit").click(function() {
+		$('#downloadModal').modal("hide");
+		var curcuitChartData = that.getDesignChartData();
+		var curcuitName = $("#curcuitName").val();
+		curcuitChartData.title = curcuitName;
+		Util.downloadFile(curcuitName+".txt", JSON.stringify(curcuitChartData));
+		that.downloadChartAsImage(curcuitName);
+	});
+}
 
-                $("#main-contain").append(canvas);
-                this.ctx.drawImage(canvas, 0, 0);
+DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
+    var el = $("#drawArea").get(0);
+    html2canvas(el, {
+        onrendered: function(canvas) {
+        	var that = this;
+            this.canvas = document.createElement('canvas');
+    		this.ctx = canvas.getContext('2d');
+            // # Render Flows/connections on top of same canvas
+            this.flows =  $("> svg", el);
 
-                // var dataURL = canvas.toDataURL();
-                // console.log(dataURL);
-                // ctx.getImageData()
-                // $.ajax({
-                //   type: "POST",
-                //   url: "script.php",
-                //   data: { 
-                //      imgBase64: dataURL
-                //   }
-                // }).done(function(o) {
-                //   console.log('saved'); 
-                //   // If you want the file to be visible in the browser 
-                //   // - please modify the callback in javascript. All you
-                //   // need is to return the url to the file, you just saved 
-                //   // and than put the image in your browser.
-                // });
-            }
-        }); 
-    });
+            this.flows.each(function() {
+                var svg = $(this)
+                var offset = svg.position();
+                var svgStr = this.outerHTML;
+                that.ctx.drawSvg(svgStr, offset.left, offset.top);
+            });
+
+            // $("#main-contain").append(canvas);
+            // this.ctx.drawImage(canvas, 0, 0);
+            var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream")
+            Util.downloadImage(curcuitName+".png", image);
+            // var dataURL = canvas.toDataURL();
+            // console.log(dataURL);
+            // ctx.getImageData()
+            // $.ajax({
+            //   type: "POST",
+            //   url: "script.php",
+            //   data: { 
+            //      imgBase64: dataURL
+            //   }
+            // }).done(function(o) {
+            //   console.log('saved'); 
+            //   // If you want the file to be visible in the browser 
+            //   // - please modify the callback in javascript. All you
+            //   // need is to return the url to the file, you just saved 
+            //   // and than put the image in your browser.
+            // });
+        }
+    }); 
 };
 
 //========================================================================================
+function SideBarWorker() {
+
+}
+
+SideBarWorker.prototype.createPartView = function(part) {
+    var partName = part.name;
+    var partType = part.type;
+    var partIntro = part.introduction;
+   
+    var div = $("<div></div>");
+    div.attr('id', partName);
+    div.attr('part-name', partName);
+    div.addClass('item');
+
+    var img = Util.createImageDiv(partType);
+    img.appendTo(div);
+
+    var h4 = Util.createTitleDiv(partName);
+    h4.appendTo(div);
+
+    var dataDiv = $("<div></div>");
+    dataDiv.addClass("data");
+    dataDiv.css("overflow", "hidden");
+    div.appendTo(dataDiv);
+
+    var span = $("<span></span>");
+    span.text(partIntro);
+    span.appendTo(dataDiv);
+
+    var btn = Util.createItemBtn();
+    btn.appendTo(dataDiv);
+    btn.popup();
+
+    this._makeItJqeryDraggable(div);
+
+    return dataDiv;
+}
+
+SideBarWorker.prototype.addElemToView = function(elem, view) {
+    view.append(elem);
+    view.append(Util.createDivider());
+}
+
+SideBarWorker.prototype.showView = function(elemsPartList, view) {
+    view.empty();
+    for (var i in elemsPartList) {
+        this.addElemToView(elemsPartList[i], view);
+    }
+}
+
+SideBarWorker.prototype._makeItJqeryDraggable = function(elem) {
+    elem.draggable({
+        helper: 'clone',
+        cursor: 'move',
+        tolerance: 'fit',
+        revert: true
+    });
+}
 /**
  * @class LeftBar
  *
@@ -622,7 +761,6 @@ DesignMenu.prototype.enableChangeCircuitToImageBtn =function() {
  *
  */
 function LeftBar() {
-    var that = this;
     this.isOpenLeftBar = false;
     this._leftBarWidth = 400;
     this.view = $("#left-sidebar");
@@ -630,6 +768,7 @@ function LeftBar() {
 
     this.view.parts = $("#parts");
     this.view.devices = $("#devices");
+    this.view.customs = $("#customs");
     // this.vide.systems = $("#systems");
     this.view.relateParts = $("#relateParts");
     this.view.relateDevices = $("#relateDevices");
@@ -639,9 +778,12 @@ function LeftBar() {
     this.elemsPartList = [];
     this.elemsDeviceList = [];
     this.elemsSystemList = [];
+    this.elemsCustomList = [];
 
     this.view.searchRelateBox = $("#searchRelate");
     this.view.searchNewBox = $("#searchNew");
+
+    this.leftbarWorker = new SideBarWorker();
 }
 
 LeftBar.prototype.init = function() {
@@ -656,58 +798,26 @@ LeftBar.prototype.initPart = function(partList) {
     //create left-bar data list
     var that = this;
     for (var i in partList) {
-    	var partName = partList[i].name;
-    	var partType = partList[i].type;
-    	var partIntro = partList[i].introduction;
-       
-        var div = $("<div></div>");
-        div.attr('id', partName);
-        div.attr('part-name', partName);
-        div.addClass('item');
-
-        var img = Util.createImageDiv(partType);
-        img.appendTo(div);
-
-        var h4 = Util.createTitleDiv(partName);
-        h4.appendTo(div);
-
-        var dataDiv = $("<div></div>");
-        dataDiv.addClass("data");
-        dataDiv.css("overflow", "hidden");
-        div.appendTo(dataDiv);
-
-        var span = $("<span></span>");
-        span.text(partIntro);
-        span.appendTo(dataDiv);
-
-        var btn = Util.createItemBtn();
-        btn.appendTo(dataDiv);
-        btn.popup();
-
-        this._makeItJqeryDraggable(div);
-        this.elemsPartList.push(dataDiv);
-        this._searchTitle.push({title: partName});
+    	var dataDiv = this.leftbarWorker.createPartView(partList[i]);
+    	this.elemsPartList.push(dataDiv);
+    	this._searchTitle.push({title: partList[i].name});
     }
-    this.view.searchNewBox.search({source: this._searchTitle});
+    this.updateSearchBar();
+    this.leftbarWorker.showView(this.elemsPartList, this.view.parts);
+}
+
+LeftBar.prototype.addCustomPart = function(part) {
+	var dataDiv = this.leftbarWorker.createPartView(part);
+   	this.elemsCustomList.push(dataDiv);
+   	this._searchTitle.push({title: part.name});
+
+   	this.updateSearchBar();
+    this.leftbarWorker.addElemToView(dataDiv, this.view.customs);
+}
+
+LeftBar.prototype.updateSearchBar = function(box, source) {
+	this.view.searchNewBox.search({source: this._searchTitle});
     this.view.searchRelateBox.search({source: this._searchTitle});
-
-    this.showView(this.elemsPartList, this.view.parts);
-}
-
-LeftBar.prototype.showView = function(elemsPartList, view) {
-	for (var i in elemsPartList) {
-		view.append(elemsPartList[i]);
-		view.append(Util.createDivider());
-	}
-}
-
-LeftBar.prototype._makeItJqeryDraggable = function(elem) {
-    elem.draggable({
-        helper: 'clone',
-        cursor: 'move',
-        tolerance: 'fit',
-        revert: true
-    });
 }
 
 LeftBar.prototype._leftTriggerAnimation = function() {
@@ -756,11 +866,9 @@ LeftBar.prototype.enableSearchNewBox = function() {
 				that.view.parts.prev().addClass("active");
 				that.view.parts.addClass("active");
 			}
-        	that.view.parts.empty();
-        	that.showView(searchElemPartList, that.view.parts);
+        	that.leftbarWorker.showView(searchElemPartList, that.view.parts);
         } else {
-        	that.view.parts.empty();
-        	that.showView(that.elemsPartList, that.view.parts);
+        	that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
         }
     });
 };
@@ -773,15 +881,7 @@ LeftBar.prototype.enableSearchRelateBox = function() {
 			var searchElemPartList = [];
 			for (var i in that.elemsPartList) {
 				var partName = $(that.elemsPartList[i].find("div")[0]).attr("part-name").toLowerCase();
-				// var adj = DataManager.getRelationAdjFromPartName(val);
-				// console.log(adj);
-				// for (var j in adj) {
-				// 	if (adj[j] == partName) {
-				// 		searchElemPartList.push(that.elemsPartList[i]);
-				// 	}
-				// }
 				if (DataManager.isRelate(val, partName)) {
-					// that.elemsPartList[i].attr("relate", "val");
 					searchElemPartList.push(that.elemsPartList[i]);
 				}
 			}
@@ -789,8 +889,7 @@ LeftBar.prototype.enableSearchRelateBox = function() {
 				that.view.relateParts.prev().addClass("active");
 				that.view.relateParts.addClass("active");
 			}
-			that.view.relateParts.empty();
-			that.showView(searchElemPartList, that.view.relateParts);
+			that.leftbarWorker.showView(searchElemPartList, that.view.relateParts);
 		} else {
 			that.view.relateParts.empty();
 			that.view.relateParts.prev().removeClass("active");
@@ -798,21 +897,6 @@ LeftBar.prototype.enableSearchRelateBox = function() {
 		}
 	})
 }
-
-
-// $("#searchNew").keyup(function() {
-//     if ($(this).val() == "") {
-        
-//     } else {
-//         $(".data").each(function() {
-//             $(this).css("display", "none");
-//         });
-//         $("[part-name='"+ $(this).val() +"']").each(function() {
-//             $(this).css("display", "block");
-//         });
-//     }
-// });
-
 //========================================================================================
 /**
  * @class RightBar
@@ -824,7 +908,21 @@ function RightBar() {
     this.rightTrigger = $(".trigger-right");
     this.view = $("#right-sidebar");
     this._isOpenRightBar = false;
-    this._rightBarWidth = 400; 
+    this._rightBarWidth = 400;
+
+    this.elemsPartList = [];
+    this.elemsDeviceList = [];
+    this.elemsSystemList = [];
+    this.elemsCustomList = [];
+
+    this.view.parts = $("#addedParts");
+    this.view.devices = $("#addedDevices");
+    this.view.systems = $("#addedSystems");
+    this.view.customs = $("#addedCustoms");
+    this.view.searchAddBox = $("#searchAddBox");
+
+    this.rightbarWorker = new SideBarWorker();
+    this._searchTitle = [];
 };
 
 RightBar.prototype.init = function() {
@@ -855,6 +953,76 @@ RightBar.prototype._rightTriggerAnimation = function() {
     });
 };
 
+RightBar.prototype.processDropedPart = function(part) {
+    this.updateEquationView(part);
+    this.updateAddedView(part);
+}
+
+RightBar.prototype.updateEquationView = function(part) {
+    if (this.isPartAddedEquationMenu(part)) {
+        return;
+    } else {
+        this.addDropdownItem(part, $("#equationDropdownA .menu"))
+        this.addDropdownItem(part, $("#equationDropdownB .menu"))
+    }
+}
+
+RightBar.prototype.addDropdownItem = function(part, dropdownMenuElem) {
+    var itemDiv = $("<div></div>");
+    itemDiv.addClass("item");
+    itemDiv.attr("data-value", part.name);
+
+    var imgElem = $("<img/>");
+    imgElem.addClass("ui mini avatar image");
+    imgElem.attr("src", Util.getImagePath(part.type, 70));
+    imgElem.appendTo(itemDiv);
+
+    itemDiv.append(part.name);
+    dropdownMenuElem.append(itemDiv);
+}
+
+RightBar.prototype.isPartAddedEquationMenu = function(part) {
+    var flag = false;
+    $("#equationDropdownA .menu").each(function() {
+        if ($(this).text() == part.name) {
+            flag = true;
+        }
+    })
+    return flag;
+}
+
+RightBar.prototype.updateAddedView = function(part) {
+    var partElem = this.rightbarWorker.createPartView(part);
+    if (!this.isPartAdded(part)) {
+        this.elemsPartList.push(partElem);
+        this._searchTitle.push({title: part.name});
+        this.updateSearchBar();
+        this.rightbarWorker.showView(this.elemsPartList, this.view.parts);
+    }
+}
+
+RightBar.prototype.isPartAdded = function(part) {
+    for (var i in this.elemsPartList) {
+        if ($(this.elemsPartList[i]).find("h4").text() == part.name) {
+            return true;
+        }
+    }
+    return false;
+}
+
+RightBar.prototype.updateSearchBar = function() {
+    this.view.searchAddBox.search({source: this._searchTitle});
+}
+
+RightBar.prototype.showEquation = function(partNameA, partNameB) {
+    var equation = DataManager.getEquation(partNameA, partNameB);
+    console.log(equation);
+    var equationStr = Util.renderEquation(equation);
+    var pElem = $("<p></p>");
+    pElem.text(equationStr);
+    $("#showEquation").append(pElem);
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+}
 //========================================================================================
 /**
  * @class DataManager
@@ -929,6 +1097,13 @@ DataManager.getSystemList = function() {
 	return this.systemList;
 }
 
+DataManager.getPartByName = function(partName) {
+	for (var i in this.partList) {
+		if (this.partList[i].name == partName) return this.partList[i];
+	}
+	return null;
+}
+
 DataManager.getPartType = function(partName) {
 	for (var i in this.partList) {
 		if (this.partList[i].name == partName) return this.partList[i].type;
@@ -959,16 +1134,28 @@ DataManager.isPartInRelationAdj = function(partName, relationAdj) {
 	return false;
 }
 
-DataManager.isRelate = function(PartA, PartB) {
+DataManager.isRelate = function(partNameA, partNameB) {
     for (var i in this.relationShipList) {
     	var start = this.relationShipList[i].start.toLowerCase();
     	var end = this.relationShipList[i].end.toLowerCase();
-        if ((start === PartA.toLowerCase() && end === PartB.toLowerCase()) ||
-            (start === PartB.toLowerCase() && end === PartA.toLowerCase())) {
+        if ((start === partNameA.toLowerCase() && end === partNameB.toLowerCase()) ||
+            (start === partNameB.toLowerCase() && end === partNameA.toLowerCase())) {
             return true;
         }
     }
     return false;
+}
+
+DataManager.getEquation = function(partNameA, partNameB) {
+    for (var i in this.relationShipList) {
+        var start = this.relationShipList[i].start.toLowerCase();
+        var end = this.relationShipList[i].end.toLowerCase();
+        if ((start === partNameA.toLowerCase() && end === partNameB.toLowerCase()) ||
+            (start === partNameB.toLowerCase() && end === partNameA.toLowerCase())) {
+            return this.relationShipList[i].equation;
+        }
+    }
+    return "There are no equation between "+ partNameA + " and " + partNameB;
 }
 
 DataManager.isProOrInhibitRelation = function(fromPartA, toPartB) {
@@ -986,6 +1173,7 @@ DataManager.isProOrInhibitRelation = function(fromPartA, toPartB) {
 DataManager.getPartDataFromServer = function(callback) {
 	var that = this;
     $.get("/design/data/fetch/parts", function(data, status) {
+        console.log(data['parts']);
         that.initPartList(data['parts']);
         callback(that.getPartList());
     });
@@ -994,6 +1182,7 @@ DataManager.getPartDataFromServer = function(callback) {
 DataManager.getRelationShipDataFromServer = function(callback) {
 	var that = this;
     $.get("/design/data/fetch/relationship", function(data, status) {
+        console.log(data['relationship']);
         that.initRelationShipList(data['relationship']);
     });
 }
@@ -1001,6 +1190,7 @@ DataManager.getRelationShipDataFromServer = function(callback) {
 DataManager.getRelationAdjDataFromServer = function(callback) {
 	var that = this;
 	$.get("/design/data/fetch/adjmatrix", function(data, status) {
+        console.log(data['adjmatrix']);
         that.initRelationAdjList(data['adjmatrix']);
     });
 }
@@ -1008,6 +1198,7 @@ DataManager.getRelationAdjDataFromServer = function(callback) {
 DataManager.getDeviceDataFromServer = function(callback) {
 	var that = this;
     $.get("/design/data/fetch/device", function(data, status) {
+        console.log(data['deviceList']);
         that.initDeviceList(data['deviceList']);
     });
 }
@@ -1022,13 +1213,12 @@ DataManager.getDeviceDataFromServer = function(callback) {
 function Util() {};
 
 Util.getImagePath = function(type, imgSize) {
-    var imgSize = 60;
     return "/static/img/design/"+ type + "_" + imgSize +".png";
 };
 
 Util.createImageDiv = function(partType) {
     var img = $("<img></img>");
-    var imgPath = this.getImagePath(partType);
+    var imgPath = this.getImagePath(partType, 60);
     img.addClass("ui left floated image no-margin");
     img.attr("src", imgPath);
     return img;
@@ -1036,7 +1226,7 @@ Util.createImageDiv = function(partType) {
 
 Util.createTitleDiv = function(partName) {
     var titleDiv = $("<h4></h4>");
-    titleDiv.addClass("ui no-margin");
+    titleDiv.addClass("ui no-margin text-center");
     titleDiv.text(partName);
     return titleDiv;
 }
@@ -1062,6 +1252,36 @@ Util.createDivider = function() {
 	var divider = $("<div></div>");
     divider.addClass("ui inverted divider");
     return divider;
+}
+
+Util.downloadFile = function(fileName, content){
+	console.log(content);
+    var aLink = document.createElement('a');
+    var blob = new Blob([content]);
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent("click", false, false);
+    aLink.download = fileName;
+    aLink.href = URL.createObjectURL(blob);
+    // aLink.href = content;
+    aLink.dispatchEvent(evt);
+}
+
+Util.downloadImage = function(fileName, content){
+    var aLink = document.createElement('a');
+    var evt = document.createEvent("HTMLEvents");
+    evt.initEvent("click", false, false);
+    aLink.download = fileName;
+    aLink.href = content;
+    // aLink.href = content;
+    aLink.dispatchEvent(evt);
+}
+
+Util.renderEquation = function(e) {
+    var res = e.content;  
+    for (var key in e.parameters) 
+        res=res.replace('{{'+key+'}}', e.parameters[key]); 
+    res = "$$ " + res + " $$";
+    return res;
 }
 
 //===============================================================================
@@ -1106,4 +1326,38 @@ $(".cancel").each(function() {
 	$(this).click(function() {
 		$('.modal').modal("hide");
 	});
+});
+
+$("#customPartType").change(function() {
+	var partType = $(this).attr("value");
+	$("#customImg").attr("src", "/static/img/design/"+partType+"_70.png");
+});
+
+$("#customSubmit").click(function() {
+	$('#createCustomPartModal').modal("hide");
+	var part = {};
+	part.name = $("#customPartName").val();
+	console.log(part.name);
+	part.type = $("#customPartType").val();
+	part.introduction = $("#customIntro").val();
+	leftBar.addCustomPart(part);
+
+});
+
+$("#equationPartA").change(function() {
+    var partNameA = $(this).attr("value");
+    var partNameB = $("#equationPartB").attr("value");
+    console.log(partNameA);
+    console.log(partNameB);
+    if (partNameA != "" && partNameB != "") {
+        rightBar.showEquation(partNameA, partNameB);
+    }
+});
+
+$("#equationPartB").change(function() {
+    var partNameA = $("#equationPartA").attr("value");
+    var partNameB = $(this).attr("value");
+    if (partNameA != "" && partNameB != "") {
+        rightBar.showEquation(partNameA, partNameB);
+    }
 });

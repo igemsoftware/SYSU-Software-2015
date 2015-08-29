@@ -237,5 +237,26 @@
 }
 
 .text-right {
-    text-align: right;
+    text-align: right !important;
+}
+
+.vertical-middle {
+    vertical-align:middle !important;
+}
+
+/*#equation {
+    width: 98%;
+}*/
+
+#equation .selection {
+    min-width: 11em;
+    width: 100%;
+}
+
+/*#risk {
+    float: right;
+}*/
+
+#saveModal textarea {
+    margin-bottom: 1em;
 }

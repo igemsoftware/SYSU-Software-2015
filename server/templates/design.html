@@ -10,7 +10,12 @@
     <link rel="stylesheet" href="/static/css/semantic.min.css">
     <link rel="stylesheet" href="/static/css/main_common.css">
     <link rel="stylesheet" href="/static/css/design.css">
-
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 
   </head>
@@ -31,36 +36,35 @@
   <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
 
 
-  <div class="ui secondary menu" id="topbar">
-    <div class="item" id="topbar-index">
-      <div class="ui button" id="topbar-btn-index"></div>
-    </div>
-    <div class="item" id="topbar-menu">
-      <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>
-    </div>
-    <div class="item" id="topbar-undo">
-      <div class="ui button" id="topbar-btn-undo">Undo</div>
-    </div>
-    <div class="item" id="topbar-save">
-      <div class="ui button" id="topbar-btn-save">Save</div>
-    </div>
-    <div class="item" id="topbar-help">
-      <div class="ui button" id="topbar-btn-help">Help</div>
-    </div>
-    <div class="right menu">
-      <div class="item" id="topbar-design">
-        <div class="ui button" id="topbar-btn-design">Design</div>
+    <div class="ui secondary menu" id="topbar">
+      <div class="item" id="topbar-index">
+        <div class="ui button" id="topbar-btn-index"></div>
       </div>
-      <div class="item" id="topbar-modeling">
-        <div class="ui button" id="topbar-btn-modeling">Modeling</div>
+      <div class="item" id="topbar-menu">
+        <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>
       </div>
-      <div class="item" id="topbar-experiment">
-        <div class="ui button" id="topbar-btn-experiment">Experiment</div>
+      <div class="item" id="topbar-undo">
+        <div class="ui button" id="topbar-btn-undo">Undo</div>
       </div>
+      <div class="item" id="topbar-save">
+        <div class="ui button" id="topbar-btn-save">Save</div>
+      </div>
+      <div class="item" id="topbar-help">
+        <div class="ui button" id="topbar-btn-help">Help</div>
+      </div>
+      <div class="right menu">
+        <div class="item" id="topbar-design">
+          <div class="ui button" id="topbar-btn-design">Design</div>
+        </div>
+        <div class="item" id="topbar-modeling">
+          <div class="ui button" id="topbar-btn-modeling">Modeling</div>
+        </div>
+        <div class="item" id="topbar-experiment">
+          <div class="ui button" id="topbar-btn-experiment">Experiment</div>
+        </div>
+      </div>
+      <div id="topbar-bottom-line"></div>
     </div>
-
-    <div id="topbar-bottom-line"></div>
-  </div>
 
     <div id="left-sidebar">
       <div class="ui button trigger-left">
@@ -91,7 +95,7 @@
           <div class="content" id="systems">
           </div>
           <div class="title"><i class="dropdown icon"></i>Custom</div>
-          <div class="content" id="Custom">
+          <div class="content" id="customs">
             <button id="createCustomPart" class="ui fluid labeled icon button">Create a part<i class="add icon"></i></button>
             <div class="ui inverted divider"></div>
             <button class="ui fluid labeled icon button">Import a chart<i class="add icon"></i></button>
@@ -123,64 +127,138 @@
       </div>
     </div>
 
-    <div>
-      <div class="ui small modal" id="createCustomPartModal">
-        <div class="header">Create a custom part</div>
-          <div class="content">
-            <div class="ui grid">
-              <div class="three wide column">
-                <img class="ui tiny image" src="/static/img/design/promoter_70.png">
-              </div>
-              <div class="thirteen wide column">
-                <form class="ui form">
-                  <div class="two fields">
-                    <div class="field">
-                      <label>Part Type</label>
-                      <div class="ui fluid selection dropdown">
-                        <input name="partType" type="hidden">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Select a type</div>
-                        <div class="menu">
-                          <div class="item" data-value="jenny">
-                            <img class="ui mini avatar image" src="/static/img/design/promoter_70.png">
-                            Promoter
-                          </div>
-                          <div class="item" data-value="elliot">
-                            <img class="ui mini avatar image" src="/static/img/design/RBS_70.png">
-                            RBS
-                          </div>
-                          <div class="item" data-value="stevie">
-                            <img class="ui mini avatar image" src="/static/img/design/gene_70.png">
-                            Gene
-                          </div>
-                          <div class="item" data-value="christian">
-                            <img class="ui mini avatar image" src="/static/img/design/terminator_70.png">
-                            Terminator
-                          </div>
-                          <div class="item" data-value="matt">
-                            <img class="ui mini avatar image" src="/static/img/design/protein_70.png">
-                            Protein
-                          </div>
-                          <div class="item" data-value="justen">
-                            <img class="ui mini avatar image" src="/static/img/design/chemical_70.png">
-                            Chemical
-                          </div>
+    <div class="ui small modal" id="downloadModal">
+      <div class="header">Download a custom part</div>
+      <div class="content"> 
+        <div class="ui form">
+          <div class="inline fields">
+            <div class="field">
+              <label>Curcuit Name</label>
+              <input id="curcuitName" type="text" placeholder="Enter Curcuit Name">
+            </div>
+          </div>
+        </div>
+        <div class="fluid text-right">
+          <div class="ui cancel button">Cancel</div>
+          <div class="ui button" id="downloadsubmit">Download</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui small modal" id="saveModal">
+      <div class="header">Save your curcuit</div>
+      <div class="content">
+        <div class="ui form">
+          <div class="inline fields">
+            <div class="field">
+              <label>Curcuit Name</label>
+              <input id="curcuitName" type="text" placeholder="Enter Curcuit Name">
+            </div>
+          </div>
+          <div class="field">
+            <label>Introduction</label>
+            <textarea rows="6"></textarea>
+          </div>
+        </div>
+        <div class="fluid text-right">
+          <div class="ui cancel button">Cancel</div>
+          <div class="ui submmit button">Save</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui small modal" id="createCustomPartModal">
+      <div class="header">Create a custom part</div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="three wide column">
+              <img id="customImg" class="ui tiny image" src="/static/img/design/promoter_70.png">
+            </div>
+            <div class="thirteen wide column">
+              <form class="ui form">
+                <div class="two fields">
+                  <div class="field">
+                    <label>Part Type</label>
+                    <div class="ui fluid selection dropdown">
+                      <input id="customPartType" name="type" type="hidden">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select a type</div>
+                      <div class="menu">
+                        <div class="item" data-value="promoter">
+                          <img class="ui mini avatar image" src="/static/img/design/promoter_70.png">
+                          Promoter
+                        </div>
+                        <div class="item" data-value="RBS">
+                          <img class="ui mini avatar image" src="/static/img/design/RBS_70.png">
+                          RBS
+                        </div>
+                        <div class="item" data-value="gene">
+                          <img class="ui mini avatar image" src="/static/img/design/gene_70.png">
+                          Gene
+                        </div>
+                        <div class="item" data-value="terminator">
+                          <img class="ui mini avatar image" src="/static/img/design/terminator_70.png">
+                          Terminator
+                        </div>
+                        <div class="item" data-value="protein">
+                          <img class="ui mini avatar image" src="/static/img/design/protein_70.png">
+                          Protein
+                        </div>
+                        <div class="item" data-value="chemical">
+                          <img class="ui mini avatar image" src="/static/img/design/chemical_70.png">
+                          Chemical
                         </div>
                       </div>
                     </div>
-                    <div class="field">
-                      <label>Part Name</label>
-                      <input type="text">
+                  </div>
+                  <div class="field">
+                    <label>Part Name</label>
+                    <input type="text" placeholder="Enter Part Name" name="name" id="customPartName">
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="field">
+                    <label>BBa Name</label>
+                    <input type="text" placeholder="Enter BBa Name" name="BBa" id="customBBaName">
+                  </div>
+                  <div class="field">
+                    <label>Risk ground</label>
+                    <div class="ui fluid selection dropdown">
+                      <input name="risk" type="hidden" id="customRisk">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Risk ground</div>
+                      <div class="menu">
+                        <div class="item" data-value="1">
+                          <button class="ui fluid green mini button">
+                          Low risk(1)</button>
+                        </div>
+                        <div class="item" data-value="2">
+                          <button class="ui fluid orange mini button">
+                          Moderate risk(2)</button>
+                        </div>
+                        <div class="item" data-value="3">
+                          <button class="ui fluid pink mini button">
+                          High risk(3)</button>
+                        </div>
+                        <div class="item" data-value="4">
+                          <button class="ui fluid red mini button">
+                          Extreme risk(4)</button>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="fluid text-right">
-                    <div class="ui cancel button">Cancel</div>
-                    <div class="ui submit button">Submit</div>
-                  </div>
-                </form>
-              </div>
+                </div>
+                <div class="field">
+                  <label>Introduction</label>
+                  <textarea rows="4" id="customIntro" name="introduction"></textarea>
+                </div>
+                <div class="fluid text-right">
+                  <div class="ui cancel button">Cancel</div>
+                  <div class="ui submit button" id="customSubmit">Submit</div>
+                </div>
+              </form>
             </div>
-        </div>
+          </div>
       </div>
     </div>
 
@@ -198,7 +276,7 @@
       <div class="ui bottom attached tab segment active" data-tab="added"> 
         <div class="ui fluid category search">
           <div class="ui fluid icon input">
-            <input id="searchNew" class="prompt" placeholder="Search added parts..." type="text">
+            <input id="searchAdd" class="prompt" placeholder="Search added parts..." type="text">
             <i class="search icon"></i>
           </div>
           <div class="results"></div>
@@ -206,19 +284,38 @@
 
         <div class="ui styled accordion">
           <div class="title"><i class="dropdown icon"></i>Part</div>
-            <div class="content" id="parts">
-            </div>
+          <div class="content" id="addedParts"></div>
           <div class="title"><i class="dropdown icon"></i>Device</div>
-            <div class="content" id="devices">
-            </div>
+          <div class="content" id="addedDevices"></div>
           <div class="title"><i class="dropdown icon"></i>System</div>
-            <div class="content">
-              <p class="transition hidden"></p>
-            </div>
+          <div class="content" id="addedSystems"></div>
+          <div class="title"><i class="dropdown icon"></i>Custom</div>
+          <div class="content" id="addedCustoms"></div>
         </div>
       </div>
       <div class="ui bottom attached tab segment" data-tab="equation">
-        
+        <div class="ui grid" id="equation">
+          <div class="eight wide column">
+            <div class="ui fluid selection dropdown" id="equationDropdownA">
+              <input id="equationPartA" name="type" type="hidden" value="">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select a part</div>
+              <div class="menu">
+              </div>
+            </div>
+          </div>
+          <div class="eight wide column">
+            <div class="ui fluid selection dropdown" id="equationDropdownB">
+              <input id="equationPartB" name="type" type="hidden" value="">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select a part</div>
+              <div class="menu">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="showEquation">
+        </div>
       </div>
       <div class="ui bottom attached tab segment" data-tab="history" id="history">
         <div class="ui feed">
@@ -236,6 +333,8 @@
           <button class="ui grey button" id="minus" data-content="Delete a part"><i class="minus icon"></i></button>
           <button class="ui grey button" id="download" data-content="Download this image" ><i class="download icon"></i></button>
         </div>
+        <span>Risk: </span>
+        <button class="vertical-middle ui green button" id="risk" data-content="Low risk(1)"></button>
       </div>
       <div class="" id="drawArea">
           <div id="rubberband" style="border:1px solid green;display:none;"></div>
