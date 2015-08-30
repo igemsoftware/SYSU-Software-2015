@@ -1,7 +1,9 @@
 from . import main
+from ..models import Circuit
 
-from flask import render_template, jsonify, request, current_app, url_for
+from flask import render_template, jsonify, request, current_app, url_for, jsonify, abort
 from flask.ext.login import login_required
+import json
 
 @main.before_app_request 
 def before_request():
@@ -21,3 +23,24 @@ def design():
 
 
 
+
+@login_required
+@main.route('/experiment')
+def experiment():
+    return render_template('experiment.html')
+
+@login_required
+@main.route('/circuit/<int:id>')
+def circuit(id): 
+    # skip: check whether current user has the privilege 
+    
+    c = Circuit.query.get(id)
+    if not c:
+        abort(404)
+
+    return jsonify(
+            title = c.title,
+            protocol = json.loads(c.protocol),
+            )
+
+             

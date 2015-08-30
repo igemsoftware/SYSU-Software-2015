@@ -27,7 +27,3 @@ def get_all():
     return jsonify(memos=l)
 
 
-@login_required
-@calendar.route('/experiment')
-def experiment():
-    return render_template('experiment.html')

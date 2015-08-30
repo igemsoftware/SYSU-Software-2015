@@ -38,31 +38,62 @@ from .. import db
 import json
 
 
-class ProtocolRecommend(db.Model):
-    protocol_id = db.Column(db.Integer, db.ForeignKey('protocol.id'),
-                            primary_key=True)
-    device_id = db.Column(db.Integer, db.ForeignKey('device.id'),
-                            primary_key=True)
+#   class ProtocolRecommend(db.Model):
+#       protocol_id = db.Column(db.Integer, db.ForeignKey('protocol.id'),
+#                               primary_key=True)
+#       device_id = db.Column(db.Integer, db.ForeignKey('device.id'),
+#                               primary_key=True)
 
-    def __repr__(self):
-        return '<ProtocolRecommend: %s->%s>' % (self.prototype.name, self.device.name)
+#       def __repr__(self):
+#           return '<ProtocolRecommend: %s->%s>' % (self.prototype.name, self.device.name)
 
 class Protocol(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     name = db.Column(db.String(128), default='', index=True)
     introduction = db.Column(db.Text, default='')
-    content = db.Column(db.Text, default='')
-    timescale = db.Column(db.Integer)
+    component = db.Column(db.Text, default='')
+    procedure = db.Column(db.Text, default='')
+    likes = db.Column(db.Integer, default=0)
 
-    liked = db.Column(db.Integer, default=0)
-    used_times = db.Column(db.Integer, default=0)
+    recommend = db.Column(db.Boolean, default = False)
 
-    recommend_to = db.relationship('ProtocolRecommend',
-                                   foreign_keys=[ProtocolRecommend.protocol_id],
-                                   backref=db.backref('protocol', lazy='joined'),
-                                   lazy='dynamic',
-                                   cascade='all, delete-orphan')
+    def load_from_file(self, filename):
+        print 'loading %s ...' % filename
+        _introduction = []
+        _component = []
+        _procedure = []
+        with open(filename, 'r') as f:
+            self.name = f.readline().strip().decode('ISO-8859-1')
+            self.recommend = f.readline().strip() == 'True'
+            for line in f:
+                line = line.strip()
+                if line == 'Introduction':
+                    ptr = _introduction
+                elif line == 'Components':
+                    ptr = _component
+                elif line == 'Procedure':
+                    ptr = _procedure
+                else:
+                    ptr.append(line.strip().decode('ISO-8859-1'))
+
+        self.introduction = '\n'.join(_introduction)
+        self.component = '\n'.join(_component)
+        self.procedure = '\n'.join(_procedure)
+
+        db.session.add(self)
+
+        return self
+
+
+    # used_times = db.Column(db.Integer, default=0)
+    # timescale = db.Column(db.Integer)
+#   recommend_to = db.relationship('ProtocolRecommend',
+#                                  foreign_keys=[ProtocolRecommend.protocol_id],
+#                                  backref=db.backref('protocol', lazy='joined'),
+#                                  lazy='dynamic',
+#                                  cascade='all, delete-orphan')
+
 
 from equation import Equation
 
@@ -210,11 +241,11 @@ class Device(db.Model, BioBase):
     risk = db.Column(db.Integer, default="-1")
     pic_url = db.Column(db.Text, default='')
 
-    recommended_protocol = db.relationship('ProtocolRecommend',
-                                   foreign_keys=[ProtocolRecommend.device_id],
-                                   backref=db.backref('device', lazy='joined'),
-                                   lazy='dynamic',
-                                   cascade='all, delete-orphan')
+##  recommended_protocol = db.relationship('ProtocolRecommend',
+##                                 foreign_keys=[ProtocolRecommend.device_id],
+##                                 backref=db.backref('device', lazy='joined'),
+##                                 lazy='dynamic',
+##                                 cascade='all, delete-orphan')
 
     def __init__(self, **kwargs):
         # super(Work, self).__init__(**kwargs)
@@ -293,21 +324,51 @@ class Circuit(db.Model, BioBase):
     id = db.Column(db.Integer, primary_key=True)
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
 
+    title = db.Column(db.Text, default='')
+
     is_finished = db.Column(db.Boolean, default=False)
     is_shared = db.Column(db.Boolean, default=False)
     is_public = db.Column(db.Boolean, default=False)
     task_related = db.Column(db.Integer, default=-1)
 
     create_time = db.Column(db.DateTime, index=True, default=datetime.now)
-    progress = db.Column(db.Integer, default=0)
+    # progress = db.Column(db.Integer, default=0)
     name = db.Column(db.String(128), default='No name')
     introduction = db.Column(db.Text)
 
+    protocol = db.Column(db.Text, default='')
+
     # in public database
     db_create_time = db.Column(db.DateTime)
-    liked = db.Column(db.Integer, default=0)
+    likes = db.Column(db.Integer, default=0)
     favoriter = db.relationship('User', secondary=Favorite_circuit, backref=db.backref('circuit', lazy='dynamic')) 
     grade = db.Column(db.Text) # how ?
+
+
+##  recommended_protocol = db.relationship('ProtocolRecommend',
+##                                 foreign_keys=[ProtocolRecommend.device_id],
+##                                 backref=db.backref('device', lazy='joined'),
+##                                 lazy='dynamic',
+##                                 cascade='all, delete-orphan')
+
+
+    def __init__(self, **kwargs):
+        super(Circuit, self).__init__(**kwargs)
+        _protocol = []
+        _id = 0
+        for p in Protocol.query.filter_by(recommend=True).all():
+            _protocol.append(
+                    {
+                        'name': p.name,
+                        'introduction': p.introduction,
+                        'component': p.component,
+                        'procedure' : p.procedure,
+                        'likes': p.likes,
+                        'id': _id
+                    });
+            _id += 1
+        self.protocol = json.dumps(_protocol)
+                                 
 
     def _copy_from_device(self, device_id):
         d = Device.query.get(device_id)
@@ -335,6 +396,23 @@ class Circuit(db.Model, BioBase):
             'title': self.name,
             'description': self.introduction,
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

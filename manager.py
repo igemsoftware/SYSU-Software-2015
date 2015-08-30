@@ -84,6 +84,11 @@ def testinit(slient=False, noinit=False):
         # add testing component prototype
         for filename in app.config.get('INIT_PRELOAD_DEVICES', []):
             device = Device().load_from_file(filename)
+
+        # add default protocols 
+        for filename in app.config.get('INIT_PRELOAD_PROTOCOLS', []):
+            device = Protocol().load_from_file(filename)
+ 
     
         Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
         Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
@@ -129,8 +134,8 @@ def testinit(slient=False, noinit=False):
             u.msg_box.append(m)
             db.session.add(m)
 
+        
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
-
 
 if __name__ == '__main__':
     manager.run()
