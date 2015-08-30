@@ -1,0 +1,169 @@
+#topbar-bottom-line {
+    background: linear-gradient(to right, #ec5a5b, #ebf595, #72d3e3, #9b83c1);
+}
+
+/*
+#main-container {
+    padding-top: 60px;
+    padding-bottom: 0;
+    padding-left: 52px;
+    padding-right: 52px;
+    height: 100%;
+}
+*/
+
+.loader {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+#view-database {
+    padding-top: 52px;
+    padding-bottom: 0;
+    padding-right: 52px;
+    padding-left: 0;
+    height: 100%;
+    width: auto;
+    display: flex;
+    font-size: 1.2rem;
+}
+
+#database-sidebar {
+    height: 100%;
+    width: 210px;
+    padding-top: 3em;
+}
+
+#database-sidebar > .database.tag {
+    border-radius: 0;
+    padding-left: 60px;
+    text-align: left;
+    font-size: 1.2rem;
+    font-weight: lighter;
+    transition: all .3s ease;
+    background: transparent;
+}
+
+#database-sidebar > .database.tag.selected {
+    background-color: #2d2e30;
+    color: #f8f8f8;
+}
+
+#database-main {
+    flex: 1;
+    display: flex;
+    height: 100%;
+    background-color: #f8f8f8;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+#database-list {
+    width: 350px;
+    min-width: 350px;
+    height: calc(100% - 100px);
+    padding: 1rem;
+    border-right: 1px solid #e4e4e4;
+}
+
+#database-stats > a {
+    text-align: right;
+    float: right;
+    cursor: pointer;
+}
+
+#database-search {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+#database-search > input {
+    border-radius: 0;
+}
+
+#database-list .database.items {
+    overflow-y: auto;
+    height: 100%;
+}
+
+#database-list .database.item {
+    border-radius: 0;
+    background-color: transparent;
+    border: 1px solid #e4e4e4;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    font-weight: lighter;
+    transition: all .3s ease;
+}
+
+#database-list .database.item.selected {
+    border: 1px solid #959595;
+    color: #2d2e30;
+}
+
+#database-detail {
+    flex: 1;
+    height: 100%;
+    padding: 3rem 5%;
+}
+
+#detail-header {
+    width: 100%;
+    border-bottom: 1px solid #e4e4e4;
+    line-height: 2.0rem;
+    padding-bottom: 10px;
+}
+
+#detail-header > .title {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 1.8rem;
+}
+
+.detail.header.meta {
+    display: block;
+    margin-left: 30px;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.detail.header.meta > .text {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+#detail-progress > .progress {
+    display: inline-block;
+    width: 0.8em;
+    height: 0.8em;
+    border-radius: 0.8em;
+    position: relative;
+    top: 0.1em;
+    margin-right: 5px;
+}
+
+#detail-progress > .progress.design {
+    background-color: #ec5a5b;
+}
+
+#detail-progress > .progress.modeling {
+    background-color: #ebf595;
+}
+
+#detail-progress > .progress.experiment {
+    background-color: #72d3e3;
+}
+
+#detail-tabs {
+    margin-top: 20px;
+}
+
+#detail-tabs > .menu > .item {
+    transition: all .3s ease;
+}
+
+#details-description-tab {
+    font-size: 1.2rem;
+    line-height: 2rem;
+}

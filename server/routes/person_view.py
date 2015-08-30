@@ -3,12 +3,12 @@ from ..models import Circuit
 from ..tools.parser import json_parser
 
 from flask.ext.login import current_user, login_required
-from flask import jsonify, json
+from flask import jsonify, json, render_template
 
 @person.route('/')
 @login_required
 def index():
-    return 'get data from person/mine and person/favorite'
+    return render_template('person/personal_center.html')
 
 @person.route('/mine')
 @login_required
