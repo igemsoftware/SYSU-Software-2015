@@ -1,0 +1,266 @@
+.main_container {
+	margin-top: 50px;
+	padding: 20px 20px;
+	height: 85%;
+}
+
+.main_container .tab {
+	height: 100%;
+}
+
+.main_container .tabular.menu .item {
+	background-color: #BEBEBF;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.main_container .tabular.menu .item .active {
+	background-color: #fff;
+}
+
+#calendar, #PlaPro {
+    box-shadow: 5px 5px 10px #989898 !important;/*opera或ie9*/  
+    -moz-box-shadow: 5px 5px 10px #989898 !important;/*firefox*/  
+    -webkit-box-shadow: 5px 5px 10px #989898 !important;/*webkit*/  
+}
+
+#rightbox {
+	height: 100%;
+}
+
+#PlaPro {
+	width: 100%;
+}
+
+#PlaPro .grid {
+	height: 100%;
+}
+
+#protocol {
+	height: 95%;
+	width: 90%;
+	padding-top: 20px;
+}
+
+#protocol-list {
+	background-color: #f7f7f7;
+	height: 100%;
+}
+
+#protocol-list .icon-set {
+	float: right;
+	color: #848484;
+}
+
+#protocol-list .icon-set .icon {
+	margin-right: 15px;
+	cursor: pointer;
+}
+
+#list-title {
+	background-color: #434446;
+	margin-bottom: 17px;
+	color:#EDEDEF;
+	height: 40px;
+	padding-left: 30px;
+	padding-top: 5px;
+/*	vertical-align: middle;*/
+}
+
+#list-title span {
+/*	vertical-align: middle;*/
+}
+
+#list-title .icon {
+	color:#EDEDEF;
+	cursor: pointer;
+}
+
+#list-body {
+	overflow: auto;
+	height: 90%;
+	padding-left: 30px;
+	padding-right: 10px;
+}
+
+#list-body span {
+	font-size: 20px;
+}
+
+#list-body .minus.icon {
+	font-size: 20px;
+	color: #ec5a5b;
+	cursor: pointer;
+	vertical-align: top;
+	display: none;
+}
+
+#list-body .step {
+	width: 100%;
+}
+
+#list-body .step-name {
+	display:-moz-inline-box;
+	display:inline-block;
+	width: 70%;
+}
+
+#list-body .divider {
+	margin-top: 7px;
+}
+
+
+::-webkit-scrollbar-track {
+    border-radius: 5px;
+    height: 8px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 0;
+    background-color: rgba(179, 179, 179, 0.46);;
+    border: none;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(179, 179, 179, 0.9);
+}
+
+/*left-sidebar*/
+
+#left-sidebar {
+    position: fixed;
+    top: 50px;
+    left:-350px;
+    width: 350px;
+    height: 95%;
+/*    padding-top: 10px;*/
+    z-index: 900;
+    transition: right 0.5s;
+    -webkit-transition: right 0.5s;   /* Safari 和 Chrome */
+    background-color: rgba(44, 44, 44, 0.7);
+
+    box-shadow: 5px 2px 10px #989898;/*opera或ie9*/  
+    -moz-box-shadow: 5px 2px 10px #989898;/*firefox*/  
+    -webkit-box-shadow: 5px 2px 10px #989898;/*webkit*/  
+}
+
+#left-sidebar .trigger-left {
+    position: absolute;
+    width:1px;
+    right: -1px;
+    top: 45%;
+    background:none;
+    padding:0;
+    border:none;
+}
+
+#left-sidebar-top {
+	background-color: #3d3e40;
+	padding-top: 15px;
+	padding-left: 30px;
+	padding-bottom: 20px;
+}
+
+#left-sidebar-top h2 {
+	margin-bottom: 10px;
+	color: #EDEDEF;
+}
+
+#left-sidebar-top .input {
+	width: 70%;
+	margin-right: 10px;
+	color: #EDEDEF;
+}
+
+#left-sidebar-top ::-webkit-input-placeholder { /* WebKit browsers */
+    color:    #BABABD !important;
+}
+#left-sidebar-top :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:    #BABABD !important;
+}
+#left-sidebar-top ::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:    #BABABD !important;
+}
+#left-sidebar-top :-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:    #BABABD !important;
+}
+
+#left-sidebar-top .prompt {
+	background: #2e2e2e;
+	color: #EDEDEF;
+}
+
+#left-sidebar-top button {
+	background-color: #535353;
+	color: #EDEDEF;
+}
+
+#left-sidebar-body {
+	height: 75%;
+	overflow: auto;
+}
+
+#left-sidebar-body .item {
+	padding: 8px;
+	font-size: 16px;
+	color: #EDEDEF;
+}
+
+#left-sidebar-body .star {
+	margin-left: 10px;
+	margin-right: 40px;
+	font-size: 10px;
+}
+
+#left-sidebar-body .zoom {
+	float: right;
+	margin-right: 20px;
+}
+
+#left-sidebar-body .item:nth-child(even) {
+	background-color: #535353 !important;
+}
+
+#left-sidebar-body .item:nth-child(odd) {
+	background-color: #5f6062 !important;
+}
+
+/*left-sidebar*/
+
+/*moreInfor*/
+#moreInfor {
+	background-color: #f8f8f8;
+}
+
+
+#moreInfor .header .close {
+	float: right;
+}
+
+#moreInfor .step-content {
+	height: 100%;
+}
+
+#moreInfor .step-content .icon-set {
+	text-align: right;
+	font-size: 17px;
+	color: #72d3e3;
+}
+
+#moreInfor .step-content .icon-set span {
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+#moreInfor .step-content textarea {
+	width: 100%;
+	overflow:visible;
+}
+
+.more {
+	cursor: pointer;
+}
+/*moreInfor*/

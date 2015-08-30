@@ -1,1 +1,218 @@
-<!--experiment page -->
+ <!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/static/css/semantic.min.css">
+    <link rel="stylesheet" href="/static/css/main_common.css">
+    <link rel="stylesheet" href="/static/css/experiment.css">
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+
+  </head>
+  <body>
+<!-- Top bar -->
+  <div class="ui circular image" id="topbar-avatar" data-content="Dashboard"><a href=""><img src="/static/img/avatar.jpg" alt="avatar"></a></div>
+  <script>$(function() {$("#topbar-avatar").popup();});</script>
+
+  <div class="ui page dimmer" id="main-switcher">
+    <div class="content">
+      <div class="center">
+        <div class="ui inverted blue circular icon button"><i class="massive idea icon"></i></div>
+        <div class="ui inverted red circular icon button"><i class="massive database icon"></i></div>
+        <div class="ui inverted green circular icon button"><i class="massive checkmark icon"></i></div>
+      </div>
+    </div>
+  </div>
+  <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
+
+
+    <div class="ui secondary menu" id="topbar">
+      <div class="item" id="topbar-index">
+        <div class="ui button" id="topbar-btn-index"></div>
+      </div>
+      <div class="item" id="topbar-menu">
+        <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>
+      </div>
+      <div class="item" id="topbar-undo">
+        <div class="ui button" id="topbar-btn-undo">Undo</div>
+      </div>
+      <div class="item" id="topbar-save">
+        <div class="ui button" id="topbar-btn-save">Save</div>
+      </div>
+      <div class="item" id="topbar-help">
+        <div class="ui button" id="topbar-btn-help">Help</div>
+      </div>
+      <div class="right menu">
+        <div class="item" id="topbar-design">
+          <div class="ui button" id="topbar-btn-design">Design</div>
+        </div>
+        <div class="item" id="topbar-modeling">
+          <div class="ui button" id="topbar-btn-modeling">Modeling</div>
+        </div>
+        <div class="item" id="topbar-experiment">
+          <div class="ui button" id="topbar-btn-experiment">Experiment</div>
+        </div>
+      </div>
+      <div id="topbar-bottom-line"></div>
+    </div>
+
+<!-- 	left-bar -->
+    <div id="left-sidebar">
+    	<div class="ui button trigger-left">
+        <i class="chevron right big icon"></i>
+      </div>
+   		<div id="left-sidebar-top">
+	    	<div>
+	    		<h2>Search for a protocol</h2>
+	    	</div>
+				<div class="ui search">
+				  <div class="ui icon input">
+				    <input class="prompt" type="text" placeholder="Search for a protocol...">
+				    <i class="search icon"></i>
+				  </div>
+				  <div class="results"></div>
+					<button class="ui button">All</button>
+				</div>
+			</div>
+			<div id="left-sidebar-body">
+				<div class="item"><i class="empty star icon">123</i>Extraction of total RNA<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">453</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">2</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">0</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">22</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">5</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">125</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">123</i>Extraction of total RNA<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">453</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">2</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">0</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">22</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">5</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon">125</i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+				<div class="item"><i class="empty star icon"></i>RT-PCT<i class="zoom icon more"></i></div>
+			</div>
+    </div>
+<!-- 	left-bar -->
+<!--More modal -->
+    <div class="ui modal" id="moreInfor">
+      <div class="header">
+      	<div class="ui grid">
+      		<div class="two wide column">
+      			<h1>PCR</h1>
+      		</div>
+      		<div class="six wide column">
+      			<div class="ui grid">
+      				<div class="eight wide column">
+      					<div><i class="empty star icon">123</i></div>
+      					<div>Key word PCR</div>
+      				</div>
+      				<div class="eight wide column">
+      					<p>Total time 4h</p>
+      				</div>
+      			</div>
+      		</div>
+      		<div class="eight wide column">
+      			<i class="remove big icon close"></i>
+      		</div>
+      	</div>
+      </div>
+      <div class="content"> 
+        <div class="step-content">
+      		<div class="icon-set">
+        		<span class="save-edit"><i class="edit icon"></i>Edit</span>
+        		<span><i class="plus icon"></i>Calendar</span>
+      		</div>
+      		<p>E. coli is inefficient at taking up foreign plasmids. One cannot rely on its natural competence (ability to take up foreign DNA). For increasing the competence, the cell wall is made permeable by treatment with CaCl2. It is important that the whole process is kept chilled! Remember to be careful with the cells as they become very fragile. E. coil DH5 is strongly recommended because of high competence and low ability to degrade foreign DNA by restriction at unmethylated sites.
+      		</p>
+        	<div class="ui divider"></div>
+        </div>
+      </div>
+    </div>
+<!--More modal -->
+<!-- 	main_container -->
+    <div class="main_container">
+			<div class="ui attached tabular menu">
+        <a class="item active" data-tab="Calendar">Calendar</a>
+        <a class="item" data-tab="PlaPro">Plasmid|Protocols</a>
+      </div>
+      <div class="ui bottom attached tab segment active" data-tab="Calendar" id="calendar">
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="PlaPro" id="PlaPro">
+      	<div class="ui grid">
+	      	<div class="eight wide column" id="leftbox"></div>
+  	    	<div class="eight wide column" id="rightbox">
+  	    		<div id="protocol">
+  	    			<div id="protocol-list">
+	  	    			<div id="list-title">
+	  	    				<h2><span>Relevant Protocol List</span><span class="icon-set"><i class="add square icon" id="add-protocol"></i><i id="edit-protocol" class="edit icon"></i></span></h2>
+	  	    			</div>
+		  	    		<div id="list-body">
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Extraction of total RNA</span> <span class="icon-set"><i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">RT-PCR</span> <span class="icon-set"><i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">PCR</span><span class="icon-set"> <i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Double Digestion(40ul System)</span> <span class="icon-set"><i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Agarose gel electrophoresis</span> <span class="icon-set"><i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Gel purification with Axygen Gel Extraction Kit</span> <span class="icon-set"><i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Ligation</span><span class="icon-set"> <i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Transformation</span><span class="icon-set"> <i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Transformation</span><span class="icon-set"> <i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Extraction of total RNA</span> <span class="icon-set"><i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">RT-PCR</span> <span class="icon-set"><i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">PCR</span><span class="icon-set"> <i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Double Digestion(40ul System)</span> <span class="icon-set"><i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Agarose gel electrophoresis</span> <span class="icon-set"><i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Gel purification with Axygen Gel Extraction Kit</span> <span class="icon-set"><i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Ligation</span><span class="icon-set"> <i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Transformation</span><span class="icon-set"> <i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    			<div class="step"><i class="minus circle icon remove-protocol"></i><span class="step-name">Transformation</span><span class="icon-set"> <i class="wait icon"></i><i class="tags icon"></i><i class="zoom icon more"></i></span></div>
+		  	    			<div class="ui divider"></div>
+		  	    		</div>
+	  	    		</div>
+  	    		</div>
+  	    	</div>
+    		</div>
+      </div>
+    </div>
+<!--     // <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script> -->
+    <script type="text/javascript" src="/static/js/semantic.min.js"></script>
+    <script type="text/javascript" src="/static/js/experiment.js"></script>
+  </body>
+</html>
