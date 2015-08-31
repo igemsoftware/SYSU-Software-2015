@@ -19,7 +19,7 @@ def taskhall_detail():
 @taskhall.route('/list')
 def get_task_list():
     page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 
+    per_page = request.args.get('per_page',
             current_app.config['FLASKY_TASKS_PER_PAGE'], type=int)
     keyword = request.args.get('keyword', 'time', type=str)
 
