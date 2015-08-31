@@ -1,0 +1,34 @@
+Slovenia-2012-1
+¡¾1¡¿	This system is a mutual repressor switch.
+http://2012.igem.org/Team:Slovenia
+-1
+pCMV_5
+Reporter1_1,Reporter2_1
+[A]_1	pCMV_1	normal
+pCMV_1	TAL B_1	normal
+TAL B_1	KRAB_1	normal
+KRAB_1	Reporter1_1	normal
+TAL B_1	PTAL B_1	promotion
+PTAL B_1	[B]_1	inhibition
+[B]_1	pCMV_2	normal
+pCMV_2	TAL A_1	normal
+TAL A_1	KRAB_2	normal
+KRAB_2	Reporter2_1	normal
+TAL A_1	PTAL A_1	promotion
+PTAL A_1	[A]_1	inhibition
+pCMV_3	pir_1	normal
+pir_1	TAL B_2	normal
+TAL B_2	KRAB_3	normal
+TAL B_2	PTAL B_2	promotion
+PTAL B_2	[B]_1	inhibition
+pCMV_4	etr_1	normal
+etr_1	TAL A_2	normal
+TAL A_2	KRAB_4	normal
+TAL A_2	PTAL A_2	promotion
+PTAL A_2	[A]_1	inhibition
+pCMV_5	PIP:KRAB_1	normal
+PIP:KRAB_1	E:KRAB_1	normal
+PIP:KRAB_1	PPIP:KRAB_1	promotion
+PPIP:KRAB_1	pir_1	inhibition
+E:KRAB_1	PE:KRAB_1	promotion
+PE:KRAB_1	etr_1	inhibition

@@ -1,0 +1,15 @@
+Mosaicoli  2
+Mosaicoli aims to investigate emergence of complex patterns from a simple rule by engineering a cellular automaton into E. coli bacteria. This automaton comprises a grid of colonies on a 3D-printed millifluidic chip. Each colony is either in an ON or OFF state and updates its state by integrating signals from its neighbors according to a genetically pre-programmed logic rule. Complex patterns such as Sierpinski triangles are visualized by fluorescence after several steps of row-wise propagation. Sequential logic computation based on quorum sensing is challenged byleakiness and crosstalk present in biological systems. Mosaicoli overcomes these issues by exploiting multichannel orthogonal communication, riboregulators and integrase-based XOR logic gates. Engineering such a reliable system not only enables a better understanding of emergent patterns, but also provides novel building blocks for biological computers.
+http://2014.igem.org/Team:ETH_Zurich/project/overview
+1
+lux-AHL 3OC6HSL_1,LuxR_1
+Bxb1_1
+lux-AHL 3OC6HSL_1	LuxR_1	normal
+LuxR-lux-AHL_1	Plux_1	promotion
+Plux_1	bxb1_1	normal
+bxb1_1	Bxb1_1	promotion
+
+
+
+
+

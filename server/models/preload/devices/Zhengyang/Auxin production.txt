@@ -1,0 +1,24 @@
+Evry-2012-1
+¡¾1¡¿	The plasmids containing the two genes involved in the auxin biosynthesis pathway, namely iaaM and iaaH, will be expressed in a constitutive and ubiquitous manner in a first step and in a second step in an inducible and tissue-specific manner. The iaaM gene encodes tryptophan-2-monooxygenase (IAAM) that catalyses the conversion of tryptophan (Trp) into indole-3-acetamide (IAM). The iaaH gene encodes indoleacetamide hydrolase (IAAH) that hydrolyse IAM to release indole-3-acetic acid (IAA) [2]. At the same time, the synthesized IAM and IAA will competitively inhibit the enzyme activity of IAAM. Produced auxin will then diffuse through the plasma membrane into the extracellular medium and finally into the blood.
+http://2012.igem.org/Team:Evry
+1
+Promoter_1,Promoter_2
+IAA_1
+Promoter_1	Kozak_1	normal
+Kozak_1	iaaM_1	normal
+iaaM_1	Terminator_1	normal
+Terminator_1	Terminator_2	normal
+iaaM_1	mRNA-IAAM_1	promotion
+mRNA-IAAM_1	IAAM_1	promotion
+Promoter_2	Kozak_2	normal
+Kozak_2	iaaH_1	normal
+iaaH_1	Terminator_3	normal
+Terminator_3	Terminator_4	normal
+iaaH_1	mRNA-IAAH_1	promotion
+mRNA-IAAH_1	IAAH_1	promotion
+Trp_1	IAAM_1	normal
+IAAM_1	IAM_1	promotion
+IAM_1	IAAH_1	normal
+IAAH_1	IAA_1	promotion
+IAM_1	IAAM_1	inhibition
+IAA_1	IAAM_1	inhibition

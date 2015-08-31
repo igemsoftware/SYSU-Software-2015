@@ -1,0 +1,17 @@
+sensing system
+Such a system could have applications in a number of different fields, though we have chosen to put this into practice in a pinpointing pathogen-killing approach. In our prototype system, introduced inE. coli , we hijack the quorum sensing system of the gut pathogen Yersinia enterocolitica . Our bacteria will be able to sense the presence of the pathogen, accumulate in its vicinity and emit a target-specific bacteriocin, leaving the remaining gut flora intact. The era of mass destruction is over. 
+http://2014.igem.org/Team:Uppsala/Project_Sensing
+1
+OHHL_1
+YenR_1
+Promoter:BBa_K1381000_1	RBS:BBa_B0032_1	normal
+RBS:BBa_B0032_1	gfp_1	normal
+OHHL_1	YenR_1	inhibition
+Promoter:BBa_J23100_2	RBS:BBa_B0034_1	normal
+RBS:BBa_B0034_1	yenR_1	normal
+yenR_1	YenR_1	promotion
+YenR_1	Promoter:BBa_K1381000_1	promotion
+
+
+
+

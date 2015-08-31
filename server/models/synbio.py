@@ -57,8 +57,44 @@ class Protocol(db.Model):
     content = db.Column(db.Text, default='')
     timescale = db.Column(db.Integer)
 
-    liked = db.Column(db.Integer, default=0)
-    used_times = db.Column(db.Integer, default=0)
+#    liked = db.Column(db.Integer, default=0)
+#    used_times = db.Column(db.Integer, default=0)
+
+    def load_from_file(self, filename):
+        print 'loading protocol %s ...' % filename
+        _introduction = []
+        _component = []
+        _procedure = []
+        with open(filename, 'r') as f:
+            self.name = f.readline().strip().decode('ISO-8859-1')
+            self.recommend = f.readline().strip() == 'True'
+            for line in f:
+                line = line.strip()
+                if line == 'Introduction':
+                    ptr = _introduction
+                elif line == 'Components':
+                    ptr = _component
+                elif line == 'Procedure':
+                    ptr = _procedure
+                else:
+                    ptr.append(line.strip().decode('ISO-8859-1'))
+
+        self.introduction = '\n'.join(_introduction)
+        self.component = '\n'.join(_component)
+        self.procedure = '\n'.join(_procedure)
+
+        db.session.add(self)
+
+        return self
+
+
+    # used_times = db.Column(db.Integer, default=0)
+    # timescale = db.Column(db.Integer)
+#   recommend_to = db.relationship('ProtocolRecommend',
+#                                  foreign_keys=[ProtocolRecommend.protocol_id],
+#                                  backref=db.backref('protocol', lazy='joined'),
+#                                  lazy='dynamic',
+#                                  cascade='all, delete-orphan')
 
     recommend_to = db.relationship('ProtocolRecommend',
                                    foreign_keys=[ProtocolRecommend.protocol_id],
@@ -100,7 +136,7 @@ class ComponentPrototype(db.Model):
     __tablename__ = 'componentprototype'
     id = db.Column(db.Integer, primary_key=True)
 
-    name = db.Column(db.String, unique=True)
+    name = db.Column(db.String) #unique=True)
 
     type = db.Column(db.String(64), default='None')
     introduction = db.Column(db.Text, default="No introduction yet.")
@@ -228,11 +264,28 @@ class Device(db.Model, BioBase):
 
     # load from file
     def __load_prototype_and_instance(self, name, new_instance):
-        pname = name.split('_')[0]
+        if len(name.split('_')) == 1:
+            raise Exception('[%s] No underscore.' % name)
+
+        pname, BBa = '_'.join(name.split('_')[:-1]), None
+        if (len(pname.split(':')) >= 2):
+            BBa = pname.split(':')[-1]
+            pname = ':'.join(pname.split(':')[:-1])
+
+            try:
+                BBa.index('BBa')
+            except:
+                pname = ':'.join([pname,BBa])
+                BBa = None
+
         # add Prototype if not exist
-        c = ComponentPrototype.query.filter_by(name=pname).first()
-        if c==None:
-            raise Exception('No prototype [%s].'%pname)
+        if not BBa:
+            c = ComponentPrototype.query.filter_by(name=pname).first()
+            if c==None: raise Exception('No prototype [name=%s].'%pname)
+        else:
+            c = ComponentPrototype.query.filter_by(name=pname, BBa=BBa).first()
+            if c==None: raise Exception('No prototype [name=%s, BBa=%s].'%(pname, BBa))
+
 #           c = ComponentPrototype(name=pname, type=type)
 #       db.session.add(c)
 #       db.session.commit()
@@ -249,7 +302,7 @@ class Device(db.Model, BioBase):
         return c, instance
 
     def load_from_file(self, filename):
-        print 'loading %s ...' % filename
+        print 'loading device from %s ...' % filename
         f = open(filename, 'r')
         self.title = f.readline().strip()
         self.introduction = f.readline().strip().decode('ISO-8859-1')
@@ -261,10 +314,15 @@ class Device(db.Model, BioBase):
 
         rec = set() 
         for line in f:
+            line = line.decode('ISO-8859-1')
             if len(line.strip(' \n').split('\t')) != 3:
                 #raise Exception('Format error (No extra empty line after the table).')
-                print('Warning: Format error. Skip line [%s].'%line.strip(' \n'))
-            A_name, B_name, R_type = line.strip().split('\t')
+#                print('Warning: Format error. Skip line [%s].'%line.strip(' \n'))
+                continue
+#            print '[%s]' % line
+            A_name, B_name, R_type = line.strip(' \n').split('\t')
+
+#            print line
 
             # add a
             A_prototype, A_instance = self.__load_prototype_and_instance(A_name, not A_name in rec)
@@ -281,10 +339,12 @@ class Device(db.Model, BioBase):
 
             # add relationship for instance
             self.add_connection(A_instance.partID, B_instance.partID, R_type)
+
+       # print 'here' 
         self.commit_to_db()
 
-        from pprint import pprint
-        pprint(json.loads(self.content))
+#       from pprint import pprint
+#       pprint(json.loads(self.content))
         
         return self
 

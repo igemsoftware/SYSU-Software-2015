@@ -1,0 +1,20 @@
+Peking-2013-1
+¡¾1¡¿This biosensors with low basal level, high induction ratio, and robust detection profiles. The coding sequences of these 8 transcriptional regulators were obtained by either chemical synthesis or PCR amplification. They were then incorporated into our biosensor circuit design
+http://2013.igem.org/Team:Peking/ModelforFinetuning
+1
+Promoter_1,Promoter_2
+Terminator_1,Terminator_2
+Promoter_1	RBS:BBa_K1031221_1	normal
+RBS:BBa_K1031221_1	hbpR_1	normal
+hbpR_1	Terminator_1	normal
+hbpR_1	HbpR_1	promotion
+HbpR_1	X_1	normal
+X_1	Promoter_2	inhibition
+Promoter_2	RBS:BBa_K1031221_2	normal
+RBS:BBa_K1031221_2	sfgfp_1	normal
+sfgfp_1	Terminator_2	normal
+sfgfp_1	sfGFP_1	promotion
+
+
+
+
