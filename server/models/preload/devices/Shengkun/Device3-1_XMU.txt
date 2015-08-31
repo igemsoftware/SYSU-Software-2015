@@ -1,0 +1,27 @@
+XMU2011-1
+We have developed a series of devices which program a bacteria population to maintain at different cell densities. We have designed and characterized the genetic circuit to establish a bacterial ¡®population-control¡¯ device in E. coli based on the well-known quorum-sensing system from Vibrio fischeri, which autonomously regulates the density of an E. coli population. The cell density however is influenced by the expression levels of a killer gene (ccdB) in our device. As such, we have successfully controlled the expression levels of ccdB by using RBSes of different strength and mutated luxR promoters (lux pr). We are working on builting up a database for a series of mutation sites and RBSes corresponding to different steady-state cell densities. An artificial neural network will be built to model and predict the cell density of an E. coli population. This work can serve as a foundation for future advances involving fermentation industry and information processing.
+http://2011.igem.org/Team:XMU-China
+1
+IPTG_1
+CCD B_1
+IPTG_1	Plac_1	promotion
+Plac_1	RBS:BBa_B0034_1	normal
+RBS:BBa_B0034_1	lux I_1	normal
+lux I_1	Terminator:BBa_B0010_1	normal
+Terminator:BBa_B0010_1	Terminator:BBa_B0012_2	normal
+lux I_1	luxI-LVA_1	promotion
+AHL_1	luxI-LVA_1	promotion
+lux I_1	Plac_2	normal
+Plac_2	RBS:BBa_B0034_2	normal
+RBS:BBa_B0034_2	lux R_1	normal
+lux R_1	Terminator:BBa_B0010_3	normal
+Terminator:BBa_B0010_3	Terminator:BBa_B0012_4	normal
+Terminator:BBa_B0012_4	lux pR_1	normal
+lux R_1	Lux R_1	promotion
+AHL_2	Lux R_1	promotion
+Lux R_1	lux pR_1	promotion
+lux pR_1	RBS:BBa_B0030_3	normal
+RBS:BBa_B0030_3	ccd B_1	normal
+ccd B_1	CCD B_1	promotion
+ccd B_1	Terminator:BBa_B0015_5	normal
+

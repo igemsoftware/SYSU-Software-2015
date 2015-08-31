@@ -322,7 +322,13 @@ class Device(db.Model, BioBase):
 #            print '[%s]' % line
             A_name, B_name, R_type = line.strip(' \n').split('\t')
 
-#            print line
+            print line
+#           try:
+#               line.index('LacI')
+#               line.index('gfp')
+#               raw_input('pause')
+#           except:
+#               pass
 
             # add a
             A_prototype, A_instance = self.__load_prototype_and_instance(A_name, not A_name in rec)
@@ -333,7 +339,7 @@ class Device(db.Model, BioBase):
             rec.add(B_name)
 
             # add relationship for prototype
-            if not Relationship.query.filter_by(start=A_prototype, end=B_prototype, type=R_type).all():
+            if not Relationship.query.filter_by(start=A_prototype, end=B_prototype).all(): #, type=R_type).all():
                 r = Relationship(start=A_prototype, end=B_prototype, type=R_type)
                 db.session.add(r)
 

@@ -1,0 +1,13 @@
+Bologna2008-1
+Regulation of the genetic Flip-Flop
+http://2008.igem.org/Team:Bologna
+1
+Uvc_1
+LacI_1
+lex A_1	Lex A_1	promotion
+Lex A_1	PLex_1	inhibition
+Uvc_1	Lex A_1	inhibition
+PLex_1	lacI_1	normal
+lacI_1	LacI_1	promotion
+
+

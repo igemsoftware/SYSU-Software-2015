@@ -16,10 +16,12 @@ def preload_parts(filename):
                 risk=int(risk)
             except:
                 risk=-1
-            c = ComponentPrototype(name=name, type=type, BBa=BBa,\
-                    risk=risk, bacterium=bacterium)
-#            print 'adding <name=%s>' % name
-            db.session.add(c)
+
+            if len(ComponentPrototype.query.filter_by(name=name, BBa=BBa).all()) == 0:
+                c = ComponentPrototype(name=name, type=type, BBa=BBa, risk=risk, bacterium=bacterium)
+                db.session.add(c)
+#                print 'adding <name=%s, BBa=%s>' % (name, BBa)
+
     db.session.commit()
 
 

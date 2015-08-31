@@ -1,0 +1,13 @@
+Northwestern2011-1
+This construct was developed by Northwestern's 2011 iGEM team as part of a Pseudomonas Aeruginosa detector. The device is designed to fluoresce with GFP in the presence of PAI1 (3-oxo-C12-HSL), one of the Pseudomonas quorum sensing molecules. The promoter in front of GFP is activated by the combination of PAI1 from the environment and the LasR receptor (produced by this construct).
+http://2011.igem.org/Team:Northwestern
+2
+A1i
+GFP
+Promoter:BBa_J23119_1	RBS:BBa_B0030_1	normal
+RBS:BBa_B0030_1	lasR_1	normal
+lasR_1	LasR_1	promotion
+A1i_1	LasR_1	promotion
+LasR_1	Promoter:BBa_R0079_1	promotion
+Promoter:BBa_R0079_1	RBS:BBa_B0030_2	normal
+RBS:BBa_B0030_2	GFP_1	normal
