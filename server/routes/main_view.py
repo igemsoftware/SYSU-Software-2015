@@ -1,5 +1,5 @@
 from . import main
-from ..models import Circuit
+from ..models import Circuit, Protocol
 
 from flask import render_template, jsonify, request, current_app, url_for, jsonify, abort
 from flask.ext.login import login_required
@@ -43,4 +43,19 @@ def circuit(id):
             protocol = json.loads(c.protocol),
             )
 
-             
+@main.route('/protocol')
+def protocol():
+    protocols = []
+    for p in Protocol.query.filter_by(recommend=True).all():
+        protocols.append(
+                {
+                    'name': p.name,
+                    'introduction': p.introduction,
+                    'component': p.component,
+                    'procedure' : p.procedure,
+                    'likes': p.likes,
+                });
+
+    return jsonify(protocols=protocols)
+
+         
