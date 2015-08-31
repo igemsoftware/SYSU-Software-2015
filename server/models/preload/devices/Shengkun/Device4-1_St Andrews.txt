@@ -1,0 +1,14 @@
+StAndrews2011-1
+For the 2011 St Andrews iGEM Team project, we are creating an intracellular Escherichia coli ¡°kill switch¡± that functions differently from any found in nature. This kill switch is a tool, one which we believe will have application within many areas of biology.
+http://2011.igem.org/Team:St_Andrews
+1
+L-arabinose_1
+Protegrin_1
+L-arabinose_1	AraC_1	promotion
+AraC_1	PBAD_1	promotion
+PBAD_1	RBS:BBa_J61101_1	normal
+RBS:BBa_J61101_1	NPG1_1	normal
+NPG1_1	Protegrin_1	promotion
+Protegrin_1	Terminator:BBa_B0010_1	normal
+Terminator:BBa_B0010_1	Terminator:BBa_B0012_2	normal
+

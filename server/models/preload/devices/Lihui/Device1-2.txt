@@ -1,0 +1,16 @@
+Customer
+The basic design of Customer¡¯s circuit is the same as Company. In the presence of 3OC12HSL, which represents the Product, Customer produces CmR and RhlI. CmR prevents the Customer from growth inhibition, and RhlI produces C4HSL, which represents Money. If there is not any Product in the market, Customer cannot produce CmR. This leads to the growth inhibition of Customer.
+http://2014.igem.org/Team:Tokyo_Tech/Project#2.1.1
+2
+3OC12HSL
+C4HSL
+3OC12HSL_1	Ptet_1	promotion
+Ptet_1	luxR_1	normal
+luxR_1	Plac_1	normal
+Plac_1	rfp_1	normal
+luxR_1	LuxR_1	promotion
+LuxR_1	Plux_1	promotion
+Plux_1	cmR_1	normal
+cmR_1	rhlI_1	normal
+rhlI_1	RhlI_1	promotion
+RhlI_1	C4HSL_1	promotion

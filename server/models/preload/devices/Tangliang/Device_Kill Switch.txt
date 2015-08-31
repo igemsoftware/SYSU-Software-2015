@@ -1,0 +1,18 @@
+TU-Delft-2013-2
+¡¾2¡¿The kill switch design is based on the expression of holin and antiholin, Figure 1. Holin is a protein that forms pores in cell membranes. Anti-holin binds to holin and inhibits it's action. Once pores are formed by holin, lysozyme can access the periplasmic space and degrade the cell wall, causing cell lysis.
+http://2013.igem.org/Team:TU-Delft
+1
+PT7_1,Pconst_1
+Terminator_1,Terminator_2
+PT7_1	holin_1	normal
+holin_1	endolysin_1	normal
+endolysin_1	Terminator_1	normal
+Terminator_1	Pconst_1	normal
+Pconst_1	anti-holin_1	normal
+anti-holin_1	Terminator_2	normal
+
+
+
+
+
+

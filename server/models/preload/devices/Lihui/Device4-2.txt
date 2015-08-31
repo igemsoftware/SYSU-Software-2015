@@ -1,0 +1,15 @@
+Part M
+When IPTG involved in, it can relieve the repression from repressor LacI, therefore protein CheZ is produced to make our engineering bacteria (CL-1) regain motile ability. Within certain L-arabinose concentration range which means certain constraint condition, the more IPTG involved in, the more CheZ is produced leading to stronger motile ability. Because of its ability to make CL-1 motile, this part is named M.
+http://2014.igem.org/Team:XMU-China/Project_ConicCurve
+1
+LacI_1,IPTG_1
+CheZ_1
+LacI_1	Plac_1	inhibition
+IPTG_1	Plac_1	promotion
+Plac_1	RBS:BBa_B0034_1	normal
+RBS:BBa_B0034_1	cheZ_1	normal
+cheZ_1	CheZ_1	promotion
+cheZ_1	Termintator:BBa_B0010_1	normal
+Termintator:BBa_B0010_1	Termintator:BBa_B0012_1	normal
+
+

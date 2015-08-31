@@ -1,0 +1,19 @@
+Colombia
+This year, iGEM Team Colombia has been hard at work developing of a biosensor for the human bacterial pathogen Vibrio cholerae. Our idea focuses on creating a easy-to-use kitcapable of detecting this bacterium in different contexts, such as different kinds offood or water, by giving a simple visible color signal as a positive result. This kit would be useful for anyone who wants to detect cholera-infected food and water without having to use the expensive or tedious methods now available, such as immunogenic techniques or direct isolation and culture of bacteria. Possible users are companies in the food industry and quality or research labs.
+http://2014.igem.org/Team:Colombia/Project
+2
+CAI-1_1
+AmilCP_1
+CAI-1_1	CqsS_1	normal
+CAI-1-CqsS_1	LuxUp_1	promotion
+LuxUp_1	LuxOp_1	promotion
+LuxOp_1	Pqrr4_1	promotion
+Pqrr4_1	tetR_1	normal
+tetR_1	TetR_1	promotion
+TetR_1	Ptet_1	inhibition
+Ptet_1	amilCP_1	normal
+amilCP_1	AmilCP_1	promotion
+amilCP_1	tetA_1	normal
+tetA_1	TetA_1	promotion
+TetA_1	tetR_1	promotion
+

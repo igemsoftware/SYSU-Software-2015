@@ -1,0 +1,8 @@
+Sensor
+protects banana plants from Fusarium oxysporum. The Banana Guard system senses fusaric acid and, in response, produces fungal growth inhibitors to prevent infection of the banana plant. In addition we have also implemented a Kill-switch that disables our system when fusaric acid is not present. For this, we have optimized the circuit design, assessed the potential of BananaGuard in the soil, and analyzed the robustness of the system using different mathematical models.
+http://2014.igem.org/Team:Wageningen_UR/project/fungal_sensing
+1
+Fusaric Acid_1
+FadP_1
+Fusaric Acid_1	FadP_1	inhibition
+fadP_1	FadP_1	promotion
