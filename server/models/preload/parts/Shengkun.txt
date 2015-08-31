@@ -1,0 +1,121 @@
+Galactose	chemical			
+PGal1	promoter	BBa_J63006	1	Saccharomyces cerevisiae
+AtIPT4	gene	BBa_K1139100		
+IP	protein			
+PCyc1	promoter	BBa_I766555		
+AtCRE1	gene			
+ATCRE1	protein			
+IP	protein			
+SKN7	protein			
+PSSRE	promoter			
+GFP	protein			
+Ckx	protein			
+YPD1	protein			
+SSK1	protein			
+PPRP22	promoter	BBa_K149001		
+PTP2	protein			
+IP	protein			
+HOG1	protein			
+lex A	gene	BBa_K165020		
+Lex A	protein			
+Uvc	material			
+PLex	promoter	BBa_K1437004		
+lacI	gene	BBa_C0012	1	Escherichia coli
+LacI	protein			
+IPTG	chemical			
+PLacI	promoter	BBa_R0011		
+tetR	gene	BBa_C0040		
+rfp	gene	BBa_E1010		
+TetR	protein			
+Ptet	promoter	BBa_R0040		
+lacI	gene	BBa_C0012	1	Escherichia coli
+gfp	gene	BBa_E0040		
+RFP	protein		1	Escherichia coli
+GFP	protein			
+LacI	protein			
+Acetaldehyde	chemical			
+promoter	promoter	BBa_J23119		
+RBS	RBS	BBa_M36804		
+AlcR	gene	BBa_M36803		
+Terminator	terminator	BBa_B0010		
+Terminator	terminator	BBa_B0012		
+ALCR	protein			
+PConst	promoter	BBa_K625002		
+tetR	gene	BBa_C0040		
+TetR	protein			
+cI	gene	BBa_C0051		
+PtetR	promoter	BBa_R0040		
+lacIm1	gene	BBa_K395400		
+LacIM1	protein			
+CI	protein			
+lacI	gene	BBa_C0012		
+LacI	protein			
+gfp	gene	BBa_E0040		
+GFP	protein			
+CI	protein			
+lux I	gene	BBa_C0061	1	Vibrio fischeri
+AHL	chemical			
+lux R	gene	BBa_C0062	1	Vibrio fischeri
+Lux I	protein			
+Lux R	protein			
+lux pR	promoter	BBa_R0062		
+rfp	gene	BBa_E1010		
+RFP	protein			
+L-arabinose	chemical			
+AraC	protein			
+PBAD	promoter	BBa_K206000	1	Escherichia coli
+RBS	RBS	BBa_J61101		
+NPG1	gene	BBa_K628000		
+Protegrin	protein			
+Terminator	terminator	BBa_B0010		
+Terminator	terminator	BBa_B0012		
+IPTG	chemical			
+Plac	promoter	BBa_R0011	1	Escherichia coli
+RBS	RBS	BBa_B0034		
+lux I	gene	BBa_C0061	1	Vibrio fischeri
+Terminator	terminator	BBa_B0010		
+Terminator	terminator	BBa_B0012		
+luxI-LVA	protein			
+AHL	chemical			
+lux R	gene	BBa_C0062	1	Vibrio fischeri
+Lux R	protein			
+lux pR	promoter	BBa_R0062		
+RBS	RBS	BBa_B0030		
+ccd B	gene	BBa_K176003		
+CCD B	protein			
+Terminator	terminator	BBa_B0015		
+theophylline	chemical			
+lux pR	promoter	BBa_R0062	1	vibrio fischeri
+RBS	RBS	BBa_B0030		
+cI	gene	BBa_C0051		
+CI	protein			
+Terminator	terminator	BBa_B0010		
+Terminator	terminator	BBa_B0012		
+PRM	promoter	BBa_K566001		
+rfp	gene	BBa_E1010		
+RFP	protein			
+PR	promoter	BBa_J23101		
+cI434	gene	BBa_C0056		
+gfp	gene	BBa_E0040		
+GFP	protein			
+cI434	protein			
+Toggle switch	unknown	BBa_K228003		
+ColE7-immE7 complex	gene	BBa_K117001	1	Escherichia coli
+Colicin E7	protein			
+Aptamer-Chez	gene	BBa_K557001		
+CheZ	protein			
+lys	gene	BBa_K117000	1	Escherichia coli
+Lysis	protein			
+Promoter	promoter	BBa_J23119		
+RBS	RBS	BBa_B0030		
+lasR	gene	BBa_C0179	2	Pseudomonas aeruginosa
+A1i	chemical			
+LasR	protein			
+Promoter	promoter	BBa_R0079	1	Vibrio fischeri
+gfp	gene	BBa_E0040		
+rhlR	gene	BBa_C0171	2	Pseudomonas aeruginosa
+A2i	chemical			
+RhlR	protein			
+Promoter	promoter	BBa_R0071	2	Pseudomonas aeruginosa
+RBS	RBS	BBa_B0034		
+GFP	protein			
