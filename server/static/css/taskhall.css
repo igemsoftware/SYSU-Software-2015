@@ -34,7 +34,7 @@
 
 #taskhall-index-main {
     height: 100%;
-    padding: 0 120px;
+    /*padding: 0 120px;*/
 }
 
 #taskhall-index-grid {
@@ -157,20 +157,18 @@
 }
 
 .taskhall-index.question.item > .question.main > .header {
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
 }
 
 .taskhall-index.question.item > .question.main > .detail {
-    height: 50px;
+    height: 90px;
     width: 100%;
 }
 
 .taskhall-index.question.item > .question.main > .question.author {
     display: flex;
-    margin-left: auto;
     margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 .taskhall-index.question.item > .question.main > .question.author > .dummy {
@@ -178,7 +176,7 @@
 }
 
 .taskhall-index.question.item > .question.main > .question.author > .small.image {
-    width: 55px;
+    width: 40px;
 }
 
 .taskhall-index.question.item > .question.main > .question.author > .info {
@@ -188,7 +186,7 @@
 }
 
 .taskhall-index.question.item > .question.main > .question.author > .info > .author.name {
-    font-size: 1.6rem;
+    font-size: 1.2rem;
 }
 
 .taskhall-index.question.item > .question.main > .author.popup > * + * {

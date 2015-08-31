@@ -44,7 +44,7 @@
     </div>
   </div>
 
-  <div id="taskhall-index-main">
+  <div id="taskhall-index-main" class="ui container">
     <div id="taskhall-index-grid">
       <div class="main column">
         <div id="taskhall-index-navbar">
@@ -65,7 +65,7 @@
         </div>
 
 
-        <div class="taskhall-index question item">
+        <div class="taskhall-index question item" v-repeat="i in [1,2,3,4]">
           <div class="question statistics">
             <div class="ui statistic">
               <div class="value">17</div>
@@ -111,198 +111,6 @@
             <div class="answer count"><span class="figure">500</span> answers</div>
             <div class="share public count"><span class="figure">2333</span> share/public</div>
           </div>
-          </div>
-        </div>
-
-        <div class="taskhall-index question item">
-          <div class="question statistics">
-            <div class="ui statistic">
-              <div class="value">17</div>
-              <div class="label">views</div>
-            </div>
-            <div class="ui statistic">
-              <div class="value">293</div>
-              <div class="label">votes</div>
-            </div>
-            <div class="ui statistic">
-              <div class="value">10</div>
-              <div class="label">answers</div>
-            </div>
-          </div>
-          <div class="question main">
-            <div class="header"><a href="">Question Title</a></div>
-            <div class="detail">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-            </div>
-          </div>
-          <div class="question author">
-            <div class="ui small image"><img src="/static/img/avatar.jpg" alt="author"></div>
-            <div class="info">
-              <div class="date">asked 8-12</div>
-              <div class="author name">leasunhy</div>
-            </div>
-          </div>
-          <div class="ui author popup transition hidden">
-            <div class="author name">leasunhy</div>
-            <div class="track list">
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_artanddesign.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_software.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_newapplication.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_energy.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_foundationaladvance.png" alt=""></div>
-            </div>
-            <div class="question count"><span class="figure">20</span> questions</div>
-            <div class="answer count"><span class="figure">500</span> answers</div>
-            <div class="share public count"><span class="figure">2333</span> share/public</div>
-          </div>
-        </div>
-
-        <div class="taskhall-index question item">
-          <div class="question statistics">
-            <div class="ui statistic">
-              <div class="value">17</div>
-              <div class="label">views</div>
-            </div>
-            <div class="ui statistic">
-              <div class="value">293</div>
-              <div class="label">votes</div>
-            </div>
-            <div class="ui statistic">
-              <div class="value">10</div>
-              <div class="label">answers</div>
-            </div>
-          </div>
-          <div class="question main">
-            <div class="header"><a href="">Question Title</a></div>
-            <div class="detail">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-            </div>
-          </div>
-          <div class="question author">
-            <div class="ui small image"><img src="/static/img/avatar.jpg" alt="author"></div>
-            <div class="info">
-              <div class="date">asked 8-12</div>
-              <div class="author name">leasunhy</div>
-            </div>
-          </div>
-          <div class="ui author popup transition hidden">
-            <div class="author name">leasunhy</div>
-            <div class="track list">
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_artanddesign.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_software.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_newapplication.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_energy.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_foundationaladvance.png" alt=""></div>
-            </div>
-            <div class="question count"><span class="figure">20</span> questions</div>
-            <div class="answer count"><span class="figure">500</span> answers</div>
-            <div class="share public count"><span class="figure">2333</span> share/public</div>
-          </div>
-        </div>
-
-        <div class="taskhall-index question item">
-          <div class="question statistics">
-            <div class="ui statistic">
-              <div class="value">17</div>
-              <div class="label">views</div>
-            </div>
-            <div class="ui statistic">
-              <div class="value">293</div>
-              <div class="label">votes</div>
-            </div>
-            <div class="ui statistic">
-              <div class="value">10</div>
-              <div class="label">answers</div>
-            </div>
-          </div>
-          <div class="question main">
-            <div class="header"><a href="">Question Title</a></div>
-            <div class="detail">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-            </div>
-          </div>
-          <div class="question author">
-            <div class="ui small image"><img src="/static/img/avatar.jpg" alt="author"></div>
-            <div class="info">
-              <div class="date">asked 8-12</div>
-              <div class="author name">leasunhy</div>
-            </div>
-          </div>
-          <div class="ui author popup transition hidden">
-            <div class="author name">leasunhy</div>
-            <div class="track list">
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_artanddesign.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_software.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_newapplication.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_energy.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_foundationaladvance.png" alt=""></div>
-            </div>
-            <div class="question count"><span class="figure">20</span> questions</div>
-            <div class="answer count"><span class="figure">500</span> answers</div>
-            <div class="share public count"><span class="figure">2333</span> share/public</div>
-          </div>
-        </div>
-
-        <div class="taskhall-index question item">
-          <div class="question statistics">
-            <div class="ui statistic">
-              <div class="value">17</div>
-              <div class="label">views</div>
-            </div>
-            <div class="ui statistic">
-              <div class="value">293</div>
-              <div class="label">votes</div>
-            </div>
-            <div class="ui statistic">
-              <div class="value">10</div>
-              <div class="label">answers</div>
-            </div>
-          </div>
-          <div class="question main">
-            <div class="header"><a href="">Question Title</a></div>
-            <div class="detail">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-            </div>
-          </div>
-          <div class="question author">
-            <div class="ui small image"><img src="/static/img/avatar.jpg" alt="author"></div>
-            <div class="info">
-              <div class="date">asked 8-12</div>
-              <div class="author name">leasunhy</div>
-            </div>
-          </div>
-          <div class="ui author popup transition hidden">
-            <div class="author name">leasunhy</div>
-            <div class="track list">
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_artanddesign.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_software.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_newapplication.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_energy.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_foundationaladvance.png" alt=""></div>
-            </div>
-            <div class="question count"><span class="figure">20</span> questions</div>
-            <div class="answer count"><span class="figure">500</span> answers</div>
-            <div class="share public count"><span class="figure">2333</span> share/public</div>
           </div>
         </div>
 

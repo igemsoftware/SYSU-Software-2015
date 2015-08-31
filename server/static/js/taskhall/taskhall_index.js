@@ -2,7 +2,6 @@ var vueBody = new coreBody({
     el: 'body',
     data : {
         user                : "leasunhy",
-        rightMenu           : ['design', 'modeling', 'experiment'],
         notificationCount   : 2,
         questionCount       : 2723,
         selectedTab         : 'All Question',
