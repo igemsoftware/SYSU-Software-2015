@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from server import create_app, db
 from flask.ext.script import Manager, Shell, Command
 #from flask.ext.migrate import Migrate, MigrateCommand
 
 from server.models import * 
-from server.tools.preload import preload_parts
+from server.tools.preload import preload_parts, get_file_list
 
 app = create_app('default')
 
@@ -78,16 +80,19 @@ def testinit(slient=False, noinit=False):
 #        db.engine.raw_connection().connection.text_factory = 'utf8'
 
         # add testing parts
-        for filename in app.config.get('INIT_PRELOAD_PARTS', []):
-            preload_parts(filename)
+        for dir in app.config.get('INIT_PRELOAD_PART_DIRS', []):
+            for filename in get_file_list(dir):
+                preload_parts(filename)
 
         # add testing component prototype
-        for filename in app.config.get('INIT_PRELOAD_DEVICES', []):
-            device = Device().load_from_file(filename)
+        for dir in app.config.get('INIT_PRELOAD_DEVICE_DIRS', []):
+            for filename in get_file_list(dir):
+                device = Device().load_from_file(filename)
 
         # add default protocols 
-        for filename in app.config.get('INIT_PRELOAD_PROTOCOLS', []):
-            device = Protocol().load_from_file(filename)
+        for dir in app.config.get('INIT_PRELOAD_PROTOCOLS', []):
+            for filename in get_file_list(dir):
+                device = Protocol().load_from_file(filename)
  
     
         Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 

@@ -1,0 +1,14 @@
+Northwestern2011-2
+This construct was developed by Northwestern's 2011 iGEM team as part of a Pseudomonas Aeruginosa detector. The device is designed to fluoresce with GFP in the presence of PAI2 (C4-HSL), one of the Pseudomonas quorum sensing molecules. The promoter in front of GFP is activated by the combination of PAI2 from the environment and the RhlR receptor (produced by this construct). As the graph shows, addition of the autoinducer produces a significant difference in fluorescence compared to the controls. Thus, our construct is successful both in production of RhlR and transcription of GFP in the presence of PAI2.
+http://2011.igem.org/Team:Northwestern
+2
+A2i
+GFP
+Promoter:BBa_J23119_1	RBS:BBa_B0030_1	normal
+RBS:BBa_B0030_1	rhlR_1	normal
+rhlR_1	RhlR_1	promotion
+A2i_1	RhlR_1	promotion
+RhlR_1	Promoter:BBa_R0071_1	promotion
+Promoter:BBa_R0071_1	RBS:BBa_B0034_2	normal
+RBS:BBa_B0034_2	GFP_1	normal
+

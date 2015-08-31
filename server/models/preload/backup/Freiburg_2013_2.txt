@@ -1,0 +1,18 @@
+Freiburg-2013-1
+¡¾1¡¿	The dCas9-VP16 fusion protein is guided to the desired DNA sequence by a co-expressed crRNA and tracrRNA. The binding of the gene recognition complex leads to an expression of SEAP.
+http://2013.igem.org/Team:Freiburg/Project/modeling
+-1
+Pconst_1,Pconst_2
+Terminator_1,Terminator_2,Terminator_3
+Pconst_1	Cas9-VP16_1	normal
+Cas9-VP16_1	Terminator_1	normal
+Cas9-VP16_1	PCas9VP16_1	promotion
+Pconst_2	tracr/crRNA_1	normal
+tracr/crRNA_1	Terminator_2	normal
+tracr/crRNA_1	Ptracr/crRNA_1	promotion
+PCas9VP16_1	Ptracr/crRNA_1	normal
+Ptracr/crRNA_1	Pmin_1	inhibition
+EMX_1	Pmin_1	normal
+Pmin_1	SEAP_1	normal
+SEAP_1	PSEAP_1	promotion
+SEAP_1	Terminator_3	normal

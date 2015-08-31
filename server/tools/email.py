@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from threading import Thread
 from flask import current_app, render_template
 from flask.ext.mail import Message
@@ -13,6 +15,7 @@ def _send_email(to, subject, template, async=True, **kwargs):
                   sender=app.config['FLASKY_MAIL_SENDER'], recipients=[to])
     msg.body = render_template(template + '.txt', **kwargs)
     msg.html = render_template(template + '.html', **kwargs)
+
     try:
         if async:
             thr = Thread(target=__send_async_email, args=[app, msg])
@@ -22,7 +25,7 @@ def _send_email(to, subject, template, async=True, **kwargs):
             with app.app_context():
                 mail.send(msg)
     except:
-        print 'Sending email failed'
+        print 'Sending email failed.'
         pass
 
 

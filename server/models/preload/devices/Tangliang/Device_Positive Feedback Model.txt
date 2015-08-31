@@ -1,0 +1,26 @@
+Glasgow-2007-1
+¡¾1¡¿The positive feedback model includes additional coding region for TF protein placed after PhzMS coding. Once the pollutant is present and expression of reporter proteins is started also more TF is produced. Our assumption was that increased concentration of TF will cause more pollutant molecules to be bound into TF|S complex and, in turn, expression at the TF|S promoter would be enhanced further. The equations we have developed for the positive feedback loop model are as follows.
+http://2007.igem.org/Glasgow
+2
+Promoter_1,Promoter_2
+Terminator_1,Terminator_2,Terminator_3,Terminator_4
+Promoter_1	RBS:BBa_J61100_1	normal
+RBS:BBa_J61100_1	tf_1	normal
+dmpR_1	Terminator_1	normal
+dmpR_1	dmpR_1	promotion
+Terminator_1	Terminator_2	normal
+Promoter_2	RBS:BBa_J61100_2	normal
+RBS:BBa_J61100_2	sfGFP_1	normal
+RBS:BBa_J61100_2	phz genes_1	normal
+phz genes_1	Terminator_3	normal
+Terminator_3	Terminator_4	normal
+phz genes_1	Pyocyanin_1	promotion
+dmpR_1	DNT_1	normal
+
+
+
+
+
+
+
+

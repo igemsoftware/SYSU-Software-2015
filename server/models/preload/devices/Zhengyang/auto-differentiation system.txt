@@ -1,0 +1,23 @@
+SEU O China-2012-2
+¡¾2¡¿	Auto-control the cell division.
+http://2012.igem.org/Team:SEU_O_China
+1
+PcI_1,Plac_1
+Cell division_1
+PcI_1	lacI_1	normal
+lacI_1	LacI_1	promotion
+LacI_1	Plac_1	inhibition
+Plac_1	cI_1	normal
+cI_1	CI_1	promotion
+CI_1	PcI_1	inhibition
+cI_1	AHL generator_1	normal
+AHL generator_1	AHL enzyme_1	promotion
+AHL enzyme_1	AHL_1	promotion
+AHL_1	AHL receiver_1	promotion
+AHL receiver_1	as-FtsZ mRNA_1	promotion
+AHL generator_1	cheZ_1	normal
+cheZ_1	CheZ_1	promotion
+CheZ_1	Cell motility_1	promotion
+as-FtsZ mRNA_1	FtsZ_1	inhibition
+FtsZ_1	Cell division_1	promotion
+AHL receiver_1	cheZ_1	inhibition

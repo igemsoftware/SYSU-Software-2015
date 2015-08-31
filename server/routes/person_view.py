@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from . import person
 from ..models import Circuit
 from ..tools.parser import json_parser

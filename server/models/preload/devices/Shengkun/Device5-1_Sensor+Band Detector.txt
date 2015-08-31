@@ -1,0 +1,25 @@
+ETH_Zurich2011-1
+LacIM1 (Bba_K625000) is a LacI variant with the same protein sequence as the wild-type LacI, but with a completely codon-modified DNA sequence. This enables to use both sequences on two different plasmids (with two different promoters) without recombination happening between them. This feature can be used to establish a bandpass filter.
+http2011.igem.orgTeamETH_Zurich
+-1
+Acetaldehyde_1
+GFP_1
+Acetaldehyde_1	promoter:BBa_J23119_1	inhibition
+promoter:BBa_J23119_1	RBS_1	normal
+RBS_1	AlcR_1	normal
+AlcR_1	Terminator:BBa_B0010_1	normal
+Terminator:BBa_B0010_1	Terminator:BBa_B0012_2	normal
+AlcR_1	ALCR_1	promotion
+ALCR_1	TetR_1	inhibition
+PConst_1	TetR_1	normal
+tetR_1	TetR_1	promotion
+TetR_1	cI_1	inhibition
+TetR_1	PtetR_1	inhibition
+PtetR_1	lacIm1_1	normal
+lacIm1_1	LacIM1_1	promotion
+cI_1	CI_1	promotion
+LacIM1_1	GFP_1	inhibition
+CI_1	lacI_1	inhibition
+lacI_1	LacI_1	promotion
+LacI_1	gfp_1	inhibition
+gfp_1	GFP_1	promotion

@@ -1,3 +1,11 @@
+# -*- coding: utf-8 -*-
+
+"""
+    CORE: Crowdsourcing Open Redesign Engine
+
+    :license: GPL 3, see LICENSE for more details
+"""
+
 from config import config
 
 from flask import Flask

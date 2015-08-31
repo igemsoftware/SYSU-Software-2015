@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from flask.ext.testing import TestCase as _TestCase
 
 from server import create_app as _create_app

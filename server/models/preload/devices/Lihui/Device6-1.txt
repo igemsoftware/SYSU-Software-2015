@@ -1,0 +1,18 @@
+D C Mation
+OxiGEM are tackling environmental pollution by developing a user-friendly device for the detection & degradation of the hazardous yet indispensable solvent dichloromethane (DCM), to illustrate.Inspired by the DCM degradation pathway of M. extorquens DM4, our project is driven and refined by the dialogue between modelling simulations and experimental data. Bioremediation is optimised by expressing the DCM degrading system in host strains, along with microcompartments to accelerate the reaction and minimise toxic intermediates. Our biosensor is tuned to our characterisation and improvements of the catalytic efficiency of the system, while incorporation of the bacteria into novel diffusion-limiting biopolymeric beads ensures safe and rapid degradation. This all-round modular design and scalability make DCMation ideal for extension to the disposal of many harmful substances. 
+http://2014.igem.org/Team:Oxford/biosensor_characterisation#showmodelling
+1
+ATC_1,DCM_1
+sfgfp_1
+tetR_1	TetR_1	promotion
+ATC_1	TetR_1	inhibition
+TetR_1	tetO_1	inhibition
+tetO_1	dcmR_1	normal
+dcmR_1	mCherry_1	normal
+dcmR_1	DcmR_1	promotion
+DCM_1	DcmR_1	inhibition
+DcmR_1	PdcmA_1	inhibition
+PdcmA_1	sfgfp_1	normal
+
+
+

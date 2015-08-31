@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from . import TestCase
 
 from server.models import User

@@ -1,0 +1,22 @@
+Evry-2013-2
+¡¾2¡¿
+we can continue towards our main goal, by modeling the inverter system. So, this second part of the Enterobactin production model focuses on the synthetic inverter system our team implemented in the bacteria.
+http://2013.igem.org/Team:Evry
+1
+Promoter_1,Fe-FUR_1,Plac_1
+Terminator_1,Terminator_2
+Promoter_1	Fur Binding Site_1	normal
+Fur Binding Site_1	RBS_1	normal
+Fe-FUR_1	Fur Binding Site_1	inhibition
+RBS_1	lacI_1	normal
+lacI_1	Terminator_1	normal
+lacI_1	LacI_1	promotion
+LacI_1	Plac_1	inhibition
+Plac_1	RBS_2	normal
+RBS_2	rfp_1	normal
+rfp_1	Terminator_2	normal
+
+
+
+
+
