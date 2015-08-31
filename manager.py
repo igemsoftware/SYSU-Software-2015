@@ -90,9 +90,9 @@ def testinit(slient=False, noinit=False):
                 device = Device().load_from_file(filename)
 
         # add default protocols 
-        for dir in app.config.get('INIT_PRELOAD_PROTOCOLS', []):
+        for dir in app.config.get('INIT_PRELOAD_PROTOCOL_DIRS', []):
             for filename in get_file_list(dir):
-                device = Protocol().load_from_file(filename)
+                protocol = Protocol().load_from_file(filename)
  
     
         Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
