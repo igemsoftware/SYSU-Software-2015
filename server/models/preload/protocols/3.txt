@@ -3,10 +3,10 @@ True
 Introduction
 Remember that competent cells are very fragile and should only be mixed gently. Transformation plating results, like most results, can be very difficult to interpret without positive and negative controls. A good way to plan controls is to think how you might interpret different kinds of possible results. For example, are colonies really due to correct clones, or are they due to contaminating cells (due to degradation of the antibiotic plates stored for too long), contaminating plasmids or uncut vector? Is a lack of colonies due to failed ligations or just poor competent cells? 
 Components
-• CaCl2-competent E. coli cells;
-• SOB media;
-• DNA plasmid.
-• Agar plates
+CaCl2-competent E. coli cells;
+SOB media;
+DNA plasmid.
+Agar plates
 Control 
 1. Water (a negative control)
 2. Unligated, cut plasmid(s) (a negative control).

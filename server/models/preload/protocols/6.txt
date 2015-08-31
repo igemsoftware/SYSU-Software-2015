@@ -6,10 +6,10 @@ By adding the sample with loading buffer to the gel wells and applying a current
 Notice：
 Since the stain interacts with nucleic acids and is therefore potentially mutagenic, always wear nitrile gloves when working with agarose gels. If the stain is ethidium bromide, not Sybr®Safe, make sure that contaminated waste (pipette tips, gels, etc.) is disposed of in hazardous waste boxes. Use protective glasses when using the UV light box.
 Components
-• Agarose;
-• 1x TBE;
-• Sybr®Safe;
-• Loading dye mix
-• DNA ladder size marker
-• DNA samples
+Agarose;
+1x TBE;
+Sybr®Safe;
+Loading dye mix
+DNA ladder size marker
+DNA samples
 

@@ -3,7 +3,7 @@ True
 Introduction 
 To obtain a clonal which is guaranteed to be resistant to the antibiotic.(e.g. if they sit next to a colony secreting the ampicillin resistance enzyme).
 Components
-• Agar plates
+Agar plates
 
  
 

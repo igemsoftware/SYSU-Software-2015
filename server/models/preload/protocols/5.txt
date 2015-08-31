@@ -3,18 +3,18 @@ True
 Introduction 
 To prepare DNA samples from several colonies to screen for the desired mutant by sequencing. There is no need for a cell lysis step because the DNA template is released from the bacterial colony during a PCR reaction.
 Components
-• A plate with re-streaked, single colonies;
-• ddH2O;
-• dNTPs, 2 mM;
-• VF2 primer;
-• VR primer;
-• 10x Taq PCR buffer provided by manufacturer;
-• Taq DNA polymerase.
+A plate with re-streaked, single colonies;
+ddH2O;
+dNTPs, 2 mM;
+VF2 primer;
+VR primer;
+10x Taq PCR buffer provided by manufacturer;
+Taq DNA polymerase.
 Procedure	
 1. Calculate the extension time in your lab note book:
-• Length of amplicon: ________ kb.
-• Taq extension time per kb: 1 min/kb.
-• Extension time (length × extension time per kb):
+Length of amplicon: ________ kb.
+Taq extension time per kb: 1 min/kb.
+Extension time (length × extension time per kb):
 ________ hh:mm:ss.
 	1min	
 2. Fill in the extension time in the program grid:

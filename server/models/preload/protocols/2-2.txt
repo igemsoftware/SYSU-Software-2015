@@ -1,10 +1,10 @@
 2-2 GEL ANALYSIS 
 True
 Components
-• Agarose;
-• 1x TBE;
-• Sybr®Safe;
-• Loading dye mix
-• DNA ladder size marker
-• DNA samples
+Agarose;
+1x TBE;
+Sybr®Safe;
+Loading dye mix
+DNA ladder size marker
+DNA samples
 

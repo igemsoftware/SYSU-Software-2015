@@ -84,14 +84,14 @@
 }
 
 #list-body span {
-	font-size: 20px;
+	font-size: 18px;
+	vertical-align: top;
 }
 
 #list-body .minus.icon {
 	font-size: 20px;
 	color: #ec5a5b;
 	cursor: pointer;
-	vertical-align: top;
 	display: none;
 }
 
@@ -106,7 +106,8 @@
 }
 
 #list-body .divider {
-	margin-top: 7px;
+	margin-top: 5px;
+	margin-bottom: 8px;
 }
 
 
@@ -244,32 +245,48 @@
 
 /*left-sidebar*/
 
-/*moreInfor*/
-#moreInfor {
+/*sysProMoreInfor*/
+.moreInfor {
 	background-color: #f8f8f8;
 }
 
 
-#moreInfor .header .close {
+.moreInfor .header .close {
 	float: right;
 }
 
-#moreInfor .step-content {
+.moreInfor .header .detail {
+	padding: 0;
+	font-size: 17px;
+}
+
+
+.moreInfor .procedures {
 	height: 100%;
 }
 
-#moreInfor .step-content .icon-set {
+.moreInfor  .icon-set {
 	text-align: right;
 	font-size: 17px;
 	color: #72d3e3;
+	display: block;
 }
 
-#moreInfor .step-content .icon-set span {
+.moreInfor .addPro {
+	text-align: right;
+	display: ;
+}
+
+.moreInfor  .icon-set span {
 	margin-right: 10px;
 	cursor: pointer;
 }
 
-#moreInfor .step-content textarea {
+.moreInfor .procedures p {
+	font-size: 14px;
+}
+
+.moreInfor .procedures textarea {
 	width: 100%;
 	overflow:visible;
 }
@@ -277,4 +294,8 @@
 .more {
 	cursor: pointer;
 }
-/*moreInfor*/
+/*sysProMoreInfor*/
+
+.text-right {
+	text-align: right;
+}
