@@ -33,8 +33,8 @@ def data_fetch_parts():
 def data_fetch_relationship():
     l = []
     for r in Relationship.query.all():
-        l.append({'start': r.start.name,
-                  'end': r.end.name,
+        l.append({'start': r.start.attr,
+                  'end': r.end.attr,
                   'type': r.type,
                   'equation':r.equation.jsonify() #render()
                   })

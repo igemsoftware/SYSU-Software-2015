@@ -127,7 +127,7 @@ class Relationship(db.Model):
         self.equation = {'parameters':{}, 'content':''}
 
     def __repr__(self):
-        return '<Relationship: %s->%s>' % (self.start.name, self.end.name)
+        return '<Relationship: %s->%s>' % (self.start.attr, self.end.attr)
 
 
 class ComponentPrototype(db.Model):
@@ -320,7 +320,7 @@ class Device(db.Model, BioBase):
 #            print '[%s]' % line
             A_name, B_name, R_type = line.strip(' \n').split('\t')
 
-            print line
+            #print line
 #           try:
 #               line.index('LacI')
 #               line.index('gfp')
