@@ -1,0 +1,13 @@
+Evry-2013-1
+¡¾1¡¿In order to determine our Iron Coli's enterobactin production rate, we first have to know how much time our bacteria will take to sense the ambient iron. So, this first part of the Enterobactin production model focuses on the synthetic sensing system our team implemented in the bacteria.
+http://2013.igem.org/Team:Evry
+1
+Promoter_1,Fe-FUR_1
+Terminator_1
+Promoter_1	Fur Binding Site_1	normal
+Fur Binding Site_1	RBS_1	normal
+Fe-FUR_1	Fur Binding Site_1	inhibition
+RBS_1	sfGFP_1	normal
+sfGFP_1	Terminator_1	normal
+
+

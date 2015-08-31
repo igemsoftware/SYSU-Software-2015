@@ -1,0 +1,16 @@
+Company
+In the presence of C4HSL, which represents Money, Company can produce chloramphenicol-resistance gene product (CmR) and LasI. CmR protects the Company from the antibiotic action of chloramphenicol. LasI produces signaling molecule 3OC12HSL, which represents the Product made by the Company. If there is not any C4HSL in the medium, Company cannot produce CmR. This will lead to the growth inhibition of the Company, which represents the Company¡¯s bankruptcy.
+http://2014.igem.org/Team:Tokyo_Tech/Project#2.1.1
+1
+C4HSL_1
+3OC12HSL_1
+C4HSL_1	rhlR_1	promotion
+Ptet_1	gfp_1	normal
+gfp_1	Ptet_2	normal
+Ptet_2	rhlR_1	normal
+rhlR_1	RhlR_1	promotion
+RhlR_1	Prhl_1	promotion
+Prhl_1	cmR_1	normal
+cmR_1	lasI_1	normal
+lasI_1	LasI_1	promotion
+LasI_1	3OC12HSL_1	promotion

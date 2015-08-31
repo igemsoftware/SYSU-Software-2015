@@ -2,7 +2,8 @@ NJU2013-2
 Circuit2. The movement of the bacteria with this circuit will affected by the presence of AHL. In our initiate consideration, the cascade, AHL&LuxR->Plux-tetr---Ptet-CI---Pci-CheZ, will lead to the promotion of the production of CheZ protein.
 http://2013.igem.org/Team:Nanjing-China
 2
-Pcon_1,CHeZ_1
+Pcon_1
+CHeZ_1
 Plux_1	RBS_1	normal
 RBS_1	tetr_1	normal
 tetr_1	Ptet_1	inhibition

@@ -1,0 +1,15 @@
+OUC-China-2012-1
+¡¾1¡¿	This device is to characterize and modify the naturally existing sensors in prokaryotes in order to alarm the occurrence of red tide precisely and accurately. At the same time, try to find a way to restraint it.
+http://2012.igem.org/Team:OUC-China
+-1
+ATC_1,IPTG_1
+GFP_1
+sRNA1_1	sRNA2_1	inhibition
+sRNA2_1	sRNA1_1	inhibition
+sRNA1_1	GFP mRNA_1	inhibition
+sRNA2_1	GFP mRNA_1	inhibition
+GFP mRNA_1	sRNA1_1	inhibition
+GFP mRNA_1	sRNA2_1	inhibition
+GFP mRNA_1	GFP_1	promotion
+ATC_1	sRNA1_1	promotion
+IPTG_1	sRNA2_1	promotion

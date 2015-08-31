@@ -1,0 +1,12 @@
+community response
+Cells in a local population have a wide range of responses to a given stimulus. This noisiness may be due to differences in extracelluar environment or intracellular molecular makeup. Yet these cells often need to coordinate and respond in a concerted way. Our project seeks to understand the complex intercellular interactions that must happen to produce such a specific community phenotype.
+http://2014.igem.org/Team:UCSF_UCB/project.html#model
+1
+RtTA-DOXYCYCLINE_1
+rfp_1
+RtTA-DOXYCYCLINE_1	Ptet_1	promotion
+Ptet_1	mf¦Á_1	normal
+mf¦Á_1	¦Á_1	promotion
+¦Á_1	PAGA1_1	promotion
+PAGA1_1	rfp_1	normal
+

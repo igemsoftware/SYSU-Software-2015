@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from . import main
 from ..models import Circuit, Protocol
 

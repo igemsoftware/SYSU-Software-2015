@@ -1,0 +1,17 @@
+USTC2011-1
+ColicinE7+Toggle-switch+Aptamer-CheZ+lysis
+http://2011.igem.org/Team:USTC-China
+1
+theophylline_1
+Colicin E7_1,CheZ_1,Lysis_1
+theophylline_1	Toggle switch_1	promotion
+Toggle switch_1	rfp_1	normal
+rfp_1	RFP_1	promotion
+RFP_1	ColE7-immE7 complex_1	normal
+ColE7-immE7 complex_1	Colicin E7_1	promotion
+Toggle switch_1	gfp_1	normal
+gfp_1	GFP_1	promotion
+GFP_1	Aptamer-Chez_1	normal
+Aptamer-Chez_1	CheZ_1	promotion
+CheZ_1	lys_1	normal
+lys_1	Lysis_1	promotion

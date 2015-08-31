@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -35,13 +37,10 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///sysu2015_dev.db"
 
     # init
-    INIT_PRELOAD_DEVICES = ['server/models/preload/devices/NJU2013-1.txt',
-                            'server/models/preload/devices/NJU2013-2.txt',
-                            'server/models/preload/devices/NJU2013-3.txt']
-    INIT_PRELOAD_PROTOCOLS = ['server/models/preload/protocols/'+ele
-            for ele in  ['1.txt','2.txt','2-1.txt','2-2.txt','2-2-1.txt','2-2-2.txt',
-             '2-2-3.txt','3.txt','4.txt','5.txt','6.txt','6-1.txt','6-2.txt']]
-    INIT_PRELOAD_PARTS = ['server/models/preload/parts.txt']
+
+    INIT_PRELOAD_DEVICE_DIRS = ['server/models/preload/devices/']
+    INIT_PRELOAD_PROTOCOL_DIRS = ['server/models/preload/protocols/']
+    INIT_PRELOAD_PART_DIRS = ['server/models/preload/parts/']
 
 
 class ProductionConfig(Config):
