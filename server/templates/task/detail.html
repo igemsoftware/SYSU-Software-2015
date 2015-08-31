@@ -10,6 +10,18 @@
 {% block body %}
 {{ super() }}
 
+<v-topbar>
+  <div class="right menu">
+    <div class="item">
+      <div class="ui button">All Questions</div>
+    </div>
+    <div class="item">
+      <div class="ui button">Unanswered</div>
+    </div>
+  </div>
+</v-topbar>
+
+
 <div id="view-taskhall-detail" class="main-container" v-cloak>
 
   <div id="taskhall-detail-main">

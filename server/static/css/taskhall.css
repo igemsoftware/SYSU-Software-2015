@@ -1,5 +1,5 @@
 #topbar-bottom-line {
-    background: linear-gradient(to right, #e5d685, #edd686);
+    background: linear-gradient(to right, #c09340, #edb84e);
 }
 
 /* taskhall index */
@@ -34,7 +34,7 @@
 
 #taskhall-index-main {
     height: 100%;
-    padding: 0 60px;
+    padding: 0 120px;
 }
 
 #taskhall-index-grid {
@@ -55,20 +55,25 @@
 }
 
 #taskhall-index-search-input > input {
-    border-radius: 15px;
+    border-radius: 0;
     padding: 0.5em 1em;
 }
 
 #taskhall-index-order-dropdown {
-    border-radius: 15px;
-    background-color: #e1e1e1;
+    border-radius: 0;
+    background-color: #edb84e;
     padding: 0 0.3rem;
-    line-height: 35px;
-    font-size: 1.4rem;
+    line-height: 38px;
+    font-size: 1.1rem;
     margin-left: 10px;
 }
 
+#taskhall-index-sticky .statistic > .value {
+    text-align: left;
+}
+
 #taskhall-index-sticky .statistic > .label {
+    font-weight: lighter;
     text-transform: none;
 }
 
@@ -82,22 +87,21 @@
 
 #taskhall-index-sticky .button {
     background-color: transparent;
-    border-radius: 15px;
+    border-radius: 0;
     font-size: 1.3rem;
     padding: 0.5rem 1rem;
 }
 
 #taskhall-index-sticky .button.selected {
-    background-color: #ecd683;
+    background-color: #edb84e;
 }
 
 #taskhall-index-navbar {
     position: relative;
-    margin-bottom: 30px;
     line-height: 50px;
     vertical-align: middle;
-    background-color: #ffffff;
-    padding: 0 1rem;
+    padding: 0 1rem 1rem;
+    border-bottom: 1px solid #e4e4e4;
 }
 
 #taskhall-index-navbar > .part {
@@ -118,9 +122,8 @@
 
 .taskhall-index.question.item {
     display: flex;
-    padding: 2rem 0 1rem 0;
-    background-color: #ffffff;
-    margin-bottom: 1rem;
+    padding: 1rem 0 1rem 0;
+    border-bottom: 1px solid #e4e4e4;
 }
 
 .taskhall-index.question.item > .statistics {
@@ -135,12 +138,12 @@
 }
 
 .taskhall-index.question.item > .statistics > .ui.statistic + .ui.statistic {
-    margin: 3rem 0 0 0;
+    margin: 1.5rem 0 0 0;
 }
 
 .taskhall-index.question.item > .statistics > .ui.statistic > .value {
     font-size: 1.8rem;
-    font-weight: bolder;
+    font-weight: lighter;
 }
 
 .taskhall-index.question.item > .statistics > .ui.statistic > .label {
@@ -150,7 +153,7 @@
 
 .taskhall-index.question.item > .question.main {
     flex: 1;
-    height: 230px;
+    /*height: 230px;*/
 }
 
 .taskhall-index.question.item > .question.main > .header {
@@ -159,52 +162,54 @@
 }
 
 .taskhall-index.question.item > .question.main > .detail {
-    height: calc(100% - 30px);
+    height: 50px;
     width: 100%;
-    padding-bottom: 1rem;
 }
 
-.taskhall-index.question.item > .question.author {
-    margin-left: 20px;
-    width: 200px;
+.taskhall-index.question.item > .question.main > .question.author {
     display: flex;
-    margin-top: auto;
+    margin-left: auto;
+    margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.taskhall-index.question.item > .question.author > .small.image {
+.taskhall-index.question.item > .question.main > .question.author > .dummy {
+    flex: 1;
+}
+
+.taskhall-index.question.item > .question.main > .question.author > .small.image {
     width: 55px;
 }
 
-.taskhall-index.question.item > .question.author > .info {
-    flex: 1;
+.taskhall-index.question.item > .question.main > .question.author > .info {
+    min-width: 100px;
     margin-left: 10px;
     padding-top: 5px;
 }
 
-.taskhall-index.question.item > .question.author > .info > .author.name {
+.taskhall-index.question.item > .question.main > .question.author > .info > .author.name {
     font-size: 1.6rem;
 }
 
-.taskhall-index.question.item > .author.popup > * + * {
+.taskhall-index.question.item > .question.main > .author.popup > * + * {
     margin-top: 10px;
 }
 
-.taskhall-index.question.item > .author.popup > .author.name {
+.taskhall-index.question.item > .question.main > .author.popup > .author.name {
     font-size: 1.5rem;
     line-height: 1.6rem;
 }
 
-.taskhall-index.question.item > .author.popup > .track.list > .image {
+.taskhall-index.question.item > .question.main > .author.popup > .track.list > .image {
     width: 20px;
 }
 
-.taskhall-index.question.item > .author.popup > .count {
+.taskhall-index.question.item > .question.main > .author.popup > .count {
     font-size: 1.2rem;
     color: rgba(0, 0, 0, 0.6);
 }
 
-.taskhall-index.question.item > .author.popup > .count > .figure {
+.taskhall-index.question.item > .question.main > .author.popup > .count > .figure {
     font-size: 1.4rem;
     color: rgba(0, 0, 0, 0.8);
 }

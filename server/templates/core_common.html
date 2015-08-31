@@ -20,32 +20,30 @@
     </div>
   </div>
 
-  <div class="ui secondary menu" id="topbar">
-    <div class="ui circular image" id="topbar-avatar">
-      <img src="/static/img/avatar.jpg" alt="avatar">
-      <div class="ui red circular label">[[notificationCount]]</div>
-    </div>
-    <div class="ui popup transition hidden" id="topbar-avatar-popup">
-      <div class="ui link list">
-        <a v-on="click: currentView = 'dashboard-database'" class="item">Dashboard</a>
-        <a v-on="click: currentView = 'dashboard-notifications'" class="item">Notifications <div class="ui red circular label">[[notificationCount]]</div></a>
-        <a href="/logout" class="item">Log Out</a>
+  <template id="topbar-template">
+    <div class="ui secondary menu" id="topbar">
+      <div class="ui circular image" id="topbar-avatar">
+        <img src="/static/img/avatar.jpg" alt="avatar">
+        <div class="ui red circular label">[[notifications]]</div>
       </div>
-    </div>
+      <div class="ui popup transition hidden" id="topbar-avatar-popup">
+        <div class="ui link list">
+          <a class="item">Dashboard</a>
+          <a class="item">Notifications <div class="ui red circular label">[[notifications]]</div></a>
+          <a href="/logout" class="item">Log Out</a>
+        </div>
+      </div>
 
-    <div class="item" id="topbar-index">
-      <div class="ui button" id="topbar-btn-index"></div>
-    </div>
-    <div class="item" id="topbar-menu">
-      <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>
-    </div>
-    <div class="right menu">
-      <div v-repeat="item : rightMenu" class="item" id="topbar-[[item]]">
-        <div class="ui button" id="topbar-btn-[[item]]">[[item | capitalize]]</div>
+      <div class="item" id="topbar-index">
+        <div class="ui button" id="topbar-btn-index"></div>
       </div>
+      <div class="item" id="topbar-menu">
+        <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>
+      </div>
+      <content select="div.right.menu"></content>
+      <div id="topbar-bottom-line"></div>
     </div>
-    <div id="topbar-bottom-line"></div>
-  </div>
+  </template>
 
   <component id="main-view" is="[[ currentView ]]" keep-alive></component>
 

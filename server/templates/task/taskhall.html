@@ -10,6 +10,18 @@
 {% block body %}
 {{ super() }}
 
+<v-topbar>
+  <div class="right menu">
+    <div class="item">
+      <div v-on="click: selectedTab = 'All Questions'" class="ui button">All Questions</div>
+    </div>
+    <div class="item">
+      <div v-on="click: selectedTab = 'Unanswered'" class="ui button">Unanswered</div>
+    </div>
+  </div>
+</v-topbar>
+
+
 <div id="view-taskhall-index" class="main-container" v-cloak>
 
   <div class="ui modal" id="taskhall-index-ask-modal">
@@ -33,7 +45,6 @@
   </div>
 
   <div id="taskhall-index-main">
-    <h1 class="ui header">Task Hall</h1>
     <div id="taskhall-index-grid">
       <div class="main column">
         <div id="taskhall-index-navbar">
@@ -79,8 +90,8 @@
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
             </div>
-          </div>
           <div class="question author">
+            <div class="dummy"></div>
             <div class="ui small image"><img src="/static/img/avatar.jpg" alt="author"></div>
             <div class="info">
               <div class="date">asked 8-12</div>
@@ -99,6 +110,7 @@
             <div class="question count"><span class="figure">20</span> questions</div>
             <div class="answer count"><span class="figure">500</span> answers</div>
             <div class="share public count"><span class="figure">2333</span> share/public</div>
+          </div>
           </div>
         </div>
 
@@ -316,17 +328,11 @@
           <div class="dummy statistic container">
             <div class="ui small statistic">
               <div class="value">[[questionCount]]</div>
-              <div class="label">questions</div>
+              <div class="label">questions in total</div>
             </div>
           </div>
           <div class="dummy container">
-            <div class="ui button" v-on="click: selectedTab = 'question'" v-class="selected: selectedTab === 'question'">Question</div>
-          </div>
-          <div class="dummy container">
-            <div class="ui button" v-on="click: selectedTab = 'unanswered'" v-class="selected: selectedTab === 'unanswered'">Unanswered</div>
-          </div>
-          <div class="dummy container">
-            <div class="ui button" v-on="click: showAskModal()">Ask a question</div>
+            <div class="ui selected button" v-on="click: showAskModal()">Ask a question</div>
           </div>
         </div>
       </div>

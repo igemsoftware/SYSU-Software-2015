@@ -1,10 +1,8 @@
 Vue.config.delimiters = ['[[', ']]'];
 
-var coreBody = Vue.extend({
+Vue.component('v-topbar', {
+    template: "#topbar-template",
     data: function() { return {
-        user            : '',
-        rightMenu       : [],
-        currentView     : '',
         notifications   : 0,
     }},
     ready: function() {
@@ -18,6 +16,15 @@ var coreBody = Vue.extend({
         $('#topbar-menu').click(function() {
             $('#main-switcher').modal('show');
         });
+        console.log('topbar init done.')
+    },
+});
+
+var coreBody = Vue.extend({
+    data: function() { return {
+        currentView     : '',
+    }},
+    ready: function() {
         console.log('coreBody init done.')
     },
 });

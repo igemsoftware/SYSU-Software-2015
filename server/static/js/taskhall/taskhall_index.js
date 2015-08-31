@@ -5,7 +5,7 @@ var vueBody = new coreBody({
         rightMenu           : ['design', 'modeling', 'experiment'],
         notificationCount   : 2,
         questionCount       : 2723,
-        selectedTab         : 'question',
+        selectedTab         : 'All Question',
         currentOrder        : 'vote',
         orders              : ['vote', 'view', 'time'],
         page                : 1,
