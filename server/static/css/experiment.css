@@ -205,19 +205,33 @@
 
 #left-sidebar-body .item {
 	padding: 8px;
-	font-size: 16px;
+	font-size: 14px;
 	color: #EDEDEF;
 }
 
+#left-sidebar-body .protocolTitle {
+	width: 70%;
+	margin-left: 15px;
+	display: inline-block;
+}
+
+#left-sidebar-body .likes {
+	vertical-align: top;
+	font-size: 8px;
+/*	margin-right: 20px;*/
+}
+
 #left-sidebar-body .star {
-	margin-left: 10px;
-	margin-right: 40px;
-	font-size: 10px;
+/*	margin-left: 10px;*/
+	font-size: 8px;
+	vertical-align: top;
 }
 
 #left-sidebar-body .zoom {
-	float: right;
-	margin-right: 20px;
+/*	float: right;*/
+	margin-left: 8px;
+	margin-right: 8px;
+	vertical-align: top;
 }
 
 #left-sidebar-body .item:nth-child(even) {

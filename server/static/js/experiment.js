@@ -16,12 +16,20 @@ function LeftBar() {
     this.isOpenLeftBar = false;
     this._leftBarWidth = 350;
     this.view = $("#left-sidebar");
+    this.view.protocols = $("#left-sidebar-body");
     this.leftTrigger = $(".trigger-left");
-}
+    this.view.searchPro = $("#searchPro");
+    this._searchTitle = [];
+
+    this.protocolElemsList = [];
+    this.protocolsMap = [];
+    this.protocolCount = 0;
+};
 
 LeftBar.prototype.init = function() {
 	this._leftTriggerAnimation();
-}
+	this.enableSearchBox();
+};
 
 LeftBar.prototype._leftTriggerAnimation = function() {
     var that = this;
@@ -46,7 +54,90 @@ LeftBar.prototype._leftTriggerAnimation = function() {
             that.leftTrigger.find("i").removeClass("right").addClass("left");
         }
     });
+};
+
+LeftBar.prototype.createProtocolView = function(protocol, id) {
+	var divElem = $("<div></div>");
+	var starIconElem = $("<i></i>");
+	var zoomIconElem =  $("<i></i>");
+	var titleSpanElem = $("<span></span>");
+	var likesSpanElem = $("<span></span>");
+
+	divElem.addClass("item");
+
+	starIconElem.addClass("empty star icon");
+	// starIconElem.text(protocol.likes);
+	likesSpanElem.addClass("likes");
+	likesSpanElem.text(protocol.likes);
+	zoomIconElem.addClass("zoom icon more");
+	titleSpanElem.text(protocol.name);
+	titleSpanElem.addClass("protocolTitle");
+
+	divElem.append(titleSpanElem);
+	divElem.append(zoomIconElem);
+	divElem.append(starIconElem);
+	divElem.append(likesSpanElem);
+	divElem.attr("id", id);
+	this._searchTitle.push({title: protocol.name});
+	this.protocolElemsList.push(divElem);
+
+	return divElem;
+};
+
+LeftBar.prototype.addProtocolView = function(protocolElem) {
+	protocolElem.appendTo($("#left-sidebar-body"));
+};
+
+LeftBar.prototype.initProtocolElems = function(protocols) {
+	for (var i in protocols) {
+		var protocolElem = this.createProtocolView(protocols[i], i);
+		this.addProtocolView(protocolElem);
+	}
 }
+
+LeftBar.prototype.showView = function(protocolELems) {
+	this.view.protocols.empty();
+	for (var i in protocolELems) {
+		this.addProtocolView(protocolELems[i], i);
+	}
+};
+
+LeftBar.prototype.enableSearchBox = function() {
+    var that = this;
+    this.view.searchPro.keyup(function() {
+    	var val = that.view.searchPro.val().toLowerCase();
+        if (val != "") {
+        	var searchElemPartList = [];
+        	for (var i in that.protocolElemsList) {
+        		var title = $(that.protocolElemsList[i].find(".protocolTitle")[0]).text().toLowerCase();
+        		console.log(title);
+        		if (title.indexOf(val) != -1) {
+        			searchElemPartList.push(that.protocolElemsList[i]);
+        		}
+        	}
+        	that.showView(searchElemPartList);
+        } else {
+        	that.showView(that.protocolElemsList);
+        }
+    });
+};
+
+//==============================================
+function DataManager() {
+    this.protocols = [];
+};
+
+DataManager.getSystemProtocolData = function(callback) {
+	var that = this;
+    $.get("/circuit/1", function(data, status) {
+        that.protocols = data['protocol'];
+        callback(that.protocols);
+    });
+};
+
+DataManager.init = function() {
+};
+
 
 $('.menu .item')
   .tab()
@@ -55,6 +146,9 @@ $('.menu .item')
 $(function() {
 	leftbar = new LeftBar();
 	leftbar.init();
+	DataManager.getSystemProtocolData(function(protocols) {
+		leftbar.initProtocolElems(protocols);
+	});
 });
 
 $("#moreInfor")
@@ -88,7 +182,6 @@ $("#add-protocol").click(function() {
 $(".save-edit").each(function() {
 	$(this).click(function() {
 		if ($(this).find("i").hasClass("edit")) {
-			console.log("111");
 			// come in edit status
 			$(this).find("i").removeClass("edit");
 			$(this).find("i").addClass("save");
@@ -104,7 +197,6 @@ $(".save-edit").each(function() {
 			textareaElem.text(content);
 			contentElem.replaceWith(textareaElem);
 		} else {
-			console.log("222");
 			// come in save status
 			$(this).find("i").removeClass("save");
 			$(this).find("i").addClass("edit");
