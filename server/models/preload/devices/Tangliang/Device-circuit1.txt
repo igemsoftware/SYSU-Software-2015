@@ -1,0 +1,14 @@
+Nanjing-China-2013-1
+¡¾1¡¿Atrazine will promote the translation of the CI protein. However, the CheZ protein, which represent the motility, will be repressed when the concentration of CI protein is high. So, the consequence will be more and more bacteria stopping in the region with high Atrazine.
+http://2013.igem.org/Team:Nanjing-China
+1
+Pcl_1
+Cl_1
+PcI_1	RBS_1	normal
+RBS_1	cheZ_1	normal
+cheZ_1	PcI_2	normal
+PcI_2	RBS_2	normal
+RBS_2	cI_1	normal
+cI_1	PcI_1	inhibition
+
+

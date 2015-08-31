@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from . import calendar
 from ..models import Memo
 from ..tools.parser import json_parser
 
 from flask.ext.login import login_required, current_user
-from flask import request, jsonify
+from flask import request, jsonify, render_template
 
 from sqlalchemy import or_
 from datetime import datetime, timedelta
@@ -25,4 +27,5 @@ def get_all():
     l = Memo.query.filter_by(owner=current_user).all()
     l = map(json_parser, l)
     return jsonify(memos=l)
+
 

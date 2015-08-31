@@ -1,0 +1,13 @@
+2-1Digestion
+True
+Procedure
+1. Make three mixes: each contains 500 ng of one of the three plasmids and ddH2O to 43 μL.	5min/tube	
+2. To each mix, add 5 μL of 10x reaction buffer for restriction enzymes.	15s/tube	Buffer provides appropriate condition for restriction enzymes to work.
+3. Add 1 μL each of the appropriate endonucleases (two per tube) according to Fig. 25 to give a final volume of 50 μL.	30s/tube	Restriction enzymes cleave at very specific nucleotide sequences.
+4. Tap on the tubes to mix. If necessary, centrifuge for a few seconds to spin down the liquid.	30s/tube	
+5. Incubate at 37°C for 30 min.	30min	
+6. Heat-inactivate the enzymes by incubating at 80°C for 20 min.	20min	
+At this point, samples may be stored at −20°C.
+
+Gel analysis of digests (recommended for first time)
+

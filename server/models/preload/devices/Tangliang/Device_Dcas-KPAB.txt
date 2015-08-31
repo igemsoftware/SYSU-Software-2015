@@ -1,0 +1,18 @@
+Freiburg-2013-2
+¡¾2¡¿	The dCAS-KRAB fusion protein binds to the desired target sequence at a different locus than the tetR. tetR in turn binds to tetO and is assumed to repress SEAP production.
+http://2013.igem.org/Team:Freiburg/Project/modeling
+-1
+Pconst_1,Pconst_2
+Terminator_1,Terminator_2,Terminator_3
+Pconst_1	tetR-VP16_1	normal
+tetR-VP16_1	Terminator_1	normal
+tetR-VP16_1	TetR-VP16_1	promotion
+TetR-VP16_1	tetO_1	inhibition
+tetO_1	Pmin_1	normal
+Pmin_1	Cas9-KRAB_1	inhibition
+Pconst_2	cas9-KRAB_1	normal
+cas9-KRAB_1	Terminator_2	normal
+cas9-KRAB_1	Cas9-KRAB_1	promotion
+Pmin_2	seap_1	normal
+seap_1	SEAP_1	promotion
+seap_1	Terminator_3	normal

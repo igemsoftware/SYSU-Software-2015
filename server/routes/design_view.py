@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from . import design
 
 from ..models import ComponentPrototype, ComponentInstance, Relationship
@@ -20,7 +22,10 @@ def data_fetch_parts():
                    'introduction': c.introduction,
                    'source': c.source,
                    'risk': c.risk,
-                   'type': c.type
+                   'type': c.type,
+                   'BBa': c.BBa,
+                   'bacterium': c.bacterium,
+                   'attr': c.attr
                    })
     return jsonify(parts=l)
 
@@ -28,8 +33,8 @@ def data_fetch_parts():
 def data_fetch_relationship():
     l = []
     for r in Relationship.query.all():
-        l.append({'start': r.start.name,
-                  'end': r.end.name,
+        l.append({'start': r.start.attr,
+                  'end': r.end.attr,
                   'type': r.type,
                   'equation':r.equation.jsonify() #render()
                   })

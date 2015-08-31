@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from .. import db
 from .. import login_manager
 
@@ -19,6 +21,10 @@ from ..tools.email import _send_email
 
 
 class User(UserMixin, db.Model):
+    '''
+        Model for user
+    '''
+        
     id = db.Column(db.Integer, primary_key=True)
 
     # basic info
@@ -34,10 +40,10 @@ class User(UserMixin, db.Model):
     reg_date = db.Column(db.DateTime, default=datetime.now)
     last_seen = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, async_mail=True, **kwargs):
+    def __init__(self, async_mail=True, send_email=True, **kwargs):
         kwargs['username'] = kwargs['username'][:128]
         super(User, self).__init__(**kwargs)
-        if self.username != "Administrator":
+        if self.username != "Administrator" and send_email:
             self.send_email(subject='Welcome to FLAME', template='email/greeting',
                             user=self, async=async_mail)
 
@@ -60,10 +66,10 @@ class User(UserMixin, db.Model):
 
 
     # messages
-    recv_messages = db.relationship('Message', backref='receiver', lazy='dynamic')
+    msg_box = db.relationship('Message', backref='receiver', lazy='dynamic')
 
     def send_message_to(self, user, **kwargs):
-        msg = Message(type=0, isread=False, sender_id=self.id, receiver_id=user.id, **kwargs)
+        msg = Message(isread=False, receiver_id=user.id, source='User', **kwargs) #sender_id=self.id,
         db.session.add(msg)
         db.session.commit()
         return msg
@@ -75,20 +81,20 @@ class User(UserMixin, db.Model):
     # tasks
     watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
 
-    def create_task(self, title, abstract, content):
-        t = Task(title=title, abstract=abstract, content=content, watcher=[self], sender_id=self.id)
+    def create_task(self, **kwargs):
+        t = Task(watcher=[self], sender_id=self.id, **kwargs)
         db.session.add(t)
         db.session.commit()
         return t
 
-    def watch_task(self, task_id):
-        self.watched_tasks.append(Task.query.get(task_id))
+    def watch_task(self, task):
+        self.watched_tasks.append(task)
         db.session.add(self)
         db.session.commit()
 
     # comment
     def make_comment(self, task_id, content):
-        c = Comment(content=content, task_id=task_id)
+        c = Comment(content=content, task_id=task_id, sender_id=self.id)
         db.session.add(c)
         db.session.commit()
         return c

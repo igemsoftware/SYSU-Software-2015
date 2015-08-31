@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from .. import db
 
 from datetime import datetime
@@ -6,20 +8,18 @@ class Message(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
-    type = db.Column(db.String) # enum? 'lab', 'database', 'task' 
+    source = db.Column(db.String) 
+    # Experiment Reminders, Experiment Records, Database, Taskhall
     isread = db.Column(db.Boolean, default=False)
 
     #sender_id = db.Column(db.Integer)
-    sender_id = db.Column(db.Integer)
     receiver_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     title = db.Column(db.String(128))
     content = db.Column(db.Text)
 
-
     def __repr__(self):
         return '<Message[%d]: from %r to %r>' % (self.id, self.sender_id, self.receiver_id)
-    
 
 
 

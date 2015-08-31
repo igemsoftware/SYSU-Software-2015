@@ -1,0 +1,14 @@
+6-2 Running the gel
+True
+Procedure
+1. Release the gel tray from the tape or casting stand. Place the gel tray into the buffer chamber and remove the comb carefully.	10s	
+2. Add 1x TBE buffer until the gel is completely covered.	10s	
+3. Take part of your DNA samples (0.2 g) and mix with loading dye.	30s/per sample	Loading dye prevent your sample from drifting out the well. This can be done either in 1.5 mL tubes or, if the volumes are very small, on a piece of parafilm.
+4. Load the size marker mixed in 1x loading dye (6 L final volume) into a middle well.	15s	Be careful — the solution is very hot! Insulated gloves are too bulky to easily pull the flask out of the microwave, so a folded up paper towel is suggested.
+5. Load your samples into the other wells while writing down which lanes have which samples.	10s/per sample	The working concentration for ethidium bromide is 0.5 μg/mL while for Sybr®Safe it is simply 1x.
+6. Put the lid onto the buffer chamber and connect it to the power supply.	10s	Make sure to put it in the right direction so that your DNA runs towards the positive (red) electrode.
+7. Run the gel at 100 V for 30–60 min.	30min	Neither of the two dyes should be run off the gel. If the electrophoresis runs correctly you will notice air bubbles coming from the negative (black) electrode.
+8.  Stop the run and bring your gel to a UV table to visualize your gel bands.	5min	Use protective glasses. If sufficient separation was not achieved, put the gel back into the buffer chamber and run it for longer.
+9.  Take a picture of your gel.		
+
+

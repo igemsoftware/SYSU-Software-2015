@@ -1,0 +1,19 @@
+SJTU-BioX-Shanghai-2009-2
+¡¾2¡¿once expressed, relB antitoxin is a lifesaver of E.coli, for it neutralizes relE by specific binding to relE
+http://2009.igem.org/Team:SJTU-BioX-Shanghai
+2
+PcI_1
+Terminator_1,Terminator_2,Terminator_3,Terminator_4
+PcI_1	RBS_1	normal
+RBS_1	cI_1	normal
+cI_1	Terminator_1	normal
+Terminator_1	Terminator_2	normal
+Terminator_2	Pc_1	normal
+Pc_1	RBS_2	normal
+RBS_2	relB_1	normal
+relB_1	Terminator_3	normal
+Terminator_3	Terminator_4	normal
+
+
+
+

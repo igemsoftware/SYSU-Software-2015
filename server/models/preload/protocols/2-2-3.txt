@@ -1,0 +1,13 @@
+2-2-3 Ligation
+True
+Procedure	
+1. Add 2 μL (20 ng) of each of the three digestion mixtures to 11 μL of water.	5min/tube	
+2. Add 2 μL 10x reaction buffer for T4 DNA ligase.	15s/tube	Buffer provides appropriate condition for ligase to work.
+3. Add 1 μL of T4 DNA ligase to give a final volume of 20 μL.	15s/tube	Ligase is commonly used to join together DNA fragments.
+4. Incubate at room temperature (~22°C) for 30 min.	30min	
+5. Heat-inactivate the enzymes by heating at 80°C for 20 min.	20min	
+
+
+ 
+
+

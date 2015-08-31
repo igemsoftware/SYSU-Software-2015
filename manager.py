@@ -1,9 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from server import create_app, db
 from flask.ext.script import Manager, Shell, Command
 #from flask.ext.migrate import Migrate, MigrateCommand
 
 from server.models import * 
-from server.tools.preload import preload_parts
+from server.tools.preload import preload_parts, get_file_list
 
 app = create_app('default')
 
@@ -78,18 +80,26 @@ def testinit(slient=False, noinit=False):
 #        db.engine.raw_connection().connection.text_factory = 'utf8'
 
         # add testing parts
-        for filename in app.config.get('INIT_PRELOAD_PARTS', []):
-            preload_parts(filename)
+        for dir in app.config.get('INIT_PRELOAD_PART_DIRS', []):
+            for filename in get_file_list(dir):
+                preload_parts(filename)
 
         # add testing component prototype
-        for filename in app.config.get('INIT_PRELOAD_DEVICES', []):
-            device = Device().load_from_file(filename)
+        for dir in app.config.get('INIT_PRELOAD_DEVICE_DIRS', []):
+            for filename in get_file_list(dir):
+                device = Device().load_from_file(filename)
+
+        # add default protocols 
+        for dir in app.config.get('INIT_PRELOAD_PROTOCOLS', []):
+            for filename in get_file_list(dir):
+                device = Protocol().load_from_file(filename)
+ 
     
         Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
         Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
 
         # circuit 
-        u = User(username='test', email='test@example.com', password='test', async_mail=False)
+        u = User(username='test', email='test@example.com', password='test', send_email=False)
         db.session.add(u)
         c = Circuit(name='My first circuit', introduction='First circuit', owner=u, is_shared=True)._copy_from_device(1)
         c = Circuit(name='My second circuit', introduction='Second circuit', owner=u, is_public=True)._copy_from_device(1)
@@ -107,10 +117,30 @@ def testinit(slient=False, noinit=False):
         u.add_memo(title='Sleep', content='I want to sleep', time_scale=60*8)
         m.change_plan_time(datetime.strptime('15-08-08 08-08-08', '%y-%m-%d %H-%M-%S'))
 
+        # task
+        u = User.query.filter_by(username='test').first()
+        u.create_task(title='Hidden features of Python',
+                content='What are the lesser-known but useful features of the Python programming language?',
+                votes=23, views=12)
+        u.create_task(title='What IDE to use for Python?',
+                content='What IDEs ("GUIs/editors") do others use for Python coding?',
+                votes=12, views=24) 
+        u.create_task(title='What is the name of the "-->" operator in C?',
+                content='int x = 10;\n while (x --> 0) {\\\\ x count down to 0\n \\\\foo\n}',
+                votes=20, views=19) 
 
 
+        # message
+        u = User.query.filter_by(username='test').first()
+        for m in [Message(content='Warning, we have 21 days left.', source="Experiment Reminders"),
+                  Message(content='Today is 2015.08.28.', source="Experiment Records"),
+                  Message(content='Your database is empty.', source="Database"),
+                  Message(content='via Taskhall', source='Taskhall')]:
+            u.msg_box.append(m)
+            db.session.add(m)
+
+        
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
-
 
 if __name__ == '__main__':
     manager.run()
