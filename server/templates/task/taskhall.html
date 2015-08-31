@@ -65,69 +65,62 @@
         </div>
 
 
-        <div class="taskhall-index question item" v-repeat="i in [1,2,3,4]">
+        <div class="taskhall-index question item" v-repeat="task in tasks">
           <div class="question statistics">
             <div class="ui statistic">
-              <div class="value">17</div>
+              <div class="value">[[task.views]]</div>
               <div class="label">views</div>
             </div>
             <div class="ui statistic">
-              <div class="value">293</div>
+              <div class="value">[[task.votes]]</div>
               <div class="label">votes</div>
             </div>
             <div class="ui statistic">
-              <div class="value">10</div>
+              <div class="value">[[task.answers]]</div>
               <div class="label">answers</div>
             </div>
           </div>
           <div class="question main">
-          <div class="header"><a href="/taskhall/detail">Question Title</a></div>
+          <div class="header"><a href="/taskhall/detail">[[task.title]]</a></div>
             <div class="detail">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, distinctio dolorem rem fugiat. Quibusdam tempore molestias dolores, praesentium, amet, cupiditate odio delectus accusantium quae et velit magnam voluptatem, quod earum.
+              [[[task.content]]]
             </div>
           <div class="question author">
             <div class="dummy"></div>
             <div class="ui small image"><img src="/static/img/avatar.jpg" alt="author"></div>
             <div class="info">
-              <div class="date">asked 8-12</div>
-              <div class="author name">leasunhy</div>
+              <div class="date">asked [[task.timestamp]]</div>
+              <div class="author name">[[task.author.name]]</div>
             </div>
           </div>
           <div class="ui author popup transition hidden">
-            <div class="author name">leasunhy</div>
+            <div class="author name">[[task.author.name]]</div>
             <div class="track list">
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_artanddesign.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_software.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_newapplication.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_energy.png" alt=""></div>
-              <div class="ui circular image"><img src="/static/img/tracks/tracks_foundationaladvance.png" alt=""></div>
+              <div class="ui circular image" v-repeat="track in task.author.tracks"><img v-src="'/static/img/tracks/' + track.name + '.png'" alt=""></div>
             </div>
-            <div class="question count"><span class="figure">20</span> questions</div>
-            <div class="answer count"><span class="figure">500</span> answers</div>
-            <div class="share public count"><span class="figure">2333</span> share/public</div>
+            <div class="question count"><span class="figure">[[task.author.question]]</span> questions</div>
+            <div class="answer count"><span class="figure">[[task.author.answer]]</span> answers</div>
+            <div class="share public count"><span class="figure">[[task.author.database]]</span> share/public</div>
           </div>
           </div>
         </div>
 
 
         <div class="ui pagination menu">
-          <a href="" class="item">&lt;</a>
-          <a href="" class="active item">1</a>
-          <a href="" class="item">2</a>
-          <a href="" class="item">3</a>
-          <a href="" class="item">4</a>
-          <a href="" class="item">5</a>
+          <a v-on="click: page = page > 1 ? page - 1 : page" class="item" v-class="disabled: page === 1">&lt;</a>
+          <a v-on="click: page = 1" class="item" v-show="page > 2">1</a>
+          <a v-on="click: page = page - 1" class="item" v-show="page !== 1">[[page - 1]]</a>
+          <a class="active item">[[page]]</a>
+          <a v-on="click: page = page + 1" class="item">[[page + 1]]</a>
+          <a v-on="click: page = page + 2" class="item">[[page + 2]]</a>
+          <a v-on="click: page = page + 3" class="item">[[page + 3]]</a>
+          <a v-on="click: page = page + 4" class="item">[[page + 4]]</a>
           <div class="disabled item">...</div>
-          <a href="" class="item">10</a>
-          <a href="" class="item">11</a>
-          <a href="" class="item">12</a>
+          <a v-on="click: page = page + 10" class="item">[[page + 10]]</a>
+          <a v-on="click: page = page + 11" class="item">[[page + 11]]</a>
+          <a v-on="click: page = page + 12" class="item">[[page + 12]]</a>
           <div class="disabled item">...</div>
-          <a href="" class="item">&gt;</a>
+          <a v-on="click: page = page + 1" class="item">&gt;</a>
         </div>
 
       </div>

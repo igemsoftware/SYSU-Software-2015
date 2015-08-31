@@ -21,15 +21,15 @@ var vueBody = new coreBody({
             position: 'right center',
             width: '300px',
         });
-        this.$eval('fakeTasks(this)');
-        //this.$eval('updateTasks(this, this.page, this.currentOrder)');
-        //this.$watch('page', function() {
-        //    this.$eval('updateTasks(this, this.page, this.currentOrder)');
-        //});
-        //this.$watch('currentOrder', function() {
-        //    this.page = 1;
-        //    this.$eval('updateTasks(this, this.page, this.currentOrder)');
-        //});
+        //this.$eval('fakeTasks(this)');
+        this.$eval('updateTasks(this, this.page, this.currentOrder)');
+        this.$watch('page', function() {
+            this.$eval('updateTasks(this, this.page, this.currentOrder)');
+        });
+        this.$watch('currentOrder', function() {
+            this.page = 1;
+            this.$eval('updateTasks(this, this.page, this.currentOrder)');
+        });
     },
     methods: {
         showAskModal : function() {
