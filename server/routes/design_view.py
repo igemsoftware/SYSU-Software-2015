@@ -70,15 +70,18 @@ def data_fetch_device():
     return jsonify(deviceList=devices)
 
 
-@design.route('/data/store/circuit/<int:id>', methods=['POST'])
-def store_circuit(id):
-    data = request.form.get('parts')
-    print(json.loads(data)[0])
+@design.route('/circuit/<int:id>', methods=['GET'])
+def get_circuit(id):
+    c = Circuit.query.get(id)
+    if not c: return 'failed.' 
+    return jsonify(content = c.content)
 
+@design.route('/circuit/<int:id>', methods=['POST'])
+def store_circuit(id):
     c = Circuit.query.get(id)
     if not c: return 'failed.' 
 
-    c.component = data.get('component', '')
-    c.relationship = data.get('relationship', '')
+    content = request.form.get('content', '')
+    c.content = content
 
     return 'Success'
