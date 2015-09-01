@@ -384,6 +384,10 @@ class Circuit(db.Model, BioBase):
     favoriter = db.relationship('User', secondary=Favorite_circuit, backref=db.backref('circuit', lazy='dynamic')) 
     grade = db.Column(db.Text) # how ?
 
+    # data
+    component = db.Column(db.Text, default='')
+    relationship = db.Column(db.Text, default='')
+
 
 ##  recommended_protocol = db.relationship('ProtocolRecommend',
 ##                                 foreign_keys=[ProtocolRecommend.device_id],

@@ -4,7 +4,8 @@ from . import design
 
 from ..models import ComponentPrototype, ComponentInstance, Relationship
 from ..models import Protocol, Device, Circuit 
-from flask import jsonify
+from flask import jsonify, request
+import json
 
 def Device_check_and_update(device_id):
     d = Device.query.get(device_id)
@@ -69,4 +70,15 @@ def data_fetch_device():
     return jsonify(deviceList=devices)
 
 
+@design.route('/data/store/circuit/<int:id>', methods=['POST'])
+def store_circuit(id):
+    data = request.form.get('parts')
+    print(json.loads(data)[0])
 
+    c = Circuit.query.get(id)
+    if not c: return 'failed.' 
+
+    c.component = data.get('component', '')
+    c.relationship = data.get('relationship', '')
+
+    return 'Success'
