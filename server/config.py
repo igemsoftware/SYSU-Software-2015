@@ -37,18 +37,9 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///sysu2015_dev.db"
 
     # init
-<<<<<<< Updated upstream
-
     INIT_PRELOAD_DEVICE_DIRS = ['server/models/preload/devices/']
     INIT_PRELOAD_PROTOCOL_DIRS = ['server/models/preload/protocols/']
     INIT_PRELOAD_PART_DIRS = ['server/models/preload/parts/']
-=======
-    INIT_PRELOAD_DEVICE_DIRS = ['server/models/preload/devices/']
-    INIT_PRELOAD_PROTOCOL_DIRS = ['server/models/preload/protocols/']
-
-    INIT_PRELOAD_PARTS = ['server/models/preload/parts.txt']
->>>>>>> Stashed changes
-
 
 class ProductionConfig(Config):
     DEBUG = False 
