@@ -18,7 +18,7 @@
 	background-color: #fff;
 }
 
-#calendar, #PlaPro {
+#calendar-box, #PlaPro {
     box-shadow: 5px 5px 10px #989898 !important;/*opera或ie9*/  
     -moz-box-shadow: 5px 5px 10px #989898 !important;/*firefox*/  
     -webkit-box-shadow: 5px 5px 10px #989898 !important;/*webkit*/  
@@ -298,4 +298,57 @@
 
 .text-right {
 	text-align: right;
+}
+
+/*Calendar*/
+#right-sidebar {
+    position: fixed;
+    top: 50px;
+    right:-350px;
+    width: 350px;
+    height: 95%;
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+/*    padding-top: 10px;*/
+    z-index: 900;
+    transition: right 0.5s;
+    -webkit-transition: right 0.5s;   /* Safari 和 Chrome */
+    background-color: rgba(44, 44, 44, 0.7);
+	color: #EDEDEF;	
+
+    box-shadow: 5px 2px 10px #989898;/*opera或ie9*/  
+    -moz-box-shadow: 5px 2px 10px #989898;/*firefox*/  
+    -webkit-box-shadow: 5px 2px 10px #989898;/*webkit*/  
+}
+
+#right-sidebar .trigger-right {
+    position: absolute;
+    width:1px;
+    left: -40px;
+    top: 45%;
+    background:none;
+    padding:0;
+    border:none;
+}
+
+#right-sidebar label {
+	font-size: 20px;
+	color: #EDEDEF;
+}
+
+#right-sidebar .inverted {
+	border-bottom-color: #EDEDEF;
+}
+
+#right-sidebar form .button {
+	width: 100px;
+}
+
+#deleteEvent {
+	display: inline-block;
+}
+
+#cancelEvent {
+	display: inline-block;
 }

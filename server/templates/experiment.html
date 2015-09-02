@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="/static/css/semantic.min.css">
     <link rel="stylesheet" href="/static/css/main_common.css">
     <link rel="stylesheet" href="/static/css/experiment.css">
+    <link rel="stylesheet" href="/static/css/fullcalendar.min.css">
+    <link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
     <script type="text/x-mathjax-config">
       MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
     </script>
@@ -183,13 +185,62 @@
     </div>
 <!--More modal -->
 
-<!--confirmModal modal -->
+<!-- right-bar -->
+    <div id="right-sidebar">
+      <div class="ui button trigger-right">
+        <i class="chevron left big icon"></i>
+      </div>
+      <form class="ui small form">
+        <h2 class="ui inverted dividing header" id="eventOpTitle">Add a new event.</h2>
+        <div class="two fields">
+          <div class="field">
+            <label>Start time</label>
+            <input class="ui input" id="startTime" type="text">
+          </div>
+          <div class="ui inverted divider"></div>
+          <div class="field">
+            <label>End time</label>
+            <input class="ui input" id="endTime" type="text">
+          </div>
+        </div>
+ <!--        <div class="ui inverted divider"></div> -->
+        <div class="field">
+          <label>Title</label>
+          <input type="text" id="eventTitle">
+        </div>
+        <div class="field">
+          <label>Protocol</label>
+          <select class="ui dropdown" id="eventProtocol">
+          </select>
+        </div>
+     <!--    <div class="ui inverted divider"></div> -->
+        <div class="field">
+          <label>Record</label>
+          <textarea name="" id="eventRecord" rows="5"></textarea>
+        </div>
+  <!--       <div class="ui inverted divider"></div> -->
+        <div class="field">
+          <label>Error corrections</label>
+          <textarea name="" id="eventError" rows="4"></textarea>
+        </div>
+        <div class="fluid text-right">
+          <div class="ui button" id="deleteEvent">Delete</div>
+          <div class="ui cancel button" id="cancelEvent">Cancel</div>
+          <div class="ui button" id="saveEvent">Save</div>
+        </div>
+        <div class="ui inverted divider"></div>
+      </form>
+    </div>
+<!-- right-bar -->
+
+<!--Title modal -->
     <div class="ui small modal moreInfor" id="confirmModal">
       <div class="header">
-				<h3>Add a new protocol successfully.</h3>
+        <h3>Please enter title.</h3>
       </div>
       <div class="content">
-   <!--    	<h4>Do you want to add this protocol?</h4> -->
+   <!--     <h4>Do you want to add this protocol?</h4> -->
+        <input type="text">
         <div class="fluid text-right">
          <!--  <div class="ui cancel red button">Cancel</div> -->
           <div class="ui green button confirmBtn">Confirm</div>
@@ -197,13 +248,15 @@
       </div>
     </div>
 <!--More modal -->
+
 <!-- 	main_container -->
     <div class="main_container">
 			<div class="ui attached tabular menu">
         <a class="item active" data-tab="Calendar">Calendar</a>
         <a class="item" data-tab="PlaPro">Plasmid|Protocols</a>
       </div>
-      <div class="ui bottom attached tab segment active" data-tab="Calendar" id="calendar">
+      <div class="ui bottom attached tab segment active" data-tab="Calendar" id="calendar-box">
+        <div id="calendar"></div>
       </div>
       <div class="ui bottom attached tab segment" data-tab="PlaPro" id="PlaPro">
       	<div class="ui grid">
@@ -224,6 +277,11 @@
     </div>
 <!--     // <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script> -->
     <script type="text/javascript" src="/static/js/semantic.min.js"></script>
-    <script type="text/javascript" src="/static/js/experiment.js"></script>
+    <script type="text/javascript" src="/static/js/experiment/experiment.js"></script>
+    <script type="text/javascript" src="/static/js/experiment/moment.js"></script>
+    <script type="text/javascript" src="/static/js/experiment/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/js/experiment/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="/static/js/experiment/calendar.js"></script>
+    <script type="text/javascript" src="/static/js/experiment/jquery.datetimepicker.js"></script>
   </body>
 </html>
