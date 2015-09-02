@@ -12,23 +12,40 @@
        class="item"
        v-class="active: selectedTab === $index"
        v-on="click: selectedTab = $index">[[i]]</a>
-    <div class="right menu"><a class="item" id="embedded-edit-in-core" href="">Edit In Core</a></div>
+    <div class="right menu">
+      <a class="item" id="embedded-edit-in-core" href="">Edit In Core</a>
+    </div>
     <div id="embedded-topbar-bottom-line"></div>
   </div>
 
-  <div id="embedded-tabs">
-    <div class="ui tab basic segment" v-class="active: selectedTab === 0" id="details-description-tab">{{circuit.introduction}}</div>
-    <div class="ui tab basic segment" v-class="active: selectedTab === 1"></div>
-    <div class="ui tab basic segment" v-class="active: selectedTab === 2"></div>
-    <div class="ui tab basic segment" v-class="active: selectedTab === 3"></div>
-    <div class="ui tab basic segment" v-class="active: selectedTab === 4"></div>
-    <div class="ui tab basic segment" v-class="active: selectedTab === 5"></div>
-    <div class="ui tab basic segment" v-class="active: selectedTab === 6"></div>
+  <div id="embedded-container">
+    <div class="left">
+      <div id="embedded-tabs">
+        <div class="ui tab basic segment" v-class="active: selectedTab === 0" id="details-description-tab">{{circuit.introduction}}</div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 1"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 2"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 3"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 4"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 5"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 6"></div>
+      </div>
+
+    </div>
+    <div class="right">
+      <div id="embedded-rating">
+        <canvas id="embedded-rating-radar" width="230" height="230"></canvas>
+        <div class="rating container" v-repeat="aspect in ratingAspects">
+          <div class="description">[[aspect]]</div>
+          <div class="ui star rating" data-rating="3" data-max-rating="5" data-aspect-index="[[$index]]"></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <script src="/static/js/jquery.min.js"></script>
   <script src="/static/js/semantic.min.js"></script>
   <script src="/static/js/vue.js"></script>
+  <script src="/static/js/Chart.min.js"></script>
   <script src="/static/js/embedded.js"></script>
 
 </body>
