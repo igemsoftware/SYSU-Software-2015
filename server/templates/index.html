@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to CORE!</title>
+  <link rel="stylesheet" href="/static/css/semantic.min.css">
+  <link rel="stylesheet" href="/static/css/index.css">
+</head>
+<body>
+  <div id="index-topbar">
+    <a href="/auth/login" class="ui login button">Log In</a>
+    <a href="/auth/register" class="ui signup button">Sign Up</a>
+  </div>
+
+  <div class="ui middle aligned center aligned grid">
+    <div class="column">
+      <div id="index-container" class="ui container">
+        <div id="index-logo" class="ui image"><img src="/static/img/common/logo.png" alt="Core Logo"></div>
+
+        <div id="index-links">
+
+          <a href="/taskhall" class="link">
+            <div class="ui dimmable image">
+              <div class="ui dimmer transition hidden">
+                <div class="content">
+                  <div class="center">
+                    <img src="/static/img/index/co-development_2.jpg" alt="" class="ui fluid image">
+                  </div>
+                </div>
+              </div>
+              <img src="/static/img/index/co-development.jpg" alt="" class="ui fluid image">
+            </div>
+          </a>
+
+          <a href="/design" class="link">
+            <div class="ui dimmable image">
+              <div class="ui dimmer transition hidden">
+                <div class="content">
+                  <div class="center">
+                    <img src="/static/img/index/design_2.jpg" alt="" class="ui fluid image">
+                  </div>
+                </div>
+              </div>
+              <img src="/static/img/index/design.jpg" alt="" class="ui fluid image">
+            </div>
+          </a>
+
+          <a href="/database" class="link">
+            <div class="ui dimmable image">
+              <div class="ui dimmer transition hidden">
+                <div class="content">
+                  <div class="center">
+                    <img src="/static/img/index/bank_2.jpg" alt="" class="ui fluid image">
+                  </div>
+                </div>
+              </div>
+              <img src="/static/img/index/bank.jpg" alt="" class="ui fluid image">
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/semantic.min.js"></script>
+<script>$('.dimmer').dimmer({on: 'hover'});</script>
+
+</body>
+</html>
