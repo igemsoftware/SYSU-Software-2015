@@ -66,3 +66,8 @@ body {
     width: 100px;
 }
 
+#embedded-rating > .rating.submit.button {
+    border-radius: 0;
+    margin-top: 20px;
+}
+

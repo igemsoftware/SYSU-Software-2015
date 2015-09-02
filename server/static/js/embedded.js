@@ -3,12 +3,12 @@ var vBody = new Vue({
     el: "body",
     data: {
         selectedTab: 0,
-        ratingAspects: ['Safety', 'Feasibility', 'A', 'B', 'C'],
+        ratingCriteria: ['Feasibility', 'Safety', 'CriterionA', 'CriterionB', 'CriterionC'],
     },
     ready: function() {
         var ctx = document.getElementById("embedded-rating-radar").getContext("2d");
         var radar = new Chart(ctx).Radar({
-            labels: this.ratingAspects,
+            labels: this.ratingCriteria,
             datasets: [
             {
                 label: "My First dataset",
@@ -36,8 +36,8 @@ var vBody = new Vue({
         var store = this;
         $('#embedded-rating > .rating.container > .rating').rating({
             onRate: function(value) {
-                var aspectIndex = $(this).data('aspect-index');
-                radar.datasets[0].points[aspectIndex].value = value;
+                var criterionIndex = $(this).data('criterion-index');
+                radar.datasets[0].points[criterionIndex].value = value;
                 radar.update();
             },
         });

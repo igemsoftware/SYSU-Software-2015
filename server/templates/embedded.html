@@ -34,10 +34,11 @@
     <div class="right">
       <div id="embedded-rating">
         <canvas id="embedded-rating-radar" width="230" height="230"></canvas>
-        <div class="rating container" v-repeat="aspect in ratingAspects">
-          <div class="description">[[aspect]]</div>
-          <div class="ui star rating" data-rating="3" data-max-rating="5" data-aspect-index="[[$index]]"></div>
+        <div class="rating container" v-repeat="criterion in ratingCriteria">
+          <div class="description">[[criterion]]</div>
+          <div class="ui star rating" data-rating="3" data-max-rating="5" data-criterion-index="[[$index]]"></div>
         </div>
+        <button class="ui blue rating submit button">Rate!</button>
       </div>
     </div>
   </div>
