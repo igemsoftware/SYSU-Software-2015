@@ -1,5 +1,5 @@
 <div id="view-database" v-cloak>
-  <div id="database-sidebar">
+  <div id="database-sidebar" class="pc-sidebar">
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'all'" v-on="click: selectTag('all', true, null, null, false)">All</button>
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'drafts'" v-on="click: selectTag('drafts', true, 2, 'progress', true)">Drafts</button>
     <button class="ui fluid button database tag" v-class="selected: selectedTag === 'finished'" v-on="click: selectTag('finished', true, 2, 'progress', false)">Finished</button>
@@ -11,7 +11,7 @@
 
   <div id="database-main">
     <div id="database-list">
-      <p id="database-stats">[[recordsBeingDisplayed.length]] records <a v-on="click: editStatus = !editStatus">Edit</a></p>
+      <p id="database-stats">[[recordsBeingDisplayed.length]] [[recordsBeingDisplayed.length | pluralize 'record' 'records']] <a v-on="click: editStatus = !editStatus">Edit</a></p>
       <div id="database-search" class="ui left icon input">
         <input type="text" placeholder="Search..." v-model="searchTerm" debounce="500">
         <i class="search icon"></i>
@@ -40,16 +40,24 @@
           <div class="text">tags:</div>
           <a class="ui tag label" v-repeat="tag in selectedRecord.tags">[[tag]]</a>
         </div>
+        <div id="detail-short-desc" class="detail header meta">
+          <div class="text">introduction:</div>
+        </div>
       </div>
       <div id="detail-tabs">
         <div class="ui pointing secondary menu">
-          <a v-repeat="i in ['Description', 'Graph']"
+          <a v-repeat="i in ['Description', 'Circuits', 'Equations', 'Charts', 'Plasmids', 'References']"
              class="item"
              v-class="active: selectedTab === $index"
              v-on="click: selectedTab = $index">[[i]]</a>
         </div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 0" id="details-description-tab">[[selectedRecord.description]]</div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 1"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 2"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 3"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 4"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 5"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 6"></div>
       </div>
     </div>
   </div>
