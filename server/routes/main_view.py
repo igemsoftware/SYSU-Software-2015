@@ -27,4 +27,29 @@ def design():
 def experiment():
     return render_template('experiment.html')
 
+@login_required
+@main.route('/circuit/<int:id>')
+def circuit(id): 
+    # skip: check whether current user has the privilege 
+    
+    c = Circuit.query.get(id)
+    if not c:
+        abort(404)
+
+    return jsonify(
+            title = c.title,
+            protocol = json.loads(c.protocol),
+            )
+
+
+@main.route('/protocol')
+def protocol():
+    protocols = map(lambda x: x.jsonify(), Protocol.query.filter_by(recommend=True).all())
+    return jsonify(protocols=protocols)
+
+
+@main.route('/embedded/<int:id>')
+def embedded(id):
+    c = Circuit.query.get(id)
+    return render_template('embedded.html', circuit=c)
 
