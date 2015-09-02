@@ -13,8 +13,8 @@ Vue.component('v-topbar', {
             offset: "-1",
             on: "click",
         });
-        $('#topbar-menu').click(function() {
-            $('#main-switcher').modal('show');
+        $('#topbar-btn-menu').click(function() {
+            $('#main-switcher').dimmer('show');
         });
         console.log('topbar init done.')
     },
