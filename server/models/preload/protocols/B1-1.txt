@@ -1,0 +1,11 @@
+1-1 0.9% NaCl (Also Known as Isotonic Solution), 10 mL
+Introduction	
+This solution is used for suspending cells to avoid early lysis by osmosis. Some laboratories use phosphate buffered saline (PBS) instead.
+Components
+NaCl;
+ddH2O.
+Procedure	Time	Notes
+1. Check that the balance is calibrated	20s	An uncalibrated balance gives inaccurate results.
+2. Calculate how much you need to weigh out of the compound for making a 10 mL solution.	30s	Every 10ml solution contains 0.09g NaCl.
+3. Add the salt to a glass bottle and add water to dissolve.	30s	Solids should always be dissolved in a smaller volume of ddH2O than the final calculated volume.
+4. Make up to the final volume of 10 mL.	10s	

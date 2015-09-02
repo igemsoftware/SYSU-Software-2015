@@ -57,6 +57,7 @@ class Protocol(db.Model):
     component = db.Column(db.Text, default='')
     procedure = db.Column(db.Text, default='')
     likes = db.Column(db.Integer, default=0)
+    setB = db.Column(db.Boolean, default=False)
 
     recommend = db.Column(db.Boolean, default = False)
 
@@ -79,6 +80,7 @@ class Protocol(db.Model):
                     'component': self.component.split('\n'),
                     'procedure' : procedures,
                     'likes': self.likes,
+                    'setB': self.setB,
                }
 
 
@@ -87,6 +89,8 @@ class Protocol(db.Model):
         _introduction = []
         _component = []
         _procedure = []
+        if filename[0] == 'B':
+            self.setB = True
         with open(filename, 'r') as f:
             self.name = f.readline().strip().decode('ISO-8859-1')
 #            self.recommend = f.readline().strip() == 'True'
@@ -394,7 +398,7 @@ class Circuit(db.Model, BioBase):
     # task_related = db.Column(db.Integer, default=-1)
 
     create_time = db.Column(db.DateTime, index=True, default=datetime.now)
-    # progress = db.Column(db.Integer, default=0)
+    progress = db.Column(db.Integer, default=0)
     name = db.Column(db.String(128), default='No name')
     introduction = db.Column(db.Text)
 

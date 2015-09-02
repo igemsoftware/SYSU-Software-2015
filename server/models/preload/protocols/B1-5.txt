@@ -1,0 +1,20 @@
+1-5 SOB Medium
+Introduction
+SOB medium, or Super Optimal Broth, is used for preparing chemically competent cells. This protocol is adapted from Ausubel et al. (1999).
+Components
+Yeast extract;
+Tryptone;
+NaCl;
+KCl;
+ddH2O;
+5 M NaOH.
+Procedure	Time	Notes
+1.Add the following to a 1 L bottle:
+0.5% (w/v) yeast extract.
+2% (w/v) tryptone.
+NaCl to a final concentration of 10 mM.
+KCl to a final concentration of 2.5 mM.	5min	Tryptone and yeast extract are nutrients for bacterial culture media. NaCl and KCl provide potassium ions and sodium ions.
+2. Add ddH2O up to 600 mL.	45s	
+3. Adjust the pH with 120μL 5 M NaOH.	2min	pH should be adjusted to an appropriate range for bacteria growth or metabolite accumulation.
+4. Autoclave for 20 min within 2 hr.	20min	Autoclaving in time prevents contaminative growth.
+5. Store at room temperature.		
