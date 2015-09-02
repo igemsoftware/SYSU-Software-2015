@@ -1,4 +1,4 @@
-1-5 SOB Medium
+B1-5 SOB Medium
 Introduction
 SOB medium, or Super Optimal Broth, is used for preparing chemically competent cells. This protocol is adapted from Ausubel et al. (1999).
 Components

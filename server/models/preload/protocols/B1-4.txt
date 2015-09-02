@@ -1,4 +1,4 @@
-1-4 10x TBE Buffer
+B1-4 10x TBE Buffer
 Introduction
 TBE stands for the three components Tris, boric acid and EDTA. EDTA chelates Mg2+, both inhibiting enzymatic degradation of nucleic acid and giving sharper bands on gels. There is no risk of contaminative growth in 10x stock solution, but over time the salt may precipitate, requiring preparation of fresh buffer. The concentration in the gel and running buffer should always be 1x TBE.
 Components
