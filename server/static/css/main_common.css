@@ -137,7 +137,15 @@ body {
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
-#main-switcher .button {
-    margin: 30px;
+#main-switcher .link {
+    display: inline-block;
+    margin: 25px;
+    text-align: center;
+}
+
+#main-switcher .link > .description {
+    margin-top: 20px;
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 2rem;
 }
 
