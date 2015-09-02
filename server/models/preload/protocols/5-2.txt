@@ -1,4 +1,4 @@
-2-2-2 Running the gel
+5-2 Running the gel
 Procedure	Time	Notes
 1. Release the gel tray from the tape or casting stand. Place the gel tray into the buffer chamber and remove the comb carefully.	10s	
 2. Add 1x TBE buffer until the gel is completely covered.	10s	

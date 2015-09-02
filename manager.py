@@ -79,6 +79,12 @@ def testinit(slient=False, noinit=False):
         # useless
 #        db.engine.raw_connection().connection.text_factory = 'utf8'
 
+
+        # add default protocols 
+        for dir in app.config.get('INIT_PRELOAD_PROTOCOL_DIRS', []):
+            for filename in get_file_list(dir):
+                protocol = Protocol().load_from_file(filename)
+
         # add testing parts
         for dir in app.config.get('INIT_PRELOAD_PART_DIRS', []):
             for filename in get_file_list(dir):
@@ -88,13 +94,8 @@ def testinit(slient=False, noinit=False):
         for dir in app.config.get('INIT_PRELOAD_DEVICE_DIRS', []):
             for filename in get_file_list(dir):
                 device = Device().load_from_file(filename)
-
-        # add default protocols 
-        for dir in app.config.get('INIT_PRELOAD_PROTOCOL_DIRS', []):
-            for filename in get_file_list(dir):
-                protocol = Protocol().load_from_file(filename)
-
     
+
         Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
         Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
 

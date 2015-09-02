@@ -1,17 +1,16 @@
 3 TRANSFORMATION OF CaCl2-COMPETENT E. coli CELLS
-True
 Introduction
 Remember that competent cells are very fragile and should only be mixed gently. Transformation plating results, like most results, can be very difficult to interpret without positive and negative controls. A good way to plan controls is to think how you might interpret different kinds of possible results. For example, are colonies really due to correct clones, or are they due to contaminating cells (due to degradation of the antibiotic plates stored for too long), contaminating plasmids or uncut vector? Is a lack of colonies due to failed ligations or just poor competent cells? 
 Components
-• CaCl2-competent E. coli cells;
-• SOB media;
-• DNA plasmid.
-• Agar plates
+CaCl2-competent E. coli cells;
+SOB media;
+DNA plasmid.
+Agar plates
 Control 
 1. Water (a negative control)
 2. Unligated, cut plasmid(s) (a negative control).
 3. Intact plasmid (a positive control). This transforms much more efficiently than ligated plasmid, so 0.1 and 10 ng is sufficient
-Procedure
+Procedure	Time	Notes
 1. Turn on a water bath or heating block to 42°C.	5s	
 2. Thaw competent cells on ice for 15 min.	15min	Unfreeze the competent cells on ice
 3. Add 5 L of ligation reaction mixture or controls above to 50 L of competent cells.	10s	
@@ -33,4 +32,3 @@ Procedure
 13.Day 2: Calculate transformation efficiency (colonies/g) of the competent cells using the positive control plates. In the evening, re-streak appropriate colonies (Protocol 7).	45min	
 14. Day 3: Set overnight cultures.	12hr	One night is needed for a single cell to grow into a colony.
 15. Day 4: Make glycerol cell stocks of strains worth saving and process the rest of the culture according to instructions.	5min	Glycerol protects bacteria against low temperature.
-

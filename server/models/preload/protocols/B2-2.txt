@@ -1,0 +1,8 @@
+2-2 Cell Glycerol Stocks
+Introduction
+Cell glycerol stocks are stored at −80°C with the glycerol helping to maintain the viability of the cells.
+Procedure	Time	Notes
+1. Mix 600 μL of an overnight culture with 400 μL of 50% glycerol (to give 20% glycerol final).	1min/tube	Glycerol protects bacteria against low temperature.
+2. Place in the −80°C freezer.		
+Plasmid Preparations
+Optionally, plasmids can be harvested from overnight cultures with a plasmid miniprep kit according to the manufacturer’s instructions.

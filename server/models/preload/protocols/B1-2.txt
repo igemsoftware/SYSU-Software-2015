@@ -1,0 +1,12 @@
+1-2 50% (v/v) Glycerol, 50 mL
+Introduction
+This solution is to be used for making cell glycerol stocks of important bacterial strains.
+Components
+Glycerol stock;
+ddH2O.
+Procedure	Time	Notes
+1. Check which percentage glycerol is in the stock.	20s	
+2. Calculate how much volume you need of glycerol and how much water you need to add to reach a final volume of 50 mL.	30s	Every 50ml solution contains 25ml glycerol.
+3. Measure the glycerol in a measuring cylinder.	20s	
+4. Add to a glass bottle and add water to make a 50% glycerol solution.	10s	
+5. Autoclave for 20 min.	20min	Autoclaving prevents contaminative growth.
