@@ -1,4 +1,4 @@
-1-6 LB Medium
+B1-6 LB Medium
 Introduction
 Lysogeny broth (LB) is one of the rich media for bacterial growth and is the standard choice for E. coli. LB was developed by G. Bertani and later optimized by Luria during the 1950s. It subsequently acquired different names, including Luria broth, Luria–Bertani media and Lennox broth, some containing different salt concentrations.
 Components

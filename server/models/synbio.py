@@ -89,10 +89,9 @@ class Protocol(db.Model):
         _introduction = []
         _component = []
         _procedure = []
-        if filename[0] == 'B':
-            self.setB = True
         with open(filename, 'r') as f:
             self.name = f.readline().strip().decode('ISO-8859-1')
+            if self.name[0] == 'B': self.setB = True;
 #            self.recommend = f.readline().strip() == 'True'
             self.recommend = True
             for line in f:

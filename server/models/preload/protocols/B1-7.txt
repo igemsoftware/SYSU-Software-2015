@@ -1,4 +1,4 @@
-1-7 LB Agar Plates and Addition of Antibiotics
+B1-7 LB Agar Plates and Addition of Antibiotics
 Introduction
 These plates contain solidified lysogeny broth (LB), a rich growth medium for E. coli. In contrast to growth in liquid LB where the bacteria are mobile, growth on plates gives colonies originating from one single bacterial cell. Just before pouring the solution into petri dishes, an antibiotic can be added for resistance selection. Normal working concentrations are:
 Ampicillin: 35 μg/mL;

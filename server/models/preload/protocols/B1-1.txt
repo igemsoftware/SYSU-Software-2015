@@ -1,4 +1,4 @@
-1-1 0.9% NaCl (Also Known as Isotonic Solution), 10 mL
+B1-1 0.9% NaCl (Also Known as Isotonic Solution), 10 mL
 Introduction	
 This solution is used for suspending cells to avoid early lysis by osmosis. Some laboratories use phosphate buffered saline (PBS) instead.
 Components

@@ -1,4 +1,4 @@
-2-1 Overnight Cultures with Antibiotics
+B2-1 Overnight Cultures with Antibiotics
 Introduction
 Setting up an overnight culture of a single bacterial strain needs a plate with single colonies and LB containing the appropriate antibiotic. Antibiotics should not be added to LB before autoclaving the LB or after subsequent cooling to room temperature for storage because antibiotics are not sufficiently stable. Antibiotic solutions are stored pure at −15°C and only added just before the addition of bacteria.
 Components
