@@ -1,0 +1,148 @@
+{% extends 'core_common.html' %}
+
+{% block title %}Task Hall{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/taskhall.css">
+{% endblock %}
+
+{% block body %}
+{{ super() }}
+
+<v-topbar>
+  <div class="right menu">
+    <div class="item">
+      <div v-on="click: selectedTab = 'All Questions'" class="ui button">All Questions</div>
+    </div>
+    <div class="item">
+      <div v-on="click: selectedTab = 'Unanswered'" class="ui button">Unanswered</div>
+    </div>
+  </div>
+</v-topbar>
+
+
+<div id="view-taskhall-index" class="main-container" v-cloak>
+
+  <div class="ui modal" id="taskhall-index-ask-modal">
+    <div class="ui inverted segment">
+      <div class="ui inverted header">Ask A Question</div>
+      <i class="big close icon"></i>
+    </div>
+    <div class="ui segment">
+      <form class="ui form">
+        <div class="field">
+          <label>Title:</label>
+          <input type="text" name="title">
+        </div>
+        <div class="field">
+          <label>Detail:</label>
+          <textarea name="detail"></textarea>
+        </div>
+        <input type="submit" class="ui yellow button">
+      </form>
+    </div>
+  </div>
+
+  <div id="taskhall-index-main" class="ui container">
+    <div id="taskhall-index-grid">
+      <div class="main column">
+        <div id="taskhall-index-navbar">
+          <div class="left part">
+            [[selectedTab | capitalize]]
+          </div>
+          <div class="right part">
+            <div class="ui icon input" id="taskhall-index-search-input"><i class="search icon"></i><input type="text" placeholder="Search for questions..."></div>
+            <div class="ui inline dropdown" id="taskhall-index-order-dropdown">
+              <input type="hidden" v-model="currentOrder" lazy>
+              <div class="text">vote</div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item" data-value="[[ord]]" v-repeat="ord : orders">[[ord]]</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="taskhall-index question item" v-repeat="task in tasks">
+          <div class="question statistics">
+            <div class="ui statistic">
+              <div class="value">[[task.views]]</div>
+              <div class="label">views</div>
+            </div>
+            <div class="ui statistic">
+              <div class="value">[[task.votes]]</div>
+              <div class="label">votes</div>
+            </div>
+            <div class="ui statistic">
+              <div class="value">[[task.answers]]</div>
+              <div class="label">answers</div>
+            </div>
+          </div>
+          <div class="question main">
+          <div class="header"><a href="/taskhall/detail">[[task.title]]</a></div>
+            <div class="detail">
+              [[[task.content]]]
+            </div>
+          <div class="question author">
+            <div class="dummy"></div>
+            <div class="ui small image"><img src="/static/img/avatar.jpg" alt="author"></div>
+            <div class="info">
+              <div class="date">asked [[task.timestamp]]</div>
+              <div class="author name">[[task.author.name]]</div>
+            </div>
+          </div>
+          <div class="ui author popup transition hidden">
+            <div class="author name">[[task.author.name]]</div>
+            <div class="track list">
+              <div class="ui circular image" v-repeat="track in task.author.tracks"><img v-src="'/static/img/tracks/' + track.name + '.png'" alt=""></div>
+            </div>
+            <div class="question count"><span class="figure">[[task.author.question]]</span> questions</div>
+            <div class="answer count"><span class="figure">[[task.author.answer]]</span> answers</div>
+            <div class="share public count"><span class="figure">[[task.author.database]]</span> share/public</div>
+          </div>
+          </div>
+        </div>
+
+
+        <div class="ui pagination menu">
+          <a v-on="click: page = page > 1 ? page - 1 : page" class="item" v-class="disabled: page === 1">&lt;</a>
+          <a v-on="click: page = 1" class="item" v-show="page > 2">1</a>
+          <a v-on="click: page = page - 1" class="item" v-show="page !== 1">[[page - 1]]</a>
+          <a class="active item">[[page]]</a>
+          <a v-on="click: page = page + 1" class="item">[[page + 1]]</a>
+          <a v-on="click: page = page + 2" class="item">[[page + 2]]</a>
+          <a v-on="click: page = page + 3" class="item">[[page + 3]]</a>
+          <a v-on="click: page = page + 4" class="item">[[page + 4]]</a>
+          <div class="disabled item">...</div>
+          <a v-on="click: page = page + 10" class="item">[[page + 10]]</a>
+          <a v-on="click: page = page + 11" class="item">[[page + 11]]</a>
+          <a v-on="click: page = page + 12" class="item">[[page + 12]]</a>
+          <div class="disabled item">...</div>
+          <a v-on="click: page = page + 1" class="item">&gt;</a>
+        </div>
+
+      </div>
+      <div class="sticky column">
+        <div class="ui sticky" id="taskhall-index-sticky">
+          <div class="dummy statistic container">
+            <div class="ui small statistic">
+              <div class="value">[[questionCount]]</div>
+              <div class="label">questions in total</div>
+            </div>
+          </div>
+          <div class="dummy container">
+            <div class="ui selected button" v-on="click: showAskModal()">Ask a question</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script src="/static/js/jquery.autoellipsis-1.0.10.min.js"></script>
+<script src="/static/js/taskhall/taskhall_index.js"></script>
+
+{% endblock %}
