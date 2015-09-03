@@ -3,7 +3,7 @@ var vBody = new Vue({
     el: "body",
     data: {
         selectedTab: 0,
-        ratingCriteria: ['Feasibility', 'Safety', 'CriterionA', 'CriterionB', 'CriterionC'],
+        ratingCriteria: ['Compatibility', 'Safety', 'Demand', 'Completeness', 'Efficiency', 'Reliability', 'Accessibility'],
     },
     ready: function() {
         var ctx = document.getElementById("embedded-rating-radar").getContext("2d");
@@ -18,7 +18,7 @@ var vBody = new Vue({
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(220,220,220,1)",
-                data: [3, 5, 4, 2, 4]
+                data: [3, 5, 4, 2, 4, 2, 4]
             },
             {
                 label: "My First dataset",
@@ -28,7 +28,7 @@ var vBody = new Vue({
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(151,187,205,1)",
-                data: [3, 3, 3, 3, 3]
+                data: [3, 3, 3, 3, 3, 3, 3]
             },
             ]
         });

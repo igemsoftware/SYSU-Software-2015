@@ -8,7 +8,7 @@
 <body>
 
   <div class="ui secondary menu" id="embedded-topbar">
-    <a v-repeat="i in ['Description', 'Circuits', 'Equations', 'Charts', 'Plasmids', 'References']"
+    <a v-repeat="i in ['Description', 'Circuit', 'Equations', 'Charts', 'References']"
        class="item"
        v-class="active: selectedTab === $index"
        v-on="click: selectedTab = $index">[[i]]</a>
