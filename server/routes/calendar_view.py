@@ -49,7 +49,7 @@ def post_all():
         else:
             m = Memo.query.get(id)
         m.title = title
-        m.start_time = start_time
+        m.plan_time = start_time
         m.time_scale = (end_time-start_time).seconds/60
         m.protocol = protocol
         m.error = error
