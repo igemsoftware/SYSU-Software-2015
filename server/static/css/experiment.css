@@ -352,3 +352,7 @@
 #cancelEvent {
 	display: inline-block;
 }
+
+#createEvent {
+	display: inline-block;
+}

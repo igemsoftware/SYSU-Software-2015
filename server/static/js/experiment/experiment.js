@@ -346,7 +346,7 @@ function DataManager() {
 DataManager.getSysProtocolData = function(callback) {
 	var that = this;
     $.get("/protocol", function(data, status) {
-     	// console.log(data);
+     	console.log(data);
         that.sysProtocols = data['protocols'];
         that.processSysData();
         console.log("System protocols:");
@@ -358,7 +358,7 @@ DataManager.getSysProtocolData = function(callback) {
 DataManager.getPerProtocolData = function(callback) {
 	var that = this;
     $.get("/circuit/1", function(data, status) {
-    	// console.log(data);
+    	console.log(data);
         that.perProtocols = data['protocol'];
         that.processPerData();
         console.log("Personal protocols:");

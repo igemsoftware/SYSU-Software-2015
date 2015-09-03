@@ -22,6 +22,8 @@ RightBar.prototype._rightTriggerAnimation = function() {
         	that.closeRightBar();
         } else {
         	$("#deleteEvent").hide();
+        	$("#saveEvent").hide();
+	        $("#createEvent").show();
 	        $("#cancelEvent").show();
         	that.openRightBar();
         }
@@ -55,7 +57,7 @@ RightBar.prototype.enableTimePicker = function() {
 
 RightBar.prototype.enableAddEvent = function() {
 	var that = this;
-	$("#saveEvent").click(function() {
+	$("#createEvent").click(function() {
 		var title = $("#eventTitle").val();
 		var start = $("#startTime").val();
 		var end = $("#endTime").val();
@@ -84,9 +86,16 @@ RightBar.prototype.enableAddEvent = function() {
 	})
 }
 
+// RightBar.prototype.enableDeleteBtn =  function() {
+// 	var that = this;
+// 	$("#deleteEvent").click(function() {
+// 		console.log(calendar.fullCalendar( 'clientEvents'))''
+		
+// 	});
+// }
+
 RightBar.prototype.initProtocol = function() {
 	var protocols = DataManager.getPerProtocols();
-	console.log(protocols);
 	for (var i in protocols) {
 		var optionELem = $("<option></option>");
 		optionELem.text(protocols[i].name);
@@ -113,6 +122,8 @@ $(function() {
 		weekMode: "liquid", //  日程表显示4、5或者6周，由当前的月份决定,每周的高度将拉伸到可用高度
 		select: function(start, end) {
 			$("#deleteEvent").hide();
+			$("#saveEvent").hide();
+			$("#createEvent").show();
 	        $("#cancelEvent").show();
 
 			start = start.format('YYYY/MM/DD HH:mm');
@@ -148,13 +159,32 @@ $(function() {
 		eventClick: function(event, jsEvent, view) {
 	        $("#startTime").val(event.start.format('YYYY/MM/DD HH:mm'));
 	        $("#endTime").val(event.end.format('YYYY/MM/DD HH:mm'));
+	        $("#eventTitle").val(event.title);
 	        $("#eventProtocol").val(event.protocol);
 	        $("#eventRecord").val(event.record);
 	        $("#eventError").val(event.error);
 
 	        $("#eventOpTitle").text("Edit event");
+			$("#deleteEvent").click(function() {
+				calendar.fullCalendar('removeEvents',event._id);
+				rightBar.closeRightBar();
+			});
+
+			$("#saveEvent").click(function() {
+				event.title = $("#eventTitle").val();
+				event.start = $("#startTime").val();
+				event.end = $("#endTime").val();
+				event.protocol = $("#eventProtocol").val();
+				event.record = $("#eventRecord").val();
+				event.error = $("#eventError").val();
+
+				$('#calendar').fullCalendar('updateEvent', event);
+				rightBar.closeRightBar();
+			});
 
 	        $("#deleteEvent").show();
+	        $("#saveEvent").show();
+	        $("#createEvent").hide();
 	        $("#cancelEvent").hide();
 	        rightBar.openRightBar();
 	    },
