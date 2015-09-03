@@ -57,11 +57,32 @@ class Protocol(db.Model):
     component = db.Column(db.Text, default='')
     procedure = db.Column(db.Text, default='')
     likes = db.Column(db.Integer, default=0)
+    setB = db.Column(db.Boolean, default=False)
 
     recommend = db.Column(db.Boolean, default = False)
 
 #    liked = db.Column(db.Integer, default=0)
 #    used_times = db.Column(db.Integer, default=0)
+
+    def jsonify(self):
+        procedures = []
+        for steps in self.procedure.split('\n'):
+            steps = steps.split('\t')
+            if len(steps) == 2:
+                procedures.append({'procedure':steps[0],'time':steps[1],'annotation':''})
+            elif len(steps) == 3:
+                procedures.append({'procedure':steps[0],'time':steps[1],'annotation':steps[2]})
+
+        return {
+                    'id': self.id,
+                    'name': self.name,
+                    'introduction': self.introduction,
+                    'component': self.component.split('\n'),
+                    'procedure' : procedures,
+                    'likes': self.likes,
+                    'setB': self.setB,
+               }
+
 
     def load_from_file(self, filename):
         print 'loading protocol %s ...' % filename
@@ -70,14 +91,16 @@ class Protocol(db.Model):
         _procedure = []
         with open(filename, 'r') as f:
             self.name = f.readline().strip().decode('ISO-8859-1')
-            self.recommend = f.readline().strip() == 'True'
+            if self.name[0] == 'B': self.setB = True;
+#            self.recommend = f.readline().strip() == 'True'
+            self.recommend = True
             for line in f:
                 line = line.strip()
                 if line == 'Introduction':
                     ptr = _introduction
                 elif line == 'Components':
                     ptr = _component
-                elif line == 'Procedure':
+                elif line == 'Procedure' or line.startswith('Procedure'):
                     ptr = _procedure
                 else:
                     ptr.append(line.strip().decode('ISO-8859-1'))
@@ -247,6 +270,7 @@ class Device(db.Model, BioBase):
 
     introduction = db.Column(db.Text, default="No introduction yet.")
     source = db.Column(db.Text, default="Come from no where.")
+    protocol_reference = db.Column(db.Text, default="No reference.")
     risk = db.Column(db.Integer, default="-1")
     pic_url = db.Column(db.Text, default='')
 
@@ -305,6 +329,7 @@ class Device(db.Model, BioBase):
         self.title = f.readline().strip()
         self.introduction = f.readline().strip().decode('ISO-8859-1')
         self.source = f.readline().strip()
+#        self.protocol_reference = f.readline().strip()
         self.saferank = f.readline().strip()
         # self.type = f.readline().strip()
         self.interfaceA = f.readline().strip() 
@@ -369,14 +394,15 @@ class Circuit(db.Model, BioBase):
     is_finished = db.Column(db.Boolean, default=False)
     is_shared = db.Column(db.Boolean, default=False)
     is_public = db.Column(db.Boolean, default=False)
-    task_related = db.Column(db.Integer, default=-1)
+    # task_related = db.Column(db.Integer, default=-1)
 
     create_time = db.Column(db.DateTime, index=True, default=datetime.now)
-    # progress = db.Column(db.Integer, default=0)
+    progress = db.Column(db.Integer, default=0)
     name = db.Column(db.String(128), default='No name')
     introduction = db.Column(db.Text)
 
     protocol = db.Column(db.Text, default='')
+    #experiment = db.Column(db.Text, default='')
 
     # in public database
     db_create_time = db.Column(db.DateTime)
@@ -394,20 +420,7 @@ class Circuit(db.Model, BioBase):
 
     def __init__(self, **kwargs):
         super(Circuit, self).__init__(**kwargs)
-        _protocol = []
-        _id = 0
-        for p in Protocol.query.filter_by(recommend=True).all():
-            _protocol.append(
-                    {
-                        'name': p.name,
-                        'introduction': p.introduction,
-                        'component': p.component,
-                        'procedure' : p.procedure,
-                        'likes': p.likes,
-                        'id': _id
-                    });
-            _id += 1
-        self.protocol = json.dumps(_protocol)
+        self.protocol = json.dumps([p.jsonify() for p in Protocol.query.filter_by(recommend=True).all()])
                                  
 
     def _copy_from_device(self, device_id):

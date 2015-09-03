@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 2-2 GEL ANALYSIS 
 True
 Components
@@ -8,3 +9,13 @@ Loading dye mix
 DNA ladder size marker
 DNA samples
 
+=======
+2-2 GEL ANALYSIS 
+Components
+Agarose;
+1x TBE;
+Sybr®Safe;
+Loading dye mix
+DNA ladder size marker
+DNA samples
+>>>>>>> 05e24f0ca72764990f0485c095cd6282e8ac85fd

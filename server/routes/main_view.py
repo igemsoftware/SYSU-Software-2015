@@ -45,19 +45,10 @@ def circuit(id):
             protocol = json.loads(c.protocol),
             )
 
+
 @main.route('/protocol')
 def protocol():
-    protocols = []
-    for p in Protocol.query.filter_by(recommend=True).all():
-        protocols.append(
-                {
-                    'name': p.name,
-                    'introduction': p.introduction,
-                    'component': p.component,
-                    'procedure' : p.procedure,
-                    'likes': p.likes,
-                });
-
+    protocols = map(lambda x: x.jsonify(), Protocol.query.filter_by(recommend=True).all())
     return jsonify(protocols=protocols)
 
          
