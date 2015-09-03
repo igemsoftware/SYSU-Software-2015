@@ -75,23 +75,23 @@
       </div>
    		<div id="left-sidebar-top">
 	    	<div>
-	    		<h2>Search for a protocol</h2>
+	    		<h2>Laboratorial material manual</h2>
 	    	</div>
-				<div class="ui search">
+<!-- 				<div class="ui search">
 				  <div class="ui icon input">
 				    <input class="prompt" type="text" placeholder="Search for a protocol..." id="searchPro">
 				    <i class="search icon"></i>
 				  </div>
 				  <div class="results"></div>
 					<button class="ui button">All</button>
-				</div>
+				</div> -->
 			</div>
 			<div id="left-sidebar-body">
 			</div>
     </div>
 <!-- 	left-bar -->
 <!--sysProMoreInfor modal -->
-    <div class="ui modal moreInfor" id="sysProMoreInfor">
+<!--     <div class="ui modal moreInfor" id="sysProMoreInfor">
       <div class="header">
       	<div class="ui grid">
       		<div class="sixteen column row">
@@ -108,11 +108,11 @@
 	  					<div>Key word PCR</div>
 	  				</div>
 	  				<div class="eight wide column">
-	  					<p class="totalTime">Total time 4h</p>
-	  					 <div class="addPro icon-set">
+	  					<p class="totalTime">Total time: <span><span></p>
+	  					 <div class="addPro icon-set"> -->
 				      	<!-- 	<span class="save-edit"><i class="edit icon"></i>Edit</span> -->
-				      		<span><i class="plus icon"></i>Add to protocol list</span>
-				    		</div>
+				      	<!-- 	<span><i class="plus icon"></i>Add to protocol list</span> -->
+<!-- 				    		</div>
 	  				</div>
   				</div>
       	</div>
@@ -125,21 +125,42 @@
       	<div class="component">
       		<ul>
       		</ul>
-      	</div>
+      	</div> -->
 <!--     	  <div class="icon-set">
       		<span class="save-edit"><i class="edit icon"></i>Edit</span>
       		<span><i class="plus icon"></i>Calendar</span>
     		</div> -->
-    		<h3>Procedure</h3>
-        <div class="procedures">
-        	<div class="ui divider"></div>
-        </div>
+<!--     		<h3>Procedure</h3>
+        <table class="ui celled striped table procedures">
+          <thead>
+            <tr><th>Procedure</th>
+            <th>Time</th>
+            <th>Notes</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td>Cell</td>
+              <td>Cell</td>
+              <td>Cell</td>
+            </tr>
+            <tr>
+              <td>Cell</td>
+              <td>Cell</td>
+              <td>Cell</td>
+            </tr>
+            <tr>
+              <td>Cell</td>
+              <td>Cell</td>
+              <td>Cell</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
+    </div> -->
 <!--More modal -->
 
 <!--perProMoreInfor modal -->
-    <div class="ui modal moreInfor" id="perProMoreInfor">
+    <div class="ui modal moreInfor" id="moreIndorModal">
       <div class="header">
       	<div class="ui grid">
       		<div class="sixteen column row">
@@ -156,7 +177,7 @@
 	  					<div>Key word PCR</div>
 	  				</div>
 	  				<div class="eight wide column">
-	  					<p class="totalTime">Total time 4h</p>
+	  					<p class="totalTime">Total time: <span></span></p>
 	  				</div>
   				</div>
       	</div>
@@ -174,13 +195,34 @@
     	  <h3>
     	  	Procedure
       		<span class="icon-set">
-	      		<span class="save-edit"><i class="edit icon"></i>Edit</span>
-	      		<span><i class="plus icon"></i>Calendar</span>
+	      		<span id="save-edit"><i class="edit icon"></i>Edit</span>
+	      		<span id="addCalendar"><i class="plus icon"></i>Calendar</span>
 	      	</span>
     		</h3>
-        <div class="procedures">
-        	<div class="ui divider"></div>
-        </div>
+        <table class="ui celled striped table procedures">
+          <thead>
+            <tr><th>Procedure</th>
+            <th>Time</th>
+            <th>Notes</th>
+          </tr></thead>
+          <tbody>
+            <tr>
+              <td>Cell</td>
+              <td>Cell</td>
+              <td>Cell</td>
+            </tr>
+            <tr>
+              <td>Cell</td>
+              <td>Cell</td>
+              <td>Cell</td>
+            </tr>
+            <tr>
+              <td>Cell</td>
+              <td>Cell</td>
+              <td>Cell</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 <!--More modal -->
@@ -253,8 +295,8 @@
 <!-- 	main_container -->
     <div class="main_container">
 			<div class="ui attached tabular menu">
-        <a class="item active" data-tab="Calendar">Calendar</a>
-        <a class="item" data-tab="PlaPro">Plasmid|Protocols</a>
+        <a id="calendar-menu" class="item active" data-tab="Calendar">Calendar</a>
+        <a id="protocol-menu" class="item" data-tab="PlaPro">Plasmid|Protocols</a>
       </div>
       <div class="ui bottom attached tab segment active" data-tab="Calendar" id="calendar-box">
         <div id="calendar"></div>

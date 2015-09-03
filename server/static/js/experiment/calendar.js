@@ -21,11 +21,7 @@ RightBar.prototype._rightTriggerAnimation = function() {
         if (parseInt(right) == 0) {
         	that.closeRightBar();
         } else {
-        	$("#deleteEvent").hide();
-        	$("#saveEvent").hide();
-	        $("#createEvent").show();
-	        $("#cancelEvent").show();
-        	that.openRightBar();
+        	that.openRightBar("create");
         }
     });
 };
@@ -40,7 +36,18 @@ RightBar.prototype.closeRightBar = function() {
     this.rightTrigger.find("i").removeClass("right").addClass("left");
 }
 
-RightBar.prototype.openRightBar = function() {
+RightBar.prototype.openRightBar = function(op) {
+	if (op == "create") {
+    	$("#deleteEvent").hide();
+    	$("#saveEvent").hide();
+        $("#createEvent").show();
+        $("#cancelEvent").show();
+	} else if (op == "edit") {
+    	$("#deleteEvent").show();
+    	$("#saveEvent").show();
+        $("#createEvent").hide();
+        $("#cancelEvent").hide();
+	}
 	var that = this;
     this._isOpenRightBar = true;
     this.view.animate({
@@ -73,6 +80,7 @@ RightBar.prototype.enableAddEvent = function() {
 		$("#eventError").val("");
 
 		var newEvent = {
+			id: -1,
 			title: title,
 			start: start,
 			end: end,
@@ -82,17 +90,37 @@ RightBar.prototype.enableAddEvent = function() {
 		}
 
 		calendar.fullCalendar('renderEvent', newEvent, true);
+
+		this.syncEvents();
 		that.closeRightBar();
 	})
 }
 
-// RightBar.prototype.enableDeleteBtn =  function() {
-// 	var that = this;
-// 	$("#deleteEvent").click(function() {
-// 		console.log(calendar.fullCalendar( 'clientEvents'))''
-		
-// 	});
-// }
+RightBar.prototype.syncEvents = function() {
+	var events = calendar.fullCalendar('clientEvents');
+	var eventsArr = [];
+	for (var i in events) {
+		eventsArr.push({
+			id: events[i].id,
+			start: events[i].start.format('YYYY/MM/DD HH:mm'),
+			end: events[i].end.format('YYYY/MM/DD HH:mm'),
+			title: events[i].title,
+			error: events[i].error,
+			protocol: events[i].protocol,
+			record: events[i].record
+		});
+	}
+	var postDataJson = JSON.stringify(eventsArr);
+
+	$.ajax({
+	    type: 'POST',
+	    contentType: 'application/json',
+	    url: '/calendar/all',
+	    dataType : 'json',
+	    data : postDataJson,
+	});
+
+}
 
 RightBar.prototype.initProtocol = function() {
 	var protocols = DataManager.getPerProtocols();
@@ -121,40 +149,13 @@ $(function() {
 		selectHelper: true, // 设置是否在用户拖拽事件的时候绘制占位符
 		weekMode: "liquid", //  日程表显示4、5或者6周，由当前的月份决定,每周的高度将拉伸到可用高度
 		select: function(start, end) {
-			$("#deleteEvent").hide();
-			$("#saveEvent").hide();
-			$("#createEvent").show();
-	        $("#cancelEvent").show();
 
 			start = start.format('YYYY/MM/DD HH:mm');
 			end = end.format('YYYY/MM/DD HH:mm');
 			$("#startTime").val(start);
 			$("#endTime").val(end);
 
-			rightBar.openRightBar();
-		    // var title = prompt('Event Title:');
-		    // if (title) {
-		    // 	var newEvent = {
-		    //             title: title,
-		    //             start: start,
-		    //             end: end
-		    //         };
-		    //     calendar.fullCalendar('renderEvent', newEvent, true);
-		        // calendar.fullCalendar('addEvent', newEvent);
-		        /**
-		         * ajax call to store event in DB
-		         */
-		        // jQuery.post(
-		        //     "event/new" // your url
-		        //     , { // re-use event's data
-		        //         title: title,
-		        //         start: start,
-		        //         end: end,
-		        //         allDay: allDay
-		        //     }
-		        // );
-		    // }
-		    // calendar.fullCalendar('unselect');
+			rightBar.openRightBar("create");
 		},
 		eventClick: function(event, jsEvent, view) {
 	        $("#startTime").val(event.start.format('YYYY/MM/DD HH:mm'));
@@ -165,8 +166,14 @@ $(function() {
 	        $("#eventError").val(event.error);
 
 	        $("#eventOpTitle").text("Edit event");
+
 			$("#deleteEvent").click(function() {
-				calendar.fullCalendar('removeEvents',event._id);
+				calendar.fullCalendar('removeEvents', event._id);
+				$.ajax({
+				    type: 'DELETE',
+				    url: '/calendar/all',
+				    data : "id="+event._id,
+				});
 				rightBar.closeRightBar();
 			});
 
@@ -179,25 +186,12 @@ $(function() {
 				event.error = $("#eventError").val();
 
 				$('#calendar').fullCalendar('updateEvent', event);
+				rightBar.syncEvents();
 				rightBar.closeRightBar();
 			});
 
-	        $("#deleteEvent").show();
-	        $("#saveEvent").show();
-	        $("#createEvent").hide();
-	        $("#cancelEvent").hide();
-	        rightBar.openRightBar();
-	    },
-		events: [
-					{
-						title: 'Long Event',
-						start: '2015-09-02',
-						end: '2015-09-3'
-					}
-				]
-		// drop: function(date, allDay) {
-	 //        alert("Dropped on " + date + " with allDay=" + allDay);
-	 //    }
+	        rightBar.openRightBar("edit");
+	    }
 	});
 })
 
@@ -206,7 +200,7 @@ $(function() {
 	rightBar.init();
 })
 
-// $('#my-draggable').draggable({
-//     revert: true,      // immediately snap back to original position
-//     revertDuration: 0  //
-// });
+$.get("/calendar/all", function(data, status) {
+ 	console.log(data);
+ 	calendar.fullCalendar( 'addEventSource', data["events"]);
+});

@@ -95,11 +95,11 @@
 	display: none;
 }
 
-#list-body .step {
+#list-body .item {
 	width: 100%;
 }
 
-#list-body .step-name {
+#list-body .item-name {
 	display:-moz-inline-box;
 	display:inline-block;
 	width: 70%;
@@ -160,8 +160,8 @@
 
 #left-sidebar-top {
 	background-color: #3d3e40;
-	padding-top: 15px;
-	padding-left: 30px;
+	padding-top: 30px;
+	padding-left: 20px;
 	padding-bottom: 20px;
 }
 
