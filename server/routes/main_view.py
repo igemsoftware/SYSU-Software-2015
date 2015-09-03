@@ -13,26 +13,26 @@ def before_request():
     # update some cookies or xxx
     pass
 
-#@login_required
 @main.route('/')
+#@login_required
 def index():
     return render_template('index.html')
 
-#@login_required
 @main.route('/design')
+#@login_required
 def design():
     return render_template('design.html')
 
 
 
 
-@login_required
 @main.route('/experiment')
+@login_required
 def experiment():
     return render_template('experiment.html')
 
-@login_required
 @main.route('/circuit/<int:id>')
+@login_required
 def circuit(id): 
     # skip: check whether current user has the privilege 
     

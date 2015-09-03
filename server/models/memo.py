@@ -24,22 +24,33 @@ class Memo(db.Model):
     # the user id
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
 
-    # in discussion
-    #project_id = db.Column(db.Integer) 
-    record = db.Column(db.Text)
-    error_record = db.Column(db.Text)
+    # records
+    protocol = db.Column(db.Text, default='')
+    record = db.Column(db.Text, default='')
+    error = db.Column(db.Text, default='')
 
+    @property
+    def end_time(self):
+        return self.create_time + timedelta(minutes=self.time_scale)
+
+    def calendar_jsonify(self):
+        return {
+                'id': self.id,
+                'start': self.plan_time.strftime('%Y/%m/%d %H:%M'),   #'2015/09/09 00:24'
+                'end': self.end_time.strftime('%Y/%m/%d %H:%M'),   #'2015/09/09 00:24'
+                'title': self.title,
+                'protocol': self.protocol,
+                'record': self.record,
+                'error': self.error,
+               }
 
     # change the plan time
+    # front-end 
     def change_plan_time(self, time):
         self.plan_time = time
 
         db.session.add(self)
         db.session.commit()
         return self
-
-    # when it will end
-    def get_end_time(self):
-        return self.create_time + timedelta(minutes=self.time_scale)
 
 
