@@ -32,7 +32,8 @@ def get_all():
 @calendar.route('/all', methods=["POST"]) 
 @login_required
 def post_all(): 
-    events = json.loads( request.form.get('events', []) )
+#    events = json.loads( request.form.get('events', []) )
+    events = request.get_json()
     for event in events:
         id = event['id']
         title = event['title']

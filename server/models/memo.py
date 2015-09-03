@@ -31,7 +31,7 @@ class Memo(db.Model):
 
     @property
     def end_time(self):
-        return self.create_time + timedelta(minutes=self.time_scale)
+        return self.plan_time + timedelta(minutes=self.time_scale)
 
     def calendar_jsonify(self):
         return {
