@@ -1,0 +1,18 @@
+B1-6 LB Medium
+Introduction
+Lysogeny broth (LB) is one of the rich media for bacterial growth and is the standard choice for E. coli. LB was developed by G. Bertani and later optimized by Luria during the 1950s. It subsequently acquired different names, including Luria broth, Luria–Bertani media and Lennox broth, some containing different salt concentrations.
+Components
+NaCl;
+Bacto™ tryptone;
+yeast extract;
+ddH2O;
+5 M NaOH.
+Procedure	Time	Notes
+1. Add the following to a 1 L bottle:
+NaCl to a final concentration of 0.17 M.
+1% (w/v) Bacto™ tryptone.
+0.5% (w/v) yeast extract.	5min	Tryptone and yeast extract are nutrients for bacterial culture media. NaCl provides sodium ions.
+2. Add ddH2O up to 600 mL.	45s	
+3. 100 μL of 5 M NaOH (adjusts the pH to ~7.0).	2min	pH should be adjusted to an appropriate range for bacteria growth or metabolite accumulation.
+4. Autoclave for 20 min within 2 hr.	20min	Autoclaving in time prevents contaminative growth.
+5. Store at room temperature.		
