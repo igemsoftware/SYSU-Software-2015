@@ -1,3 +1,0 @@
-B1 PREPARATION OF SOLUTIONS AND AGAR PLATES
-Introduction
-This protocol details the preparation of every solution necessary to perform the lab course. A pH meter is not required (except for Protocol 8, where the lab teachers should perform the steps with the pH meter). Final pHs should be verified with narrow-range pH paper. ddH2O is either doubly distilled or of similar high purity. Solids should always be dissolved in a smaller volume of ddH2O than the final calculated volume. For some solutions, autoclaving may be required to completely dissolve the solids (e.g. agar).
