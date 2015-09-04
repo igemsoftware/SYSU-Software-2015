@@ -420,7 +420,7 @@ class Circuit(db.Model, BioBase):
 
     def __init__(self, **kwargs):
         super(Circuit, self).__init__(**kwargs)
-        self.protocols = json.dumps([p.jsonify() for p in Protocol.query.filter_by(recommend=True).all()])
+        self.protocols = json.dumps([p.jsonify() for p in Protocol.query.filter_by(recommend=True, setB=False).all()])
                                  
 
     def _copy_from_device(self, device_id):
