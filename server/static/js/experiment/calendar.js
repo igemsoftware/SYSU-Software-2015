@@ -141,8 +141,9 @@ $(function() {
 		    left: 'month,agendaWeek,agendaDay',
 		    right:  'prev,next today'
 		},
-		slotEventOverlap: false,  //设置议程视图中的事件是否可以重叠
 		editable: true,
+		slotEventOverlap: false,  //设置议程视图中的事件是否可以重叠
+		startEditable: true,
 		droppable: true,
 		eventLimit: true,
 		selectable: true, //设置日程表的天和时间槽是否可以点击选中和拖拽
@@ -191,6 +192,12 @@ $(function() {
 			});
 
 	        rightBar.openRightBar("edit");
+	    },
+	    eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {
+	    	rightBar.syncEvents();
+	    },
+	    eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
+	    	rightBar.syncEvents();
 	    }
 	});
 })

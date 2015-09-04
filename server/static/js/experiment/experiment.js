@@ -475,8 +475,7 @@ ModalManager.enableCreateProBtn = function() {
 		var protocol = {};
 		protocol.introduction = $("#createProtocol textarea").val();
 		protocol.name = $("#createProtocol .c-title").val();
-		console.log("name:"+ protocol.name);
-
+		
 		var component = [];
 		$("#createProtocol ul li").each(function() {
 			component.push($(this).find("input").val());
@@ -577,7 +576,6 @@ DataManager.getPerProtocolById = function(id) {
 }
 
 DataManager.getSetBProtocolById = function(id) {
-	console.log(id);
 	for (var i in this.setBProtocols) {
 		if (this.setBProtocols[i].id == id) {
 			return this.setBProtocols[i];
@@ -659,7 +657,6 @@ $(function() {
 	leftBar = new LeftBar();
 	protocolList = new ProtocolList();
 	DataManager.getSysProtocolData(function(protocols) {
-		console.log(protocols);
 		leftBar.initProtocolElems(protocols);
 		leftBar.init();
 
