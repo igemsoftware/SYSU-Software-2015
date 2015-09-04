@@ -1,3 +1,7 @@
+.float-right {
+	float: right;
+}
+
 .main_container {
 	margin-top: 50px;
 	padding: 20px 20px;
@@ -297,7 +301,7 @@
 /*sysProMoreInfor*/
 
 .text-right {
-	text-align: right;
+	text-align: right !important;
 }
 
 /*Calendar*/
@@ -355,4 +359,29 @@
 
 #createEvent {
 	display: inline-block;
+}
+
+/*============================================*/
+#moreIndorModal .pro-title textarea {
+	width: 100%;
+	height: 60px;
+}
+
+#moreIndorModal .introduction textarea {
+	width: 100%;
+	height: 120px;
+}
+
+#moreIndorModal .component textarea {
+	width: 100%;
+	height: 2em;
+}
+
+/*=======================================*/
+#createProtocol label {
+	font-size: 20px;
+}
+
+#createProtocol ul li{
+	list-style: none;
 }

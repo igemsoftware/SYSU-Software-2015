@@ -12,12 +12,13 @@
     <link rel="stylesheet" href="/static/css/experiment.css">
     <link rel="stylesheet" href="/static/css/fullcalendar.min.css">
     <link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
-    <script type="text/x-mathjax-config">
+   <!-- <script type="text/x-mathjax-config">
       MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
     </script>
     <script type="text/javascript"
       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
+    -->
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>
 
   </head>
@@ -89,77 +90,8 @@
 			<div id="left-sidebar-body">
 			</div>
     </div>
-<!-- 	left-bar -->
-<!--sysProMoreInfor modal -->
-<!--     <div class="ui modal moreInfor" id="sysProMoreInfor">
-      <div class="header">
-      	<div class="ui grid">
-      		<div class="sixteen column row">
-	      		<div class="fourteen wide column">
-	      			<h2 class="pro-title"></h2>
-	      		</div>
-	      		<div class="two wide column">
-	      			<i class="remove big icon close"></i>
-	      		</div>
-	      	</div>
-	      	<div class="sixteen column row detail">
-	  				<div class="eight wide column">
-	  					<div><i class="empty star icon"></i></div>
-	  					<div>Key word PCR</div>
-	  				</div>
-	  				<div class="eight wide column">
-	  					<p class="totalTime">Total time: <span><span></p>
-	  					 <div class="addPro icon-set"> -->
-				      	<!-- 	<span class="save-edit"><i class="edit icon"></i>Edit</span> -->
-				      	<!-- 	<span><i class="plus icon"></i>Add to protocol list</span> -->
-<!-- 				    		</div>
-	  				</div>
-  				</div>
-      	</div>
-      </div>
-      <div class="content"> 
-      	<h3>Introduction</h3>
-      	<div class="introduction">
-      	</div>
-      	<h3>Component</h3>
-      	<div class="component">
-      		<ul>
-      		</ul>
-      	</div> -->
-<!--     	  <div class="icon-set">
-      		<span class="save-edit"><i class="edit icon"></i>Edit</span>
-      		<span><i class="plus icon"></i>Calendar</span>
-    		</div> -->
-<!--     		<h3>Procedure</h3>
-        <table class="ui celled striped table procedures">
-          <thead>
-            <tr><th>Procedure</th>
-            <th>Time</th>
-            <th>Notes</th>
-          </tr></thead>
-          <tbody>
-            <tr>
-              <td>Cell</td>
-              <td>Cell</td>
-              <td>Cell</td>
-            </tr>
-            <tr>
-              <td>Cell</td>
-              <td>Cell</td>
-              <td>Cell</td>
-            </tr>
-            <tr>
-              <td>Cell</td>
-              <td>Cell</td>
-              <td>Cell</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div> -->
-<!--More modal -->
 
-<!--perProMoreInfor modal -->
+<!--moreInfor modal -->
     <div class="ui modal moreInfor" id="moreIndorModal">
       <div class="header">
       	<div class="ui grid">
@@ -201,31 +133,73 @@
     		</h3>
         <table class="ui celled striped table procedures">
           <thead>
-            <tr><th>Procedure</th>
-            <th>Time</th>
-            <th>Notes</th>
-          </tr></thead>
+            <tr>
+              <th>Procedure</th>
+              <th>Time</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
           <tbody>
-            <tr>
-              <td>Cell</td>
-              <td>Cell</td>
-              <td>Cell</td>
-            </tr>
-            <tr>
-              <td>Cell</td>
-              <td>Cell</td>
-              <td>Cell</td>
-            </tr>
-            <tr>
-              <td>Cell</td>
-              <td>Cell</td>
-              <td>Cell</td>
-            </tr>
           </tbody>
         </table>
       </div>
     </div>
 <!--More modal -->
+
+<!--createProtocol modal -->
+    <div class="ui modal" id="createProtocol">
+      <div class="header">
+        <h2>Create a new protocol.<span class="float-right"><i class="remove large icon close"></i></span></h2>
+      </div>
+      <div class="content">
+        <div class="ui small form">
+          <div class="field">
+            <label>Title</label>
+            <input type="text" class="c-title">
+          </div>
+          <div class="field">
+            <label>Introduction</label>
+            <textarea rows='3'></textarea>
+          </div>
+          <div class="field">
+            <label>Component</label>
+            <ul>
+              <li><input type="text"></li>
+            </ul>
+            <button class="ui icon button" id="plusLi">
+              <i class="plus icon"></i>
+            </button>
+          </div>
+          <div class="field">
+            <label>Procedure</label>
+            <table class="ui celled striped table">
+              <thead>
+                <tr>
+                  <th>Procedure</th>
+                  <th>Time</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="text" class="procedure"></td>
+                  <td><input type="text" class="time"></td>
+                  <td><input type="text" class="annotation"></td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="ui icon button" id="plusTableRow">
+              <i class="plus icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui button cancel">Cancel</div>
+        <div class="ui button" id="createProBtn">Create</div>
+      </div>
+    </div>
+<!--createProtocol modal -->
 
 <!-- right-bar -->
     <div id="right-sidebar">
@@ -276,21 +250,22 @@
     </div>
 <!-- right-bar -->
 
-<!--Title modal -->
-    <div class="ui small modal moreInfor" id="confirmModal">
+<!-- Delete modal -->
+    <div class="ui small modal" id="deleteModal">
       <div class="header">
-        <h3>Please enter title.</h3>
+        Delete a protocol
       </div>
-      <div class="content">
-   <!--     <h4>Do you want to add this protocol?</h4> -->
-        <input type="text">
-        <div class="fluid text-right">
-         <!--  <div class="ui cancel red button">Cancel</div> -->
-          <div class="ui green button confirmBtn">Confirm</div>
+      <div class="image content">
+        <div class="description">
+          <i class="large trash icon"></i>Do you really want to delete this protocol?
         </div>
       </div>
+      <div class="actions">
+        <div class="ui button cancel">Cancel</div>
+        <div class="ui button" id="deleteBtn">Delete</div>
+      </div>
     </div>
-<!--More modal -->
+<!-- Delete modal -->
 
 <!-- 	main_container -->
     <div class="main_container">
@@ -308,7 +283,7 @@
   	    		<div id="protocol">
   	    			<div id="protocol-list">
 	  	    			<div id="list-title">
-	  	    				<h2><span>Relevant Protocol List</span><span class="icon-set"><i class="add square icon" id="add-protocol"></i><i id="edit-protocol" class="edit icon"></i></span></h2>
+	  	    				<h2><span>Relevant Protocol List</span><span class="icon-set"><i class="add square icon" id="add-protocol"></i><i id="edit-protocol" class="trash icon"></i></span></h2>
 	  	    			</div>
 		  	    		<div id="list-body">
 		  	    		</div>
