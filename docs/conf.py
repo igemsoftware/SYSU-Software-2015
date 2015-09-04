@@ -16,7 +16,7 @@ import sys
 import os
 import shlex
 
-sys.path.append('/cygdrive/e/iGEM/main_proj/SYSU-Software-2015')
+sys.path.append(os.path.abspath('..'))
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
