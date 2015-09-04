@@ -35,22 +35,27 @@ It is **highly recommended** to deploy CORE on a public (like world-wide-web) or
 
 We assume that you are a lab server manager and possess the basic ability of deploying a server-based software (or ask students in CS for help). You just need to change the `HOST` and `PORT` in `core.py` and re-run `python core.py` to restart the software.
 
+### Multiple-platfrom development
+If your are a developer who hopes to use CORE on IOS, Android or other platforms, we provide miscellaneous interfaces for further development:
+
+- Deploy CORE on an accessable server without modifying anything.
+- Access the interface via any platform to retrive/update the information.
+
 ## Documentation
 
 Build with `xxxx`
 
 See in `/docs`
 
-
-
 ## FAQ
-
-
 
 ## Credits
 
 SYSU-Software-2015 
 
+## LICENSE
+
+CORE use GLGPL 3.0 license. See more details in `LICENSE`.
 
 ## Version Log
 
