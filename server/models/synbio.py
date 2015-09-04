@@ -401,7 +401,7 @@ class Circuit(db.Model, BioBase):
     name = db.Column(db.String(128), default='No name')
     introduction = db.Column(db.Text)
 
-    protocol = db.Column(db.Text, default='')
+    protocols = db.Column(db.Text, default='')
     #experiment = db.Column(db.Text, default='')
 
     # in public database
@@ -420,7 +420,7 @@ class Circuit(db.Model, BioBase):
 
     def __init__(self, **kwargs):
         super(Circuit, self).__init__(**kwargs)
-        self.protocol = json.dumps([p.jsonify() for p in Protocol.query.filter_by(recommend=True).all()])
+        self.protocols = json.dumps([p.jsonify() for p in Protocol.query.filter_by(recommend=True).all()])
                                  
 
     def _copy_from_device(self, device_id):
