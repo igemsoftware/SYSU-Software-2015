@@ -18,7 +18,7 @@ class Equation():
                 }
         }
 
-    is equivalent to :math:`rendered: '\\frac{ 0.1+[APTX4869]}{ 0.2+[IQ] }=c'`
+    is equivalent to :math:`\\frac{ 0.1+[APTX4869]}{ 0.2+[IQ] }=c`
     """
 
     parameters = {}

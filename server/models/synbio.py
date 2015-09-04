@@ -50,21 +50,36 @@ import json
 #           return '<ProtocolRecommend: %s->%s>' % (self.prototype.name, self.device.name)
 
 class Protocol(db.Model):
+    """Protocol model in CORE."""
+
     id = db.Column(db.Integer, primary_key=True)
+    """ID is an unique number to identify each :class:`Protocol`."""
 
     name = db.Column(db.String(128), default='', index=True)
+    """Its name, which is used to sort."""
     introduction = db.Column(db.Text, default='')
+    """Its introduction."""
     component = db.Column(db.Text, default='')
+    """Its component, which is a list of strings."""
     procedure = db.Column(db.Text, default='')
+    """Its procedure, which is the dumpped string of a list of json object:
+        
+    :procedure: The detailed step.
+    :time: How long this step takes.
+    :annotation: Annotation."""
     likes = db.Column(db.Integer, default=0)
+    """How many user like this protocol."""
     setB = db.Column(db.Boolean, default=False)
+    """Whether it is in setB. SetB is the general operation mannual."""
 
     recommend = db.Column(db.Boolean, default = False)
+    """The recommended protocol will added in circuit by default."""
 
 #    liked = db.Column(db.Integer, default=0)
 #    used_times = db.Column(db.Integer, default=0)
 
     def jsonify(self):
+        """Tranform itself into a json object."""
         procedures = []
         for steps in self.procedure.split('\n'):
             steps = steps.split('\t')
@@ -85,6 +100,7 @@ class Protocol(db.Model):
 
 
     def load_from_file(self, filename):
+        """Load from local files. Mostly called in preload stage."""
         print 'loading protocol %s ...' % filename
         _introduction = []
         _component = []
@@ -126,11 +142,18 @@ class Protocol(db.Model):
 from equation import Equation
 
 class Relationship(db.Model):
+    """Relationship between parts in CORE."""
+
     start_id = db.Column(db.Integer, db.ForeignKey('componentprototype.id'),
                             primary_key=True)
+    """The :attr:`User.id` of the start point of the relationship."""
     end_id = db.Column(db.Integer, db.ForeignKey('componentprototype.id'),
                             primary_key=True)
+    """The :attr:`User.id` of the end point of the relationship."""
     type = db.Column(db.String(64), default='normal')
+    """Three kinds of relationship between two parts:
+        
+    :normal: The sequential"""
 
     @property
     def equation(self):

@@ -6,7 +6,7 @@ The Model reference provides detailed descriptions of CORE's classes and functio
 
 
 .. toctree::
-    :maxdepth: 1
+    :maxdepth: 2
 
     CORE.models.Synbio
 
