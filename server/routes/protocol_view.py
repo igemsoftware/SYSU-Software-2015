@@ -33,7 +33,7 @@ def set_circuit_s_protocols(id):
     if not c: abort(404)
 
     for ind, p in enumerate(protocols):
-        p['id'] = ind
+        p['id'] = ind+1
     c.protocols = json.dumps(protocols)
     db.session.add(c)
 
