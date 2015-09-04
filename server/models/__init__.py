@@ -6,6 +6,7 @@ from .task import Task
 from .comment import Comment
 from .memo import Memo
 from .track import Track
+from .equation import Equation
 
 from .synbio import ComponentPrototype, ComponentInstance, Relationship
 from .synbio import Protocol, Device, Circuit 

@@ -25,7 +25,7 @@ class User(UserMixin, db.Model):
     A default user named `administrator` is added when initializing.""" 
     
     id = db.Column(db.Integer, primary_key=True)  
-    """ID number used to identify each user. It's unique for everyone."""
+    """ID is an unique number to identify each :class:`User`."""
 
     # Basic info
     username = db.Column(db.String(128), nullable=False, unique=True)
@@ -34,9 +34,9 @@ class User(UserMixin, db.Model):
     If a oversize username is typed, it will automatically truncated to 128 long.
     """
     email = db.Column(db.String(128), unique=True)
-    """Email is used to remind you your experiments (or to retrieve your password)."""
+    """Email is used to remind the user about his experiments (or to retrieve his password)."""
     avatar = db.Column(db.String()) # url
-    """The URL of your avatar."""
+    """The URL of user's avatar."""
 
     # password
     password_hash = db.Column(db.String(32)) 
@@ -87,9 +87,11 @@ class User(UserMixin, db.Model):
 
     # messages
     msg_box = db.relationship('Message', backref='receiver', lazy='dynamic')
-    """The received :class:`Message`."""
+    """The received :class:`Message`.""" 
+
 
     def send_message_to(self, user, **kwargs):
+        """Send a :class:`Message` to another user.""" 
         msg = Message(isread=False, receiver_id=user.id, source='User', **kwargs) #sender_id=self.id,
         db.session.add(msg)
         db.session.commit()
@@ -97,24 +99,29 @@ class User(UserMixin, db.Model):
 
     @property
     def sent_messages(self):
+        """Retrieve the messages sent by user."""
         return Message.query.filter(Message.sender_id==self.id).all()
 
     # tasks
     watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
+    """The :class:`Task` user watched."""
 
     def create_task(self, **kwargs):
+        """Create a :class:`Task`."""
         t = Task(watcher=[self], sender_id=self.id, **kwargs)
         db.session.add(t)
         db.session.commit()
         return t
 
     def watch_task(self, task):
+        """Watch a :class:`Task`."""
         self.watched_tasks.append(task)
         db.session.add(self)
         db.session.commit()
 
     # comment
     def make_comment(self, task_id, content):
+        """Make a :class:`Comment` about a :class:`Task`.""" 
         c = Comment(content=content, task_id=task_id, sender_id=self.id)
         db.session.add(c)
         db.session.commit()
@@ -125,18 +132,21 @@ class User(UserMixin, db.Model):
 
     # email
     def send_email(self, subject, template, **kwargs):
+        """Send an email."""
         _send_email(self.email, subject, template, **kwargs)
 
     # calendar
-
-    # calendar memos
     memos = db.relationship('Memo', backref='owner', lazy='dynamic')
+    """All :class:`Memo` belong to user."""
     # before how long should we notify user ( in minutes )
     memo_ahead = db.Column(db.Integer, default=60*6) # 6 hour ahead
+    """How much time ahead to remind user about user's :class:`Memo`."""
     # whether we send an email to user
     memo_email = db.Column(db.Boolean, default=True)
+    """Whether send email to remind the user."""
 
     def add_memo(self, **kwargs):#title, content, timescale):
+        """Add a :class:`Memo` to calendar"""
         m = Memo(**kwargs)
         #title = title, content=content, timescale=timescale)
         self.memos.append(m)
@@ -147,6 +157,9 @@ class User(UserMixin, db.Model):
         return m
 
     def check_memo(self):
+        """Check whether some :class:`Memo` is about to happen.
+        Send a :class:`Message` or an email to remind those will 
+        happen in :attr:`memo_ahead`."""
         td = timedelta(minutes=self.memo_ahead)
         for m in self.memos:
             if m.message_sent == True: continue
@@ -162,14 +175,18 @@ class User(UserMixin, db.Model):
                 m.message_sent = True
 
     def get_memos_during(self, start_time, end_time):
+        """Get :class:`Memo` in a specific duration."""
         return self.memos.filter(start_time < Memo.plan_time, Memo.plan_time < end_time).all()
 
     # track
     tracks = db.relationship('Track', secondary=tracks, backref=db.backref('user', lazy='dynamic')) 
+    """The :class:`Track` the user belong to."""
 
     # favoriate circuit
     favorite_circuits = db.relationship('Circuit', secondary=Favorite_circuit, backref=db.backref('user', lazy='dynamic'))
+    """User's favorite :class:`Circuit`."""
     circuits = db.relationship('Circuit', backref='owner', lazy='dynamic')
+    """User's :class:`Circuit`."""
 
 
 
@@ -254,6 +271,7 @@ class User(UserMixin, db.Model):
 
 @login_manager.user_loader
 def load_user(user_id):
+    """wrapper for ``flask.ext.login``"""
     return User.query.get(int(user_id))
 
 
@@ -262,6 +280,8 @@ def load_user(user_id):
 from flask.ext.login import AnonymousUserMixin
 
 class AnonymousUser(AnonymousUserMixin):
+    """Anonymous user is required for ``flask.ext.login``.
+    This kind of user has limited permissions."""
     pass 
 
 login_manager.anonymous_user = AnonymousUser
