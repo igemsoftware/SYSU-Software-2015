@@ -4,6 +4,7 @@ from . import main
 
 from flask import render_template, jsonify, request, current_app, url_for, jsonify, abort
 from flask.ext.login import login_required
+from ..models import Circuit
 import json
 
 @main.before_app_request 
