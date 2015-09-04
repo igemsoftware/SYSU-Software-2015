@@ -34,6 +34,10 @@ body {
     z-index: 100;
 }
 
+#embedded-topbar > a {
+    margin: 0;
+}
+
 #embedded-topbar-bottom-line {
     position: absolute;
     bottom: 0;
