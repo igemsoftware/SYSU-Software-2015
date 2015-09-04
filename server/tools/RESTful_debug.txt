@@ -1,0 +1,1 @@
+curl -H "Content-type: application/json" -X POST http://127.0.0.1:5000/protocol/circuit/1 -d '{"message":"Hello Data"}'
