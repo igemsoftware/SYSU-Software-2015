@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 from .. import db
 from .. import login_manager
 
@@ -21,39 +20,36 @@ from ..tools.email import _send_email
 
 
 class User(UserMixin, db.Model):
-    '''
-        Model for user
-    '''
-        
-    id = db.Column(db.Integer, primary_key=True)
+    """User model in CORE.
 
-    # basic info
+    A default user named `administrator` is added when initializing.""" 
+    
+    id = db.Column(db.Integer, primary_key=True)  
+    """ID number used to identify each user. It's unique for everyone."""
+
+    # Basic info
     username = db.Column(db.String(128), nullable=False, unique=True)
+    """The length of username should be shorter than 128 and larger than 0.
+
+    If a oversize username is typed, it will automatically truncated to 128 long.
+    """
     email = db.Column(db.String(128), unique=True)
+    """Email is used to remind you your experiments (or to retrieve your password)."""
     avatar = db.Column(db.String()) # url
+    """The URL of your avatar."""
 
     # password
     password_hash = db.Column(db.String(32)) 
+    """Password will be hashed with :attr:`salt` and stored here."""
     salt = db.Column(db.String(32))
-
-    # record
-    reg_date = db.Column(db.DateTime, default=datetime.now)
-    last_seen = db.Column(db.DateTime, default=datetime.now)
-
-    def __init__(self, async_mail=True, send_email=True, **kwargs):
-        kwargs['username'] = kwargs['username'][:128]
-        super(User, self).__init__(**kwargs)
-        if self.username != "Administrator" and send_email:
-            self.send_email(subject='Welcome to FLAME', template='email/greeting',
-                            user=self, async=async_mail)
-
-    def ping(self):
-        last_seen = datetime.now()
-        db.session.add(self)
-
-    # password
+    """Salt for :attr:`password_hash`."""
     @property
     def password(self):
+        """The way to assign a password.
+        
+        :getter: A warning string will be return.
+        :setter: Randomly create a :attr:`salt`, which will be used to generate :attr:`password_hash`.
+        :type: string"""
         return "You should not see it"
 
     @password.setter
@@ -62,11 +58,36 @@ class User(UserMixin, db.Model):
         self.password_hash = generate_password_hash(value+self.salt)
 
     def verify_password(self, password):
+        """Verify the given password with stored :attr:`salt`."""
         return check_password_hash(self.password_hash, password+self.salt)
 
+    # record
+    reg_date = db.Column(db.DateTime, default=datetime.now)
+    """Registration time."""
+    last_seen = db.Column(db.DateTime, default=datetime.now)
+    """Last login time."""
+    def ping(self):
+        """Update the last login time."""
+        last_seen = datetime.now()
+        db.session.add(self)
+
+    def __init__(self, async_mail=True, send_email=True, **kwargs):
+        """When initialize a :class:`User`, the administrator will send a 
+        greeting email by default.
+        
+        :async_mail: Use another thread to send email. When set to ``False``, the server might \
+        go wrong if something goes wrong with the sending procedure. It should be ``True`` during\
+        the runing time.
+        :send_email: Whether send an email or not."""
+        kwargs['username'] = kwargs['username'][:128]
+        super(User, self).__init__(**kwargs)
+        if self.username != "Administrator" and send_email:
+            self.send_email(subject='Welcome to FLAME', template='email/greeting',
+                            user=self, async=async_mail)
 
     # messages
     msg_box = db.relationship('Message', backref='receiver', lazy='dynamic')
+    """The received :class:`Message`."""
 
     def send_message_to(self, user, **kwargs):
         msg = Message(isread=False, receiver_id=user.id, source='User', **kwargs) #sender_id=self.id,
