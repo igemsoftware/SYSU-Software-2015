@@ -42,6 +42,8 @@ def post_all():
         protocol = event['protocol']
         error = event['error']
         record = event['record']
+        if start_time >= end_time:
+            end_time = start_time+timedelta(minutes=1)
 
         if id == -1:
             m = Memo()
@@ -50,7 +52,7 @@ def post_all():
             m = Memo.query.get(id)
         m.title = title
         m.plan_time = start_time
-        m.time_scale = (end_time-start_time).seconds/60
+        m.time_scale = (end_time-start_time).total_seconds()/60
         m.protocol = protocol
         m.error = error
         m.record = record

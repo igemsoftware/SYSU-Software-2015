@@ -1,9 +1,13 @@
 from server import create_app
 
+# Change the host and port here
+HOST = '0.0.0.0'
+PORT = 8000
+
 app = create_app('development') 
 kwargs = {
-            'host':'0.0.0.0',
-            'port':8000
+            'host':HOST,
+            'port':PORT,
          }
 
 if __name__ == '__main__':
