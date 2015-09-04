@@ -1,5 +1,7 @@
 # CORE - Crowdsourcing Open Redesign Engine
 
+[![Build Status](https://magnum.travis-ci.com/leasunhy/SYSU-Software-2015.svg?token=NsrgXLpyHNmqMexEuqoe&branch=master)](https://magnum.travis-ci.com/leasunhy/SYSU-Software-2015)
+
 ## Introduction 
 
 CORE is a Crowdsourcing Open Redesign Engine for Synthetic Biology. It contains three major parts:
