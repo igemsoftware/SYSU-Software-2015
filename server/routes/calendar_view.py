@@ -32,7 +32,8 @@ def get_all():
 @calendar.route('/all', methods=["POST"]) 
 @login_required
 def post_all(): 
-    events = json.loads( request.form.get('events', []) )
+#    events = json.loads( request.form.get('events', []) )
+    events = request.get_json()
     for event in events:
         id = event['id']
         title = event['title']
@@ -41,6 +42,8 @@ def post_all():
         protocol = event['protocol']
         error = event['error']
         record = event['record']
+        if start_time >= end_time:
+            end_time = start_time+timedelta(minutes=1)
 
         if id == -1:
             m = Memo()
@@ -48,8 +51,8 @@ def post_all():
         else:
             m = Memo.query.get(id)
         m.title = title
-        m.start_time = start_time
-        m.time_scale = (end_time-start_time).seconds/60
+        m.plan_time = start_time
+        m.time_scale = (end_time-start_time).total_seconds()/60
         m.protocol = protocol
         m.error = error
         m.record = record
