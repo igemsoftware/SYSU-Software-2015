@@ -6,16 +6,10 @@
 
 .. autoclass:: Relationship 
 
-    .. autoattribute:: id
-    .. autoattribute:: name
-    .. autoattribute:: introduction
-    .. autoattribute:: component
-    .. autoattribute:: procedure
-    .. autoattribute:: likes
-    .. autoattribute:: setB
-    .. autoattribute:: recommend
-    .. automethod:: jsonify 
-    .. automethod:: load_from_file 
+    .. autoattribute:: start_id
+    .. autoattribute:: end_id
+    .. autoattribute:: type
+    .. autoattribute:: equation
 
 
 

@@ -9,7 +9,7 @@ from .track import Track
 from .equation import Equation
 
 from .synbio import ComponentPrototype, ComponentInstance, Relationship
-from .synbio import Protocol, Device, Circuit 
+from .synbio import Protocol, Device, Circuit, BioBase
 
 
 model_list = [User, Track, Message, Task, Comment, Memo,
