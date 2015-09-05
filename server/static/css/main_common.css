@@ -8,12 +8,12 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    background: linear-gradient(#151618, #2d2e30, #4f4f50);
+    background: #2d2e30;
     height: 48px;
     padding-left: 10px;
-    padding-right: 100px;
+    padding-right: 90px;
     margin: 0;
-    z-index: 800;
+    z-index: 888;
     /*box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.75);*/
     box-shadow: 0 0 15px 2px rgba(0, 0, 0, 0.75);
 }
@@ -63,10 +63,10 @@ body {
 
 #topbar-avatar {
     position: fixed;
-    right: 6px;
-    top: 6px;
-    width: 90px;
-    height: 90px;
+    right: 10px;
+    top: 9px;
+    width: 80px;
+    height: 80px;
     margin: 0;
     padding: 0;
     z-index: 900;
@@ -116,24 +116,26 @@ body {
 }
 
 #topbar-avatar-popup > .link.list > .item > .label {
-    font-size: 0.8rem;
-    padding: 4px!important;
-    vertical-align: middle;
+    /*font-size: 0.8rem;*/
+    /*padding: 4px!important;*/
+    vertical-align: 3px;
 }
 
 #topbar-avatar-popup > .link.list > .item + .item {
     border-top: 1px solid #e4e4e4;
 }
 
-/*
-#main-container {
+.main-container {
+    padding-top: 52px;
+    padding-bottom: 0;
+    margin-right: 52px;
+    margin-left: 52px;
+    height: 100%;
     width: auto;
+    font-size: 1.2rem;
     background-color: #f8f8f8;
-    margin: 0 52px;
-    padding: 60px 300px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
-*/
 
 #main-switcher .button {
     margin: 30px;

@@ -50,34 +50,73 @@ import json
 #           return '<ProtocolRecommend: %s->%s>' % (self.prototype.name, self.device.name)
 
 class Protocol(db.Model):
+    """Protocol model in CORE."""
+
     id = db.Column(db.Integer, primary_key=True)
+    """ID is an unique number to identify each :class:`Protocol`."""
 
     name = db.Column(db.String(128), default='', index=True)
+    """Its name, which is used to sort."""
     introduction = db.Column(db.Text, default='')
+    """Its introduction."""
     component = db.Column(db.Text, default='')
+    """Its component, which is a list of strings."""
     procedure = db.Column(db.Text, default='')
+    """Its procedure, which is the dumpped string of a list of json object:
+        
+    :procedure: The detailed step.
+    :time: How long this step takes.
+    :annotation: Annotation."""
     likes = db.Column(db.Integer, default=0)
+    """How many user like this protocol."""
+    setB = db.Column(db.Boolean, default=False)
+    """Whether it is in setB. SetB is the general operation mannual."""
 
     recommend = db.Column(db.Boolean, default = False)
+    """The recommended protocol will added in circuit by default."""
 
 #    liked = db.Column(db.Integer, default=0)
 #    used_times = db.Column(db.Integer, default=0)
 
+    def jsonify(self):
+        """Tranform itself into a json object."""
+        procedures = []
+        for steps in self.procedure.split('\n'):
+            steps = steps.split('\t')
+            if len(steps) == 2:
+                procedures.append({'procedure':steps[0],'time':steps[1],'annotation':''})
+            elif len(steps) == 3:
+                procedures.append({'procedure':steps[0],'time':steps[1],'annotation':steps[2]})
+
+        return {
+                    'id': self.id,
+                    'name': self.name,
+                    'introduction': self.introduction,
+                    'component': self.component.split('\n'),
+                    'procedure' : procedures,
+                    'likes': self.likes,
+                    'setB': self.setB,
+               }
+
+
     def load_from_file(self, filename):
+        """Load from local files. Mostly called in preload stage."""
         print 'loading protocol %s ...' % filename
         _introduction = []
         _component = []
         _procedure = []
         with open(filename, 'r') as f:
             self.name = f.readline().strip().decode('ISO-8859-1')
-            self.recommend = f.readline().strip() == 'True'
+            if self.name[0] == 'B': self.setB = True;
+#            self.recommend = f.readline().strip() == 'True'
+            self.recommend = True
             for line in f:
                 line = line.strip()
                 if line == 'Introduction':
                     ptr = _introduction
                 elif line == 'Components':
                     ptr = _component
-                elif line == 'Procedure':
+                elif line == 'Procedure' or line.startswith('Procedure'):
                     ptr = _procedure
                 else:
                     ptr.append(line.strip().decode('ISO-8859-1'))
@@ -103,14 +142,24 @@ class Protocol(db.Model):
 from equation import Equation
 
 class Relationship(db.Model):
+    """Relationship between parts in CORE."""
+
     start_id = db.Column(db.Integer, db.ForeignKey('componentprototype.id'),
                             primary_key=True)
+    """The :attr:`User.id` of the start point of the relationship."""
     end_id = db.Column(db.Integer, db.ForeignKey('componentprototype.id'),
                             primary_key=True)
+    """The :attr:`User.id` of the end point of the relationship."""
     type = db.Column(db.String(64), default='normal')
+    """Three kinds of relationship between two parts:
+        
+    :normal: The sequential relationship.
+    :promotion: The existence of starter will promote production of the ender.
+    :inhibition: The existence of starter will inhibit production of the ender."""
 
     @property
     def equation(self):
+        """A :class:`Equation` instance to describe the relationship"""
         return Equation(jsonstr=self.__equation)
     @equation.setter
     def equation(self, value):
@@ -131,39 +180,71 @@ class Relationship(db.Model):
 
 
 class ComponentPrototype(db.Model):
+    """ComponentPrototype is the prototype of biological/chemical/other components."""
+
     __tablename__ = 'componentprototype'
     id = db.Column(db.Integer, primary_key=True)
+    """ID is an unique number to identify each :class:`ComponentPrototype`."""
 
     name = db.Column(db.String) #unique=True)
+    """Its name."""
 
     type = db.Column(db.String(64), default='None')
+    """There many type of components.
+    
+    :None: The default 'empty' type.
+    :Promoter: The promotor part on gene.
+    :RBS: The RBS part on gene.
+    :gene: The CDS part on gene.
+    :terminator: The terminator part on gene.
+    :material: Physical material.
+    :protein: Protein.
+    :unknonw: Un-catagory."""
     introduction = db.Column(db.Text, default="No introduction yet.")
+    """Its introduction."""
     source = db.Column(db.Text, default="Come from no where.")
+    """From where this component is collected."""
     risk = db.Column(db.Integer, default="-1")
+    """Biological risk."""
     BBa = db.Column(db.String, default='')
+    """BBa number, if existed."""
     bacterium = db.Column(db.String, default='')
+    """From what kind of bacterium this component is collected."""
     
     point_to = db.relationship('Relationship', 
                                foreign_keys=[Relationship.start_id],
                                backref=db.backref('start', lazy='joined'),
                                lazy='dynamic',
                                cascade='all, delete-orphan')
+    """What components does it point to."""
     be_point = db.relationship('Relationship', 
                                foreign_keys=[Relationship.end_id],
                                backref=db.backref('end', lazy='joined'),
                                lazy='dynamic',
                                cascade='all, delete-orphan')
+    """What components points to it."""
 
     @property
     def attr(self):
+        """Combine :attr:`BBa` with :attr:`name`, if :attr:`BBa` exists."""
         return self.name+':'+self.BBa if self.BBa else self.name
 
     def __repr__(self):
         return '<ComponentPrototype: %s>' % self.name
 
-class ComponentInstance():
 # jingjin's Model
+class ComponentInstance():
+    """ComponentInstance is an instance of :class:`ComponentPrototype` in every :class:`BioBase`. """
+
+    partName = ''
+    """The name of the prototype."""
+    positionX = 0.
+    """The position on X-axis."""
+    positionY = 0.
+    """The position on Y-axis."""
     def __init__(self, partName, partID=None, positionX=300., positionY=300.):
+        """Initialization constructor, can use :attr:`ComponentPrototype.name` 
+        or :attr:`ComponentPrototype.attr` to find the prototype."""
         c = ComponentPrototype.query.filter_by(name=partName).first()
         if c is None:
             print 'No prototype named %s' % partName 
@@ -176,6 +257,7 @@ class ComponentInstance():
         self.positionY = positionY
 
     def jsonify(self):
+        """Tranform itself into a json object."""
         return {
                     'partID': self.partID,
                     'partName': self.partName,
@@ -188,7 +270,19 @@ class ComponentInstance():
 
 
 class BioBase():
+    """A base class for :class:`Device` and :class:`Circuit`."""
     content = db.Column(db.Text)
+    """String of a dumpped json object."""
+
+    parts = []
+    """List of :class:`ComponentInstance`"""
+    relationship = []
+    """List of :class:`Relationship`"""
+    interfaceA = ''
+    """The input of it."""
+    interfaceB = ''
+    """The output of it."""
+
     def __init__(self):
         self.parts = []
         self.relationship = []
@@ -196,6 +290,8 @@ class BioBase():
         self.interfaceB = ''
 
     def update_from_db(self):
+        """Update :attr:`parts`, :attr:`relationship`, 
+        :attr:`interfaceA`, and :attr:`interfaceB` from database"""
         #print self.connections
         json_obj = json.loads(self.content)
         self.parts = map(lambda x: ComponentInstance(**x), json_obj['parts'])
@@ -204,6 +300,8 @@ class BioBase():
         self.interfaceB = json_obj['interfaceB']
         
     def commit_to_db(self):
+        """Pack :attr:`parts`, :attr:`relationship`, 
+        :attr:`interfaceA`, and :attr:`interfaceB` and commit to database."""
 #        print self.connections
         json_obj = {
                         'parts': map(lambda x: x.jsonify(), self.parts),
@@ -217,9 +315,13 @@ class BioBase():
         db.session.commit()
 
     def clear(self):
+        """Pack :attr:`parts`, :attr:`relationship`, 
+        :attr:`interfaceA`, and :attr:`interfaceB` and commit to database."""
         self.components = []
         self.connections = []
 
+    # The following method is useless
+    # Those operations are done in front-end
     def add_component_by_id(self, prototype_id, **kwargs):
         c_prototype = ComponentPrototype.query.get(prototype_id)
         if not c_prototype: 
@@ -242,13 +344,21 @@ class BioBase():
 
 class Device(db.Model, BioBase):
     id = db.Column(db.Integer, primary_key=True)
+    """ID is an unique number to identify each :class:`Device`."""
 
     title = db.Column(db.String(32))
+    """Its title."""
 
     introduction = db.Column(db.Text, default="No introduction yet.")
+    """Its introduction."""
     source = db.Column(db.Text, default="Come from no where.")
+    """Its source."""
+    protocol_reference = db.Column(db.Text, default="No reference.")
+    """Its protocol reference."""
     risk = db.Column(db.Integer, default="-1")
+    """Its biological risk."""
     pic_url = db.Column(db.Text, default='')
+    """Its picture url."""
 
 ##  recommended_protocol = db.relationship('ProtocolRecommend',
 ##                                 foreign_keys=[ProtocolRecommend.device_id],
@@ -300,11 +410,13 @@ class Device(db.Model, BioBase):
         return c, instance
 
     def load_from_file(self, filename):
+        """Load from local files. Mostly called in preload stage."""
         print 'loading device from %s ...' % filename
         f = open(filename, 'r')
         self.title = f.readline().strip()
         self.introduction = f.readline().strip().decode('ISO-8859-1')
         self.source = f.readline().strip()
+#        self.protocol_reference = f.readline().strip()
         self.saferank = f.readline().strip()
         # self.type = f.readline().strip()
         self.interfaceA = f.readline().strip() 
@@ -361,28 +473,45 @@ Favorite_circuit = db.Table('Favorite_circuit',
 )
 
 class Circuit(db.Model, BioBase):
+    """Circuit model in CORE."""
     id = db.Column(db.Integer, primary_key=True)
+    """ID is an unique number to identify each :class:`Memo`."""
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
+    """The :attr:`User.id` of owner."""
 
     title = db.Column(db.Text, default='')
+    """Its title, which will be shown in calendar"""
 
     is_finished = db.Column(db.Boolean, default=False)
+    """Whether the circuit is complete."""
     is_shared = db.Column(db.Boolean, default=False)
+    """Whether the circuit is shared."""
     is_public = db.Column(db.Boolean, default=False)
-    task_related = db.Column(db.Integer, default=-1)
+    """Whether the circuit is public."""
+    # task_related = db.Column(db.Integer, default=-1)
 
     create_time = db.Column(db.DateTime, index=True, default=datetime.now)
-    # progress = db.Column(db.Integer, default=0)
+    """When the circuit is created."""
+    progress = db.Column(db.Integer, default=0)
+    """The progress of the circuit."""
     name = db.Column(db.String(128), default='No name')
+    """The name of it ."""
     introduction = db.Column(db.Text)
+    """The introduction of it ."""
 
-    protocol = db.Column(db.Text, default='')
+    protocols = db.Column(db.Text, default='')
+    """The protocols it is using."""
+    #experiment = db.Column(db.Text, default='')
 
     # in public database
     db_create_time = db.Column(db.DateTime)
+    """When this circuit is in CORE Bank."""
     likes = db.Column(db.Integer, default=0)
+    """How many likes it get."""
     favoriter = db.relationship('User', secondary=Favorite_circuit, backref=db.backref('circuit', lazy='dynamic')) 
+    """Who mark it as favorite."""
     grade = db.Column(db.Text) # how ?
+    """Grading."""
 
 
 ##  recommended_protocol = db.relationship('ProtocolRecommend',
@@ -394,23 +523,11 @@ class Circuit(db.Model, BioBase):
 
     def __init__(self, **kwargs):
         super(Circuit, self).__init__(**kwargs)
-        _protocol = []
-        _id = 0
-        for p in Protocol.query.filter_by(recommend=True).all():
-            _protocol.append(
-                    {
-                        'name': p.name,
-                        'introduction': p.introduction,
-                        'component': p.component,
-                        'procedure' : p.procedure,
-                        'likes': p.likes,
-                        'id': _id
-                    });
-            _id += 1
-        self.protocol = json.dumps(_protocol)
+        self.protocols = json.dumps([p.jsonify() for p in Protocol.query.filter_by(recommend=True, setB=False).all()])
                                  
 
     def _copy_from_device(self, device_id):
+        """Copy from a device."""
         d = Device.query.get(device_id)
         if not d: raise Exception('No device #%d' % device_id) 
         d.update_from_db()
@@ -425,10 +542,11 @@ class Circuit(db.Model, BioBase):
         return self
 
     def jsonify(self):
+        """Transform itself into a json object."""
         tags = []
         if self.is_shared: tags.append('Share')
         if self.is_public: tags.append('Public')
-        if self.task_related > 0: tags.append('Task')
+        #if self.task_related > 0: tags.append('Task')
         return {
             'id': self.id,
             'tags': tags,

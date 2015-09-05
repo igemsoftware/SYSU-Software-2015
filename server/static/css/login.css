@@ -1,8 +1,9 @@
 #pic {
-    background-image: url(/static/img/login_pic.png);
+    background-image: url(/static/img/auth/login_pic.png);
 }
 
 #logo {
+    margin-top: 2vh;
     width: 100%;
 }
 
@@ -11,7 +12,7 @@
 }
 
 #form {
-    margin: 5vh 0;
+    margin: 6vh 0 4vh 0;
 }
 
 #form input {

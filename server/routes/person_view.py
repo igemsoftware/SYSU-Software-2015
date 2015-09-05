@@ -16,14 +16,14 @@ def index():
 @login_required
 def mine():
     l = Circuit.query.filter_by(owner=current_user).all()
-    l = map(json_parser, l)
+    l = map(Circuit.jsonify(), l)
     return jsonify(mine=l)
 
 @person.route('/favorite')
 @login_required
 def favorite():
     l = current_user.favorite_circuits
-    l = map(json_parser, l)
+    l = map(Circuit.jsonify, l)
     return jsonify(favorite=l)
 
 
@@ -39,7 +39,7 @@ def get_person_notifications():
     return jsonify(notifications=l)
 
 
-@person.route('/notifications/id', methods=['POST'])
+@person.route('/notifications/<int:id>', methods=['POST'])
 @login_required
 def mark_notification_as_read(id):
     m = Message.query.get(id)
@@ -47,7 +47,7 @@ def mark_notification_as_read(id):
         m.isread = True
         db.session.add(m)
 
-@person.route('/notifications/id', methods=['DELETE'])
+@person.route('/notifications/<int:id>', methods=['DELETE'])
 @login_required
 def delete_notification(id):
     m = Message.query.get(id)

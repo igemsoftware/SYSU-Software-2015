@@ -12,8 +12,8 @@
 <div id="pic-wrapper">
   <div id="pic">
     <div id="pic-content-wrapper">
-      <img src="/static/img/login_logo.png" alt="LOGO" id="logo" class="ui image">
-      <form class="ui form" id="form" action={{ url_for("auth.login") }} method="POST">
+      <img src="/static/img/common/logo.png" alt="LOGO" id="logo" class="ui image">
+      <form class="ui form" id="form" action={{ url_for("auth.login", next=request.args.get('next') ) }} method="POST">
         {{ form.hidden_tag() }}
 
         <div class="ui input field">
