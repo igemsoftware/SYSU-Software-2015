@@ -705,38 +705,45 @@ SideBarWorker.prototype.createPartView = function(part) {
     var partType = part.type;
     var partIntro = part.introduction;
    
-    var div = $("<div></div>");
-    div.attr('id', partName);
-    div.attr('part-name', partName);
-    div.addClass('item');
+    // var div = $("<div></div>");
+    // div.attr('id', partName);
+    // div.attr('part-name', partName);
+    // div.addClass('item');
 
-    var img = Util.createImageDiv(partType);
-    img.appendTo(div);
+    // var img = Util.createImageDiv(partType);
+    // img.appendTo(div);
 
-    var h4 = Util.createTitleDiv(partName);
-    h4.appendTo(div);
+    // var h4 = Util.createTitleDiv(partName);
+    // h4.appendTo(div);
 
-    var dataDiv = $("<div></div>");
-    dataDiv.addClass("data");
-    dataDiv.css("overflow", "hidden");
-    div.appendTo(dataDiv);
+    // var dataDiv = $("<div></div>");
+    // dataDiv.addClass("data");
+    // dataDiv.css("overflow", "hidden");
+    // div.appendTo(dataDiv);
 
-    var span = $("<span></span>");
-    span.text(partIntro);
-    span.appendTo(dataDiv);
+    // var span = $("<span></span>");
+    // span.text(partIntro);
+    // span.appendTo(dataDiv);
 
-    var btn = Util.createItemBtn();
-    btn.appendTo(dataDiv);
-    btn.popup();
+    // var btn = Util.createItemBtn();
+    // btn.appendTo(dataDiv);
+    // btn.popup();
 
-    this._makeItJqeryDraggable(div);
+    // this._makeItJqeryDraggable(div);
 
+
+    //test
+    var dataDiv = $("<p></p>");
+    dataDiv.text(partName);
+    //test
+    console.log("createPartView function");
     return dataDiv;
 }
 
 SideBarWorker.prototype.addElemToView = function(elem, view) {
     view.append(elem);
-    view.append(Util.createDivider());
+    // view.append(Util.createDivider());
+    console.log("addElemToView function");
 }
 
 SideBarWorker.prototype.showView = function(elemsPartList, view) {
@@ -744,6 +751,7 @@ SideBarWorker.prototype.showView = function(elemsPartList, view) {
     for (var i in elemsPartList) {
         this.addElemToView(elemsPartList[i], view);
     }
+    console.log("showView function");
 }
 
 SideBarWorker.prototype._makeItJqeryDraggable = function(elem) {
@@ -790,7 +798,7 @@ LeftBar.prototype.init = function() {
     this._leftTriggerAnimation();
     this.enableSearchNewBox();
     this.enableSearchRelateBox();
-    $('.ui.styled.accordion').accordion();
+    $('.ui.styled.accordion').accordion({performance: true});
     $('.menu .item').tab();
 };
 
@@ -833,7 +841,7 @@ LeftBar.prototype._leftTriggerAnimation = function() {
             $("#main-contain").animate({
                 left: '0px'
             }, 500);
-            that.leftTrigger.find(".trigger-left > i").removeClass("left").addClass("right");
+            that.leftTrigger.find("i").removeClass("left").addClass("right");
         } else {
             that.isOpenLeftBar = true;
 
@@ -845,7 +853,7 @@ LeftBar.prototype._leftTriggerAnimation = function() {
                 left: that._leftBarWidth + 'px'
             }, 500);
 
-            that.leftTrigger.find(".trigger-left > i").removeClass("right").addClass("left");
+            that.leftTrigger.find("i").removeClass("right").addClass("left");
         }
     });
 }
@@ -1197,23 +1205,26 @@ DataManager.isProOrInhibitRelation = function(fromPartA, toPartB) {
 DataManager.getPartDataFromServer = function(callback) {
 	var that = this;
     $.get("/design/data/fetch/parts", function(data, status) {
+        console.log("Parts:");
         console.log(data['parts']);
         that.initPartList(data['parts']);
         callback(that.getPartList());
     });
 }
 
-DataManager.getRelationShipDataFromServer = function(callback) {
-	var that = this;
-    $.get("/design/data/fetch/relationship", function(data, status) {
-        console.log(data['relationship']);
-        that.initRelationShipList(data['relationship']);
-    });
-}
+// DataManager.getRelationShipDataFromServer = function(callback) {
+// 	var that = this;
+//     $.get("/design/data/fetch/relationship", function(data, status) {
+//         console.log("Relationship:");
+//         console.log(data['relationship']);
+//         that.initRelationShipList(data['relationship']);
+//     });
+// }
 
 DataManager.getRelationAdjDataFromServer = function(callback) {
 	var that = this;
 	$.get("/design/data/fetch/adjmatrix", function(data, status) {
+        console.log("Adjmatrix:");
         console.log(data['adjmatrix']);
         that.initRelationAdjList(data['adjmatrix']);
     });
@@ -1222,6 +1233,7 @@ DataManager.getRelationAdjDataFromServer = function(callback) {
 DataManager.getDeviceDataFromServer = function(callback) {
 	var that = this;
     $.get("/design/data/fetch/device", function(data, status) {
+        console.log("DeviceList:");
         console.log(data['deviceList']);
         that.initDeviceList(data['deviceList']);
     });
@@ -1237,7 +1249,9 @@ DataManager.getDeviceDataFromServer = function(callback) {
 function Util() {};
 
 Util.getImagePath = function(type, imgSize) {
-    return "/static/img/design/"+ type + "_" + imgSize +".png";
+    // console.log("getImagePath function");
+    // return "/static/img/design/"+ type + "_" + imgSize +".png";
+    return "";
 };
 
 Util.createImageDiv = function(partType) {
