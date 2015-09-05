@@ -13,14 +13,14 @@
     <link rel="stylesheet" href="/static/css/fullcalendar.min.css">
     <link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
    <!-- <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]]});
     </script>
     <script type="text/javascript"
       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
     -->
     <script type="text/javascript" src="/static/js/jquery.min.js"></script>
-
+ <!--    <script type="text/javascript" src="/static/js/experiment/angularplasmid.complete.min.js"></script> -->
   </head>
   <body>
 <!-- Top bar -->
@@ -278,7 +278,33 @@
       </div>
       <div class="ui bottom attached tab segment" data-tab="PlaPro" id="PlaPro">
       	<div class="ui grid">
-	      	<div class="eight wide column" id="leftbox"></div>
+	      	<div class="eight wide column" id="leftbox" ng-app="myApp" ng-controller="PlasmidCtrl">
+            <h3>Please choose a plasmid</h3>
+            <select id="selectPlasmid" class="ui dropdown" ng-model="currentIndex" ng-options="plasmids.indexOf(a) as a.name for a in plasmids">
+              <option value="">Choose a plasmid</option>
+           </select>
+            <plasmidapi name="api"></plasmidapi>
+            <plasmid id="pdemo" sequencelength="{[currentPlasmid.length]}" plasmidheight="500" plasmidwidth="500">
+                <plasmidtrack trackstyle="fill:#ccc" width="5" radius="150"></plasmidtrack>
+                <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" radius="150">
+                    <tracklabel text="{[currentPlasmid.name]}" labelstyle='font-size:20px;font-weight:400'></tracklabel>
+                    <tracklabel text="{[api.plasmid('pdemo').sequencelength]} bp" labelstyle='font-size:10px' vadjust="20"></tracklabel>
+                    
+                    <!-- draw the main markers and labels -->
+                    <trackmarker ng-repeat="m in currentPlasmid.marker" start="{[m.start]}" end="{[m.end]}" arrowendlength="4" arrowstartlength="-4" markerstyle="{[m.markerStyleIn]}">
+                        <markerlabel type="path" class="mdlabel" text="{[m.name]}" vadjust='55' valign="outer" showline="1" linevadjust="-15" linevadjust="-15" lineclass="labelline" style='font-size:17px'></markerlabel>
+                    </trackmarker>
+
+                    <!-- draw the marker regions -->
+                    <trackmarker ng-repeat="m in currentPlasmid.marker" start="{[m.start]}" end="{[m.end]}" markerstyle="{[m.markerStyleOut]}" wadjust="-5" vadjust="25"></trackmarker>
+                    
+                    <!-- draw the scales -->
+              <!--       <trackscale interval="100" style='stroke:#999' direction="in" ticksize="3"></trackscale> -->
+                    <trackscale interval="100" style='stroke:#999' ticksize="3"></trackscale>
+                    <trackscale interval="200" style="stroke:#f00" direction="in" showlabels="1" labelstyle="fill:#999;stroke:none;text-anchor:middle;alignment-baseline:middle;font-size:10px"></trackscale>
+                </plasmidtrack>
+            </plasmid>
+          </div>
   	    	<div class="eight wide column" id="rightbox">
   	    		<div id="protocol">
   	    			<div id="protocol-list">
@@ -301,5 +327,8 @@
     <script type="text/javascript" src="/static/js/experiment/fullcalendar.min.js"></script>
     <script type="text/javascript" src="/static/js/experiment/calendar.js"></script>
     <script type="text/javascript" src="/static/js/experiment/jquery.datetimepicker.js"></script>
+    <script type="text/javascript" src="/static/js/experiment//angular.min.js"></script>
+    <script type="text/javascript" src="/static/js/experiment//angularplasmid.min.js"></script>
+    <script type="text/javascript" src="/static/js/experiment/plasmid.js"></script>
   </body>
 </html>

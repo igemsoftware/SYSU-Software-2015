@@ -91,7 +91,7 @@ RightBar.prototype.enableAddEvent = function() {
 
 		calendar.fullCalendar('renderEvent', newEvent, true);
 
-		this.syncEvents();
+		that.syncEvents();
 		that.closeRightBar();
 	})
 }
