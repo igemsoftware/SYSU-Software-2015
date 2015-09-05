@@ -11,9 +11,9 @@ Contents:
 .. toctree::
    :maxdepth: 3
 
-   cheatsheet
    Models
    Routes
+   cheatsheet
 
 
 
