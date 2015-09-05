@@ -9,3 +9,11 @@ The Route reference provides detailed descriptions of CORE's route and how they 
     :maxdepth: 2
 
     CORE.routes.auth
+    CORE.routes.calendar
+    CORE.routes.db
+    CORE.routes.design
+    CORE.routes.main
+    CORE.routes.person
+    CORE.routes.pic
+    CORE.routes.protocol
+    CORE.routes.taskhall
