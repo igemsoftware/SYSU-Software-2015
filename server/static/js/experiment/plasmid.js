@@ -36,10 +36,48 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
   	.success(function(data) {
   		console.log(data);
   		$scope.plasmids = data;
+  		// $scope.currentPlasmid = $scope.plasmids[0];
   	});
 
-	$scope.$watch('currentIndex', function(newValue,oldValue, scope) {
-		if (newValue !== undefined)
-	  		$scope.currentPlasmid = $scope.plasmids[newValue];
+  	$http.get("/static/js/experiment/circuit1.json")
+  	.success(function(data) {
+  		console.log(data);
+  		$scope.circuits = data;
   	});
+
+	$scope.$watch('curPlaIndex', function(newValue,oldValue, scope) {
+		if (newValue !== undefined) {
+	  		$scope.currentPlasmid = $scope.plasmids[newValue];
+		}
+  	});
+
+	$scope.$watch('curCirIndex', function(newValue,oldValue, scope) {
+		if (newValue !== undefined) {
+	  		$scope.currentCircuit = $scope.circuits[newValue];
+		}
+  	});
+
+  	$scope.$watch('currentCircuit', function() {
+  		if ($scope.currentCircuit !== undefined && $scope.currentPlasmid !== undefined) {
+	  		var length = $scope.currentCircuit.length;
+		  	var accumLength = $scope.currentPlasmid.length;
+		  	for (var i in $scope.currentCircuit.markers) {
+	  			$scope.currentCircuit.markers[i].start = accumLength;
+	  			$scope.currentCircuit.markers[i].end = accumLength + $scope.currentCircuit.markers[i].length;
+	  			accumLength += $scope.currentCircuit.markers[i].length;
+	  		}
+	  	}
+  	})
+
+  	$scope.$watch('currentPlasmid', function() {
+  		if ($scope.currentCircuit !== undefined && $scope.currentPlasmid !== undefined) {
+	  		var length = $scope.currentCircuit.length;
+		  	var accumLength = $scope.currentPlasmid.length;
+		  	for (var i in $scope.currentCircuit.markers) {
+	  			$scope.currentCircuit.markers[i].start = accumLength;
+	  			$scope.currentCircuit.markers[i].end = accumLength + $scope.currentCircuit.markers[i].length;
+	  			accumLength += $scope.currentCircuit.markers[i].length;
+	  		}
+	  	}
+  	})
 }]);
