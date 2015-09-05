@@ -45,9 +45,9 @@ If your are a developer who hopes to use CORE on IOS, Android or other platforms
 
 ## Documentation
 
-Build with `xxxx`
-
-See in `/docs`
+- `cd docs/`
+- Build with `sphinx-build -b html -d _build/doctrees . _build/html`
+- See in `_build/html/index.html`
 
 ## FAQ
 
