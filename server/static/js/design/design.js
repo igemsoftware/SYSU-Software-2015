@@ -172,8 +172,8 @@ Design.prototype._makeDrawAreaDroppabble = function() {
             ui.helper.remove();
             $(dropedElement).removeAttr("class");
 
-            $(dropedElement).find("img").addClass("no-margin");
-            $(dropedElement).find("h4").addClass("text-center");
+            // $(dropedElement).find("img").addClass("no-margin");
+            // $(dropedElement).find("h4").addClass("text-center");
             // $(dropedElement).find("h4").css("bottom", "px");
 
             var filterDiv = $("<div></div>");
@@ -187,6 +187,13 @@ Design.prototype._makeDrawAreaDroppabble = function() {
             dropedElement.addClass("node");
             dropedElement.appendTo('#drawArea');
             dropedElement.attr("normal-connect-num", 0);
+
+            //test
+            var titleDiv = $("<div></div>");
+            titleDiv.css("text-align", "center");
+            titleDiv.text(dropedElement.find("span").text());
+            dropedElement.find("span").replaceWith(titleDiv);
+            //test
 
             var left = $(dropedElement).position().left - leftBar.view.width();
             var top  = $(dropedElement).position().top - that.drawMenu.height();
@@ -704,6 +711,7 @@ SideBarWorker.prototype.createPartView = function(part) {
     var partName = part.name;
     var partType = part.type;
     var partIntro = part.introduction;
+    var BBa = part.BBa;
    
     // var div = $("<div></div>");
     // div.attr('id', partName);
@@ -719,6 +727,7 @@ SideBarWorker.prototype.createPartView = function(part) {
     // var dataDiv = $("<div></div>");
     // dataDiv.addClass("data");
     // dataDiv.css("overflow", "hidden");
+    // dataDiv.attr("type", partType);
     // div.appendTo(dataDiv);
 
     // var span = $("<span></span>");
@@ -729,21 +738,45 @@ SideBarWorker.prototype.createPartView = function(part) {
     // btn.appendTo(dataDiv);
     // btn.popup();
 
-    // this._makeItJqeryDraggable(div);
+    var dataDiv = $("<div class='data'></div>");
+    var itemDiv = $("<div class='item'></div>");
+    var imgElem = $("<img class='ui mini avatar image'/>");
+    var titleSpan = $("<span class='title'></span>");
+    var iconSpan = $('<span class="more"><i class="zoom icon"></i></span>');
+    var BBaSpan = $("<span class='BBa'></span>");
+    var leftSpan = $("<span class='leftBox'></span>");
 
+    dataDiv.attr("type", partType);
+	itemDiv.attr('id', partName);
+    itemDiv.attr('part-name', partName);
+    imgElem.attr("src", Util.getImagePath(partType, 60));
+    titleSpan.text(partName);
+    iconSpan.attr("data-content", "Read more about this part");
+    iconSpan.popup();
+    if (BBa != "") {
+	    BBaSpan.text("("+BBa+")");
+    }
 
-    //test
-    var dataDiv = $("<p></p>");
-    dataDiv.text(partName);
-    //test
-    console.log("createPartView function");
+    itemDiv.append(imgElem);
+    itemDiv.append(titleSpan);
+	leftSpan.append(itemDiv);
+	leftSpan.append(BBaSpan);
+	dataDiv.append(leftSpan);
+	dataDiv.append(iconSpan);
+
+    this._makeItJqueryDraggable(itemDiv);
+    // test
+    // var dataDiv = $("<p></p>");
+    // dataDiv.text(partName);
+    // test
+    // console.log("createPartView function");
     return dataDiv;
 }
 
 SideBarWorker.prototype.addElemToView = function(elem, view) {
     view.append(elem);
-    // view.append(Util.createDivider());
-    console.log("addElemToView function");
+    view.append(Util.createDivider());
+    // console.log("addElemToView function");
 }
 
 SideBarWorker.prototype.showView = function(elemsPartList, view) {
@@ -751,10 +784,10 @@ SideBarWorker.prototype.showView = function(elemsPartList, view) {
     for (var i in elemsPartList) {
         this.addElemToView(elemsPartList[i], view);
     }
-    console.log("showView function");
 }
 
-SideBarWorker.prototype._makeItJqeryDraggable = function(elem) {
+SideBarWorker.prototype._makeItJqueryDraggable = function(elem) {
+	// console.log("_makeItJqueryDraggable function");
     elem.draggable({
         helper: 'clone',
         cursor: 'move',
@@ -778,6 +811,7 @@ function LeftBar() {
     this.view.devices = $("#devices");
     this.view.customs = $("#customs");
     // this.vide.systems = $("#systems");
+    this.view.relates = $("#relates");
     this.view.relateParts = $("#relateParts");
     this.view.relateDevices = $("#relateDevices");
     this.view.relateSystems = $("#relateSystems");
@@ -787,6 +821,13 @@ function LeftBar() {
     this.elemsDeviceList = [];
     this.elemsSystemList = [];
     this.elemsCustomList = [];
+    //test
+    this.elemsPromoterList = [];
+    this.elemsRBSList = [];
+    this.elemsProteinList = [];
+    this.elemsGeneList = [];
+    this.elemsTermiList = [];
+    this.elemsChemList = [];
 
     this.view.searchRelateBox = $("#searchRelate");
     this.view.searchNewBox = $("#searchNew");
@@ -800,6 +841,8 @@ LeftBar.prototype.init = function() {
     this.enableSearchRelateBox();
     $('.ui.styled.accordion').accordion({performance: true});
     $('.menu .item').tab();
+
+    this.enableFilter();
 };
 
 LeftBar.prototype.initPart = function(partList) {
@@ -808,10 +851,70 @@ LeftBar.prototype.initPart = function(partList) {
     for (var i in partList) {
     	var dataDiv = this.leftbarWorker.createPartView(partList[i]);
     	this.elemsPartList.push(dataDiv);
+	    //test
+	    // console.log(dataDiv);
+	    this.addElemToBar(dataDiv);
+	    // this.leftbarWorker.addElemToView(dataDiv, $("#parts"));
+	    //testt
+
     	this._searchTitle.push({title: partList[i].name});
     }
     this.updateSearchBar();
-    this.leftbarWorker.showView(this.elemsPartList, this.view.parts);
+    // this.leftbarWorker.showView(this.elemsPartList, this.view.parts);
+}
+
+LeftBar.prototype.addElemToBar = function(elem) {
+	var partType = elem.attr("type");
+	var elemClone = elem.clone();
+	this.leftbarWorker._makeItJqueryDraggable(elemClone.find(".item"));
+	if (partType == 'promoter' || partType == 'promotor') {
+		this.elemsPromoterList.push(elemClone);
+	}
+	if (partType == 'RBS') {
+		this.elemsRBSList.push(elemClone);
+	}
+	if (partType == 'protein') {
+		this.elemsProteinList.push(elemClone);
+	}
+	if (partType == 'gene') {
+		this.elemsGeneList.push(elemClone);
+	}
+	if (partType == 'terminatator' ||　partType == 'terminator'　|| partType == 'termintator') {
+		this.elemsTermiList.push(elemClone);
+	}
+	if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
+		this.elemsChemList.push(elemClone);
+	}
+
+	this.leftbarWorker.addElemToView(elem, this.view.parts);
+}
+
+LeftBar.prototype.enableFilter = function() {
+	var that = this;
+	$("#filterParts").change(function() {
+		var partType = $(this).val();
+		if (partType == 'promoter' || partType == 'promotor') {
+			that.leftbarWorker.showView(that.elemsPromoterList, that.view.parts);
+		}
+		if (partType == 'RBS') {
+			that.leftbarWorker.showView(that.elemsRBSList, that.view.parts);
+		}
+		if (partType == 'protein') {
+			that.leftbarWorker.showView(that.elemsProteinList, that.view.parts);
+		}
+		if (partType == 'gene') {
+			that.leftbarWorker.showView(that.elemsGeneList, that.view.parts);
+		}
+		if (partType == 'terminatator' ||　partType == 'terminator'　|| partType == 'termintator') {
+			that.leftbarWorker.showView(that.elemsTermiList, that.view.parts);
+		}
+		if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
+			that.leftbarWorker.showView(that.elemsChemList, that.view.parts);
+		}
+		if (partType == 'all') {
+			that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
+		}
+	})
 }
 
 LeftBar.prototype.addCustomPart = function(part) {
@@ -870,10 +973,7 @@ LeftBar.prototype.enableSearchNewBox = function() {
         			searchElemPartList.push(that.elemsPartList[i]);
         		}
         	}
-        	if (searchElemPartList !== []) {
-				that.view.parts.prev().addClass("active");
-				that.view.parts.addClass("active");
-			}
+
         	that.leftbarWorker.showView(searchElemPartList, that.view.parts);
         } else {
         	that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
@@ -885,6 +985,7 @@ LeftBar.prototype.enableSearchRelateBox = function() {
 	var that = this;
 	this.view.searchRelateBox.keyup(function() {
 		var val = that.view.searchRelateBox.val().toLowerCase();
+		console.log(that.view.searchRelateBox.val());
 		if (val != "") {
 			var searchElemPartList = [];
 			for (var i in that.elemsPartList) {
@@ -893,15 +994,16 @@ LeftBar.prototype.enableSearchRelateBox = function() {
 					searchElemPartList.push(that.elemsPartList[i]);
 				}
 			}
-			if (searchElemPartList !== []) {
-				that.view.relateParts.prev().addClass("active");
-				that.view.relateParts.addClass("active");
-			}
-			that.leftbarWorker.showView(searchElemPartList, that.view.relateParts);
+
+			console.log("enableSearchRelateBox function");
+			console.log(searchElemPartList);
+			console.log(that.elemsPartList);
+			console.log(that.view.relates);
+			that.leftbarWorker.showView(searchElemPartList, that.view.relates);
 		} else {
-			that.view.relateParts.empty();
-			that.view.relateParts.prev().removeClass("active");
-			that.view.relateParts.removeClass("active");
+			that.view.relates.empty();
+			that.view.relates.prev().removeClass("active");
+			that.view.relates.removeClass("active");
 		}
 	})
 }
@@ -1212,14 +1314,14 @@ DataManager.getPartDataFromServer = function(callback) {
     });
 }
 
-// DataManager.getRelationShipDataFromServer = function(callback) {
-// 	var that = this;
-//     $.get("/design/data/fetch/relationship", function(data, status) {
-//         console.log("Relationship:");
-//         console.log(data['relationship']);
-//         that.initRelationShipList(data['relationship']);
-//     });
-// }
+DataManager.getRelationShipDataFromServer = function(callback) {
+	var that = this;
+    $.get("/design/data/fetch/relationship", function(data, status) {
+        console.log("Relationship:");
+        console.log(data['relationship']);
+        that.initRelationShipList(data['relationship']);
+    });
+}
 
 DataManager.getRelationAdjDataFromServer = function(callback) {
 	var that = this;
@@ -1250,8 +1352,8 @@ function Util() {};
 
 Util.getImagePath = function(type, imgSize) {
     // console.log("getImagePath function");
-    // return "/static/img/design/"+ type + "_" + imgSize +".png";
-    return "";
+    return "/static/img/design/"+ type + "_" + imgSize +".png";
+    // return "";
 };
 
 Util.createImageDiv = function(partType) {
@@ -1371,7 +1473,7 @@ $("#customPartType").change(function() {
 	$("#customImg").attr("src", "/static/img/design/"+partType+"_70.png");
 });
 
-$("#customSubmit").click(function() {
+$("#customCreate").click(function() {
 	$('#createCustomPartModal').modal("hide");
 	var part = {};
 	part.name = $("#customPartName").val();

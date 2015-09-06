@@ -66,7 +66,7 @@
       <div id="topbar-bottom-line"></div>
     </div>
 
-    <div id="left-sidebar">
+   <!--  <div id="left-sidebar">
       <div class="ui button trigger-left">
         <i class="chevron right big icon"></i>
       </div>
@@ -75,7 +75,6 @@
         <a class="item" data-tab="relate">Relate</a>
       </div>
       <div class="ui bottom attached tab segment active" data-tab="New">
-
         <div class="ui fluid category search">
           <div class="ui fluid icon input">
             <input id="searchNew" class="prompt" placeholder="Search parts..." type="text">
@@ -83,11 +82,47 @@
           </div>
           <div class="results"></div>
         </div>
-
         <div class="ui styled accordion">
           <div class="title"><i class="dropdown icon"></i>Part</div>
           <div class="content" id="parts">
-            
+            <div class="accordion transition visible" style="display: block !important;" id="partsCom">
+              <div class="title">
+                  <i class="dropdown icon"></i>
+                  Promoter
+              </div>
+              <div class="content" id="newPromoter">
+              </div>
+              <div class="title">
+                  <i class="dropdown icon"></i>
+                  RBS
+              </div>
+              <div class="content" id="newRBS">
+              </div>
+              <div class="title">
+                  <i class="dropdown icon"></i>
+                  Gene
+              </div>
+              <div class="content" id="newGene">
+              </div>
+              <div class="title">
+                  <i class="dropdown icon"></i>
+                  Protein
+              </div>
+              <div class="content" id="newProtein">
+              </div>
+              <div class="title">
+                  <i class="dropdown icon"></i>
+                  Terminator
+              </div>
+              <div class="content" id="newTerminator">
+              </div>
+              <div class="title">
+                  <i class="dropdown icon"></i>
+                  Chemical
+              </div>
+              <div class="content" id="newChemical">
+              </div>
+            </div>
           </div>
           <div class="title"><i class="dropdown icon"></i>Device</div>
           <div class="content" id="devices">
@@ -126,8 +161,136 @@
             </div>
         </div>
       </div>
+    </div> -->
+
+    <div id="left-sidebar">
+      <div class="ui button trigger-left">
+        <i class="chevron right big icon"></i>
+      </div>
+      <div class="ui attached tabular menu">
+        <a class="item active" data-tab="parts">Part</a>
+        <a class="item" data-tab="devices">Device</a>
+        <a class="item" data-tab="systems">System</a>
+        <a class="item" data-tab="customs">Custom</a>
+        <a class="item" data-tab="relate">Relate</a>
+      </div>
+
+      <div class="ui bottom attached tab segment active" data-tab="parts">
+        <div class="left-sidebar-top">
+          <div class="ui fluid category search">
+            <div class="ui fluid icon input">
+              <input id="searchNew" class="prompt" placeholder="Search parts..." type="text">
+              <i class="search icon"></i>
+            </div>
+            <div class="results"></div>
+          </div>
+          <div class="filterTitle"><span>Filter</span></div>
+          <div class="ui selection dropdown filterDrowdown">
+            <input id="filterParts" name="type" type="hidden">
+            <i class="dropdown icon"></i>
+            <div class="default text">Select a type</div>
+            <div class="menu">
+              <div class="item" data-value="all">
+                <img class="ui mini avatar image">
+                All
+              </div>  
+              <div class="item" data-value="promoter">
+                <img class="ui mini avatar image" src="/static/img/design/promoter_60.png">
+                Promoter
+              </div>
+              <div class="item" data-value="RBS">
+                <img class="ui mini avatar image" src="/static/img/design/RBS_60.png">
+                RBS
+              </div>
+              <div class="item" data-value="gene">
+                <img class="ui mini avatar image" src="/static/img/design/gene_60.png">
+                Gene
+              </div>
+              <div class="item" data-value="terminator">
+                <img class="ui mini avatar image" src="/static/img/design/terminator_60.png">
+                Terminator
+              </div>
+              <div class="item" data-value="protein">
+                <img class="ui mini avatar image" src="/static/img/design/protein_60.png">
+                Protein
+              </div>
+              <div class="item" data-value="chemical">
+                <img class="ui mini avatar image" src="/static/img/design/chemical_60.png">
+                Chemical
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="left-sidebar-body" id="parts">
+<!--           <div class="data">
+            <div id="test1" part-name="RBS" class="item" >
+              <img class="ui mini avatar image" src="/static/img/design/promoter_60.png">
+              <span class="title">promoter</span>
+            </div>
+            <span class="more"><i class="zoom icon"></i></span>
+          </div>
+          <div class="ui divider"></div>
+          <div class="data">
+            <div id="test1" part-name="RBS" class="item" >
+              <img class="ui mini avatar image" src="/static/img/design/promoter_60.png">
+              <span class="title">promoter</span>
+            </div>
+            <span class="more"><i class="zoom icon"></i></span>
+          </div>
+          <div class="ui divider"></div> -->
+        </div>
+      </div>
+
+      <div class="ui bottom attached tab segment" data-tab="devices">
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input class="prompt" placeholder="Search devices..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="devices"></div>
+        </div>
+      </div>
+
+      <div class="ui bottom attached tab segment" data-tab="systems">
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input class="prompt" placeholder="Search system..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="systems"></div>
+        </div>
+      </div>
+
+      <div class="ui bottom attached tab segment" data-tab="customs">
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input class="prompt" placeholder="Search customs..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+        <div id="customs">
+          <button id="createCustomPart" class="ui fluid labeled icon button">Create a part<i class="add icon"></i></button>
+          <div class="ui inverted divider"></div>
+          <button class="ui fluid labeled icon button">Import a chart<i class="add icon"></i></button>
+          <div class="ui inverted divider"></div>
+        </div>
+      </div>
+
+      <div class="ui bottom attached tab segment" data-tab="relate">
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input id="searchRelate" class="prompt" placeholder="Search relative parts..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+        <div id="relates">
+        </div>
+      </div>
     </div>
 
+  <!--   download modal -->
     <div class="ui small modal" id="downloadModal">
       <div class="header">Download a custom part</div>
       <div class="content"> 
@@ -145,7 +308,8 @@
         </div>
       </div>
     </div>
-
+<!--   download modal -->
+<!--   save modal -->
     <div class="ui small modal" id="saveModal">
       <div class="header">Save your curcuit</div>
       <div class="content">
@@ -167,7 +331,7 @@
         </div>
       </div>
     </div>
-
+<!--   save modal -->
     <div class="ui small modal" id="createCustomPartModal">
       <div class="header">Create a custom part</div>
         <div class="content">
@@ -230,20 +394,20 @@
                       <div class="default text">Risk ground</div>
                       <div class="menu">
                         <div class="item" data-value="1">
-                          <button class="ui fluid green mini button">
-                          Low risk(1)</button>
+                          <div class="ui fluid green mini button">
+                          Low risk(1)</div>
                         </div>
                         <div class="item" data-value="2">
-                          <button class="ui fluid orange mini button">
-                          Moderate risk(2)</button>
+                          <div class="ui fluid orange mini button">
+                          Moderate risk(2)</div>
                         </div>
                         <div class="item" data-value="3">
-                          <button class="ui fluid pink mini button">
-                          High risk(3)</button>
+                          <div class="ui fluid pink mini button">
+                          High risk(3)</div>
                         </div>
                         <div class="item" data-value="4">
-                          <button class="ui fluid red mini button">
-                          Extreme risk(4)</button>
+                          <div class="ui fluid red mini button">
+                          Extreme risk(4)</div>
                         </div>
                       </div>
                     </div>
@@ -255,7 +419,7 @@
                 </div>
                 <div class="fluid text-right">
                   <div class="ui cancel button">Cancel</div>
-                  <div class="ui submit button" id="customSubmit">Submit</div>
+                  <div class="ui submit button" id="customCreate">Create</div>
                 </div>
               </form>
             </div>

@@ -52,7 +52,7 @@
 }
 
 #left-sidebar .accordion {
-    height: 75%;
+    height: 80%;
     background: none;
     background-color: rgba(248, 248, 248, 1);
 }
@@ -73,22 +73,88 @@
 #left-sidebar #parts {
     overflow: auto;
     width: 100%;
+    height: 73%;
 }
 
 #left-sidebar #devices {
     overflow: auto;
     width: 100%;
+    height: 73%;
 }
 
 #left-sidebar #systems {
     overflow: auto;
     width: 100%;
+    height: 73%;
 }
 
 .ui.bottom.attached.tab.segment {
     height: 100%;
 }
 
+#left-sidebar #partsCom {
+    height: 100%;
+    overflow: auto;
+}
+
+#left-sidebar .data .title {
+  /*  width: 75%;*/
+}
+
+#left-sidebar .left-sidebar-body {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#left-sidebar .data img {
+    width: 15%;
+    margin-right: 10px;
+}
+
+#left-sidebar .item {
+    cursor: pointer;
+}
+
+#left-sidebar .data span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+#left-sidebar .data span.more {
+    width: 10%;
+}
+
+#left-sidebar .divider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#left-sidebar .data > div {
+    display: inline;
+}
+
+#left-sidebar .data .BBa {
+    font-size: 12px;
+}
+
+#left-sidebar .data .leftBox {
+    display: inline-block;
+    width: 85%;
+}
+
+#left-sidebar .data .zoom {
+    cursor: pointer;
+}
+
+#left-sidebar .data .item {
+    /*width: 85%;*/
+    display: inline;
+}
+
+#left-sidebar .data {
+    margin: 0 0;
+}
 /*======================================================*/
 #right-sidebar {
     position: fixed;
@@ -259,4 +325,23 @@
 
 #saveModal textarea {
     margin-bottom: 1em;
+}
+
+
+/*==============================*/
+.filterTitle {
+    display: inline-block;
+    text-align: center;
+    width: 25%;
+    font-size: 15px;
+}
+
+.filterDrowdown {
+    display: inline-block;
+    text-align: center; 
+    width: 70%;
+}
+
+#customCreate {
+    background-color: #ec5a5b;
 }
