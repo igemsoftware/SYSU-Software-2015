@@ -152,6 +152,14 @@
     display: inline;
 }
 
+.results {
+    z-index: 1000;
+}
+
+/*#left-sidebar .item img{
+    text-align: center;
+}*/
+
 #left-sidebar .data {
     margin: 0 0;
 }
@@ -344,4 +352,8 @@
 
 #customCreate {
     background-color: #ec5a5b;
+}
+
+#createCustomPartModal .item button {
+
 }
