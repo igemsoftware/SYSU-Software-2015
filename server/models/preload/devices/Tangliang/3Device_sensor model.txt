@@ -1,0 +1,16 @@
+Biosensor-Fe-FUR 2013Evry
+This device is a sensor of Fe-FUR. It can also determine enterobactin production rate of the E.coli. In absence of iron mRNA can be transcribed. In presence of iron, Fur binds the DNA, on the Fur binding site and mRNA expression is inhibited.
+Fur acts as an active repressor in presence of ferrous ion (Fe2+), its co-repressor. Then, Fe2+ binds to the Fur protein (one ferrous ion per subunit of Fur). This interaction leads to a structural modification and induces the dimerization of Fur and Fe2+. Then the homodimeric Fur-Fe2+ complex binds to the DNA on a Fur binding site and inhibits the mRNA transcription. In absence of Fe2+, a disinhibiting effect occurs and mRNA can be transcribed.
+Fe2+,Fur
+http://2013.igem.org/Team:Evry
+http://2013.igem.org/Team:Evry/Protocols
+1
+Promoter_1,Fe-FUR_1
+Terminator_1
+Promoter_1	Fur Binding Site_1	normal
+Fur Binding Site_1	RBS_1	normal
+Fe-FUR_1	Fur Binding Site_1	inhibition
+RBS_1	sfGFP_1	normal
+sfGFP_1	Terminator_1	normal
+
+

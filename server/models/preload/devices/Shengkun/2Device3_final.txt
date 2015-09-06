@@ -1,0 +1,20 @@
+final 2011USTC
+In this circuit, bacteria will stop walking in the region with high concentration of theophylline, in which way bacteria will finally get together to this region.
+Under the control of theophylline, the engineered bacteria with green fluorescence will move toward the infection site with a high concentration of theophylline and the expression of Lysis becomes more and more, while the engineered bacteria with red fluorescence will stay at the original site and wait to creat the second wave of the engineered bacteria with green fluorescence. They have been protected from being destroyed by the pyosin from the engineered bacteria with green fluorescence. The engineered bacteria with green fluorescence will destroy themselves and release the Pyosin, which is expressed at the beginning of the process, to kill the pathogens.
+CI,CheZ,LuxPR
+http://2011.igem.org/Team:USTC-China
+http://2011.igem.org/Team:USTC-China/Wet_Lab/protocol
+1
+theophylline_1
+Colicin E7,CheZ_1,Lysis_1
+theophylline_1	Toggle switch_1	promotion
+Toggle switch_1	rfp_1	normal
+rfp_1	RFP_1	promotion
+RFP_1	ColE7-immE7 complex_1	normal
+ColE7-immE7 complex_1	Colicin E7_1	promotion
+Toggle switch_1	gfp_1	normal
+gfp_1	GFP_1	promotion
+GFP_1	Aptamer-Chez_1	normal
+Aptamer-Chez_1	CheZ_1	promotion
+CheZ_1	lys_1	normal
+lys_1	Lysis_1	promotion

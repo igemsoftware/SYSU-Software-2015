@@ -1,0 +1,14 @@
+Regulation 2008Ottawa
+In the presence of galactose, pGal 1 is activated and AtIPT4 expresses, producing IP.
+In the presence of galactose, this device express the enzyme IPT4 to synthesize the inducer molecule IP.
+PGal1,AtIPT4,IP
+http://2008.igem.org/Team:University_of_Ottawa
+http://2008.igem.org/Team:University_of_Ottawa/Notebook
+1
+Galactose_1
+IP_1
+Galactose_1	PGal1_1	promotion
+PGal1_1	AtIPT4_1	normal
+AtIPT4_1	IP_1	promotion
+
+

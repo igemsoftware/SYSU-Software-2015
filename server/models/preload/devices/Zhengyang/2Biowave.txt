@@ -1,0 +1,22 @@
+Biosensor-light 2012Fudan
+This biosensor has feedback between two parts when each affects the others. In this system, these two parts are the light sensor and the concentration of the light generator protein. By involving the light sensor in the loop, we can establish the feedback.
+Light sensor: The Lux operon is a set of genes active in bacterial luminescence. The genes encoding the luciferase and a fatty acid reductase complex which synthesizes the substrate are contained in a single operon. When cloned into a recipient host, the lux operon facilitates the generation of a blue-green light with a maximum intensity at 490 nm without the requirement of adding exogenous substrate, which was the prime reason why we chose it to be our light source in this study. Light generator: This generator use BBa_K238013, an exact promoter of the blue light receptor, is a portion of an E.coli constitutive light sensing system. This system consists of a receptor, ycgF, which is responsive to blue light. When blue light strikes, the When blue light strikes, the receptor changes conformation and dimerizes driven by the BLUF-domain. This allows it to bind to the ycgE repressor through its EAL-domain, releasing the repressor from the promoter region. In summary, the irradiance of blue light will cause a positive induction, expression downstream Light sensing feedback using ycgF-YcgE-YcgZ sensing system.
+Biosensor,light sensor,light generator
+http://2012.igem.org/Team:Fudan_Lux
+no
+1
+Ptet_1,PycgZ_1
+Lux_1
+Ptet_1	tetO_1	normal
+tetO_1	RBS:BBa_B0032_2	normal
+RBS:BBa_B0032_2	lux_1	normal
+lux_1	Terminator:BBa_K785002_2	normal
+lux_1	Lux_1	promotion
+Lux_1	Light_1	promotion
+Light_1	Endogenous Light Sensing System_1	promotion
+Endogenous Light Sensing System_1	PycgZ_1	promotion
+PycgZ_1	RBS:BBa_B0032_1	normal
+RBS:BBa_B0032_1	tetR_1	normal
+tetR_1	TetR_1	promotion
+tetR_1	Terminator:BBa_K785002_1	normal
+TetR_1	tetO_1	inhibition

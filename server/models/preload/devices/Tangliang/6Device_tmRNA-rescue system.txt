@@ -1,0 +1,31 @@
+TmRNA-rescue sytem 2009SJTU-BioX-Shanghai
+This device can provide the E.coli with the relB's assistant: tmRNA together with its cofactor smpB can enhance anti-toxic efficiency of relB, resulting in completely recovery from sleeping.
+This device has tmRNA which is under the control of PBAD, which can be induced by L-arabinose. SmpB is a small protein, as well as the coeffector of tmRNA, assisting tmRNA to bind stalled ribosomes. Therefore, a constitutive promoter(PsmpB) is designed to express SmpB. The tmRNA system orchestrates three key biological functions: (1) recognition and rescue of ribosomes stalled on aberrant mRNAs, (2) disposal of the causative defective mRNAs, and (3) addition of a degradation tag to ribosome-associated protein fragments for directed proteolysis.
+relB's assistant,smpB
+http://2009.igem.org/Team:SJTU-BioX-Shanghai
+http://2009.igem.org/Team:SJTU-BioX-Shanghai/Protocols#bannerTop
+1
+PsmpB_1,PBAD_1,ParoC_1
+Terminator_1,Terminator_2,Terminator_3,Terminator_4,Terminator_5
+PsmpB_1	RBS_1	normal
+RBS_1	smpB_1	normal
+smpB_1	Terminator_1	normal
+Terminator_1	Terminator_2	normal
+Terminator_2	PBAD_1	normal
+PBAD_1	tmRNA_1	normal
+tmRNA_1	Terminator_3	normal
+Terminator_3	ParoC_1	normal
+ParoC_1	RBS_2	normal
+RBS_2	aroC_1	normal
+aroC_1	Terminator_4	normal
+Terminator_4	Terminator_5	normal
+
+
+
+
+
+
+
+
+
+

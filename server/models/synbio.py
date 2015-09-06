@@ -413,10 +413,10 @@ class Device(db.Model, BioBase):
         """Load from local files. Mostly called in preload stage."""
         print 'loading device from %s ...' % filename
         f = open(filename, 'r')
-        self.title = f.readline().strip()
+        self.title = f.readline().strip().decode('ISO-8859-1')
         self.introduction = f.readline().strip().decode('ISO-8859-1')
-        self.source = f.readline().strip()
-#        self.protocol_reference = f.readline().strip()
+        self.source = f.readline().strip().decode('ISO-8859-1')
+        self.protocol_reference = f.readline().strip().decode('ISO-8859-1')
         self.saferank = f.readline().strip()
         # self.type = f.readline().strip()
         self.interfaceA = f.readline().strip() 

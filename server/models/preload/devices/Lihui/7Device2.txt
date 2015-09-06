@@ -1,0 +1,16 @@
+Responsor-RtTA-DOXYCYCLINE 2014UCSF_UCB
+Using endogenous signaling pathways found in yeast, this device can interrogate cell-to-cell signaling, and collective response, in these organisms. Depending on the communication parameters ¡ª signal strength, receptor abundance, and signal degradation ¡ª researchers were able to tune the strength and output of these communicating cells.
+Using endogenous signaling pathways found in yeast, this device can interrogate cell-to-cell signaling, and collective response, in these organisms. Depending on the communication parameters ¡ª signal strength, receptor abundance, and signal degradation ¡ª researchers were able to tune the strength and output of these communicating cells.
+Responsor,RtTA-DOXYCYCLINE,RFP
+http://2014.igem.org/Team:UCSF_UCB/project.html#model
+http://2014.igem.org/Team:UCSF_UCB/notebooks.html#protocols
+1
+RtTA-DOXYCYCLINE_1
+RFP_1
+RtTA-DOXYCYCLINE_1	Ptet_1	promotion
+Ptet_1	mf¦Á_1	normal
+mf¦Á_1	¦Á_1	promotion
+¦Á_1	PAGA1_1	promotion
+PAGA1_1	rfp_1	normal
+rfp_1	RFP_1	promotion
+

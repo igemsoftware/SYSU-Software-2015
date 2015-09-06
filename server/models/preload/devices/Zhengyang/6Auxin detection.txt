@@ -1,0 +1,23 @@
+Biosensor-Auxin 2012Evry
+The system are used to detects Auxin.
+The system are used to detects Auxin.
+Biosensor,Auxin
+http://2012.igem.org/Team:Evry
+http://2012.igem.org/Team:Evry/Protocols
+-1
+Promoter_1	Kozak_1	normal
+Kozak_1	tir1_1	normal
+tir1_1	Terminator_1	normal
+Terminator_1	Terminator_2	normal
+tir1_1	mRNA-TIR1_1	promotion
+mRNA-TIR1_1	TIR1_1	promotion
+Promoter_2	Kozak_2	normal
+Kozak_2	gfp-aid-nls_1	normal
+gfp-aid-nls_1	Terminator_3	normal
+Terminator_3	Terminator_4	normal
+gfp-aid-nls_1	mRNA-GFP-AID-NLS_1	promotion
+mRNA-GFP-AID-NLS_1	GFP-AID_1	promotion
+IAA_1	TIR1_1	normal
+TIR1_1	GFP-AID_1	normal
+TIR1_1	IAM-TIR1_1	promotion
+GFP-AID_1	degGFP-AID_1	promotion

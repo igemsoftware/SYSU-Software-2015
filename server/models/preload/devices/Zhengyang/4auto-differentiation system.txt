@@ -1,0 +1,36 @@
+Auto-differentiation system 2012SEU_O_China
+This system uses a toggle switch to save a status, which simulates the cell differentiation, a AHL generate-receive system for intercelluar communication, an antisense mRNA biobrick as cell division inhibitor, in order to control the shape of bacteria colony.
+This system uses a toggle switch to save a status, which simulates the cell differentiation, a AHL generate-receive system for intercelluar communication, an antisense mRNA biobrick as cell division inhibitor, in order to control the shape of bacteria colony. We designed a cell movement control device to start the differentiation automatically, as well as a light sensor system to start it artificially for easier control and further application. Promoted by the lac promoter, AHL molecules are generated from those special cells.Receiving the AHL molecules, cells start their division inhibition system. An antisense mRNA is transcript, which can bind the mRNA of an essential cell division protein, FtsZ, and thus inhibit its expression and repress the growth of that part of colony. As a result, by controlling the position of light signal, we could create an unsymmetrical colony.
+Auto-differentiation system,toggle switch,AHL
+http://2012.igem.org/Team:SEU_O_China
+http://2012.igem.org/Team:SEU_O_China/Notebook
+1
+PcI_1,Plac_1
+Cell division_1
+PcI_1	lacI_1	normal
+lacI_1	LacI_1	promotion
+LacI_1	Plac_1	inhibition
+Plac_1	cI_1	normal
+cI_1	CI_1	promotion
+CI_1	PcI_1	inhibition
+cI_1	AHL generator_1	normal
+AHL generator_1	AHL enzyme_1	promotion
+AHL enzyme_1	AHL_1	promotion
+AHL_1	AHL receiver_1	promotion
+AHL receiver_1	as-FtsZ mRNA_1	promotion
+AHL generator_1	cheZ_1	normal
+cheZ_1	CheZ_1	promotion
+CheZ_1	Cell motility_1	promotion
+as-FtsZ mRNA_1	FtsZ_1	inhibition
+FtsZ_1	Cell division_1	promotion
+AHL receiver_1	cheZ_1	inhibition
+
+cI_2	CI_2	promotion
+CI_2	PcI_1	inhibition
+cI_2	AHL generator_1	normal
+AHL generator_1	AHL enzyme_1	promotion
+AHL enzyme_1	AHL_1	promotion
+AHL_1	AHL receiver_1	promotion
+AHL receiver_1	as-FtsZ mRNA_1	promotion
+as-FtsZ mRNA_1	FtsZ_1	inhibition
+FtsZ_1	Cell division_1	promotion

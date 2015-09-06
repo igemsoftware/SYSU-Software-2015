@@ -1,0 +1,30 @@
+Kill switch 2011XMU-China
+The device is designed to build a programmed bacterial death circuit, which is based on the quorum sensing system. 
+The LuxI protein synthesizes a small, diffusible acyl-homoserinelactone (AHL) signaling molecule. The AHL accumulates as the cell density increases. At sufficiently high concentrations, it binds the LuxR, which induces the expression of the killer gene ccdB under the control of a promoter luxpR.
+Quorum sensing,Kill switch,And gate
+http://2011.igem.org/Team:XMU-China
+http://2011.igem.org/Team:XMU-China/Project/Protocols
+1
+IPTG_1
+CCDB_1
+IPTG_1	Plac_1	promotion
+Plac_1	RBS:BBa_B0034_1	normal
+RBS:BBa_B0034_1	luxI_1	normal
+luxI_1	Terminator:BBa_B0010_1	normal
+Terminator:BBa_B0010_1	Terminator:BBa_B0012_2	normal
+luxI_1	luxI-LVA_1	promotion
+AHL_1	luxI-LVA_1	promotion
+luxI_1	Plac_2	normal
+Plac_2	RBS:BBa_B0034_2	normal
+RBS:BBa_B0034_2	luxR_1	normal
+luxR_1	Terminator:BBa_B0010_3	normal
+Terminator:BBa_B0010_3	Terminator:BBa_B0012_4	normal
+Terminator:BBa_B0012_4	luxpR_1	normal
+luxR_1	LuxR_1	promotion
+AHL_2	LuxR_1	promotion
+LuxR_1	luxpR_1	promotion
+luxpR_1	RBS:BBa_B0030_3	normal
+RBS:BBa_B0030_3	ccdB_1	normal
+ccdB_1	CCDB_1	promotion
+ccdB_1	Terminator:BBa_B0015_5	normal
+

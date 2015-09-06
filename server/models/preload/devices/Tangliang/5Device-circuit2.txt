@@ -1,0 +1,30 @@
+Motility 2 2013Nanjing-China
+The movement of the bacteria with this circuit will affected by the presence of AHL.
+In the initiate consideration, the cascade, AHL&LuxR¡úPlux-tetr---Ptet-CI---Pci-CheZ, will lead to the promotion of the production of CheZ protein.
+AHL,CheZ protein
+http://2013.igem.org/Team:Nanjing-China
+http://2013.igem.org/Team:Nanjing-China/protocol
+1
+Pcon_1,Pcon_2
+cheZ_1
+Plux_1	RBS_1	normal
+RBS_1	tetR_1	normal
+tetR_1	Ptet_1	inhibition
+Ptet_1	RBS_2	normal
+RBS_2	cI_1	normal
+cI_1	PcI_1	inhibition
+PcI_1	RBS_3	normal
+RBS_3	cheZ_1	normal
+Pcon_1	A-RBS_1	normal
+A-RBS_1	luxI_1	normal
+luxI_1	LuxI_1	promotion
+LuxI_1	homoserine_1	normal
+luxI_1	RBS_4	normal
+RBS_4	luxR_1	normal
+luxR_1	LuxR_1	promotion
+homoserine_1	LuxR_1	normal
+LuxR_1	Plux_1	promotion
+luxR_1	Pcon_2	normal
+Pcon_2	A-RBS_2	normal
+A-RBS_2	cI_2	normal
+cI_2	PcI_1	inhibition

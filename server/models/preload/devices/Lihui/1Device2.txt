@@ -1,0 +1,19 @@
+Biosensor-3OC12HSL 2014Tokyo_Tech
+This sensor produces CmR and RhlI in the presence of 3OC12HSL. Then, RhlI produces C4HSL.
+In the presence of 3OC12HSL, this device produces CmR and RhlI. CmR prevents the Customer from growth inhibition, and RhlI produces C4HSL.
+Biosensor,3OC12HSL,chloramphenicol-resistance gene product (CmR) and LasI
+http://2014.igem.org/Team:Tokyo_Tech/Project#2.1.2
+http://2014.igem.org/Team:Tokyo_Tech/Experiment/Plux_and_Prhl_reporter_assay#Materials
+2
+3OC12HSL_1
+C4HSL_1
+3OC12HSL_1	Ptet_1	promotion
+Ptet_1	luxR_1	normal
+luxR_1	Plac_1	normal
+Plac_1	rfp_1	normal
+luxR_1	LuxR_1	promotion
+LuxR_1	Plux_1	promotion
+Plux_1	cmR_1	normal
+cmR_1	rhlI_1	normal
+rhlI_1	RhlI_1	promotion
+RhlI_1	C4HSL_1	promotion
