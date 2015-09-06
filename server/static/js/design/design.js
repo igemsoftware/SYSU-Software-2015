@@ -609,7 +609,7 @@ DesignMenu.prototype.getDesignParts = function() {
 DesignMenu.prototype.enableLoadCircuitchartBtn = function(curcuitChart) {
     var that = this;
     this.openFileBtn.click(function() {
-    	var curcuitChart = {"parts":[{"partID":"Cl_1","partName":"Cl","positionX":185,"positionY":110},{"partID":"Pcl_2","partName":"Pcl","positionX":305,"positionY":121}],"title":"curcuit1","relationship":[{"start":"Cl_1","end":"Pcl_2","type":"inhibition"}],"interfaceA":"Pcl_1","interfaceB":"cl_1"};
+    	var curcuitChart = {"parts":[{"partID":"Cl_1","partName":"CI","positionX":185,"positionY":110},{"partID":"Pcl_2","partName":"Pcl","positionX":305,"positionY":121}],"title":"curcuit1","relationship":[{"start":"Cl_1","end":"Pcl_2","type":"inhibition"}],"interfaceA":"Pcl_1","interfaceB":"cl_1"};
         var parts = curcuitChart.parts;
         var connections = curcuitChart.relationship;
 
@@ -651,8 +651,8 @@ DesignMenu.prototype._createNewCNode = function(elem) {
     node.attr("part-name", elem.partName);
     node.attr("normal-connect-num", 0);
     node.addClass("node");
+    node.css("text-align", "center");
 
-//need debug
 	var partType = DataManager.getPartType(elem.partName)
     var img = Util.createImageDiv(partType);
     img.appendTo(node);
@@ -762,7 +762,7 @@ SideBarWorker.prototype.createPartView = function(part) {
     var dataDiv = $("<div class='data'></div>");
     var itemDiv = $("<div class='item'></div>");
     var imgElem = $("<img class='ui mini avatar image'/>");
-    var titleSpan = $("<span class='title'></span>");
+    var titleSpan = $("<span class='partTitle'></span>");
     var iconSpan = $('<span class="more"><i class="zoom icon"></i></span>');
     var BBaSpan = $("<span class='BBa'></span>");
     var leftSpan = $("<span class='leftBox'></span>");
@@ -1228,9 +1228,10 @@ $("#customCreate").click(function() {
 	$('#createCustomPartModal').modal("hide");
 	var part = {};
 	part.name = $("#customPartName").val();
-	console.log(part.name);
+	part.BBa = $("#customBBaName").val();
 	part.type = $("#customPartType").val();
 	part.introduction = $("#customIntro").val();
+    DataManager.addPart(part);
 	leftBar.addCustomPart(part);
 
 });

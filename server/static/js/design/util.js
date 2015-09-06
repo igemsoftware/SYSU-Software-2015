@@ -16,14 +16,13 @@ Util.getImagePath = function(type, imgSize) {
 Util.createImageDiv = function(partType) {
     var img = $("<img></img>");
     var imgPath = this.getImagePath(partType, 60);
-    img.addClass("ui left floated image no-margin");
     img.attr("src", imgPath);
     return img;
 }
 
 Util.createTitleDiv = function(partName) {
-    var titleDiv = $("<h4></h4>");
-    titleDiv.addClass("ui no-margin text-center");
+    var titleDiv = $("<div class='partTitle'></div>");
+    titleDiv.css("text-align", "center");
     titleDiv.text(partName);
     return titleDiv;
 }
