@@ -1,0 +1,16 @@
+Kill switch-bacteriocin 2014Uppsala
+This device can produce bacteriocin which is a peptide that is produced naturally by certain bacteria and targets its close relatives to kill Y. enterocolitica. 
+A bacteriocin is a peptide that is produced naturally by certain bacteria and targets its close relatives. Unlike general antibiotics, the targets of bacteriocins are very specific. The bacteriocin, colicin Fy is produced by Y. frederiksenii and it should mostly target other yersinia species. Bacteriocins will either attack the cell membrane or a mechanism inside the cell, such as gene expression or protein production. One of colicins Fy main targets is Y. enterocolitica. It kills Y. enterocolitica by creating pores in its cell membrane. Y. enterocolitica is also one among the common pathogens that infects the gut and causes some serious symptoms. These were some of the reasons to choose colicin Fy as the bacteriocin to express.
+Kill switch,bacteriocin,Y. enterocolitica
+http://2014.igem.org/Team:Uppsala/Project_Killing
+http://2014.igem.org/Team:Uppsala/Project_Notebook
+1
+Promoter_1
+USP45_CFY_1
+Promoter_1	RBS:BBa_B0034_1	normal
+RBS:BBa_B0034_1	spot42_usp45_1	normal
+spot42_usp45_1	Spot42_USP45_1	promotion
+Promoter_2	RBS:BBa_B0034_2	normal
+RBS:BBa_B0034_2	usp45_cfy_1	normal
+Spot42_USP45_1	usp45_cfy_1	inhibition
+usp45_cfy_1	USP45_CFY_1	promotion

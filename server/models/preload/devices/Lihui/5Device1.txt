@@ -1,0 +1,12 @@
+Receptor 2014Colombia
+This receptor can receive the signal of Cholera Auto-Inducer 1 (CAI-1).
+It uses the same membrane receptor and transduction pathway in V. cholerae, explained above, to detect CAI-1 presence-absence. A phosphorylation cascade is activated in the absence of CAI-1, while a phosphatase reverse cascade is activated in the presence of the signal molecule. Phosphorylated LuxO activates the pqrr4 promoter region.
+Cholera Auto-Inducer 1 (CAI-1),Phosphorylated
+http://2014.igem.org/Team:Colombia/Project
+http://2014.igem.org/Team:Colombia/Protocols
+2
+CAI-1_1
+LuxOp_1
+CAI-1_1	CqsS_1	normal
+CAI-1-CqsS_1	LuxUp_1	promotion
+LuxUp_1	LuxOp_1	promotion

@@ -17,17 +17,17 @@ def Device_check_and_update(device_id):
 @design.route('/data/fetch/parts')
 def data_fetch_parts():
     l = [] 
-    for c in ComponentPrototype.query.all():
+    for c in ComponentPrototype.query.order_by(ComponentPrototype.name.desc()).all():
         if c.id == 1: continue
-        l.append( {'name': c.name,
-                   'introduction': c.introduction,
-                   'source': c.source,
-                   'risk': c.risk,
-                   'type': c.type,
-                   'BBa': c.BBa,
-                   'bacterium': c.bacterium,
-                   'attr': c.attr
-                   })
+        l.append({'name': c.name,
+                  'introduction': c.introduction,
+                  'source': c.source,
+                  'risk': c.risk,
+                  'type': c.type,
+                  'BBa': c.BBa,
+                  'bacterium': c.bacterium,
+                  'attr': c.attr
+                  })
     return jsonify(parts=l)
 
 @design.route('/data/fetch/relationship')
@@ -73,15 +73,40 @@ def data_fetch_device():
 @design.route('/circuit/<int:id>', methods=['GET'])
 def get_circuit(id):
     c = Circuit.query.get(id)
-    if not c: return 'failed.' 
-    return jsonify(content = c.content)
+    
+    content = {
+            'id': c.id,
+            'parts': c.parts,
+            'title': c.title,
+            'relationship': c.relationship,
+            'interfaceA': c.interfaceA,
+            'interfaceB': c.interfaceB,
+            'introduction': c.introduction,
+            'source': c.source,
+            'risk': c.risk,
+            'plasmids': json.loads(c.plasmids),
+            'img': c.img,
+    }
+    return jsonify(content=content)
 
 @design.route('/circuit/<int:id>', methods=['POST'])
 def store_circuit(id):
     c = Circuit.query.get(id)
-    if not c: return 'failed.' 
+    
+    data = request.get_json()
 
-    content = request.form.get('content', '')
-    c.content = content
+    c.update_from_db()
+    c.parts = data['parts']
+    c.title = data['title']
+    c.relationship = data['relationship']
+    c.interfaceA = data['interfaceA']
+    c.interfaceB = data['interfaceB']
+    c.introduction = data['introduction']
+    c.source = data['source']
+    c.risk = data['risk']
+    c.plasmids = json.dumps(data['plasmids'])
+    c.img= data['img']
+    c.commit_to_db()
+
 
     return 'Success'

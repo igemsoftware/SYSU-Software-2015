@@ -1,0 +1,41 @@
+Biosensor-four different light conditions 2012ETH_Zurich
+This is a biological circuit which can distinguish between four different light conditions light (~16%). In our model, strong irradiance with blue light as well as red light serves as an indicator for sun light. The other states of our decoder filter out common light sources.
+i) high red-high blue; ii) high red-low blue; iii) low red-high blue and iv) low red-low blue (Fig. 5). Such circuit consists of three hybrid promoters each acting as a NOR gate for two different transcriptional repressors i.e. transcription from such promoter is activated just when both repressors are absent.
+Four different light conditions,NOR gate
+http://2012.igem.org/Team:ETH_Zurich
+http://2012.igem.org/Team:ETH_Zurich/MaterialMethods
+1
+Cph8 (active)_1,LOV* (active)_1
+Violet Pigment_1,Red Pigment_1,Green Pigment_1
+Cph8 (active)_1	Cph8* (inactive)_1	promotion
+Cph8* (inactive)_1	Cph8 (active)_1	promotion
+Cph8 (active)_1	OompC_1	promotion
+OompC_1	Promoter_1	normal
+Promoter_1	tetR_1	normal
+tetR_1	TetR_1	promotion
+TetR_1	tetO_1	inhibition
+TetR_1	tetO_2	inhibition
+LOV (inactive)_1	LOV* (active)_1	promotion
+LOV* (active)_1	LOV (inactive)_1	promotion
+LOV* (active)_1	trpO_1	inhibition
+trpO_1	Promoter_2	normal
+Promoter_2	lacI_1	normal
+lacI_1	LacI_1	promotion
+LacI_1	lacO_1	inhibition
+LacI_1	lacO_2	inhibition
+tetO_1	lacO_1	normal
+lacO_1	Promoter_3	normal
+Promoter_3	cI_1	normal
+cI_1	pabABC_1	normal
+pabABC_1	Violet Pigment_1	normal
+cI_1	CI_1	promotion
+CI_1	OR_1	inhibition
+CI_1	OR_2	inhibition
+OR_1	tetO_2	normal
+tetO_2	Promoter_4	normal
+Promoter_4	Red Pigment_1	normal
+OR_2	lacO_2	normal
+lacO_2	Promoter_5	normal
+Promoter_5	Green Pigment_1	normal
+
+

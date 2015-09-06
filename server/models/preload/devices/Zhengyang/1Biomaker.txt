@@ -1,0 +1,21 @@
+Bio-maker 2012Purdue
+This device creates a feed-back loop that is capable of preventing the cell from overtaxing itself in production of adhesion protein and surface-positiong silicatein alpha protein. 
+The first construct of our circuit is design to express the outer membrane protein R234 (OmpR234) which upregulates expression of the Curli Adhesion protein under a tet-Repressible promoter. The OmpR234-upregulation construct is available in the Parts Registry as a working part from the 2010 iGEM Team from INSA-Lyon as part BBa_K342003. Attached to the circuit, the tet-Repressible promoter is controlled by the tet protein expression in construct two. Upon the addition of Lactose to the system, the construct will begin the expression of the outer membrane protein that is bound to the silica polymerizing protein, as well as the tetR repressor protein.
+Bio-maker,adhesion protein,surface-positiong silicatein alpha protein
+http://2012.igem.org/Team:Purdue
+http://2012.igem.org/Team:Purdue/Protocol
+1
+Ptet_1,IPTG_1
+Curli_1,OMPA-SILA_1
+Ptet_1	RBS_1	normal
+RBS_1	OmpR234_1	normal
+OmpR234_1	Curli_1	promotion
+OmpR234_1	Terminator_1	normal
+IPTG_1	Plac_1	promotion
+Plac_1	RBS_2	normal
+RBS_2	OmpA-Sila_1	normal
+OmpA-Sila_1	tetR_1	normal
+OmpA-Sila_1	OMPA-SILA_1	promotion
+tetR_1	TetR_1	promotion
+TetR_1	Ptet_1	inhibition
+tetR_1	Terminator_2	normal

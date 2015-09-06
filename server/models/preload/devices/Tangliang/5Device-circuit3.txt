@@ -1,0 +1,25 @@
+Motility 3 2013Nanjing-China
+This device responds quickly to the presence of AHL.
+The hybridize promoter can be repressed by CI protein and activated by AHL-LuxR compound. The quick respond is based on the hybridize promoter.
+Plux/cI
+http://2013.igem.org/Team:Nanjing-China
+http://2013.igem.org/Team:Nanjing-China/protocol
+1
+Pcon_1,Pcon_2
+cheZ_1
+Pcon_1	A-RBS_1	normal
+A-RBS_1	cI_1	normal
+cI_1	Plux/cI_1	inhibition
+Pcon_2	A-RBS_2	normal
+A-RBS_2	luxI_1	normal
+luxI_1	LuxI_1	promotion
+luxI_1	RBS_1	normal
+RBS_1	luxR_1	normal
+luxR_1	LuxR_1	promotion
+LuxI_1	homoserine_1	normal
+homoserine_1	AHL_1	normal
+AHL_1	LuxR_1	normal
+LuxR_1	Plux/cI_1	promotion
+cI_1	Plux/cI_1	inhibition
+Plux/cI_1	RBS_2	normal
+RBS_2	cheZ_1	normal

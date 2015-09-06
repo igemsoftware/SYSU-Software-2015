@@ -1,0 +1,15 @@
+Reporter 2014ETH_Zurich
+This reporter can produce GFP protein when the prencent of the Bxb protein. The integrases act on an asymmetric transcription terminator present present on a plasmid, that contains the XOR gate. 
+The terminator is located between a constitutive promoter and the start of two consecutive downstream genes in one operon, luxI and gfp. If the terminator is in its "functional¡± orientation, expression from these genes is not possible, because it is prematurely terminated. Further, the terminator is flanked by two pairs of opposing recombination sites recognised by ¦µC31 and Bxb1, respectively. In the absence of both integrases, the terminator is in its functional orientation and thus blocks transcription. Expression of either integrase alone inverts the DNA encoding the terminator. It is no longer in its functional orientation and transcription of luxI (or lasI) and gfp is enabled. Presence of both integrases inverts the terminator twice bringing it back to its original functional orientation. Thus, transcription is blocked again. After the integrases acted on their corresponding recombination sites, the sites recombine in a way leaving the integrases unable to invert the region a second time.
+GFP protein,Bxb protein,XOR gate
+http://2014.igem.org/Team:ETH_Zurich/project/overview
+http://2014.igem.org/Team:ETH_Zurich/lab/protocols
+1
+Bxb1_1
+sfGFP_1,LuxI_1
+Bxb1_1	Pconst_1	promotion
+Pconst_1	sfgfp_1	normal
+sfgfp_1	sfGFP_1	promotion
+sfgfp_1	luxI_1	normal
+luxI_1	LuxI_1	promotion
+

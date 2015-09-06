@@ -1,0 +1,18 @@
+Mobility 2014XMU-China
+When IPTG involved in, this device can relieve the repression from repressor LacI, therefore protein CheZ is produced to make the engineering bacteria (CL-1) regain motile ability. Within certain L-arabinose concentration range which means certain constraint condition, the more IPTG involved in, the more CheZ is produced leading to stronger motile ability.
+When IPTG involved in, this device can relieve the repression from repressor LacI, therefore protein CheZ is produced to make the engineering bacteria (CL-1) regain motile ability. Within certain L-arabinose concentration range which means certain constraint condition, the more IPTG involved in, the more CheZ is produced leading to stronger motile ability.
+Mobility,IPTG
+http://2014.igem.org/Team:XMU-China/Project_ConicCurve
+http://2014.igem.org/Team:XMU-China/Notebook_Protocol
+1
+LacI_1,IPTG_1
+CheZ_1
+LacI_1	Plac_1	inhibition
+IPTG_1	Plac_1	promotion
+Plac_1	RBS:BBa_B0034_1	normal
+RBS:BBa_B0034_1	cheZ_1	normal
+cheZ_1	CheZ_1	promotion
+cheZ_1	Terminator:BBa_B0010_1	normal
+Terminator:BBa_B0010_1	Terminator:BBa_B0012_1	normal
+
+
