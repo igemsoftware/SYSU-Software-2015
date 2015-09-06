@@ -58,11 +58,11 @@
     <div id="pic">
       <div class="ui grid" id="pic-content-wrapper">
         <div class="five wide column" id="logo-column">
-          <img src="/static/img/login_logo.png" alt="LOGO" id="logo" class="ui fluid image">
+          <img src="/static/img/common/logo_white.jpg" alt="LOGO" id="logo" class="ui fluid image">
         </div>
         <div class="eleven wide column" id="form-column">
           <form action="{{url_for('auth.register')}}" class="ui form" id="form" method="POST">
-            {{ form.hidden_tag() }}
+            {{ form.csrf_token }}
 
             {% set avatar_url = form.avatar.data or '/static/img/avatar.jpg' %}
             <div class="ui blurring dimmable circular image" id="avatar">
@@ -123,7 +123,7 @@
                 <div class="ui dimmable image track option" data-value="{{track.id}}">
                   <div class="ui dimmer transition hidden">
                     <div class="content">
-                      <div class="center" style="background-image: url({{'/static/img/tracks_bg/tracks_%s_bg.png' % track.name}})">
+                      <div class="center" style="background-image: url({{'/static/img/tracks/tracks_%s_bg.png' % track.name}})">
                         <p>{{track.description}}</p>
                       </div>
                     </div>

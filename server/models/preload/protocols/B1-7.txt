@@ -1,0 +1,28 @@
+B1-7 LB Agar Plates and Addition of Antibiotics
+Introduction
+These plates contain solidified lysogeny broth (LB), a rich growth medium for E. coli. In contrast to growth in liquid LB where the bacteria are mobile, growth on plates gives colonies originating from one single bacterial cell. Just before pouring the solution into petri dishes, an antibiotic can be added for resistance selection. Normal working concentrations are:
+Ampicillin: 35 μg/mL;
+Chloramphenicol: 35 μg/mL;
+Kanamycin: 35 μg/mL.
+Normal stock concentrations:
+1000-fold higher than above, respectively.
+Note: Chloramphenicol stock is dissolved in ethanol.
+Components
+NaCl;
+Bacto™ tryptone;
+yeast extract;
+agar;
+ddH2O;
+5 M NaOH;
+1000x antibiotic of choice.
+Procedure	Time	Notes
+1. Add the following to a 1 L bottle:
+600 mL LB prepared fresh as above (non-autoclaved).
+9 g agar.	5min	Agar is soluble in boiled water. At room temperature it forms a gel plate for bacteria to grow.
+2. Shake. It is unnecessary to dissolve all solids now because autoclaving will do this.	30s	
+3. Autoclave for 20 min within 2 hr.	20min	Autoclaving in time prevents contaminative growth.
+4. Let it cool to ~40–50°C (touchable)	10min	The antibiotics could be destroyed by the high temperature.
+5. Add 600 μL of 1000x antibiotic of choice (if any) and gently swirl the bottle to mix.	2min	Do not shake the bottle vigorously as this will create many bubbles that will be transferred to your plates!
+6. Pour into empty petri dishes just enough to cover the surface (~20 mL per plate). If bubbles remain in the plates, heat the plate surface carefully with a burner to burst them.	5min	A clean bench is needed for pouring. Make sure not to heat the solution in the plate too much since it might degrade the antibiotic.
+7. Leave the plates at room temperature to solidify (~1 hr).	1hr	
+8. Solidified plates should be turned upside down for a few hours at room temperature, then stored at 4°C.	3hr	Turning upside down prevents condensing water from falling on the plate. Petri dishes should be sealed before storing, otherwise the plate would be dehydrated.

@@ -1,6 +1,5 @@
 2-2-2 Running the gel
-True
-Procedure	
+Procedure	Time	Notes
 1. Release the gel tray from the tape or casting stand. Place the gel tray into the buffer chamber and remove the comb carefully.	10s	
 2. Add 1x TBE buffer until the gel is completely covered.	10s	
 3. Take part of your DNA samples (0.2 g) and mix with loading dye.	30s/per sample	Loading dye prevent your sample from drifting out the well. This can be done either in 1.5 mL tubes or, if the volumes are very small, on a piece of parafilm.
@@ -10,5 +9,3 @@ Procedure
 7. Run the gel at 100 V for 30–60 min.	30min	Neither of the two dyes should be run off the gel. If the electrophoresis runs correctly you will notice air bubbles coming from the negative (black) electrode.
 8.  Stop the run and bring your gel to a UV table to visualize your gel bands.	5min	Use protective glasses. If sufficient separation was not achieved, put the gel back into the buffer chamber and run it for longer.
 9.  Take a picture of your gel.		
-
-

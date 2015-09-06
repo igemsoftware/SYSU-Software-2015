@@ -8,8 +8,13 @@ tracks = db.Table('tracks',
 )
 
 class Track(db.Model):
+    """Memo model in Track."""
+
     id = db.Column(db.Integer, index=True, primary_key=True)
+    """ID is an unique number to identify each :class:`Track`."""
 
     name = db.Column(db.String(128), unique=True)
+    """Its name."""
     description = db.Column(db.Text, default='')
+    """Its descriptions."""
 
