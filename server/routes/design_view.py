@@ -17,17 +17,17 @@ def Device_check_and_update(device_id):
 @design.route('/data/fetch/parts')
 def data_fetch_parts():
     l = [] 
-    for c in ComponentPrototype.query.all():
+    for c in ComponentPrototype.query.order_by(ComponentPrototype.name.desc()).all():
         if c.id == 1: continue
-        l.append( {'name': c.name,
-                   'introduction': c.introduction,
-                   'source': c.source,
-                   'risk': c.risk,
-                   'type': c.type,
-                   'BBa': c.BBa,
-                   'bacterium': c.bacterium,
-                   'attr': c.attr
-                   })
+        l.append({'name': c.name,
+                  'introduction': c.introduction,
+                  'source': c.source,
+                  'risk': c.risk,
+                  'type': c.type,
+                  'BBa': c.BBa,
+                  'bacterium': c.bacterium,
+                  'attr': c.attr
+                  })
     return jsonify(parts=l)
 
 @design.route('/data/fetch/relationship')
