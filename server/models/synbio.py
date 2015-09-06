@@ -304,7 +304,7 @@ class BioBase():
         :attr:`interfaceA`, and :attr:`interfaceB` and commit to database."""
 #        print self.connections
         json_obj = {
-                        'parts': map(lambda x: x.jsonify(), self.parts),
+                        'parts': self.parts if isinstance(self.parts[0], dict) else map(lambda x: x.jsonify(), self.parts),
                         'relationship': self.relationship,
                         'interfaceA': self.interfaceA,
                         'interfaceB': self.interfaceB
@@ -502,12 +502,14 @@ class Circuit(db.Model, BioBase):
     protocols = db.Column(db.Text, default='')
     """The protocols it is using."""
 
-    plasmids = db.Column(db.Text, default='')
+    plasmids = db.Column(db.Text, default='[]')
     """Plasimid information"""
     img = db.Column(db.Text, default='')
     """Img in Base64"""
     risk = db.Column(db.Integer, default=-1)
     """Safety risk"""
+    source = db.Column(db.String, default=-1)
+    """Circuit source"""
     #experiment = db.Column(db.Text, default='')
 
     # in public database

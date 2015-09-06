@@ -73,18 +73,29 @@ def data_fetch_device():
 @design.route('/circuit/<int:id>', methods=['GET'])
 def get_circuit(id):
     c = Circuit.query.get(id)
-    if not c: return 'failed.' 
-    return jsonify(content = c.content)
+    
+    content = {
+            'id': c.id,
+            'parts': c.parts,
+            'title': c.title,
+            'relationship': c.relationship,
+            'interfaceA': c.interfaceA,
+            'interfaceB': c.interfaceB,
+            'introduction': c.introduction,
+            'source': c.source,
+            'risk': c.risk,
+            'plasmids': json.loads(c.plasmids),
+            'img': c.img,
+    }
+    return jsonify(content=content)
 
 @design.route('/circuit/<int:id>', methods=['POST'])
 def store_circuit(id):
     c = Circuit.query.get(id)
     
     data = request.get_json()
-    print data
 
     c.update_from_db()
-
     c.parts = data['parts']
     c.title = data['title']
     c.relationship = data['relationship']
@@ -93,8 +104,9 @@ def store_circuit(id):
     c.introduction = data['introduction']
     c.source = data['source']
     c.risk = data['risk']
-    c.plasmids = data['plasmids']
-
+    c.plasmids = json.dumps(data['plasmids'])
+    c.img= data['img']
+    c.commit_to_db()
 
 
     return 'Success'
