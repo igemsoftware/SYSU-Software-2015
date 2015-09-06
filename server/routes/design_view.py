@@ -79,9 +79,22 @@ def get_circuit(id):
 @design.route('/circuit/<int:id>', methods=['POST'])
 def store_circuit(id):
     c = Circuit.query.get(id)
-    if not c: return 'failed.' 
+    
+    data = request.get_json()
+    print data
 
-    content = request.form.get('content', '')
-    c.content = content
+    c.update_from_db()
+
+    c.parts = data['parts']
+    c.title = data['title']
+    c.relationship = data['relationship']
+    c.interfaceA = data['interfaceA']
+    c.interfaceB = data['interfaceB']
+    c.introduction = data['introduction']
+    c.source = data['source']
+    c.risk = data['risk']
+    c.plasmids = data['plasmids']
+
+
 
     return 'Success'

@@ -501,6 +501,13 @@ class Circuit(db.Model, BioBase):
 
     protocols = db.Column(db.Text, default='')
     """The protocols it is using."""
+
+    plasmids = db.Column(db.Text, default='')
+    """Plasimid information"""
+    img = db.Column(db.Text, default='')
+    """Img in Base64"""
+    risk = db.Column(db.Integer, default=-1)
+    """Safety risk"""
     #experiment = db.Column(db.Text, default='')
 
     # in public database
