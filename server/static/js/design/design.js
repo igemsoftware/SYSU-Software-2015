@@ -266,8 +266,6 @@ Design.prototype._makeDrawAreaDroppabble = function() {
                 that.putNewDevice(dropedElement);
                 return ;
             }
-            console.log("1111");
-            console.log($(dropedElement));
             var node = new CNode();
             node.createCNode($(dropedElement));
             $("#drawArea").append(node.view);
@@ -1051,7 +1049,7 @@ RightBar.prototype.processDropedDevice = function(device) {
         this.elemsDeviceList.push(deviceElem);
         this._searchDeviceTitle.push({title: device.title});
         this.updateSearchBar();
-        this.rightbarWorker.showView(this.elemsPartList, this.view.devices);
+        this.rightbarWorker.showView(this.elemsDeviceList, this.view.devices);
     }
 }
 

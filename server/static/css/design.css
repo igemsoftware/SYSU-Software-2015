@@ -212,6 +212,14 @@
     border:none;
 }
 
+#right-sidebar .attached.tab.segment {
+    height: 95%;
+}
+
+#right-sidebar .styled.accordion {
+    height: 90%;
+}
+
 #right-sidebar > .accordion {
     height: 100%;
     background: none;
@@ -231,14 +239,20 @@
     background-color: rgba(149, 149, 149, 0.8);
 }
 
-#right-sidebar #parts {
-    height: 100%;
+#right-sidebar #addedParts {
+    height: 65%;
     overflow: auto;
     width: 100%;
 }
 
-#right-sidebar #devices {
-    height: 100%;
+#right-sidebar #addedSystems {
+    height: 65%;
+    overflow: auto;
+    width: 425px;
+}
+
+#right-sidebar #addedCustoms {
+    height: 65%;
     overflow: auto;
     width: 425px;
 }
@@ -289,6 +303,43 @@
     display: inline;
 }
 
+/*right-bar device style*/
+#right-sidebar #addedDevices {
+    height: 65%;
+    overflow: auto;
+    width: 100%;
+}
+
+#right-sidebar #addedDevices .deviceTitle {
+    font-size: 14px;
+    width: 90%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#right-sidebar #addedDevices .more {
+    width: 10%;
+    font-size: 17px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#right-sidebar #addedDevices .item {
+    width: 100%;
+    overflow: hidden;
+    height: 164px;
+}
+
+#right-sidebar #addedDevices .item img {
+    float: left;
+    width: 100%;
+    height: 160px;
+}
+
+#right-sidebar #addedDevices .divider {
+    margin-top: 2px;
+}
+/*=====================================================*/
 ::-webkit-scrollbar-track {
     border-radius: 5px;
     height: 8px;
