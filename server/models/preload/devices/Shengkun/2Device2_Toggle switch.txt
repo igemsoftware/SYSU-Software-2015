@@ -1,0 +1,21 @@
+Toggle switch 2011USTC
+A toggle switch with two stable states - CI and CI434 and the orginal state can be either of the two.
+CI repressor is expressed after a CI434 repressible promoter, while the CI434 is expressed after a CI repressible promoter. LuxpR (BBa_R0062) controls the expression of cI repressor which would influence the ratio of toggle switch.
+cI,cI434,LuxPR
+http://2011.igem.org/Team:USTC-China
+http://2011.igem.org/Team:USTC-China/Wet_Lab/protocol
+-1
+CI_1
+RFP_1,GFP_1
+PRM_1	cI_1	normal
+cI_1	rfp_1	normal
+rfp_1	RFP_1	promotion
+cI_1	CI_1	promotion
+CI_1	PR_1	inhibition
+PR_1	cI434_1	normal
+cI434_1	gfp_1	normal
+gfp_1	GFP_1	promotion
+cI434_1	cI434_1	promotion
+cI434_1	PRM_1	inhibition
+
+

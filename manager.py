@@ -72,7 +72,7 @@ def init(slient=False):
         print bcolors.OKGREEN+'OK'+'\nInit done.'+bcolors.ENDC
 
 @manager.command
-def testinit(slient=False, noinit=False):
+def testinit(slient=False, noinit=False, quickcheck=False):
     if not noinit: init(slient)
     with app.app_context():
         if not slient: print bcolors.HEADER+'Adding test components ...',
@@ -94,6 +94,7 @@ def testinit(slient=False, noinit=False):
         for dir in app.config.get('INIT_PRELOAD_DEVICE_DIRS', []):
             for filename in get_file_list(dir):
                 device = Device().load_from_file(filename)
+        if quickcheck: return
     
 
         Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 

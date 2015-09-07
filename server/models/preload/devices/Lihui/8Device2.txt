@@ -1,0 +1,15 @@
+Mobility 2014Uppsala
+Chemotaxis is the cells system for directed movement which allows the cell to move towards nutrition sources as well as away from toxic substances. Then, by producing CheZ under controlled manners, the bacteria would ideally become motile again but on our terms. The result would be low production of CheZ when close to the pathogen and high production when far away from it.
+Chemotaxis is the cells system for directed movement which allows the cell to move towards nutrition sources as well as away from toxic substances. By producing CheZ under controlled manners, the bacteria would ideally become motile again but on our terms. The result would be low production of CheZ when close to the pathogen and high production when far away from it.
+Mobility,CheZ protein
+http://2014.igem.org/Team:Uppsala/Project_Targeting
+http://2014.igem.org/Team:Uppsala/Project_Notebook
+1
+Promoter:BBa_J23113_1
+cheZ_1
+Promoter:BBa_J23113_1	RBS:BBa_B0034_1	normal
+RBS:BBa_B0034_1	cheZ_1	normal
+
+
+
+

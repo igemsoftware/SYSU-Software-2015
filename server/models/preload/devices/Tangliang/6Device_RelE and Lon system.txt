@@ -1,0 +1,25 @@
+Production of toxin- RelE and lon system 2009SJTU-BioX-Shanghai
+RelE and Lon are clustered in the same operon with a lac promoter. one coexpressed, relE toxin become Hypnos` Curse, causing dormancy in E.coli.
+In this device, the expressions of Lon protease and relE toxin is under the regulation of Lac promoter. At first, LacI-inhibiting protein is continously expressed, thus blocks the transcription of Lon and relE. Once we use IPTG to induce the genetic circuit, the free LacI will be inactive, which eventually causes co-expression of relE and Lon.
+Toxin,relE and lon
+http://2009.igem.org/Team:SJTU-BioX-Shanghai
+http://2009.igem.org/Team:SJTU-BioX-Shanghai/Protocols#bannerTop
+1
+PlacI_1,Plac_1
+Terminator_1,Terminator_2,Terminator_3,Terminator_4
+PlacI_1	RBS_1	normal
+RBS_1	lacI_1	normal
+lacI_1	Terminator_1	normal
+Terminator_1	Terminator_2	normal
+Terminator_2	Plac_1	normal
+Plac_1	RBS_2	normal
+RBS_2	relE_1	normal
+relE_1	RBS_3	normal
+RBS_3	lon_1	normal
+lon_1	Terminator_3	normal
+Terminator_3	Terminator_4	promotion
+
+
+
+
+

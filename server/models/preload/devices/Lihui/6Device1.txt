@@ -1,0 +1,23 @@
+Biosensor-Detecting chlorinated solvents (DCM) 2014Oxford
+This biosensor, based on the M. extorquens DM4 degradation pathway for DCM is designed to give a detectable fluorescent output that when integrated into an electronic circuit signals when there is very little to no DCM left in our DCMation kit.
+This biosensor, based on the M. extorquens DM4 degradation pathway for DCM is designed to give a detectable fluorescent output that when integrated into an electronic circuit signals when there is very little to no DCM left in our DCMation kit.
+detecting chlorinated solvents
+http://2014.igem.org/Team:Oxford/biosensor_characterisation#showmodelling
+http://2014.igem.org/wiki/images/1/16/Oxigem_LAB_PROTOCOLS.pdf 
+1
+ATC_1,DCM_1
+sfGFP_1
+tetR_1	TetR_1	promotion
+ATC_1	TetR_1	inhibition
+TetR_1	tetO_1	inhibition
+tetO_1	dcmR_1	normal
+dcmR_1	mCherry_1	normal
+dcmR_1	DcmR_1	promotion
+DCM_1	DcmR_1	inhibition
+DcmR_1	PdcmA_1	inhibition
+PdcmA_1	sfgfp_1	normal
+sfgfp_1	sfGFP_1	promotion
+
+
+
+

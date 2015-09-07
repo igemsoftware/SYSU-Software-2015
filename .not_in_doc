@@ -1,0 +1,4 @@
+@design.route('/circuit/<int:id>', methods=['POST'])
+Circuit.plasmids
+Circuit.img
+Circuit.safe

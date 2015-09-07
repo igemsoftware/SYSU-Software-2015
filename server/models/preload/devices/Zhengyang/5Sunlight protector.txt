@@ -1,0 +1,19 @@
+Sunlight protector 2012ETH_Zurich
+This device can produce PABA to yield a higher SPF so that the E.coli can be protected from the sun light.
+This device has one  pab operon consisting of the pabA and pabB/C gene from Lactococcus lactisto overexpress PABA. Biobrick BBa_K909014 will be used to show that PABA is produced. In that case the pab operon is controled by the constitutive promoter J23100 while the BBa_K909015 operon can be cloned downstream to any promoter. The designer cloned the ladder operon downstream of the PL promoter with operator sites TetO2 and LacO1 to incorporate the pab genes into our system.
+PABA,sunlight protector,pab operon 
+http://2012.igem.org/Team:ETH_Zurich
+http://2012.igem.org/Team:ETH_Zurich/MaterialMethods
+1
+UVR8-TetRDBD(dimer)_1
+PABA_1
+UVR8-TetRDBD(dimer)_1	Ptet_1	inhibition
+Ptet_1	pabA pabB_1	normal
+pabA pabB_1	pabC_1	normal
+pabA pabB_1	PabAB_1	promotion
+pabC_1	PabC_1	promotion
+Chorismic acid_1	PabAB_1	normal
+PabAB_1	ADC_1	promotion
+ADC_1	PabC_1	normal
+PabC_1	PABA_1	promotion
+PABA_1	2UVRB-TetRDBD_1	inhibition
