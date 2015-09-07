@@ -166,7 +166,7 @@ DFS.prototype.getCircuits = function() {
     for (var i in circuitsElems) {
         circuit = [];
         for (var j in circuitsElems[i]) {
-            var part = DataManager.getPartByName(circuitsElems[i][j].attr('part-name'));
+            var part = DataManager.getPartByAttr(circuitsElems[i][j].attr('part-attr'));
             circuit.push(part);
         }
         circuits.push(circuit);
@@ -206,10 +206,10 @@ Design.prototype.init = function() {
 };
 
 Design.prototype.addProAndInhibitLine = function(partA) {
-    var partNameA = partA.attr('part-name');
+    var partNameA = partA.attr('part-attr');
     for (var i in this.nodeElemList) {
         var partB = this.nodeElemList[i];
-        var partNameB = partB.attr('part-name');
+        var partNameB = partB.attr('part-attr');
         if (DataManager.isProOrInhibitRelation(partNameA, partNameB)) {
             var lineType = DataManager.getLineType(partNameA, partNameB);
             this.drawLine(partA, partB, lineType);
@@ -265,33 +265,37 @@ Design.prototype._makeDrawAreaDroppabble = function() {
                 that.putNewDevice(dropedElement);
                 return ;
             }
-
+            console.log("1111");
+            console.log($(dropedElement));
             var node = new CNode();
             node.createCNode($(dropedElement));
-            that.addPartEvent(node.view);
-
+            $("#drawArea").append(node.view);
             var left = node.view.position().left - leftBar.view.width();
             var top  = node.view.position().top - that.drawMenu.height();
             node.view.css({left:left, top:top});
 
+            that.addPartEvent(node.view);
             //write log
-            operationLog.addPart(dropedElement.attr("part-name"));
+            operationLog.addPart(dropedElement.attr("part-attr"));
         }
     });
 }
 
 Design.prototype.addPartEvent = function(elem) {
-    this.drawArea.append(elem);
     this.addDraggable(elem);
     this.addProAndInhibitLine(elem);
     this.makeSourceAndTarget(elem);
     this.nodeElemList.push(elem);
     this._partCount += 1;
-    var partName = elem.attr("part-name");
-    elem.attr('part-id', partName + "_" + String(this._partCount));
+
+    var partAttr = elem.attr("part-attr");
+    console.log(partAttr);
+
+    elem.attr('part-id', partAttr + "_" + String(this._partCount));
 
     //Add to right bar
-    var part = DataManager.getPartByName(partName);
+    // console.log()
+    var part = DataManager.getPartByAttr(partAttr);
     rightBar.processDropedPart(part);
     this.updateRisk(part);
 } 
@@ -386,10 +390,9 @@ Design.prototype._initJsPlumbOption = function() {
     })
 
     jsPlumb.on(that.drawArea, "click", ".minus", function() {
-        operationLog.removePart($(this.parentCNode.parentCNode).attr("part-name"));
-        var node = that.getNodeViewByPartId($(this.parentCNode.parentCNode).attr("part-id"));
-        that.removeCNode(node);
-        jsPlumb.remove(this.parentCNode.parentCNode);
+        operationLog.removePart($(this.parentNode.parentNode).attr("part-name"));
+        that.removeCNodeElem($(this.parentNode.parentNode).attr("part-id"));
+        jsPlumb.remove(this.parentNode.parentNode);
     });
 };
 
@@ -401,8 +404,8 @@ Design.prototype.getNodeViewByPartId = function(partID) {
     }
 }
 
-Design.prototype.removeCNode = function(node) {
-    var index2 = this.nodeElemList.indexOf(node.view);
+Design.prototype.removeCNodeElem = function(elem) {
+    var index2 = this.nodeElemList.indexOf(elem);
     this.nodeElemList.splice(index2, 1);
 }
 
@@ -545,6 +548,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
         curcuitChartData.id = -1;
 
         $("#saveModal").modal("hide");
+        $("#saveSuccessModal").modal('show');
         var el = $("#drawArea").get(0);
         html2canvas(el, {
             onrendered: function(canvas) {
@@ -561,6 +565,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
 
                 curcuitChartData.img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                 var postDataJson = JSON.stringify(curcuitChartData);
+                console.log(postDataJson);
                 $.ajax({
                     type: 'POST',
                     contentType: 'application/json',
@@ -604,6 +609,7 @@ DesignMenu.prototype.getDesignParts = function() {
         parts.push({
             partID: $elem.attr('part-id'),
             partName: $elem.attr('part-name'),
+            partAttr: $elem.attr('part-attr'),
             positionX: parseInt($elem.css("left"), 10),
             positionY: parseInt($elem.css("top"), 10)
         });
@@ -622,82 +628,8 @@ DesignMenu.prototype.enableLoadCircuitchartBtn = function(curcuitChart) {
             var nodeElems = Util._loadCircuitCNodes(parts);
             Util._loadCircuitLinks(connections, nodeElems);
         });
-
-        //update id
-            //     partCount += 1;
-            // div.attr("part-id", elem.partName + "_" + String(partCount));
     });
 };
-
-// DesignMenu.prototype._loadCircuitCNodes = function(parts) {
-//     var nodeElems = [];
-//     var that = this;
-//     $.each(parts, function(index, elem ) {
-//         var node = that._createNewCNode(elem);
-//         node.appendTo(design.drawArea);
-
-//         design.addDraggable(node);
-//         design.addProAndInhibitLine(node);
-//         design.makeSourceAndTarget(node);
-
-//         // putPartElemList.push(div);
-//         var partID = elem.partID;
-//         nodeElems.push([partID, node]);
-//     });
-
-//     return nodeElems;
-// };
-
-// DesignMenu.prototype._createNewCNode = function(elem) {
-//     var node = $("<div></div>");
-//     var left = elem.positionX;
-//     var top = elem.positionY;
-//     node.css({left: left, top: top});
-//     node.css({position: "absolute"});
-//     node.attr("part-name", elem.partName);
-//     node.attr("normal-connect-num", 0);
-//     node.addClass("node");
-//     node.css("text-align", "center");
-
-//  var partType = DataManager.getPartType(elem.partName)
-//     var img = Util.createImageDiv(partType);
-//     img.appendTo(node);
-
-//     var titleDiv = Util.createTitleDiv(elem.partName);
-//     titleDiv.appendTo(node);
-
-//     if (partType == 'gene' || partType == 'promoter' 
-//         || partType == 'RBS' || partType == 'terminator') {
-//         var filterDiv = $("<div></div>");
-//         filterDiv.addClass("filterDiv");
-//         filterDiv.appendTo(node);
-//     }
-
-//     var minusCircle = Util.createMinusCircleDiv();
-//     minusCircle.appendTo(node);
-
-//     return node;
-// };
-
-// DesignMenu.prototype._loadCircuitLinks = function(connections, nodeElems) {
-//     $.each(connections, function(index, elem) {
-//         // if (elem.type == "promotion" || elem.type == "inhibition") return;
-//         var startElem;
-//         var endElem;
-//         for (var index in nodeElems) {
-//             if (nodeElems[index][0] == elem.start) startElem = nodeElems[index][1];
-//             if (nodeElems[index][0] == elem.end) endElem = nodeElems[index][1];
-//         }
-//         var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
-//         var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
-//         startNormalNum += 1;
-//         endNormalNum += 1;
-//         $(startElem).attr("normal-connect-num", startNormalNum);
-//         $(endElem).attr("normal-connect-num", endNormalNum);
-
-//         design.drawLine(startElem, endElem, elem.type);
-//     }); 
-// };
 
 DesignMenu.prototype.enableDownloadBtn =function() {
     var that = this;
@@ -748,6 +680,7 @@ SideBarWorker.prototype.createPartView = function(part) {
     var partType = part.type;
     var partIntro = part.introduction;
     var BBa = part.BBa;
+    var attr = part.attr;
 
     var dataDiv = $("<div class='data'></div>");
     var itemDiv = $("<div class='item'></div>");
@@ -761,6 +694,7 @@ SideBarWorker.prototype.createPartView = function(part) {
     itemDiv.attr('id', partName);
     itemDiv.attr('part-type', partType);
     itemDiv.attr('part-name', partName);
+    itemDiv.attr('part-attr', attr);
     imgElem.attr("src", Util.getImagePath(partType, 60));
     titleSpan.text(partName);
     iconSpan.attr("data-content", "Read more about this part");
@@ -1029,8 +963,8 @@ LeftBar.prototype.enableSearchRelateBox = function() {
         if (val != "") {
             var searchElemPartList = [];
             for (var i in that.elemsPartList) {
-                var partName = $(that.elemsPartList[i].find("div")[0]).attr("part-name").toLowerCase();
-                if (DataManager.isRelate(val, partName)) {
+                var partAttr = $(that.elemsPartList[i].find("div")[0]).attr("part-attr").toLowerCase();
+                if (DataManager.isRelate(val, partAttr)) {
                     searchElemPartList.push(that.elemsPartList[i]);
                 }
             }
@@ -1141,7 +1075,7 @@ RightBar.prototype.addDropdownItem = function(part, dropdownMenuElem) {
 RightBar.prototype.isPartAddedEquationMenu = function(part) {
     var flag = false;
     $("#equationDropdownA .menu").each(function() {
-        if ($(this).text() == part.name) {
+        if ($(this).text() == part.attr) {
             flag = true;
         }
     })
@@ -1169,7 +1103,7 @@ RightBar.prototype.isPartAdded = function(part) {
 
 RightBar.prototype.isDeviceAdded = function(device) {
     for (var i in this.elemsDeviceList) {
-        if ($(this.elemsDeviceList[i]).find(".partTitle").text() == part.name) {
+        if ($(this.elemsDeviceList[i]).find(".partTitle").text() == device.name) {
             return true;
         }
     }
@@ -1221,6 +1155,7 @@ $(function() {
     rubberband = new Rubberband();
     operationLog = new OperationLog();
     designMenu = new DesignMenu();
+    dfs = new DFS();
     operationLog.init();
     design.init();
     leftBar.init();
@@ -1291,11 +1226,7 @@ $("#equationPartB").change(function() {
 });
 
 
-$(function() {
-    dfs = new DFS();
-    $("#searchCircuit").click(function() {
-        dfs.createMap();
-        dfs.searchCircuit();
-    });
-})
+$('#loadingData').dimmer('show');
 
+
+// $('#saveSuccessModal').modal('show');

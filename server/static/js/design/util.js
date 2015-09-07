@@ -79,34 +79,38 @@ Util.renderEquation = function(e) {
 Util._loadCircuitCNodes = function(parts) {
     var nodeElems = [];
     var that = this;
-    $.each(parts, function(index, elem ) {
-        var node = that._createNewCNode(elem);
+    $.each(parts, function(index, part ) {
+        var node = that._createNewCNode(part);
+        node.appendTo(design.drawArea);
         design.addPartEvent(node);
 
-        // putPartElemList.push(div);
-        var partID = elem.partID;
+        var partID = part.partID;
         nodeElems.push([partID, node]);
     });
 
     return nodeElems;
 };
 
-Util._createNewCNode = function(elem) {
+Util._createNewCNode = function(part) {
     var node = $("<div></div>");
-    var left = elem.positionX;
-    var top = elem.positionY;
+    var left = part.positionX;
+    var top = part.positionY;
     node.css({left: left, top: top});
     node.css({position: "absolute"});
-    node.attr("part-name", elem.partName);
+    node.attr("part-name", part.partName);
+    //need recover
+    // node.attr("part-attr", part.attr);
+    node.attr("part-attr", part.partName);
+    //need recover
     node.attr("normal-connect-num", 0);
     node.addClass("node");
     node.css("text-align", "center");
 
-    var partType = DataManager.getPartType(elem.partName)
+    var partType = DataManager.getPartType(part.partName)
     var img = this.createImageDiv(partType);
     img.appendTo(node);
 
-    var titleDiv = this.createTitleDiv(elem.partName);
+    var titleDiv = this.createTitleDiv(part.partName);
     titleDiv.appendTo(node);
 
     if (partType == 'gene' || partType == 'promoter' 
@@ -217,9 +221,10 @@ DataManager.getSystemList = function() {
     return this.systemList;
 }
 
-DataManager.getPartByName = function(partName) {
+DataManager.getPartByAttr = function(partName) {
     for (var i in this.partList) {
         if (this.partList[i].name == partName) return this.partList[i];
+        // if (this.partList[i].attr == partName) return this.partList[i];
     }
     return null;
 }
@@ -334,6 +339,7 @@ DataManager.getDeviceDataFromServer = function(callback) {
         console.log(data['deviceList']);
         that.initDeviceList(data['deviceList']);
         callback(data['deviceList']);
+        $('#loadingData').dimmer('hide');
     });
 }
 

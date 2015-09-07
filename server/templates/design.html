@@ -65,7 +65,7 @@
       </div>
       <div id="topbar-bottom-line"></div>
     </div>
-
+<!--   leftbar -->
     <div id="left-sidebar">
       <div class="ui button trigger-left">
         <i class="chevron right big icon"></i>
@@ -137,18 +137,6 @@
           <div class="devices"></div>
         </div>
         <div class="left-sidebar-body" id="devices">
-          <!-- <div class="data">
-            <span class="item"><img src="/static/img/design/device.png" style='width:100%'></span>
-            <span class="deviceTitle">Biosensor-C4HSL 2014Tokyo_Tech</span>
-            <span class="more"><i class="icon zoom"></i></span> 
-          </div>
-          <div class="ui divider"></div>
-                    <div class="data">
-            <span class="item"><img src="/static/img/design/device.png" style='width:100%'></span>
-            <span class="deviceTitle">Biosensor-C4HSL 2014Tokyo_Tech</span>
-            <span class="more"><i class="icon zoom"></i></span> 
-          </div>
-          <div class="ui divider"></div> -->
         </div>
       </div>
 
@@ -190,8 +178,70 @@
         </div>
       </div>
     </div>
+<!--   leftbar -->
+<!--   rightbar -->
+    <div id="right-sidebar">
+      <div class="ui button trigger-right">
+        <i class="chevron left big icon"></i>
+      </div>
 
-  <!--   download modal -->
+      <div class="ui attached tabular menu">
+        <a class="item active" data-tab="added">Added</a>
+        <a class="item" data-tab="equation">Equation</a>
+        <a class="item" data-tab="history">history</a>
+      </div>
+
+      <div class="ui bottom attached tab segment active" data-tab="added"> 
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input id="searchAdd" class="prompt" placeholder="Search added parts..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+
+        <div class="ui styled accordion">
+          <div class="title"><i class="dropdown icon"></i>Part</div>
+          <div class="content" id="addedParts"></div>
+          <div class="title"><i class="dropdown icon"></i>Device</div>
+          <div class="content" id="addedDevices"></div>
+          <div class="title"><i class="dropdown icon"></i>System</div>
+          <div class="content" id="addedSystems"></div>
+          <div class="title"><i class="dropdown icon"></i>Custom</div>
+          <div class="content" id="addedCustoms"></div>
+        </div>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="equation">
+        <div class="ui grid" id="equation">
+          <div class="eight wide column">
+            <div class="ui fluid selection dropdown" id="equationDropdownA">
+              <input id="equationPartA" name="type" type="hidden" value="">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select a part</div>
+              <div class="menu">
+              </div>
+            </div>
+          </div>
+          <div class="eight wide column">
+            <div class="ui fluid selection dropdown" id="equationDropdownB">
+              <input id="equationPartB" name="type" type="hidden" value="">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select a part</div>
+              <div class="menu">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="showEquation">
+        </div>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="history" id="history">
+        <div class="ui feed">
+        </div>
+      </div>
+    </div>
+<!--   rightbar -->
+<!--   download modal -->
     <div class="ui small modal" id="downloadModal">
       <div class="header">Download a custom part</div>
       <div class="content"> 
@@ -233,6 +283,18 @@
       </div>
     </div>
 <!--   save modal -->
+<!--   saveSuccess modal -->
+    <div class="ui small basic modal" id="saveSuccessModal">
+      <div class="content">
+        <h3 class="text-center"><i class="ui large icon check circle"></i>Saved successfully</h3>
+        <div class="fluid text-center" style="margin-top: 50px;">
+          <div class="ui cancel button"><i class="ui icon chevron left"></i>Stay in Design</div>
+          <div class="ui move button" id="saveCircuitBtn">Move to Modeling <i class='ui icon chevron right'></i></div>
+        </div>
+      </div>
+    </div>
+<!--   saveSuccess modal -->
+<!--   custom modal -->
     <div class="ui small modal" id="createCustomPartModal">
       <div class="header">Create a custom part</div>
         <div class="content">
@@ -327,68 +389,14 @@
           </div>
       </div>
     </div>
+<!--   custom modal -->
+<div class="ui segment" id="loadingData">
+  <div class="ui active page inverted dimmer">
+    <div class="ui text loader">Loading...</div>
+  </div>
+</div>
 
-    <div id="right-sidebar">
-      <div class="ui button trigger-right">
-        <i class="chevron left big icon"></i>
-      </div>
-
-      <div class="ui attached tabular menu">
-        <a class="item active" data-tab="added">Added</a>
-        <a class="item" data-tab="equation">Equation</a>
-        <a class="item" data-tab="history">history</a>
-      </div>
-
-      <div class="ui bottom attached tab segment active" data-tab="added"> 
-        <div class="ui fluid category search">
-          <div class="ui fluid icon input">
-            <input id="searchAdd" class="prompt" placeholder="Search added parts..." type="text">
-            <i class="search icon"></i>
-          </div>
-          <div class="results"></div>
-        </div>
-
-        <div class="ui styled accordion">
-          <div class="title"><i class="dropdown icon"></i>Part</div>
-          <div class="content" id="addedParts"></div>
-          <div class="title"><i class="dropdown icon"></i>Device</div>
-          <div class="content" id="addedDevices"></div>
-          <div class="title"><i class="dropdown icon"></i>System</div>
-          <div class="content" id="addedSystems"></div>
-          <div class="title"><i class="dropdown icon"></i>Custom</div>
-          <div class="content" id="addedCustoms"></div>
-        </div>
-      </div>
-      <div class="ui bottom attached tab segment" data-tab="equation">
-        <div class="ui grid" id="equation">
-          <div class="eight wide column">
-            <div class="ui fluid selection dropdown" id="equationDropdownA">
-              <input id="equationPartA" name="type" type="hidden" value="">
-              <i class="dropdown icon"></i>
-              <div class="default text">Select a part</div>
-              <div class="menu">
-              </div>
-            </div>
-          </div>
-          <div class="eight wide column">
-            <div class="ui fluid selection dropdown" id="equationDropdownB">
-              <input id="equationPartB" name="type" type="hidden" value="">
-              <i class="dropdown icon"></i>
-              <div class="default text">Select a part</div>
-              <div class="menu">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="showEquation">
-        </div>
-      </div>
-      <div class="ui bottom attached tab segment" data-tab="history" id="history">
-        <div class="ui feed">
-        </div>
-      </div>
-    </div>
-  <!-- main-contain -->
+<!-- main-contain -->
     <div id="main-contain">
       <div id="drawArea-menu">
         <div class="ui large icon buttons">
@@ -399,8 +407,7 @@
           <button class="ui grey button" id="minus" data-content="Delete a part"><i class="minus icon"></i></button>
           <button class="ui grey button" id="download" data-content="Download this image" ><i class="download icon"></i></button>
         </div>
-        <span>Risk: </span>
-        <button class="vertical-middle ui green button" id="risk" data-content="Low risk(1)"></button>
+        <span id="riskSpan">Risk: <span class="vertical-middle ui green button" id="risk" data-content="Low risk(1)"></span></span>
       </div>
       <div class="" id="drawArea">
           <div id="rubberband" style="border:1px solid green;display:none;"></div>
