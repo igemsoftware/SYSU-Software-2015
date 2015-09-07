@@ -5,6 +5,7 @@ from . import design
 from ..models import ComponentPrototype, ComponentInstance, Relationship
 from ..models import Protocol, Device, Circuit 
 from flask import jsonify, request
+from flask.ext.login import login_required, current_user
 import json
 
 def Device_check_and_update(device_id):
@@ -17,7 +18,7 @@ def Device_check_and_update(device_id):
 @design.route('/data/fetch/parts')
 def data_fetch_parts():
     l = [] 
-    for c in ComponentPrototype.query.order_by(ComponentPrototype.name.desc()).all():
+    for c in ComponentPrototype.query.order_by(ComponentPrototype.name.asc()).all():
         if c.id == 1: continue
         l.append({'name': c.name,
                   'introduction': c.introduction,
@@ -73,10 +74,11 @@ def data_fetch_device():
 @design.route('/circuit/<int:id>', methods=['GET'])
 def get_circuit(id):
     c = Circuit.query.get(id)
+    c.update_from_db()
     
     content = {
             'id': c.id,
-            'parts': c.parts,
+            'parts': map(lambda x: x.jsonify(), c.parts),
             'title': c.title,
             'relationship': c.relationship,
             'interfaceA': c.interfaceA,
@@ -91,7 +93,12 @@ def get_circuit(id):
 
 @design.route('/circuit/<int:id>', methods=['POST'])
 def store_circuit(id):
-    c = Circuit.query.get(id)
+    if id < 0:
+        c = Circuit()
+        current_user.circuits.append(c)
+        c.commit_to_db()
+    else:
+        c = Circuit.query.get(id)
     
     data = request.get_json()
 
@@ -108,5 +115,22 @@ def store_circuit(id):
     c.img= data['img']
     c.commit_to_db()
 
-
     return 'Success'
+
+@design.route('/circuit/all', methods=['GET'])
+@login_required
+def get_all_circuit():
+
+    l = []
+    for c in current_user.circuits.all():
+        c.update_from_db()
+        
+        l.append( {
+                'id': c.id,
+                'title': c.title,
+                'introduction': c.introduction,
+                'img': c.img,
+        })
+    return jsonify(circuits=l)
+
+

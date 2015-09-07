@@ -236,13 +236,15 @@ class ComponentPrototype(db.Model):
 class ComponentInstance():
     """ComponentInstance is an instance of :class:`ComponentPrototype` in every :class:`BioBase`. """
 
+    partAttr = ''
+    """Unique attribution (mixed with BBa) for a prototype."""
     partName = ''
     """The name of the prototype."""
     positionX = 0.
     """The position on X-axis."""
     positionY = 0.
     """The position on Y-axis."""
-    def __init__(self, partName, partID=None, positionX=300., positionY=300.):
+    def __init__(self, partName, partID=None, partAttr=None, positionX=300., positionY=300.):
         """Initialization constructor, can use :attr:`ComponentPrototype.name` 
         or :attr:`ComponentPrototype.attr` to find the prototype."""
         c = ComponentPrototype.query.filter_by(name=partName).first()
@@ -253,6 +255,7 @@ class ComponentInstance():
 
         self.partID = partID if partID else partName 
         self.partName = partName 
+        self.partAttr = partAttr if partAttr else c.attr
         self.positionX = positionX
         self.positionY = positionY
 
@@ -263,6 +266,7 @@ class ComponentInstance():
                     'partName': self.partName,
                     'positionX': self.positionX,
                     'positionY': self.positionY,
+                    'partAttr': self.partAttr
                }
 
     def __repr__(self):
@@ -313,6 +317,7 @@ class BioBase():
 
         db.session.add(self)
         db.session.commit()
+
 
     def clear(self):
         """Pack :attr:`parts`, :attr:`relationship`, 
@@ -517,7 +522,7 @@ class Circuit(db.Model, BioBase):
     """When this circuit is in CORE Bank."""
     likes = db.Column(db.Integer, default=0)
     """How many likes it get."""
-    favoriter = db.relationship('User', secondary=Favorite_circuit, backref=db.backref('circuit', lazy='dynamic')) 
+    favoriter = db.relationship('User', secondary=Favorite_circuit, backref=db.backref('fav_circuit', lazy='dynamic')) 
     """Who mark it as favorite."""
     grade = db.Column(db.Text) # how ?
     """Grading."""

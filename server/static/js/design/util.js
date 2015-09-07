@@ -8,9 +8,7 @@
 function Util() {};
 
 Util.getImagePath = function(type, imgSize) {
-    // console.log("getImagePath function");
     return "/static/img/design/"+ type + "_" + imgSize +".png";
-    // return "";
 };
 
 Util.createImageDiv = function(partType) {
@@ -51,14 +49,12 @@ Util.createDivider = function() {
 }
 
 Util.downloadFile = function(fileName, content){
-	console.log(content);
     var aLink = document.createElement('a');
     var blob = new Blob([content]);
     var evt = document.createEvent("HTMLEvents");
     evt.initEvent("click", false, false);
     aLink.download = fileName;
     aLink.href = URL.createObjectURL(blob);
-    // aLink.href = content;
     aLink.dispatchEvent(evt);
 }
 
@@ -80,6 +76,76 @@ Util.renderEquation = function(e) {
     return res;
 }
 
+Util._loadCircuitCNodes = function(parts) {
+    var nodeElems = [];
+    var that = this;
+    $.each(parts, function(index, part ) {
+        var node = that._createNewCNode(part);
+        node.appendTo(design.drawArea);
+        design.addPartEvent(node);
+
+        var partID = part.partID;
+        nodeElems.push([partID, node]);
+    });
+
+    return nodeElems;
+};
+
+Util._createNewCNode = function(part) {
+    var node = $("<div></div>");
+    var left = part.positionX;
+    var top = part.positionY;
+    node.css({left: left, top: top});
+    node.css({position: "absolute"});
+    node.attr("part-name", part.partName);
+    //need recover
+    node.attr("part-attr", part.partAttr);
+    // node.attr("part-attr", part.partName);
+    //need recover
+    node.attr("normal-connect-num", 0);
+    node.addClass("node");
+    node.css("text-align", "center");
+
+    var partType = DataManager.getPartType(part.partName)
+    var img = this.createImageDiv(partType);
+    img.appendTo(node);
+
+    var titleDiv = this.createTitleDiv(part.partName);
+    titleDiv.appendTo(node);
+
+    if (partType == 'gene' || partType == 'promoter' 
+        || partType == 'RBS' || partType == 'terminator') {
+        var filterDiv = $("<div></div>");
+        filterDiv.addClass("filterDiv");
+        filterDiv.appendTo(node);
+    }
+
+    var minusCircle = this.createMinusCircleDiv();
+    minusCircle.appendTo(node);
+
+    return node;
+};
+
+Util._loadCircuitLinks = function(connections, nodeElems) {
+    $.each(connections, function(index, elem) {
+        // if (elem.type == "promotion" || elem.type == "inhibition") return;
+        var startElem;
+        var endElem;
+        for (var index in nodeElems) {
+            if (nodeElems[index][0] == elem.start) startElem = nodeElems[index][1];
+            if (nodeElems[index][0] == elem.end) endElem = nodeElems[index][1];
+        }
+        if (elem.type == 'normal') {
+            var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
+            var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
+            startNormalNum += 1;
+            endNormalNum += 1;
+            $(startElem).attr("normal-connect-num", startNormalNum);
+            $(endElem).attr("normal-connect-num", endNormalNum);
+            design.drawLine(startElem, endElem, elem.type);
+        }
+    }); 
+};
 //========================================================================================
 /**
  * @class DataManager
@@ -154,9 +220,16 @@ DataManager.getSystemList = function() {
     return this.systemList;
 }
 
-DataManager.getPartByName = function(partName) {
+DataManager.getPartByAttr = function(partAttr) {
     for (var i in this.partList) {
-        if (this.partList[i].name == partName) return this.partList[i];
+        if (this.partList[i].attr == partAttr) return this.partList[i];
+    }
+    return null;
+}
+
+DataManager.getDeviceByTitle = function(deviceTitle) {
+    for (var i in this.deviceList) {
+        if (this.deviceList[i].title == deviceTitle) return this.deviceList[i];
     }
     return null;
 }
@@ -178,41 +251,30 @@ DataManager.getLineType = function(fromPartA, toPartB) {
     return null;
 };
 
-DataManager.getRelationAdjFromPartName = function(partName) {
-    return this.relationAdjList[partName];
-}
-
-DataManager.isPartInRelationAdj = function(partName, relationAdj) {
-    for (var i in relationAdj) {
-        if (partName.toLowerCase() == relationAdj[i].toLowerCase()) {
+DataManager.isRelate = function(partAttrA, partAttrB) {
+    for (var i in this.relationShipList) {
+        var start = this.relationShipList[i].start.toLowerCase();
+        var end = this.relationShipList[i].end.toLowerCase();
+        if ((start === partAttrA.toLowerCase() && end === partAttrB.toLowerCase()) ||
+            (start === partAttrB.toLowerCase() && end === partAttrA.toLowerCase())) {
             return true;
         }
     }
     return false;
 }
 
-DataManager.isRelate = function(partNameA, partNameB) {
+DataManager.getEquation = function(partAttrA, partAttrB) {
+    var equationStr;
     for (var i in this.relationShipList) {
         var start = this.relationShipList[i].start.toLowerCase();
         var end = this.relationShipList[i].end.toLowerCase();
-        if ((start === partNameA.toLowerCase() && end === partNameB.toLowerCase()) ||
-            (start === partNameB.toLowerCase() && end === partNameA.toLowerCase())) {
-            return true;
+        if ((start === partAttrA.toLowerCase() && end === partAttrB.toLowerCase()) ||
+            (start === partAttrB.toLowerCase() && end === partAttrA.toLowerCase())) {
+            equationStr = Util.renderEquation(this.relationShipList[i].equation);
+            return equationStr
         }
     }
-    return false;
-}
-
-DataManager.getEquation = function(partNameA, partNameB) {
-    for (var i in this.relationShipList) {
-        var start = this.relationShipList[i].start.toLowerCase();
-        var end = this.relationShipList[i].end.toLowerCase();
-        if ((start === partNameA.toLowerCase() && end === partNameB.toLowerCase()) ||
-            (start === partNameB.toLowerCase() && end === partNameA.toLowerCase())) {
-            return this.relationShipList[i].equation;
-        }
-    }
-    return "There are no equation between "+ partNameA + " and " + partNameB;
+    return "There are no equation between "+ partAttrA + " and " + partAttrB;
 }
 
 DataManager.isProOrInhibitRelation = function(fromPartA, toPartB) {
@@ -251,6 +313,7 @@ DataManager.getRelationAdjDataFromServer = function(callback) {
     $.get("/design/data/fetch/adjmatrix", function(data, status) {
         console.log("Adjmatrix:");
         console.log(data['adjmatrix']);
+        test = data['adjmatrix'];
         that.initRelationAdjList(data['adjmatrix']);
     });
 }
@@ -261,6 +324,8 @@ DataManager.getDeviceDataFromServer = function(callback) {
         console.log("DeviceList:");
         console.log(data['deviceList']);
         that.initDeviceList(data['deviceList']);
+        callback(data['deviceList']);
+        $('#loadingData').dimmer('hide');
     });
 }
 
@@ -393,6 +458,12 @@ OperationLog.prototype.init = function() {
 
 OperationLog.prototype.addPart = function(partName) {
     var message = "Added a <a>" + partName + "</a> part.";
+    var EventElem = this._getEventElem("plus icon", message);
+    this._writeToRightBar(EventElem);
+};
+
+OperationLog.prototype.addDevice = function(deviceName) {
+    var message = "Added a <a>" + deviceName + "</a> Device.";
     var EventElem = this._getEventElem("plus icon", message);
     this._writeToRightBar(EventElem);
 };
