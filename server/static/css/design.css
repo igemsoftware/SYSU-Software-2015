@@ -451,3 +451,16 @@
     color: white;
 }
 
+#deleteModal .content {
+    vertical-align: middle;
+}
+
+#deleteModal .content .cancel {
+    margin-right: 20px;
+}
+
+#deleteModal .content #deleteBtn {
+    margin-left: 20px;
+    background-color: #ec5a5b;
+    color: white;
+}

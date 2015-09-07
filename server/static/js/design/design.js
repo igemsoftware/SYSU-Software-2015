@@ -16,6 +16,7 @@ var rightBar;
 var rubberband;
 var designMenu;
 var dfs;
+var test;
 
 //==========================================================================================
 /**
@@ -206,15 +207,15 @@ Design.prototype.init = function() {
 };
 
 Design.prototype.addProAndInhibitLine = function(partA) {
-    var partNameA = partA.attr('part-attr');
+    var partAttrA = partA.attr('part-attr');
     for (var i in this.nodeElemList) {
         var partB = this.nodeElemList[i];
-        var partNameB = partB.attr('part-attr');
-        if (DataManager.isProOrInhibitRelation(partNameA, partNameB)) {
-            var lineType = DataManager.getLineType(partNameA, partNameB);
+        var partAttrB = partB.attr('part-attr');
+        if (DataManager.isProOrInhibitRelation(partAttrA, partAttrB)) {
+            var lineType = DataManager.getLineType(partAttrA, partAttrB);
             this.drawLine(partA, partB, lineType);
-        } else if (DataManager.isProOrInhibitRelation(partNameB, partNameA)) {
-            var lineType = DataManager.getLineType(partNameB, partNameA);
+        } else if (DataManager.isProOrInhibitRelation(partAttrB, partAttrA)) {
+            var lineType = DataManager.getLineType(partAttrB, partAttrA);
             this.drawLine(partB, partA, lineType);
         }
     }
@@ -523,8 +524,12 @@ DesignMenu.prototype.enableConnectPartBtn = function() {
 
 DesignMenu.prototype.enableClearCircuitchartBtn = function() {
     this.clearBtn.click(function() {
-        jsPlumb.empty("drawArea");
-        design.clear();
+        $("#deleteModal").modal('show');
+        $("#deleteBtn").click(function() {
+            jsPlumb.empty("drawArea");
+            design.clear();
+            $("#deleteModal").modal('hide');
+        });
     });
 };
 
@@ -795,16 +800,16 @@ function LeftBar() {
     this.elemsTermiList = [];
     this.elemsChemList = [];
 
-    this.view.searchRelateBox = $("#searchRelate");
-    this.view.searchNewBox = $("#searchNew");
+    this.view.searchRelateInputBox = $("#searchRelate");
+    this.view.searchNewBoxInput = $("#searchNew");
 
     this.leftbarWorker = new SideBarWorker();
 }
 
 LeftBar.prototype.init = function() {
     this._leftTriggerAnimation();
-    this.enableSearchNewBox();
-    this.enableSearchRelateBox();
+    this.enablesearchNewBoxInput();
+    this.enablesearchRelateInputBox();
     $('.ui.styled.accordion').accordion({performance: true});
     $('.menu .item').tab();
 
@@ -903,6 +908,7 @@ LeftBar.prototype.addCustomPart = function(part) {
 LeftBar.prototype.updateSearchBar = function() {
     $('#searchPartBox').search({source: this._searchPartTitle});
     $('#searchDeviceBox').search({source: this._searchDeviceTitle});
+    $('#searchRelateBox').search({source: this._searchPartTitle});
 }
 
 LeftBar.prototype._leftTriggerAnimation = function() {
@@ -935,16 +941,16 @@ LeftBar.prototype._leftTriggerAnimation = function() {
     });
 }
 
-LeftBar.prototype.enableSearchNewBox = function() {
+LeftBar.prototype.enablesearchNewBoxInput = function() {
     var that = this;
-    this.view.searchNewBox.keyup(function() {
+    this.view.searchNewBoxInput.keyup(function() {
         that.updateSearchBar();
-        var val = that.view.searchNewBox.val().toLowerCase();
+        var val = that.view.searchNewBoxInput.val().toLowerCase();
         if (val != "") {
             var searchElemPartList = [];
             for (var i in that.elemsPartList) {
-                var partName = $(that.elemsPartList[i].find("div")[0]).attr("part-name").toLowerCase();
-                if (partName.indexOf(val) != -1) {
+                var partAttr = $(that.elemsPartList[i].find("div")[0]).attr("part-attr").toLowerCase();
+                if (partAttr.indexOf(val) != -1) {
                     searchElemPartList.push(that.elemsPartList[i]);
                 }
             }
@@ -956,10 +962,10 @@ LeftBar.prototype.enableSearchNewBox = function() {
     });
 };
 
-LeftBar.prototype.enableSearchRelateBox = function() {
+LeftBar.prototype.enablesearchRelateInputBox = function() {
     var that = this;
-    this.view.searchRelateBox.keyup(function() {
-        var val = that.view.searchRelateBox.val().toLowerCase();
+    this.view.searchRelateInputBox.keyup(function() {
+        var val = that.view.searchRelateInputBox.val().toLowerCase();
         if (val != "") {
             var searchElemPartList = [];
             for (var i in that.elemsPartList) {
@@ -1121,8 +1127,8 @@ RightBar.prototype.enableSearchAddBox = function() {
         if (val != "") {
             var searchElemPartList = [];
             for (var i in that.elemsPartList) {
-                var partName = $(that.elemsPartList[i].find("div")[0]).attr("part-name").toLowerCase();
-                if (partName.indexOf(val) != -1) {
+                var partAttr = $(that.elemsPartList[i].find("div")[0]).attr("part-attr").toLowerCase();
+                if (partAttr.indexOf(val) != -1) {
                     searchElemPartList.push(that.elemsPartList[i]);
                 }
             }
@@ -1137,8 +1143,8 @@ RightBar.prototype.enableSearchAddBox = function() {
     });
 };
 
-RightBar.prototype.showEquation = function(partNameA, partNameB) {
-    var equationStr = DataManager.getEquation(partNameA, partNameB);
+RightBar.prototype.showEquation = function(partAttrA, partAttrB) {
+    var equationStr = DataManager.getEquation(partAttrA, partAttrB);
     var pElem = $("<p></p>");
     pElem.text(equationStr);
     $("#showEquation").append(pElem);
@@ -1210,18 +1216,18 @@ $("#customCreate").click(function() {
 });
 
 $("#equationPartA").change(function() {
-    var partNameA = $(this).attr("value");
-    var partNameB = $("#equationPartB").attr("value");
-    if (partNameA != "" && partNameB != "") {
-        rightBar.showEquation(partNameA, partNameB);
+    var partAttrA = $(this).attr("value");
+    var partAttrB = $("#equationPartB").attr("value");
+    if (partAttrA != "" && partAttrB != "") {
+        rightBar.showEquation(partAttrA, partAttrB);
     }
 });
 
 $("#equationPartB").change(function() {
-    var partNameA = $("#equationPartA").attr("value");
-    var partNameB = $(this).attr("value");
-    if (partNameA != "" && partNameB != "") {
-        rightBar.showEquation(partNameA, partNameB);
+    var partAttrA = $("#equationPartA").attr("value");
+    var partAttrB = $(this).attr("value");
+    if (partAttrA != "" && partAttrB != "") {
+        rightBar.showEquation(partAttrA, partAttrB);
     }
 });
 
@@ -1230,3 +1236,8 @@ $('#loadingData').dimmer('show');
 
 
 // $('#saveSuccessModal').modal('show');
+// $("#deleteModal").modal('show');
+
+$("#moveTo").click(function() {
+    window.location.href = "/modal";
+}); 

@@ -167,7 +167,7 @@
       </div>
 
       <div class="ui bottom attached tab segment" data-tab="relate">
-        <div class="ui fluid category search">
+        <div class="ui fluid category search" id="searchRelateBox">
           <div class="ui fluid icon input">
             <input id="searchRelate" class="prompt" placeholder="Search relative parts..." type="text">
             <i class="search icon"></i>
@@ -289,11 +289,23 @@
         <h3 class="text-center"><i class="ui large icon check circle"></i>Saved successfully</h3>
         <div class="fluid text-center" style="margin-top: 50px;">
           <div class="ui cancel button"><i class="ui icon chevron left"></i>Stay in Design</div>
-          <div class="ui move button" id="saveCircuitBtn">Move to Modeling <i class='ui icon chevron right'></i></div>
+          <div class="ui move button" id="moveTo">Move to Modeling<i class='ui icon chevron right'></i></div>
         </div>
       </div>
     </div>
 <!--   saveSuccess modal -->
+<!--  deleteModal modal -->
+    <div class="ui small basic modal" id="deleteModal">
+      <div class="content">
+        <h3 class="text-center"><i class="ui large icon trash"></i>Do you really want to clear your design?</h3>
+        <div class="fluid text-center" style="margin-top: 50px;">
+          <div class="ui cancel button">Cancel</div>
+          <div class="ui move button" id="deleteBtn">Delete</div>
+        </div>
+      </div>
+    </div>
+<!--   deleteModal modal -->
+
 <!--   custom modal -->
     <div class="ui small modal" id="createCustomPartModal">
       <div class="header">Create a custom part</div>

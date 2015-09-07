@@ -99,8 +99,8 @@ Util._createNewCNode = function(part) {
     node.css({position: "absolute"});
     node.attr("part-name", part.partName);
     //need recover
-    // node.attr("part-attr", part.attr);
-    node.attr("part-attr", part.partName);
+    node.attr("part-attr", part.partAttr);
+    // node.attr("part-attr", part.partName);
     //need recover
     node.attr("normal-connect-num", 0);
     node.addClass("node");
@@ -142,9 +142,8 @@ Util._loadCircuitLinks = function(connections, nodeElems) {
             endNormalNum += 1;
             $(startElem).attr("normal-connect-num", startNormalNum);
             $(endElem).attr("normal-connect-num", endNormalNum);
+            design.drawLine(startElem, endElem, elem.type);
         }
-
-        design.drawLine(startElem, endElem, elem.type);
     }); 
 };
 //========================================================================================
@@ -221,10 +220,9 @@ DataManager.getSystemList = function() {
     return this.systemList;
 }
 
-DataManager.getPartByAttr = function(partName) {
+DataManager.getPartByAttr = function(partAttr) {
     for (var i in this.partList) {
-        if (this.partList[i].name == partName) return this.partList[i];
-        // if (this.partList[i].attr == partName) return this.partList[i];
+        if (this.partList[i].attr == partAttr) return this.partList[i];
     }
     return null;
 }
@@ -253,43 +251,30 @@ DataManager.getLineType = function(fromPartA, toPartB) {
     return null;
 };
 
-DataManager.getRelationAdjFromPartName = function(partName) {
-    return this.relationAdjList[partName];
-}
-
-DataManager.isPartInRelationAdj = function(partName, relationAdj) {
-    for (var i in relationAdj) {
-        if (partName.toLowerCase() == relationAdj[i].toLowerCase()) {
-            return true;
-        }
-    }
-    return false;
-}
-
-DataManager.isRelate = function(partNameA, partNameB) {
+DataManager.isRelate = function(partAttrA, partAttrB) {
     for (var i in this.relationShipList) {
         var start = this.relationShipList[i].start.toLowerCase();
         var end = this.relationShipList[i].end.toLowerCase();
-        if ((start === partNameA.toLowerCase() && end === partNameB.toLowerCase()) ||
-            (start === partNameB.toLowerCase() && end === partNameA.toLowerCase())) {
+        if ((start === partAttrA.toLowerCase() && end === partAttrB.toLowerCase()) ||
+            (start === partAttrB.toLowerCase() && end === partAttrA.toLowerCase())) {
             return true;
         }
     }
     return false;
 }
 
-DataManager.getEquation = function(partNameA, partNameB) {
+DataManager.getEquation = function(partAttrA, partAttrB) {
     var equationStr;
     for (var i in this.relationShipList) {
         var start = this.relationShipList[i].start.toLowerCase();
         var end = this.relationShipList[i].end.toLowerCase();
-        if ((start === partNameA.toLowerCase() && end === partNameB.toLowerCase()) ||
-            (start === partNameB.toLowerCase() && end === partNameA.toLowerCase())) {
+        if ((start === partAttrA.toLowerCase() && end === partAttrB.toLowerCase()) ||
+            (start === partAttrB.toLowerCase() && end === partAttrA.toLowerCase())) {
             equationStr = Util.renderEquation(this.relationShipList[i].equation);
             return equationStr
         }
     }
-    return "There are no equation between "+ partNameA + " and " + partNameB;
+    return "There are no equation between "+ partAttrA + " and " + partAttrB;
 }
 
 DataManager.isProOrInhibitRelation = function(fromPartA, toPartB) {
@@ -328,6 +313,7 @@ DataManager.getRelationAdjDataFromServer = function(callback) {
     $.get("/design/data/fetch/adjmatrix", function(data, status) {
         console.log("Adjmatrix:");
         console.log(data['adjmatrix']);
+        test = data['adjmatrix'];
         that.initRelationAdjList(data['adjmatrix']);
     });
 }
