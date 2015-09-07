@@ -155,6 +155,93 @@
     margin: 0 0;
 }
 
+#left-sidebar #customs .data img {
+    margin-right: 10px;
+}
+
+#left-sidebar #customs .item {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#left-sidebar #customs .item .partTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
+#left-sidebar #customs .data span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+#left-sidebar #customs .data span.more {
+    width: 10%;
+    cursor: pointer;
+}
+
+#left-sidebar #customs .divider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#left-sidebar #customs .data > div {
+    display: inline;
+}
+
+#left-sidebar #customs .data .BBa {
+    font-size: 12px;
+}
+
+#left-sidebar #customs .data .leftBox {
+    display: inline-block;
+    width: 85%;
+}
+
+/*=================================================*/
+#left-sidebar #relates .data img {
+    margin-right: 10px;
+}
+
+#left-sidebar #relates .item {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#left-sidebar #relates .item .partTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
+#left-sidebar #relates .data span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+#left-sidebar #relates .data span.more {
+    width: 10%;
+    cursor: pointer;
+}
+
+#left-sidebar #relates .divider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#left-sidebar #relates .data > div {
+    display: inline;
+}
+
+#left-sidebar #relates .data .BBa {
+    font-size: 12px;
+}
+
+#left-sidebar #relates .data .leftBox {
+    display: inline-block;
+    width: 85%;
+}
+
 /*==================================================*/
 #left-sidebar #devices .deviceTitle {
     font-size: 14px;
