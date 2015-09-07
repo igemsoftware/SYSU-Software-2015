@@ -93,7 +93,10 @@ def get_circuit(id):
 
 @design.route('/circuit/<int:id>', methods=['POST'])
 def store_circuit(id):
-    c = Circuit.query.get(id)
+    if id < 0:
+        c = Circuit()
+    else:
+        c = Circuit.query.get(id)
     
     data = request.get_json()
 
@@ -110,5 +113,28 @@ def store_circuit(id):
     c.img= data['img']
     c.commit_to_db()
 
-
     return 'Success'
+
+
+@design.route('/circuit/<int:id>', methods=['GET'])
+def get_circuit(id):
+    c = Circuit.query.get(id)
+    c.update_from_db()
+    biobase = c.jsonify()
+    
+    content = {
+            'id': c.id,
+            'parts': map(lambda x: x.jsonify(), c.parts),
+            'title': c.title,
+            'relationship': c.relationship,
+            'interfaceA': c.interfaceA,
+            'interfaceB': c.interfaceB,
+            'introduction': c.introduction,
+            'source': c.source,
+            'risk': c.risk,
+            'plasmids': json.loads(c.plasmids),
+            'img': c.img,
+    }
+    return jsonify(content=content)
+
+
