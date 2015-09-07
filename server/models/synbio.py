@@ -518,7 +518,7 @@ class Circuit(db.Model, BioBase):
     """When this circuit is in CORE Bank."""
     likes = db.Column(db.Integer, default=0)
     """How many likes it get."""
-    favoriter = db.relationship('User', secondary=Favorite_circuit, backref=db.backref('circuit', lazy='dynamic')) 
+    favoriter = db.relationship('User', secondary=Favorite_circuit, backref=db.backref('fav_circuit', lazy='dynamic')) 
     """Who mark it as favorite."""
     grade = db.Column(db.Text) # how ?
     """Grading."""

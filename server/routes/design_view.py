@@ -5,6 +5,7 @@ from . import design
 from ..models import ComponentPrototype, ComponentInstance, Relationship
 from ..models import Protocol, Device, Circuit 
 from flask import jsonify, request
+from flask.ext.login import login_required, current_user
 import json
 
 def Device_check_and_update(device_id):
@@ -74,7 +75,6 @@ def data_fetch_device():
 def get_circuit(id):
     c = Circuit.query.get(id)
     c.update_from_db()
-    biobase = c.jsonify()
     
     content = {
             'id': c.id,
@@ -95,6 +95,8 @@ def get_circuit(id):
 def store_circuit(id):
     if id < 0:
         c = Circuit()
+        current_user.circuits.append(c)
+        c.commit_to_db()
     else:
         c = Circuit.query.get(id)
     
@@ -115,26 +117,20 @@ def store_circuit(id):
 
     return 'Success'
 
+@design.route('/circuit/all', methods=['GET'])
+@login_required
+def get_all_circuit():
 
-@design.route('/circuit/<int:id>', methods=['GET'])
-def get_circuit(id):
-    c = Circuit.query.get(id)
-    c.update_from_db()
-    biobase = c.jsonify()
-    
-    content = {
-            'id': c.id,
-            'parts': map(lambda x: x.jsonify(), c.parts),
-            'title': c.title,
-            'relationship': c.relationship,
-            'interfaceA': c.interfaceA,
-            'interfaceB': c.interfaceB,
-            'introduction': c.introduction,
-            'source': c.source,
-            'risk': c.risk,
-            'plasmids': json.loads(c.plasmids),
-            'img': c.img,
-    }
-    return jsonify(content=content)
+    l = []
+    for c in current_user.circuits.all():
+        c.update_from_db()
+        
+        l.append( {
+                'id': c.id,
+                'title': c.title,
+                'introduction': c.introduction,
+                'img': c.img,
+        })
+    return jsonify(circuits=l)
 
 
