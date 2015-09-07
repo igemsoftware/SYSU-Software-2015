@@ -25,18 +25,18 @@ var dfs;
  *
  */
 function CNode() {
-	this.view = null;
-	this.partType = null;
-	this.partName = null;
-	this.normalConnNum = 0;
-	this.partID = null;
+    this.view = null;
+    this.partType = null;
+    this.partName = null;
+    this.normalConnNum = 0;
+    this.partID = null;
 }
 
 CNode.prototype.createCNode = function(partElem) {
-	this.view = partElem;
-	this.view.attr('normal-connect-num', '0');
-	this.view.attr("part-name");
-	this.view.removeAttr("class");
+    this.view = partElem;
+    this.view.attr('normal-connect-num', '0');
+    this.view.removeAttr("class");
+    this.view.find(".BBa").remove();
     var partType = partElem.attr('part-type');
 
     if (partType == 'gene' || partType == 'promoter' 
@@ -54,134 +54,124 @@ CNode.prototype.createCNode = function(partElem) {
 
     var titleDiv = $("<div></div>");
     titleDiv.css("text-align", "center");
-    titleDiv.text(this.view.find("span").text());
+    titleDiv.text(this.view.find(".partTitle").text());
     this.view.find("span").replaceWith(titleDiv);
 }
 
 CNode.prototype.setCNodeId = function(id) {
-	this.partID = id;
+    this.partID = id;
 }
 
 //-===================================================
 function DFS() {
-	this.map = [];
+    this.map = [];
 }
 
 DFS.prototype.addEdge = function(nodeElemA, nodeElemB) {
-	var flagA = false;
-	var flagB = false;
-	nodeElemA.attr('dirty', '0');
-	nodeElemB.attr('dirty','0');
-	for (var i in this.map) {
-		if (this.map[i][0].attr('part-id') == nodeElemA.attr('part-id')) {
-			this.map[i].push(nodeElemB);
-			flagA = true;
-		}
-		if (this.map[i][0].attr('part-id') == nodeElemB.attr('part-id')) {
-			this.map[i].push(nodeElemA);
-			flagB = true;
-		}
-	}
-	if (flagA == false) {
-		var list = [];
-		list.push(nodeElemA);
-		list.push(nodeElemB);
-		this.map.push(list);
-	}
+    var flagA = false;
+    var flagB = false;
+    nodeElemA.attr('dirty', '0');
+    nodeElemB.attr('dirty','0');
+    for (var i in this.map) {
+        if (this.map[i][0].attr('part-id') == nodeElemA.attr('part-id')) {
+            this.map[i].push(nodeElemB);
+            flagA = true;
+        }
+        if (this.map[i][0].attr('part-id') == nodeElemB.attr('part-id')) {
+            this.map[i].push(nodeElemA);
+            flagB = true;
+        }
+    }
+    if (flagA == false) {
+        var list = [];
+        list.push(nodeElemA);
+        list.push(nodeElemB);
+        this.map.push(list);
+    }
 
-	if (flagB == false) {
-		var list = [];
-		list.push(nodeElemB);
-		list.push(nodeElemA);
-		this.map.push(list);
-	}
-	// console.log("Add edge!!!!!!!!!!!!!!!!!!!");
+    if (flagB == false) {
+        var list = [];
+        list.push(nodeElemB);
+        list.push(nodeElemA);
+        this.map.push(list);
+    }
 };
 
 DFS.prototype.createMap = function() {
-	this.map = [];
-	var connections = jsPlumb.getAllConnections();
-	for (var i in connections) {
-		if (connections[i].scope == "normal") {
-			this.addEdge($(connections[i].source), $(connections[i].target));
-		}
-	}
+    this.map = [];
+    var connections = jsPlumb.getAllConnections();
+    for (var i in connections) {
+        if (connections[i].scope == "normal") {
+            this.addEdge($(connections[i].source), $(connections[i].target));
+        }
+    }
 };
 
 DFS.prototype.searchCircuit = function() {
-	var circuits = [];
-	var queue = [];
-	var circuit = [];
-	for (var i in this.map) {
-		if (this.map[i][0].attr('part-type') == "promoter" &&
-			this.map[i][0].attr('normal-connect-num') == "1") {
-			queue.push(this.map[i]);
-		}
-	}
-	
-	for (var i in queue) {
-		// console.log("---------------------come in----------------");
-		circuit = [];
-		var head = queue[i];
-		if (head[0].dirty == true) continue;
-		circuit.push(head[0]);
-		head[0].attr('dirty', '1');
-		while ((head.length == 2 && head[1].attr('dirty') == '0') || head.length == 3) {
-			if (head.length == 2) {
-				// console.log("length == 2")
-				circuit.push(head[1]);
-				head[1].attr('dirty', '1');
-				for (var j in this.map) {
-					console.log(this.map[j][0].attr('dirty'));
-					if (this.map[j][0].attr('part-id') == head[1].attr('part-id')) {
-						console.log("hello world");
-						head = this.map[j];
-						break;
-					}
-				}
-				// console.log(circuit);
-			} else {
-				// console.log("length == 3")
-				var index;
-				if (head[1].attr('dirty') == '1') index = 2;
-				if (head[2].attr('dirty') == '1') index = 1;
-				if (head[1].attr('dirty') == '1' && head[2].attr('dirty') == '1') {
-					console.log("Error !!!");
-					break;
-				}
-				circuit.push(head[index]);
-				head[index].attr('dirty', '1');
-				for (var j in this.map) {
-					if (this.map[j][0].attr('part-id') == head[index].attr('part-id')) {
-						head = this.map[j];
-						break;
-					}
-				}
-				// console.log(circuit);
-			}
-		}
-		circuits.push(circuit.slice(0, circuit.length));
-	}
-	console.log(circuits);
-	return circuits;
+    var circuits = [];
+    var queue = [];
+    var circuit = [];
+    for (var i in this.map) {
+        if (this.map[i][0].attr('part-type') == "promoter" &&
+            this.map[i][0].attr('normal-connect-num') == "1") {
+            queue.push(this.map[i]);
+        }
+    }
+    
+    for (var i in queue) {
+        circuit = [];
+        var head = queue[i];
+        if (head[0].dirty == true) continue;
+        circuit.push(head[0]);
+        head[0].attr('dirty', '1');
+        while ((head.length == 2 && head[1].attr('dirty') == '0') || head.length == 3) {
+            if (head.length == 2) {
+                circuit.push(head[1]);
+                head[1].attr('dirty', '1');
+                for (var j in this.map) {
+                    if (this.map[j][0].attr('part-id') == head[1].attr('part-id')) {
+                        head = this.map[j];
+                        break;
+                    }
+                }
+            } else {
+                var index;
+                if (head[1].attr('dirty') == '1') index = 2;
+                if (head[2].attr('dirty') == '1') index = 1;
+                if (head[1].attr('dirty') == '1' && head[2].attr('dirty') == '1') {
+                    console.log("Error !!!");
+                    break;
+                }
+                circuit.push(head[index]);
+                head[index].attr('dirty', '1');
+                for (var j in this.map) {
+                    if (this.map[j][0].attr('part-id') == head[index].attr('part-id')) {
+                        head = this.map[j];
+                        break;
+                    }
+                }
+            }
+        }
+        circuits.push(circuit.slice(0, circuit.length));
+    }
+    console.log(circuits);
+    return circuits;
 };
 
 DFS.prototype.getCircuits = function() {
-	this.createMap();
-	var circuitsElems = this.searchCircuit();
-	var circuits = [];
-	var circuit = [];
-	for (var i in circuitsElems) {
-		circuit = [];
-		for (var j in circuitsElems[i]) {
-			console.log(circuitsElems[i][j]);
-			console.log(circuitsElems[i][j].attr('part-name'));
-			var part = DataManager.getPartByName(circuitsElems[i][j].attr('part-name'));
-			circuit.push(part);
-		}
-		circuits.push(circuit);
-	}
-	return circuits;
+    this.createMap();
+    var circuitsElems = this.searchCircuit();
+    var circuits = [];
+    var circuit = [];
+    for (var i in circuitsElems) {
+        circuit = [];
+        for (var j in circuitsElems[i]) {
+            var part = DataManager.getPartByName(circuitsElems[i][j].attr('part-name'));
+            circuit.push(part);
+        }
+        circuits.push(circuit);
+    }
+    return circuits;
 }
 
 //==========================================================================================
@@ -199,15 +189,13 @@ function Design() {
     // this._isProOrInhiLink = false;
     this._isPromoteLink = false;
     this._isInhibitLink = false;
-    this._putPartElemList = [];
+    this.nodeElemList = [];
     this._partCount = 0;
-
-    this.nodeList = [];
     this.risk = 1;
 };
 
 Design.prototype.clear = function() {
-    this._putPartElemList = [];
+    this.nodeElemList = [];
 }
 
 Design.prototype.init = function() {
@@ -219,8 +207,8 @@ Design.prototype.init = function() {
 
 Design.prototype.addProAndInhibitLine = function(partA) {
     var partNameA = partA.attr('part-name');
-    for (var i in this._putPartElemList) {
-        var partB = this._putPartElemList[i];
+    for (var i in this.nodeElemList) {
+        var partB = this.nodeElemList[i];
         var partNameB = partB.attr('part-name');
         if (DataManager.isProOrInhibitRelation(partNameA, partNameB)) {
             var lineType = DataManager.getLineType(partNameA, partNameB);
@@ -273,38 +261,50 @@ Design.prototype._makeDrawAreaDroppabble = function() {
         drop:function(e, ui) {
             var dropedElement = ui.helper.clone();
             ui.helper.remove();
-            
+            if (dropedElement.attr('part-type') == 'device') {
+                that.putNewDevice(dropedElement);
+                return ;
+            }
+
             var node = new CNode();
             node.createCNode($(dropedElement));
-
-            node.view.appendTo("#drawArea");
-            // dropedElement.appendTo('#drawArea');
+            that.addPartEvent(node.view);
 
             var left = node.view.position().left - leftBar.view.width();
             var top  = node.view.position().top - that.drawMenu.height();
-
             node.view.css({left:left, top:top});
-            that.addDraggable(node.view);
-            that.addProAndInhibitLine(node.view);
-            that.makeSourceAndTarget(node.view);
-
-            that._partCount += 1;
-            var partName = dropedElement.attr("part-name");
-            node.view.attr('part-id', partName + "_" + String(that._partCount));
-            node.setCNodeId(partName + "_" + String(that._partCount));
-
-            that._putPartElemList.push(node.view);
-            that.nodeList.push(node);
-
-            //Add to right bar
-            var part = DataManager.getPartByName(partName);
-            rightBar.processDropedPart(part);
-            that.updateRisk(part);
 
             //write log
             operationLog.addPart(dropedElement.attr("part-name"));
         }
     });
+}
+
+Design.prototype.addPartEvent = function(elem) {
+    this.drawArea.append(elem);
+    this.addDraggable(elem);
+    this.addProAndInhibitLine(elem);
+    this.makeSourceAndTarget(elem);
+    this.nodeElemList.push(elem);
+    this._partCount += 1;
+    var partName = elem.attr("part-name");
+    elem.attr('part-id', partName + "_" + String(this._partCount));
+
+    //Add to right bar
+    var part = DataManager.getPartByName(partName);
+    rightBar.processDropedPart(part);
+    this.updateRisk(part);
+} 
+
+Design.prototype.putNewDevice = function(elem) {
+    var device = DataManager.getDeviceByTitle(elem.attr('device-name'));
+    var parts = device.parts;
+    var connections = device.relationship;
+    var nodeElems = Util._loadCircuitCNodes(parts);
+    Util._loadCircuitLinks(connections, nodeElems);
+
+    rightBar.processDropedDevice(device);
+    operationLog.addDevice(elem.attr("device-name"));
 }
 
 Design.prototype.makeSourceAndTarget = function(elem) {
@@ -327,18 +327,22 @@ Design.prototype.makeSourceAndTarget = function(elem) {
 };
 
 Design.prototype._initJsPlumbOption = function() {
-	var that = this;
+    var that = this;
+    jsPlumb.importDefaults({
+      PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+    });
+
     jsPlumb.bind("connection", function(CurrentConnection) {
         var target = $(CurrentConnection.connection.target);
         var source = $(CurrentConnection.connection.source);
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
         if (that._isInhibitLink == true) {
-        	CurrentConnection.connection.scope = "inhibition";
+            CurrentConnection.connection.scope = "inhibition";
             that._isInhibitLink = false;
         } else if (that._isPromoteLink == true) {
-        	CurrentConnection.connection.scope = "promotion";
-        	that._isPromoteLink = false;
+            CurrentConnection.connection.scope = "promotion";
+            that._isPromoteLink = false;
         } else {
             CurrentConnection.connection.scope = "normal";
             if (sourceNormalNum === 2) {
@@ -369,40 +373,37 @@ Design.prototype._initJsPlumbOption = function() {
     });
 
     jsPlumb.bind('connectionDetached', function(info, originalEvent) {
-    	var target = $(info.connection.target);
+        var target = $(info.connection.target);
         var source = $(info.connection.source);
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
-        console.log(info);
         if (info.connection.scope == "normal") {
-        	targetNormalNum -= 1;
-        	sourceNormalNum -= 1;
-        	source.attr("normal-connect-num", sourceNormalNum);
-        	target.attr("normal-connect-num", targetNormalNum);
+            targetNormalNum -= 1;
+            sourceNormalNum -= 1;
+            source.attr("normal-connect-num", sourceNormalNum);
+            target.attr("normal-connect-num", targetNormalNum);
         }
     })
 
     jsPlumb.on(that.drawArea, "click", ".minus", function() {
         operationLog.removePart($(this.parentCNode.parentCNode).attr("part-name"));
-        var node = that.getCNodeByPartId($(this.parentCNode.parentCNode).attr("part-id"));
+        var node = that.getNodeViewByPartId($(this.parentCNode.parentCNode).attr("part-id"));
         that.removeCNode(node);
         jsPlumb.remove(this.parentCNode.parentCNode);
     });
 };
 
-Design.prototype.getCNodeByPartId = function(partID) {
-	for (var i in this.nodeList) {
-		if (this.nodeList[i].view.attr('part-id') == partID) {
-			return this.nodeList[i];
-		}
-	}
+Design.prototype.getNodeViewByPartId = function(partID) {
+    for (var i in this.nodeElemList) {
+        if (this.nodeElemList[i].attr('part-id') == partID) {
+            return this.nodeElemList[i];
+        }
+    }
 }
 
 Design.prototype.removeCNode = function(node) {
-	var index = this.nodeList.indexOf(node);
-	this.nodeList.splice(index, 1);
-	var index2 = this._putPartElemList.indexOf(node.view);
-	this._putPartElemList.splice(index2, 1);
+    var index2 = this.nodeElemList.indexOf(node.view);
+    this.nodeElemList.splice(index2, 1);
 }
 
 Design.prototype.addDraggable = function(elem) {
@@ -531,44 +532,45 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
     });
 
     $("#saveCircuitBtn").click(function() {
-    	var there = this;
-    	var img;
-		var curcuitChartData = that.getDesignChartData();
-		curcuitChartData.title = $("#curcuitName").val();
-		curcuitChartData.introduction = $("#designIntro").val();
-		curcuitChartData.source = "hello world";
-		curcuitChartData.risk = design.risk;
-		curcuitChartData.plasmids = dfs.getCircuits();
+        var there = this;
+        var img;
+        var curcuitChartData = that.getDesignChartData();
+        curcuitChartData.title = $("#curcuitName").val();
+        curcuitChartData.introduction = $("#designIntro").val();
+        curcuitChartData.source = "hello world";
+        curcuitChartData.risk = design.risk;
+        curcuitChartData.plasmids = dfs.getCircuits();
 
-		$("#saveModal").modal("hide");
-		var el = $("#drawArea").get(0);
-		html2canvas(el, {
-	        onrendered: function(canvas) {
-	        	var that = this;
-	            this.canvas = document.createElement('canvas');
-	    		this.ctx = canvas.getContext('2d');
-	            this.flows =  $("> svg", el);
-	            this.flows.each(function() {
-	                var svg = $(this)
-	                var offset = svg.position();
-	                var svgStr = this.outerHTML;
-	                that.ctx.drawSvg(svgStr, offset.left, offset.top);
-	            });
+        //test
+        curcuitChartData.id = -1;
 
-	            curcuitChartData.img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-	            console.log(curcuitChartData);
-            	var postDataJson = JSON.stringify(curcuitChartData);
-            	console.log(postDataJson);
-    //         	$.ajax({
-				//     type: 'POST',
-				//     contentType: 'application/json',
-				//     url: '/calendar/all',
-				//     dataType : 'json',
-				//     data : postDataJson,
-				// });
-	        }
-	    });
-	});
+        $("#saveModal").modal("hide");
+        var el = $("#drawArea").get(0);
+        html2canvas(el, {
+            onrendered: function(canvas) {
+                var that = this;
+                this.canvas = document.createElement('canvas');
+                this.ctx = canvas.getContext('2d');
+                this.flows =  $("> svg", el);
+                this.flows.each(function() {
+                    var svg = $(this)
+                    var offset = svg.position();
+                    var svgStr = this.outerHTML;
+                    that.ctx.drawSvg(svgStr, offset.left, offset.top);
+                });
+
+                curcuitChartData.img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                var postDataJson = JSON.stringify(curcuitChartData);
+                $.ajax({
+                    type: 'POST',
+                    contentType: 'application/json',
+                    url: '/design/circuit/1',
+                    dataType : 'json',
+                    data : postDataJson,
+                });
+            }
+        });
+    });
 };
 
 DesignMenu.prototype.getDesignChartData = function() {
@@ -584,7 +586,7 @@ DesignMenu.prototype.getDesignChartData = function() {
 }
 
 DesignMenu.prototype.getDesignConns = function() {
-	var connections = [];
+    var connections = [];
     $.each(jsPlumb.getAllConnections(), function (idx, CurrentConnection) {
         connections.push({
             start: $(CurrentConnection.source).attr("part-id"),
@@ -612,116 +614,114 @@ DesignMenu.prototype.getDesignParts = function() {
 DesignMenu.prototype.enableLoadCircuitchartBtn = function(curcuitChart) {
     var that = this;
     this.openFileBtn.click(function() {
-    	var curcuitChart = {"parts":[{"partID":"Cl_1","partName":"CI","positionX":185,"positionY":110},{"partID":"Pcl_2","partName":"Pcl","positionX":305,"positionY":121}],"title":"curcuit1","relationship":[{"start":"Cl_1","end":"Pcl_2","type":"inhibition"}],"interfaceA":"Pcl_1","interfaceB":"cl_1"};
-        var parts = curcuitChart.parts;
-        var connections = curcuitChart.relationship;
-
-        var nodeElems = that._loadCircuitCNodes(parts);
-        that._loadCircuitLinks(connections, nodeElems);
+        var curcuitChart;
+        $.get("/design/circuit/1", function(data) {
+            var curcuitChart = data["content"];
+            var parts = curcuitChart.parts;
+            var connections = curcuitChart.relationship;
+            var nodeElems = Util._loadCircuitCNodes(parts);
+            Util._loadCircuitLinks(connections, nodeElems);
+        });
 
         //update id
             //     partCount += 1;
             // div.attr("part-id", elem.partName + "_" + String(partCount));
     });
-
 };
 
-DesignMenu.prototype._loadCircuitCNodes = function(parts) {
-    var nodeElems = [];
-    var that = this;
-    $.each(parts, function(index, elem ) {
-        var node = that._createNewCNode(elem);
-        node.appendTo(design.drawArea);
+// DesignMenu.prototype._loadCircuitCNodes = function(parts) {
+//     var nodeElems = [];
+//     var that = this;
+//     $.each(parts, function(index, elem ) {
+//         var node = that._createNewCNode(elem);
+//         node.appendTo(design.drawArea);
 
-        design.addDraggable(node);
-        design.addProAndInhibitLine(node);
-        design.makeSourceAndTarget(node);
+//         design.addDraggable(node);
+//         design.addProAndInhibitLine(node);
+//         design.makeSourceAndTarget(node);
 
-        // putPartElemList.push(div);
-        var partID = elem.partID;
-        nodeElems.push([partID, node]);
-    });
+//         // putPartElemList.push(div);
+//         var partID = elem.partID;
+//         nodeElems.push([partID, node]);
+//     });
 
-    return nodeElems;
-};
+//     return nodeElems;
+// };
 
-DesignMenu.prototype._createNewCNode = function(elem) {
-    var node = $("<div></div>");
-    var left = elem.positionX;
-    var top = elem.positionY;
-    node.css({left: left, top: top});
-    node.css({position: "absolute"});
-    node.attr("part-name", elem.partName);
-    node.attr("normal-connect-num", 0);
-    node.addClass("node");
-    node.css("text-align", "center");
+// DesignMenu.prototype._createNewCNode = function(elem) {
+//     var node = $("<div></div>");
+//     var left = elem.positionX;
+//     var top = elem.positionY;
+//     node.css({left: left, top: top});
+//     node.css({position: "absolute"});
+//     node.attr("part-name", elem.partName);
+//     node.attr("normal-connect-num", 0);
+//     node.addClass("node");
+//     node.css("text-align", "center");
 
-	var partType = DataManager.getPartType(elem.partName)
-    var img = Util.createImageDiv(partType);
-    img.appendTo(node);
+//  var partType = DataManager.getPartType(elem.partName)
+//     var img = Util.createImageDiv(partType);
+//     img.appendTo(node);
 
-    var titleDiv = Util.createTitleDiv(elem.partName);
-    titleDiv.appendTo(node);
+//     var titleDiv = Util.createTitleDiv(elem.partName);
+//     titleDiv.appendTo(node);
 
-    if (partType == 'gene' || partType == 'promoter' 
-        || partType == 'RBS' || partType == 'terminator') {
-        var filterDiv = $("<div></div>");
-        filterDiv.addClass("filterDiv");
-        filterDiv.appendTo(node);
-    }
+//     if (partType == 'gene' || partType == 'promoter' 
+//         || partType == 'RBS' || partType == 'terminator') {
+//         var filterDiv = $("<div></div>");
+//         filterDiv.addClass("filterDiv");
+//         filterDiv.appendTo(node);
+//     }
 
-    var minusCircle = Util.createMinusCircleDiv();
-    minusCircle.appendTo(node);
+//     var minusCircle = Util.createMinusCircleDiv();
+//     minusCircle.appendTo(node);
 
-    return node;
-};
+//     return node;
+// };
 
-DesignMenu.prototype._loadCircuitLinks = function(connections, nodeElems) {
-    $.each(connections, function(index, elem) {
-        // if (elem.type == "promotion" || elem.type == "inhibition") return;
-        var startElem;
-        var endElem;
-        for (var index in nodeElems) {
-            if (nodeElems[index][0] == elem.start) startElem = nodeElems[index][1];
-            if (nodeElems[index][0] == elem.end) endElem = nodeElems[index][1];
-        }
-        var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
-        var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
-        startNormalNum += 1;
-        endNormalNum += 1;
-        $(startElem).attr("normal-connect-num", startNormalNum);
-        $(endElem).attr("normal-connect-num", endNormalNum);
+// DesignMenu.prototype._loadCircuitLinks = function(connections, nodeElems) {
+//     $.each(connections, function(index, elem) {
+//         // if (elem.type == "promotion" || elem.type == "inhibition") return;
+//         var startElem;
+//         var endElem;
+//         for (var index in nodeElems) {
+//             if (nodeElems[index][0] == elem.start) startElem = nodeElems[index][1];
+//             if (nodeElems[index][0] == elem.end) endElem = nodeElems[index][1];
+//         }
+//         var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
+//         var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
+//         startNormalNum += 1;
+//         endNormalNum += 1;
+//         $(startElem).attr("normal-connect-num", startNormalNum);
+//         $(endElem).attr("normal-connect-num", endNormalNum);
 
-        design.drawLine(startElem, endElem, elem.type);
-    }); 
-};
+//         design.drawLine(startElem, endElem, elem.type);
+//     }); 
+// };
 
 DesignMenu.prototype.enableDownloadBtn =function() {
-	var that = this;
-	this.downloadBtn.click(function() {
-		$('#downloadModal').modal("show");
-	});
+    var that = this;
+    this.downloadBtn.click(function() {
+        $('#downloadModal').modal("show");
+    });
 
-	$("#downloadsubmit").click(function() {
-		$('#downloadModal').modal("hide");
-		var curcuitChartData = that.getDesignChartData();
-		var curcuitName = $("#curcuitDownName").val();
-		curcuitChartData.title = curcuitName;
-		Util.downloadFile(curcuitName+".txt", JSON.stringify(curcuitChartData));
-		that.downloadChartAsImage(curcuitName);
-	});
+    $("#downloadsubmit").click(function() {
+        $('#downloadModal').modal("hide");
+        var curcuitChartData = that.getDesignChartData();
+        var curcuitName = $("#curcuitDownName").val();
+        curcuitChartData.title = curcuitName;
+        Util.downloadFile(curcuitName+".txt", JSON.stringify(curcuitChartData));
+        that.downloadChartAsImage(curcuitName);
+    });
 }
 
 DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
     var el = $("#drawArea").get(0);
-    console.log("test1");
     html2canvas(el, {
         onrendered: function(canvas) {
-        	var that = this;
-        	console.log("test2");
+            var that = this;
             this.canvas = document.createElement('canvas');
-    		this.ctx = canvas.getContext('2d');
-    		console.log("test");
+            this.ctx = canvas.getContext('2d');
             // # Render Flows/connections on top of same canvas
             this.flows =  $("> svg", el);
 
@@ -732,24 +732,8 @@ DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
                 that.ctx.drawSvg(svgStr, offset.left, offset.top);
             });
 
-            // var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-            // Util.downloadImage(curcuitName+".png", image);
-            // var dataURL = canvas.toDataURL();
-            // console.log(dataURL);
-            // ctx.getImageData()
-            // $.ajax({
-            //   type: "POST",
-            //   url: "script.php",
-            //   data: { 
-            //      imgBase64: dataURL
-            //   }
-            // }).done(function(o) {
-            //   console.log('saved'); 
-            //   // If you want the file to be visible in the browser 
-            //   // - please modify the callback in javascript. All you
-            //   // need is to return the url to the file, you just saved 
-            //   // and than put the image in your browser.
-            // });
+            var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+            Util.downloadImage(curcuitName+".png", image);
         }
     }); 
 };
@@ -774,23 +758,23 @@ SideBarWorker.prototype.createPartView = function(part) {
     var leftSpan = $("<span class='leftBox'></span>");
 
     dataDiv.attr("type", partType);
-	itemDiv.attr('id', partName);
-	itemDiv.attr('part-type', partType);
+    itemDiv.attr('id', partName);
+    itemDiv.attr('part-type', partType);
     itemDiv.attr('part-name', partName);
     imgElem.attr("src", Util.getImagePath(partType, 60));
     titleSpan.text(partName);
     iconSpan.attr("data-content", "Read more about this part");
-    iconSpan.popup();
+    iconSpan.popup()
     if (BBa != "") {
-	    BBaSpan.text("("+BBa+")");
+        BBaSpan.text("("+BBa+")");
     }
 
     itemDiv.append(imgElem);
     itemDiv.append(titleSpan);
-	leftSpan.append(itemDiv);
-	leftSpan.append(BBaSpan);
-	dataDiv.append(leftSpan);
-	dataDiv.append(iconSpan);
+    titleSpan.append(BBaSpan);
+    leftSpan.append(itemDiv);
+    dataDiv.append(leftSpan);
+    dataDiv.append(iconSpan);
 
     this._makeItJqueryDraggable(itemDiv);
 
@@ -801,7 +785,6 @@ SideBarWorker.prototype.addElemToView = function(elem, view) {
     view.append(elem);
     this._makeItJqueryDraggable(elem.find('.item'));
     view.append(Util.createDivider());
-    // console.log("addElemToView function");
 }
 
 SideBarWorker.prototype.showView = function(elemsPartList, view) {
@@ -812,7 +795,6 @@ SideBarWorker.prototype.showView = function(elemsPartList, view) {
 }
 
 SideBarWorker.prototype._makeItJqueryDraggable = function(elem) {
-	// console.log("_makeItJqueryDraggable function");
     elem.draggable({
         helper: 'clone',
         cursor: 'move',
@@ -820,6 +802,30 @@ SideBarWorker.prototype._makeItJqueryDraggable = function(elem) {
         revert: true
     });
 }
+
+SideBarWorker.prototype.createDeviceView = function(device) {
+    var dataDiv = $("<div class='data'></div>");
+    var itemDiv = $("<div class='item'></div>");
+    var imgElem = $("<img/>");
+    var titleSpan = $("<span class='deviceTitle'></span>");
+    var iconSpan = $("<span class='more'><i class='icon zoom'></i></span>");
+    
+    imgElem.attr("src", "/static/img/design/device.png");
+    titleSpan.text(device.title);
+    itemDiv.attr('part-type', 'device');
+    itemDiv.attr('device-name', device.title);
+    iconSpan.attr("data-content", "Read more about this part");
+    iconSpan.popup();
+
+    itemDiv.append(imgElem);
+    dataDiv.append(itemDiv);
+    dataDiv.append(titleSpan);
+    dataDiv.append(iconSpan);
+
+    this._makeItJqueryDraggable(itemDiv);
+    return dataDiv
+}
+
 /**
  * @class LeftBar
  *
@@ -841,7 +847,8 @@ function LeftBar() {
     this.view.relateDevices = $("#relateDevices");
     this.view.relateSystems = $("#relateSystems");
 
-    this._searchTitle = [];
+    this._searchPartTitle = [];
+    this._searchDeviceTitle = [];
     this.elemsPartList = [];
     this.elemsDeviceList = [];
     this.elemsSystemList = [];
@@ -872,83 +879,96 @@ LeftBar.prototype.init = function() {
 
 LeftBar.prototype.initPart = function(partList) {
     //create left-bar data list
-    var that = this;
     for (var i in partList) {
-    	var dataDiv = this.leftbarWorker.createPartView(partList[i]);
-    	this.elemsPartList.push(dataDiv);
-	    this.addElemToBar(dataDiv);
-    	this._searchTitle.push({title: partList[i].name});
+        var dataDiv = this.leftbarWorker.createPartView(partList[i]);
+        this.elemsPartList.push(dataDiv);
+        this.addPartToBar(dataDiv);
+        this._searchPartTitle.push({title: partList[i].name});
     }
     this.updateSearchBar();
 }
 
-LeftBar.prototype.addElemToBar = function(elem) {
-	var partType = elem.attr("type");
-	var elemClone = elem.clone();
-	this.leftbarWorker._makeItJqueryDraggable(elemClone.find(".item"));
-	elemClone.find(".more").popup();
-	if (partType == 'promoter' || partType == 'promotor') {
-		this.elemsPromoterList.push(elemClone);
-	}
-	if (partType == 'RBS') {
-		this.elemsRBSList.push(elemClone);
-	}
-	if (partType == 'protein') {
-		this.elemsProteinList.push(elemClone);
-	}
-	if (partType == 'gene') {
-		this.elemsGeneList.push(elemClone);
-	}
-	if (partType == 'terminatator' ||　partType == 'terminator'　|| partType == 'termintator') {
-		this.elemsTermiList.push(elemClone);
-	}
-	if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
-		this.elemsChemList.push(elemClone);
-	}
+LeftBar.prototype.initDevice = function(deviceList) {
+    for (var i in deviceList) {
+        var dataDiv = this.leftbarWorker.createDeviceView(deviceList[i]);
+        this.elemsDeviceList.push(dataDiv);
+        this.addDeviceToBar(dataDiv);
+        this._searchDeviceTitle.push({title: deviceList[i].title});
+    }
+    this.updateSearchBar();
+}
 
-	this.leftbarWorker.addElemToView(elem, this.view.parts);
+LeftBar.prototype.addDeviceToBar = function(elem) {
+    this.leftbarWorker.addElemToView(elem, this.view.devices);
+}
+
+LeftBar.prototype.addPartToBar = function(elem) {
+    var partType = elem.attr("type");
+    var elemClone = elem.clone();
+    this.leftbarWorker._makeItJqueryDraggable(elemClone.find(".item"));
+    elemClone.find(".more").popup();
+    if (partType == 'promoter') {
+        this.elemsPromoterList.push(elemClone);
+    }
+    if (partType == 'RBS') {
+        this.elemsRBSList.push(elemClone);
+    }
+    if (partType == 'protein') {
+        this.elemsProteinList.push(elemClone);
+    }
+    if (partType == 'gene') {
+        this.elemsGeneList.push(elemClone);
+    }
+    if (partType == 'terminator') {
+        this.elemsTermiList.push(elemClone);
+    }
+    if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
+        this.elemsChemList.push(elemClone);
+    }
+
+    this.leftbarWorker.addElemToView(elem, this.view.parts);
 }
 
 LeftBar.prototype.enableFilter = function() {
-	var that = this;
-	$("#filterParts").change(function() {
-		var partType = $(this).val();
-		if (partType == 'promoter' || partType == 'promotor') {
-			that.leftbarWorker.showView(that.elemsPromoterList, that.view.parts);
-		}
-		if (partType == 'RBS') {
-			that.leftbarWorker.showView(that.elemsRBSList, that.view.parts);
-		}
-		if (partType == 'protein') {
-			that.leftbarWorker.showView(that.elemsProteinList, that.view.parts);
-		}
-		if (partType == 'gene') {
-			that.leftbarWorker.showView(that.elemsGeneList, that.view.parts);
-		}
-		if (partType == 'terminatator' ||　partType == 'terminator'　|| partType == 'termintator') {
-			that.leftbarWorker.showView(that.elemsTermiList, that.view.parts);
-		}
-		if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
-			that.leftbarWorker.showView(that.elemsChemList, that.view.parts);
-		}
-		if (partType == 'all') {
-			that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
-		}
-	})
+    var that = this;
+    $("#filterParts").change(function() {
+        var partType = $(this).val();
+        if (partType == 'promoter') {
+            that.leftbarWorker.showView(that.elemsPromoterList, that.view.parts);
+        }
+        if (partType == 'RBS') {
+            that.leftbarWorker.showView(that.elemsRBSList, that.view.parts);
+        }
+        if (partType == 'protein') {
+            that.leftbarWorker.showView(that.elemsProteinList, that.view.parts);
+        }
+        if (partType == 'gene') {
+            that.leftbarWorker.showView(that.elemsGeneList, that.view.parts);
+        }
+        if (partType == 'terminator') {
+            that.leftbarWorker.showView(that.elemsTermiList, that.view.parts);
+        }
+        if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
+            that.leftbarWorker.showView(that.elemsChemList, that.view.parts);
+        }
+        if (partType == 'all') {
+            that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
+        }
+    })
 }
 
 LeftBar.prototype.addCustomPart = function(part) {
-	var dataDiv = this.leftbarWorker.createPartView(part);
-   	this.elemsCustomList.push(dataDiv);
-   	this._searchTitle.push({title: part.name});
+    var dataDiv = this.leftbarWorker.createPartView(part);
+    this.elemsCustomList.push(dataDiv);
+    this._searchPartTitle.push({title: part.name});
 
-   	this.updateSearchBar();
+    this.updateSearchBar();
     this.leftbarWorker.addElemToView(dataDiv, this.view.customs);
 }
 
 LeftBar.prototype.updateSearchBar = function() {
-	$('.ui.search').search({source: this._searchTitle});
-    // this.view.searchRelateBox.search({source: this._searchTitle});
+    $('#searchPartBox').search({source: this._searchPartTitle});
+    $('#searchDeviceBox').search({source: this._searchDeviceTitle});
 }
 
 LeftBar.prototype._leftTriggerAnimation = function() {
@@ -984,49 +1004,43 @@ LeftBar.prototype._leftTriggerAnimation = function() {
 LeftBar.prototype.enableSearchNewBox = function() {
     var that = this;
     this.view.searchNewBox.keyup(function() {
-    	that.updateSearchBar();
-    	var val = that.view.searchNewBox.val().toLowerCase();
+        that.updateSearchBar();
+        var val = that.view.searchNewBox.val().toLowerCase();
         if (val != "") {
-        	var searchElemPartList = [];
-        	for (var i in that.elemsPartList) {
-        		var partName = $(that.elemsPartList[i].find("div")[0]).attr("part-name").toLowerCase();
-        		if (partName.indexOf(val) != -1) {
-        			searchElemPartList.push(that.elemsPartList[i]);
-        		}
-        	}
+            var searchElemPartList = [];
+            for (var i in that.elemsPartList) {
+                var partName = $(that.elemsPartList[i].find("div")[0]).attr("part-name").toLowerCase();
+                if (partName.indexOf(val) != -1) {
+                    searchElemPartList.push(that.elemsPartList[i]);
+                }
+            }
 
-        	that.leftbarWorker.showView(searchElemPartList, that.view.parts);
+            that.leftbarWorker.showView(searchElemPartList, that.view.parts);
         } else {
-        	that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
+            that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
         }
     });
 };
 
 LeftBar.prototype.enableSearchRelateBox = function() {
-	var that = this;
-	this.view.searchRelateBox.keyup(function() {
-		var val = that.view.searchRelateBox.val().toLowerCase();
-		console.log(that.view.searchRelateBox.val());
-		if (val != "") {
-			var searchElemPartList = [];
-			for (var i in that.elemsPartList) {
-				var partName = $(that.elemsPartList[i].find("div")[0]).attr("part-name").toLowerCase();
-				if (DataManager.isRelate(val, partName)) {
-					searchElemPartList.push(that.elemsPartList[i]);
-				}
-			}
-
-			console.log("enableSearchRelateBox function");
-			console.log(searchElemPartList);
-			console.log(that.elemsPartList);
-			console.log(that.view.relates);
-			that.leftbarWorker.showView(searchElemPartList, that.view.relates);
-		} else {
-			that.view.relates.empty();
-			that.view.relates.prev().removeClass("active");
-			that.view.relates.removeClass("active");
-		}
-	})
+    var that = this;
+    this.view.searchRelateBox.keyup(function() {
+        var val = that.view.searchRelateBox.val().toLowerCase();
+        if (val != "") {
+            var searchElemPartList = [];
+            for (var i in that.elemsPartList) {
+                var partName = $(that.elemsPartList[i].find("div")[0]).attr("part-name").toLowerCase();
+                if (DataManager.isRelate(val, partName)) {
+                    searchElemPartList.push(that.elemsPartList[i]);
+                }
+            }
+            that.leftbarWorker.showView(searchElemPartList, that.view.relates);
+        } else {
+            that.view.relates.empty();
+            that.view.relates.prev().removeClass("active");
+            that.view.relates.removeClass("active");
+        }
+    })
 }
 //========================================================================================
 /**
@@ -1053,7 +1067,8 @@ function RightBar() {
     this.view.searchAddBox = $("#searchAdd");
 
     this.rightbarWorker = new SideBarWorker();
-    this._searchTitle = [];
+    this._searchPartTitle = [];
+    this._searchDeviceTitle = [];
 };
 
 RightBar.prototype.init = function() {
@@ -1088,6 +1103,16 @@ RightBar.prototype._rightTriggerAnimation = function() {
 RightBar.prototype.processDropedPart = function(part) {
     this.updateEquationView(part);
     this.updateAddedView(part);
+}
+
+RightBar.prototype.processDropedDevice = function(device) {
+    var deviceElem = this.rightbarWorker.createDeviceView(device);
+    if (!this.isDeviceAdded(device)) {
+        this.elemsDeviceList.push(deviceElem);
+        this._searchDeviceTitle.push({title: device.title});
+        this.updateSearchBar();
+        this.rightbarWorker.showView(this.elemsPartList, this.view.devices);
+    }
 }
 
 RightBar.prototype.updateEquationView = function(part) {
@@ -1127,7 +1152,7 @@ RightBar.prototype.updateAddedView = function(part) {
     var partElem = this.rightbarWorker.createPartView(part);
     if (!this.isPartAdded(part)) {
         this.elemsPartList.push(partElem);
-        this._searchTitle.push({title: part.name});
+        this._searchPartTitle.push({title: part.name});
         this.updateSearchBar();
         this.rightbarWorker.showView(this.elemsPartList, this.view.parts);
     }
@@ -1135,7 +1160,16 @@ RightBar.prototype.updateAddedView = function(part) {
 
 RightBar.prototype.isPartAdded = function(part) {
     for (var i in this.elemsPartList) {
-        if ($(this.elemsPartList[i]).find("h4").text() == part.name) {
+        if ($(this.elemsPartList[i]).find(".partTitle").text() == part.name) {
+            return true;
+        }
+    }
+    return false;
+}
+
+RightBar.prototype.isDeviceAdded = function(device) {
+    for (var i in this.elemsDeviceList) {
+        if ($(this.elemsDeviceList[i]).find(".partTitle").text() == part.name) {
             return true;
         }
     }
@@ -1143,36 +1177,34 @@ RightBar.prototype.isPartAdded = function(part) {
 }
 
 RightBar.prototype.updateSearchBar = function() {
-    this.view.searchAddBox.search({source: this._searchTitle});
+    this.view.searchAddBox.search({source: this._searchPartTitle});
 }
 
 RightBar.prototype.enableSearchAddBox = function() {
     var that = this;
     this.view.searchAddBox.keyup(function() {
-    	var val = that.view.searchAddBox.val().toLowerCase();
+        var val = that.view.searchAddBox.val().toLowerCase();
         if (val != "") {
-        	var searchElemPartList = [];
-        	for (var i in that.elemsPartList) {
-        		var partName = $(that.elemsPartList[i].find("div")[0]).attr("part-name").toLowerCase();
-        		if (partName.indexOf(val) != -1) {
-        			searchElemPartList.push(that.elemsPartList[i]);
-        		}
-        	}
-        	if (searchElemPartList !== []) {
-				that.view.parts.prev().addClass("active");
-				that.view.parts.addClass("active");
-			}
-        	that.rightbarWorker.showView(searchElemPartList, that.view.parts);
+            var searchElemPartList = [];
+            for (var i in that.elemsPartList) {
+                var partName = $(that.elemsPartList[i].find("div")[0]).attr("part-name").toLowerCase();
+                if (partName.indexOf(val) != -1) {
+                    searchElemPartList.push(that.elemsPartList[i]);
+                }
+            }
+            if (searchElemPartList !== []) {
+                that.view.parts.prev().addClass("active");
+                that.view.parts.addClass("active");
+            }
+            that.rightbarWorker.showView(searchElemPartList, that.view.parts);
         } else {
-        	that.rightbarWorker.showView(that.elemsPartList, that.view.parts);
+            that.rightbarWorker.showView(that.elemsPartList, that.view.parts);
         }
     });
 };
 
 RightBar.prototype.showEquation = function(partNameA, partNameB) {
-    var equation = DataManager.getEquation(partNameA, partNameB);
-    console.log(equation);
-    var equationStr = Util.renderEquation(equation);
+    var equationStr = DataManager.getEquation(partNameA, partNameB);
     var pElem = $("<p></p>");
     pElem.text(equationStr);
     $("#showEquation").append(pElem);
@@ -1196,10 +1228,10 @@ $(function() {
     rubberband.init();
     designMenu.init();
     DataManager.getPartDataFromServer(function(partList) {
-    	leftBar.initPart(partList);
+        leftBar.initPart(partList);
     });
     DataManager.getDeviceDataFromServer(function(deviceList) {
-    	leftBar.initDevice(deviceList);
+        leftBar.initDevice(deviceList);
     });
     DataManager.getRelationAdjDataFromServer();
     DataManager.getRelationShipDataFromServer();
@@ -1214,39 +1246,37 @@ $(function() {
 //===============================================================================
 
 $("#createCustomPart").click(function() {
-	$('#createCustomPartModal').modal("show");
+    $('#createCustomPartModal').modal("show");
 })
 
 $('.dropdown').dropdown();
 
 $(".cancel").each(function() {
-	$(this).click(function() {
-		$('.modal').modal("hide");
-	});
+    $(this).click(function() {
+        $('.modal').modal("hide");
+    });
 });
 
 $("#customPartType").change(function() {
-	var partType = $(this).attr("value");
-	$("#customImg").attr("src", "/static/img/design/"+partType+"_70.png");
+    var partType = $(this).attr("value");
+    $("#customImg").attr("src", "/static/img/design/"+partType+"_70.png");
 });
 
 $("#customCreate").click(function() {
-	$('#createCustomPartModal').modal("hide");
-	var part = {};
-	part.name = $("#customPartName").val();
-	part.BBa = $("#customBBaName").val();
-	part.type = $("#customPartType").val();
-	part.introduction = $("#customIntro").val();
+    $('#createCustomPartModal').modal("hide");
+    var part = {};
+    part.name = $("#customPartName").val();
+    part.BBa = $("#customBBaName").val();
+    part.type = $("#customPartType").val();
+    part.introduction = $("#customIntro").val();
     DataManager.addPart(part);
-	leftBar.addCustomPart(part);
+    leftBar.addCustomPart(part);
 
 });
 
 $("#equationPartA").change(function() {
     var partNameA = $(this).attr("value");
     var partNameB = $("#equationPartB").attr("value");
-    console.log(partNameA);
-    console.log(partNameB);
     if (partNameA != "" && partNameB != "") {
         rightBar.showEquation(partNameA, partNameB);
     }
@@ -1262,10 +1292,10 @@ $("#equationPartB").change(function() {
 
 
 $(function() {
-	dfs = new DFS();
-	$("#searchCircuit").click(function() {
-		dfs.createMap();
-		dfs.searchCircuit();
-	});
+    dfs = new DFS();
+    $("#searchCircuit").click(function() {
+        dfs.createMap();
+        dfs.searchCircuit();
+    });
 })
 
