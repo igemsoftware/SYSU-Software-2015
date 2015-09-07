@@ -73,10 +73,12 @@ def data_fetch_device():
 @design.route('/circuit/<int:id>', methods=['GET'])
 def get_circuit(id):
     c = Circuit.query.get(id)
+    c.update_from_db()
+    biobase = c.jsonify()
     
     content = {
             'id': c.id,
-            'parts': c.parts,
+            'parts': map(lambda x: x.jsonify(), c.parts),
             'title': c.title,
             'relationship': c.relationship,
             'interfaceA': c.interfaceA,

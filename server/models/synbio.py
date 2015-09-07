@@ -314,6 +314,7 @@ class BioBase():
         db.session.add(self)
         db.session.commit()
 
+
     def clear(self):
         """Pack :attr:`parts`, :attr:`relationship`, 
         :attr:`interfaceA`, and :attr:`interfaceB` and commit to database."""
