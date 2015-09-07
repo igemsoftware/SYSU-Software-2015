@@ -1,0 +1,25 @@
+Timer Plus Sumo 2013TU-Delft
+The structure of the timer has two repressing promoters (PcI and Ptet) and the input is the T7 promoter and the output is the protease Ulp-1. This Ulp-1 cleaves off the SUMO from the produced SUMO+peptide.
+A translational timer was added to the total circuit in order to delay the peptide production. The timer gives the time for the peptide to build up in the cell non-toxically, before activation through cleavage.
+pcI,ptet,SUMO,Ulp-1
+http://2013.igem.org/Team:TU-Delft
+http://2013.igem.org/Team:TU-Delft/Protocols
+1
+PT7_1
+Terminator_3
+PT7_1	RBS34_1	normal
+RBS34_1	tet_1	normal
+tet_1	Peptide+SUMO_1	normal
+tet_1	Ptet_1	inhibition
+Peptide+SUMO_1	Terminator_1	normal
+Terminator_1	Ptet_1	normal
+Ptet_1	RBS34_2	normal
+RBS34_2	cl_1	normal
+cl_1	Terminator_2	normal
+cl_1	Pcl_1	inhibition
+Terminator_2	Pcl_1	normal
+Pcl_1	RBS34_3	normal
+RBS34_3 ulp_1	normal
+ulp_1	Terminator_3	normal
+Peptide+SUMO_1	SUMO_1	promotion
+Peptide+SUMO_1	Peptide_1	promotion

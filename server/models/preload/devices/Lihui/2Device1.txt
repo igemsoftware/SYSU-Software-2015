@@ -1,0 +1,11 @@
+Biosensor-Fusaric Acid 2014Wageningen_UR
+This sensor can detect the Fusaric Acid.
+The expression of the pp1262 protein should repress transcription of the operon cluster in the absence of fusaric acid. On the other side, when fusaric acid is present, repression should be relieved.
+Biosensor,Fusaric Acid,pp1262 protein
+http://2014.igem.org/Team:Wageningen_UR/project/fungal_sensing
+http://2014.igem.org/Team:Wageningen_UR/notebook/protocols
+1
+Fusaric Acid_1
+FadP_1
+Fusaric Acid_1	FadP_1	inhibition
+fadP_1	FadP_1	promotion

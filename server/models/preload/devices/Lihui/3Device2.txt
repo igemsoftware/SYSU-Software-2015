@@ -1,0 +1,18 @@
+Biosensor-LuxR-3OC6-HSL or LasR-3OC12-HSL complexes 2014ETH_Zurich
+This device responds to LuxR protein and produce Bxb protein afterwards.
+The LuxR-3OC6-HSL or LasR-3OC12-HSL complexes bind to the corresponding promoters Plux and Plas on the second plasmid and induce the expression of two integrases Bxb1 or ¦µC31, respectively.
+Biosensor,LuxR-3OC6-HSL or LasR-3OC12-HSL complexes
+http://2014.igem.org/Team:ETH_Zurich/project/overview
+http://2014.igem.org/Team:ETH_Zurich/lab/protocols
+1
+lux-AHL 3OC6HSL_1,LuxR_1
+Bxb1_1
+lux-AHL 3OC6HSL_1	LuxR_1	normal
+LuxR-lux-AHL_1	Plux_1	promotion
+Plux_1	bxb1_1	normal
+bxb1_1	Bxb1_1	promotion
+
+
+
+
+

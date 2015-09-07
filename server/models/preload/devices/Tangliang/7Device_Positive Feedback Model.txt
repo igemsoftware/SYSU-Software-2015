@@ -1,0 +1,29 @@
+Biosensor-Dinitrotoluene(DNT) 2007Glasgow
+This device is a sensor of Dinitrotoluene(DNT). Ithas XylR and related promoters Pr and Pu to produce pyocyanin in the presence of toluene. 
+Sensing part:The regulatory region consists of a putative LysR-type transcription factor (DntR) consisting of an N-terminal DNA-binding domain and a C-terminal cofactor-binding domain, 301 amino acids in length (Johnson 2002) which recognises 2,4-DNT and positively regulates transcription of an operon encoding components of the 2,4-DNT dioxygenase complex. DntR also detects salicylate, an intermediate in the metabolic breakdown of polycyclic aromatic hydrocarbons (PAH). These compounds are found as contaminants in the ground surrounding industrial factories that deal with petroleum derivatives.
+Biosensor,Dinitrotoluene(DNT)
+http://2007.igem.org/Glasgow
+http://2007.igem.org/Glasgow/Wetlab/Protocols
+2
+Promoter_1,Promoter_2
+Terminator_1,Terminator_2,Terminator_3,Terminator_4
+Promoter_1	RBS:BBa_J61100_1	normal
+RBS:BBa_J61100_1	tf_1	normal
+dmpR_1	Terminator_1	normal
+dmpR_1	dmpR_1	promotion
+Terminator_1	Terminator_2	normal
+Promoter_2	RBS:BBa_J61100_2	normal
+RBS:BBa_J61100_2	sfGFP_1	normal
+RBS:BBa_J61100_2	phz genes_1	normal
+phz genes_1	Terminator_3	normal
+Terminator_3	Terminator_4	normal
+phz genes_1	Pyocyanin_1	promotion
+dmpR_1	DNT_1	normal
+
+
+
+
+
+
+
+

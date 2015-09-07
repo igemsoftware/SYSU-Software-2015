@@ -304,7 +304,7 @@ class BioBase():
         :attr:`interfaceA`, and :attr:`interfaceB` and commit to database."""
 #        print self.connections
         json_obj = {
-                        'parts': map(lambda x: x.jsonify(), self.parts),
+                        'parts': self.parts if isinstance(self.parts[0], dict) else map(lambda x: x.jsonify(), self.parts),
                         'relationship': self.relationship,
                         'interfaceA': self.interfaceA,
                         'interfaceB': self.interfaceB
@@ -413,10 +413,10 @@ class Device(db.Model, BioBase):
         """Load from local files. Mostly called in preload stage."""
         print 'loading device from %s ...' % filename
         f = open(filename, 'r')
-        self.title = f.readline().strip()
+        self.title = f.readline().strip().decode('ISO-8859-1')
         self.introduction = f.readline().strip().decode('ISO-8859-1')
-        self.source = f.readline().strip()
-#        self.protocol_reference = f.readline().strip()
+        self.source = f.readline().strip().decode('ISO-8859-1')
+        self.protocol_reference = f.readline().strip().decode('ISO-8859-1')
         self.saferank = f.readline().strip()
         # self.type = f.readline().strip()
         self.interfaceA = f.readline().strip() 
@@ -501,6 +501,15 @@ class Circuit(db.Model, BioBase):
 
     protocols = db.Column(db.Text, default='')
     """The protocols it is using."""
+
+    plasmids = db.Column(db.Text, default='[]')
+    """Plasimid information"""
+    img = db.Column(db.Text, default='')
+    """Img in Base64"""
+    risk = db.Column(db.Integer, default=-1)
+    """Safety risk"""
+    source = db.Column(db.String, default=-1)
+    """Circuit source"""
     #experiment = db.Column(db.Text, default='')
 
     # in public database

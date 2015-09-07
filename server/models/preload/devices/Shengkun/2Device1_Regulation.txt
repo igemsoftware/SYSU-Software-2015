@@ -1,0 +1,15 @@
+Regulation 2011USTC
+Theophylline activates the expression of downstream gene through a riboswitch.
+The presence of the theophylline would change the equilibrium state which the aptamers secondary structures would shift from "off" state to "on" state.
+theophylline
+http://2011.igem.org/Team:USTC-China
+http://2011.igem.org/Team:USTC-China/Wet_Lab/protocol
+1
+theophylline_1
+CI_1
+theophylline_1	lux pR_1	promotion
+lux pR_1	RBS:BBa_B0030_1	normal
+RBS:BBa_B0030_1	cI_1	normal
+cI_1	CI_1	promotion
+cI_1	Terminator:BBa_B0010_1	normal
+Terminator:BBa_B0010_1	Terminator:BBa_B0012_2	normal

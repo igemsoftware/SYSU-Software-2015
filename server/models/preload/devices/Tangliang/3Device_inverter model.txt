@@ -1,0 +1,24 @@
+Inverter 2013Evry
+In absence of iron LacI can be expressed. In presence of iron, Fur binds the DNA, the LacI expression is inhibited and the RFP can be expressed.
+Fur could be involved in a positive regulation. In iron starvation, Fur-Fe2+ cannot be formed and LacI expression is disinhibited. However, if the iron concentration is high enough, Fur-Fe2+ complex is formed and it can inhibit the LacI transcription. RFP is not repressed and can be synthesized. That is why Fur is described as an activator transcriptional factor in such a case.
+LacI,Fur
+http://2013.igem.org/Team:Evry
+http://2013.igem.org/Team:Evry/Protocols
+1
+Promoter_1,Fe-FUR_1,Plac_1
+Terminator_1,Terminator_2
+Promoter_1	Fur Binding Site_1	normal
+Fur Binding Site_1	RBS_1	normal
+Fe-FUR_1	Fur Binding Site_1	inhibition
+RBS_1	lacI_1	normal
+lacI_1	Terminator_1	normal
+lacI_1	LacI_1	promotion
+LacI_1	Plac_1	inhibition
+Plac_1	RBS_2	normal
+RBS_2	rfp_1	normal
+rfp_1	Terminator_2	normal
+
+
+
+
+

@@ -1,0 +1,15 @@
+Biosensor- Acetaldehyde 2011ETH_Zurich
+This is a senor of acetaldehyde.
+Acetaldehyde associates with constitutively expressed receptor ALCR. ALCR-acetaldehyde complex can bind to its cognate operator, and inhibits the transcription of the genes under the control of the PAlcR promoter.
+Biosensor,Acetaldehyde
+http://2011.igem.org/Team:ETH_Zurich
+http://2011.igem.org/Team:ETH_Zurich/Biology/Cloning
+-1
+Acetaldehyde_1
+ALCR_1
+Acetaldehyde_1	promoter:BBa_J23119_1	inhibition
+promoter:BBa_J23119_1	RBS_1	normal
+RBS_1	AlcR_1	normal
+AlcR_1	Terminator:BBa_B0010_1	normal
+Terminator:BBa_B0010_1	Terminator:BBa_B0012_2	normal
+AlcR_1	ALCR_1	promotion
