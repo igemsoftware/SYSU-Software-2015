@@ -255,7 +255,7 @@ class ComponentInstance():
 
         self.partID = partID if partID else partName 
         self.partName = partName 
-        self.partAttr = partAttr 
+        self.partAttr = partAttr if partAttr else c.attr
         self.positionX = positionX
         self.positionY = positionY
 
