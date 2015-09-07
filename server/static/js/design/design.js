@@ -286,14 +286,8 @@ Design.prototype.addPartEvent = function(elem) {
     this.makeSourceAndTarget(elem);
     this.nodeElemList.push(elem);
     this._partCount += 1;
-
     var partAttr = elem.attr("part-attr");
-    console.log(partAttr);
-
     elem.attr('part-id', partAttr + "_" + String(this._partCount));
-
-    //Add to right bar
-    // console.log()
     var part = DataManager.getPartByAttr(partAttr);
     rightBar.processDropedPart(part);
     this.updateRisk(part);
@@ -568,7 +562,6 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
 
                 curcuitChartData.img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                 var postDataJson = JSON.stringify(curcuitChartData);
-                console.log(postDataJson);
                 $.ajax({
                     type: 'POST',
                     contentType: 'application/json',
@@ -799,15 +792,17 @@ function LeftBar() {
     this.elemsChemList = [];
 
     this.view.searchRelateInputBox = $("#searchRelate");
-    this.view.searchNewBoxInput = $("#searchNew");
+    this.view.searchPartInput = $("#searchNew");
+    this.view.searchDeviceInput = $("#searchDevice");
 
     this.leftbarWorker = new SideBarWorker();
 }
 
 LeftBar.prototype.init = function() {
     this._leftTriggerAnimation();
-    this.enablesearchNewBoxInput();
-    this.enablesearchRelateInputBox();
+    this.enableSearchPartBox();
+    this.enableSearchRelateBox();
+    this.enableSearchDeviceInputBox();
     $('.ui.styled.accordion').accordion({performance: true});
     $('.menu .item').tab();
 
@@ -939,11 +934,11 @@ LeftBar.prototype._leftTriggerAnimation = function() {
     });
 }
 
-LeftBar.prototype.enablesearchNewBoxInput = function() {
+LeftBar.prototype.enableSearchPartBox = function() {
     var that = this;
-    this.view.searchNewBoxInput.keyup(function() {
+    this.view.searchPartInput.keyup(function() {
         that.updateSearchBar();
-        var val = that.view.searchNewBoxInput.val().toLowerCase();
+        var val = that.view.searchPartInput.val().toLowerCase();
         if (val != "") {
             var searchElemPartList = [];
             for (var i in that.elemsPartList) {
@@ -960,7 +955,7 @@ LeftBar.prototype.enablesearchNewBoxInput = function() {
     });
 };
 
-LeftBar.prototype.enablesearchRelateInputBox = function() {
+LeftBar.prototype.enableSearchRelateBox = function() {
     var that = this;
     this.view.searchRelateInputBox.keyup(function() {
         var val = that.view.searchRelateInputBox.val().toLowerCase();
@@ -975,8 +970,25 @@ LeftBar.prototype.enablesearchRelateInputBox = function() {
             that.leftbarWorker.showView(searchElemPartList, that.view.relates);
         } else {
             that.view.relates.empty();
-            that.view.relates.prev().removeClass("active");
-            that.view.relates.removeClass("active");
+        }
+    })
+}
+
+LeftBar.prototype.enableSearchDeviceInputBox = function() {
+    var that = this;
+    this.view.searchDeviceInput.keyup(function() {
+        var val = that.view.searchDeviceInput.val().toLowerCase();
+        if (val != "") {
+            var searchElemDeviceList = [];
+            for (var i in that.elemsDeviceList) {
+                var deviceName = $(that.elemsDeviceList[i].find("div")[0]).attr("device-name").toLowerCase();
+                if (deviceName.indexOf(val) != -1) {
+                    searchElemDeviceList.push(that.elemsDeviceList[i]);
+                }
+            }
+            that.leftbarWorker.showView(searchElemDeviceList, that.view.devices);
+        } else {
+            that.leftbarWorker.showView(that.elemsDeviceList, that.view.devices);
         }
     })
 }
