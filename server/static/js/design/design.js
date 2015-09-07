@@ -37,11 +37,14 @@ CNode.prototype.createCNode = function(partElem) {
 	this.view.attr('normal-connect-num', '0');
 	this.view.attr("part-name");
 	this.view.removeAttr("class");
+    var partType = partElem.attr('part-type');
 
-    var filterDiv = $("<div></div>");
-    filterDiv.addClass("filterDiv");
-    filterDiv.appendTo(this.view);
-
+    if (partType == 'gene' || partType == 'promoter' 
+        || partType == 'RBS' || partType == 'terminator') {
+        var filterDiv = $("<div></div>");
+        filterDiv.addClass("filterDiv");
+        filterDiv.appendTo(this.view);
+    }
     var minusCircle = Util.createMinusCircleDiv();
     minusCircle.appendTo(this.view);
 
@@ -660,9 +663,12 @@ DesignMenu.prototype._createNewCNode = function(elem) {
     var titleDiv = Util.createTitleDiv(elem.partName);
     titleDiv.appendTo(node);
 
-    var filterDiv = $("<div></div>");
-    filterDiv.addClass("filterDiv");
-    filterDiv.appendTo(node);
+    if (partType == 'gene' || partType == 'promoter' 
+        || partType == 'RBS' || partType == 'terminator') {
+        var filterDiv = $("<div></div>");
+        filterDiv.addClass("filterDiv");
+        filterDiv.appendTo(node);
+    }
 
     var minusCircle = Util.createMinusCircleDiv();
     minusCircle.appendTo(node);
