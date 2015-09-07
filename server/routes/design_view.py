@@ -17,7 +17,7 @@ def Device_check_and_update(device_id):
 @design.route('/data/fetch/parts')
 def data_fetch_parts():
     l = [] 
-    for c in ComponentPrototype.query.order_by(ComponentPrototype.name.desc()).all():
+    for c in ComponentPrototype.query.order_by(ComponentPrototype.name.asc()).all():
         if c.id == 1: continue
         l.append({'name': c.name,
                   'introduction': c.introduction,
