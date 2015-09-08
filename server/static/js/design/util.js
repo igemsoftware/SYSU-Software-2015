@@ -355,7 +355,7 @@ Rubberband.prototype._listenDrawAreaMouseMove = function() {
     var that = this;
     this.drawArea.mousemove(function(event) {
         if(that.view.is(":visible") !== true) { return; }
-             
+        var offset = $("#drawArea").offset();
         // Get the top- and left values
         var t = (event.pageY > that._y) ? that._y : event.pageY;
         var l = (event.pageX >= that._x) ? that._x : event.pageX;
@@ -372,9 +372,10 @@ Rubberband.prototype._listenDrawAreaMouseMove = function() {
         if (leftBar.isOpenLeftBar == true) {
             l -= leftBar.view.width();
         }
+
         // t -= drawArea_menu.height();
 
-        that.view.css({top:t, left:l, height:h, width:w, position:'relative'});
+        that.view.css({top:t-offset.top, left:l-offset.left, height:h, width:w, position:'relative'});
     });
 };
 
@@ -392,8 +393,14 @@ Rubberband.prototype._listenDrawAreaMouseDown = function() {
         if ($(event.target).attr("class") == "filterDiv") return;
         that._x = event.pageX;         
         that._y = event.pageY;
-                 
-        that.view.css({top:that._y, left:that._x, height:1, width:1, position:'relative'});
+        var offset = $("#drawArea").offset();
+        console.log(offset);
+        var top = that._y-offset.top;
+        var left = that._x-offset.left;
+        console.log(top);
+        console.log(left);
+        that.view.css({top:top, left:left, height:1, width:1, position:'relative'});
+        // console.log(that.view.css());
         that.view.show();
     });
 };

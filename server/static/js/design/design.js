@@ -372,6 +372,9 @@ Design.prototype._initJsPlumbOption = function() {
     jsPlumb.bind('connectionDetached', function(info, originalEvent) {
         var target = $(info.connection.target);
         var source = $(info.connection.source);
+        if (target.hasClass("dotShape")) {
+            source.remove();
+        }
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
         if (info.connection.scope == "normal") {
@@ -454,6 +457,7 @@ function DesignMenu() {
     this.clearBtn = $("#clear");
     this.connPartBtn = $("#connect-part");
     this.minusBtn = $("#minus");
+    this.backboneBtn = $("#backbone");
 
     this._isMinusBtnOpen = false;
     this._isConnectPartBtnOpen = true;
@@ -466,10 +470,43 @@ DesignMenu.prototype.init = function() {
     this.enableClearCircuitchartBtn();
     this.enableConnectPartBtn();
     this.enableRemovePartBtn();
+    this.enableBackboneBtn();
     this.popUpAllButton();
 
     $("#risk").popup();
 }
+
+DesignMenu.prototype.enableBackboneBtn = function() {
+    this.backboneBtn.click(function() {
+        var dotStart = $("<div class='dotShape'></div>");
+        var dotEnd = $("<div class='dotShape'></div>");
+        var offSet = $("#drawArea").offset();
+        if (leftBar.isOpenLeftBar == true) {
+            offSet.left -= leftBar.view.width();
+        }
+        dotStart.css({left:offSet.left+100, top: '10px'});
+        dotEnd.css({left:offSet.left+300, top:'10px'});
+        dotStart.appendTo($("#drawArea"));
+        dotEnd.appendTo($("#drawArea"));
+        var minusCircle = Util.createMinusCircleDiv();
+        minusCircle.appendTo(dotEnd);
+        jsPlumb.connect({
+            source: dotStart,
+            target: dotEnd,
+            endpoint:"Blank",
+            paintStyle: { strokeStyle: "#123456", lineWidth: 6},
+            connector: ["Straight"],
+            Container: "drawArea"
+        });
+        
+        jsPlumb.draggable(dotStart, {
+            containment: 'parent',
+        });
+        jsPlumb.draggable(dotEnd, {
+            containment: 'parent',
+        });
+    });
+};
 
 DesignMenu.prototype.popUpAllButton = function() {
     this.saveBtn.popup();
@@ -478,6 +515,7 @@ DesignMenu.prototype.popUpAllButton = function() {
     this.clearBtn.popup();
     this.connPartBtn.popup();
     this.minusBtn.popup();
+    this.backboneBtn.popup();
 }
 
 DesignMenu.prototype.enableRemovePartBtn = function() {

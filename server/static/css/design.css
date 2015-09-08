@@ -602,3 +602,20 @@
     background-color: #ec5a5b;
     color: white;
 }
+
+
+.dotShape {
+    position: absolute;
+    height:10px; 
+    width: 80px;
+    z-index:2;
+    opacity:0.7;
+    filter:alpha(opacity=70);
+    position:absolute;
+    cursor:pointer;
+    color:#333;
+    border-radius: 5px; /* 所有角都使用半径为5px的圆角，此属性为CSS3标准属性 */ 
+    -moz-border-radius: 5px; /* Mozilla浏览器的私有属性 */ 
+    -webkit-border-radius: 5px; /* Webkit浏览器的私有属性 */ 
+    border-radius: 5px 4px 3px 2px; /* 四个半径值分别是左上角、右上角、右下角和左下角 */ 
+}
