@@ -5,6 +5,7 @@
 {% block head %}
   {{ super() }}
   <link rel="stylesheet" href="/static/css/taskhall.css">
+  <script src="/static/plugins/ckeditor/ckeditor.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -38,7 +39,7 @@
         <div class="field">
           <label>Detail:</label>
           <textarea name="detail" id="editor1"></textarea>
-          <script>$.ready(function() {CKEDITOR.replace('editor1');})</script>
+          <script>//CKEDITOR.replace('editor1');</script>
         </div>
         <input type="submit" class="ui yellow button">
       </form>
@@ -82,13 +83,13 @@
             </div>
           </div>
           <div class="question main">
-          <div class="header"><a href="/taskhall/detail">[[task.title]]</a></div>
+          <div class="header"><a v-attr="href: '/taskhall/detail/' + task.id">[[task.title]]</a></div>
             <div class="detail">
               [[[task.content]]]
             </div>
           <div class="question author">
             <div class="dummy"></div>
-            <div class="ui small image"><img src="/static/img/avatar.jpg" alt="author"></div>
+            <div class="ui small image"><img v-attr="src: task.author.avatar" alt="author"></div>
             <div class="info">
               <div class="date">asked [[task.timestamp]]</div>
               <div class="author name">[[task.author.name]]</div>
@@ -145,7 +146,6 @@
 
 <script src="/static/js/jquery.autoellipsis-1.0.10.min.js"></script>
 <script src="/static/js/taskhall/taskhall_index.js"></script>
-<script src="/static/plugins/ckeditor/ckeditor.js"></script>
 <script src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 {% endblock %}

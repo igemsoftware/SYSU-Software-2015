@@ -5,6 +5,7 @@
 {% block head %}
   {{ super() }}
   <link rel="stylesheet" href="/static/css/taskhall.css">
+  <script src="/static/plugins/ckeditor/ckeditor.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -27,142 +28,94 @@
   <div id="taskhall-detail-main">
     <div class="main">
     <div id="taskhall-detail-question" class="ui segment">
-      <div class="header">Question Title question title?</div>
+      <div class="header">{{task.title}}</div>
       <div class="content">
         <div class="author">
           <div class="avatar">
-            <img class="ui image" src="/static/img/avatar.jpg"></img>
+            <img class="ui image" src="{{task.owner.avatar}}"></img>
           </div>
-          <div class="name">Leasunhy</div>
+          <div class="name">{{task.owner.username}}</div>
           <div class="tracks">
-            <div class="ui circular image"><img src="/static/img/tracks/tracks_artanddesign.png" alt=""></div>
-            <div class="ui circular image"><img src="/static/img/tracks/tracks_software.png" alt=""></div>
-            <div class="ui circular image"><img src="/static/img/tracks/tracks_newapplication.png" alt=""></div>
-            <div class="ui circular image"><img src="/static/img/tracks/tracks_energy.png" alt=""></div>
-            <div class="ui circular image"><img src="/static/img/tracks/tracks_foundationaladvance.png" alt=""></div>
+            {% for track in task.owner.tracks %}
+            <div class="ui circular image"><img src="/static/img/tracks/tracks_{{track.name}}.png" alt=""></div>
+            {% endfor %}
           </div>
         </div>
         <div class="main">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum fuga pariatur eius excepturi maiores illo, tempore similique earum, accusantium, et, tenetur quo ea dolore architecto modi harum quia facere commodi?</p>
+          {{task.content}}
           <div class="toolbar">
-            <a href=""><i class="blue thumbs up outline icon"></i> 21</a>
-            <a href=""><i class="red star icon"></i></a>
-            <a href=""><i class="green checkmark icon"></i></a>
+            <a href=""><i class="blue thumbs up outline icon"></i> {{task.votes}}</a>
           </div>
         </div>
       </div>
     </div>
 
   <div id="taskhall-detail-answers" class="ui segment">
-    <h1 class="ui header">2 answers</h1>
+    <h1 class="ui header">{{task.answers.count()}} answers</h1>
+    {% for answer in task.answers %}
     <div class="answer">
       <div class="author">
         <div class="avatar">
           <img class="ui image" src="/static/img/avatar.jpg"></img>
         </div>
-        <div class="name">Leasunhy</div>
-        <div class="date"><div>answered</div><div>17:36</div><div>7 Aug, 2015</div></div>
+        <div class="name">{{answer.owner.username}}</div>
+        <div class="date"><div>answered</div><div>{{answer.timestamp.strftime('%H:%M')}}</div><div>{{answer.timestamp.strftime('%d %b, %Y')}}</div></div>
       </div>
       <div class="content">
         <div class="text">
-          <p>
-          The only thing the C standard guarantees is that the address of the first member is the same as the address of the structure.
-          The only thing the C standard guarantees is that the address of the first member is the same as the address of the structure.
-          The only thing the C standard guarantees is that the address of the first member is the same as the address of the structure.
-          The only thing the C standard guarantees is that the address of the first member is the same as the address of the structure.
-          </p>
-          <p>
-            ....!
-          </p>
+          {{answer.content | safe}}
         </div>
-        <a href="" class="comment link">3 comments</a>
+        <a href="" class="comment link">{{answer.comments.count()}} comments</a>
         <div class="ui minimal comments">
+          {% for comment in answer.comments %}
           <v-comment>
-            <span class="author">Leasunhy</span>
-            <span class="date">28 Aug, 2015</span>
-            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim eum at nihil magnam, aut neque, quasi inventore accusantium odit ducimus accusamus, ullam quo quod laboriosam cum maiores quisquam iste ea!</div>
+            <span class="author">{{comment.owner.username}}</span>
+            <span class="date">{{comment.timestamp.strftime('%d %b, %Y')}}</span>
+            <div class="text">{{comment.content | safe}}</div>
           </v-comment>
-          <v-comment>
-            <span class="author">Leasunhy</span>
-            <span class="date">28 Aug, 2015</span>
-            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim eum at nihil magnam, aut neque, quasi inventore accusantium odit ducimus accusamus, ullam quo quod laboriosam cum maiores quisquam iste ea!</div>
-          </v-comment>
+          {% endfor %}
         </div>
       </div>
-  </div>
-
-    <div class="answer">
-      <div class="author">
-        <div class="avatar">
-          <img class="ui image" src="/static/img/avatar.jpg"></img>
-        </div>
-        <div class="name">Leasunhy</div>
-        <div class="date"><div>answered</div><div>17:36</div><div>7 Aug, 2015</div></div>
-      </div>
-      <div class="content">
-        <div class="text">
-          <p>
-          The only thing the C standard guarantees is that the address of the first member is the same as the address of the structure.
-          The only thing the C standard guarantees is that the address of the first member is the same as the address of the structure.
-          The only thing the C standard guarantees is that the address of the first member is the same as the address of the structure.
-          The only thing the C standard guarantees is that the address of the first member is the same as the address of the structure.
-          </p>
-          <p>
-            ....!
-          </p>
-          <iframe src="http://localhost:5000/embedded/1" width="100%" height="500" frameborder="0"></iframe>
-        </div>
-        <a href="" class="comment link">3 comments</a>
-        <div class="ui minimal comments">
-          <v-comment>
-            <span class="author">Leasunhy</span>
-            <span class="date">28 Aug, 2015</span>
-            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim eum at nihil magnam, aut neque, quasi inventore accusantium odit ducimus accusamus, ullam quo quod laboriosam cum maiores quisquam iste ea!</div>
-          </v-comment>
-          <v-comment>
-            <span class="author">Leasunhy</span>
-            <span class="date">28 Aug, 2015</span>
-            <div class="text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Enim eum at nihil magnam, aut neque, quasi inventore accusantium odit ducimus accusamus, ullam quo quod laboriosam cum maiores quisquam iste ea!</div>
-          </v-comment>
-        </div>
-      </div>
-  </div>
-
-
-  </div>
-
-
     </div>
+    {% endfor %}
+
+  <form id="taskhall-detail-answer-form" class="ui form">
+    <div class="header">Add Your Answer</div>
+    <div class="field">
+      <label>Title:</label>
+      <input name="title" type="text">
+    </div>
+    <div class="field">
+      <label>Content:</label>
+      <textarea name="content" id="taskhall-detail-answer-content"></textarea>
+      <script>CKEDITOR.replace('taskhall-detail-answer-content');</script>
+    </div>
+  </form>
+
+  </div>
+
+  </div>
 
   <div class="info">
     <div class="meta date">
       <i class="clock icon"></i>
       <div class="content">
         <div class="title">asked</div>
-        <div class="number">17:00 8-10</div>
+        <div class="number">{{task.timestamp.strftime('%d %b, %Y')}}</div>
       </div>
     </div>
     <div class="meta views">
       <i class="eye icon"></i>
       <div class="content">
         <div class="title">viewed</div>
-        <div class="number">233 times</div>
+        <div class="number">{{task.views}}</div>
       </div>
     </div>
     <div class="meta active">
       <i class="sun icon"></i>
       <div class="content">
         <div class="title">active</div>
-        <div class="number">today</div>
+        <div class="number">{{task.active_time.strftime('%d %b, %Y')}}</div>
       </div>
     </div>
   </div>
@@ -185,7 +138,7 @@
     </div>
     <form action="" class="ui reply form" v-show="showReply">
       <div class="field">
-        <textarea></textarea>
+        <input type="text">
       </div>
       <div class="ui small blue labeled icon button">
         <i class="edit icon"></i>Reply

@@ -9,6 +9,7 @@ var vueBody = new coreBody({
         orders              : ['vote', 'view', 'time'],
         page                : 1,
         tasks               : [],
+        ckeInit             : false,
     },
     ready: function() {
         var store = this;
@@ -34,6 +35,10 @@ var vueBody = new coreBody({
     methods: {
         showAskModal : function() {
             $('#taskhall-index-ask-modal').modal('show');
+            if (!this.ckeInit) {
+                this.ckeInit = true;
+                CKEDITOR.replace('editor1');
+            }
         },
         updateTasks : function(store, page, currentOrder) {
             $.get('/taskhall/list?page=' + page + '&keyword=' + currentOrder, function(data) {
