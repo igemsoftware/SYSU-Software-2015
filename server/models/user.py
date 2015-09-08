@@ -103,6 +103,7 @@ class User(UserMixin, db.Model):
         return Message.query.filter(Message.sender_id==self.id).all()
 
     # tasks
+    tasks = db.relationship('Task', backref='owner', lazy='dynamic')
     watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
     """The :class:`Task` user watched."""
 
@@ -120,9 +121,12 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
     # comment
+    answers = db.relationship('Answer', backref='owner', lazy='dynamic')
+    comments = db.relationship('Comment', backref='owner', lazy='dynamic')
     def make_comment(self, task_id, content):
         """Make a :class:`Comment` about a :class:`Task`.""" 
-        c = Comment(content=content, task_id=task_id, sender_id=self.id)
+        c = Comment(content=content, task_id=task_id)
+        self.comments.append(c)
         db.session.add(c)
         db.session.commit()
         return c
