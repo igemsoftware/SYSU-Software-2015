@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="/static/css/semantic.min.css">
+    <link rel="stylesheet" href="/static/css/main_common.css">
+    <link rel="stylesheet" href="/static/css/modeling.css">
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+  </head>
+  <body>
+<!-- Top bar -->
+  <div class="ui circular image" id="topbar-avatar" data-content="Dashboard"><a href=""><img src="/static/img/avatar.jpg" alt="avatar"></a></div>
+  <script>$(function() {$("#topbar-avatar").popup();});</script>
+
+  <div class="ui page dimmer" id="main-switcher">
+    <div class="content">
+      <div class="center">
+        <div class="ui inverted blue circular icon button"><i class="massive idea icon"></i></div>
+        <div class="ui inverted red circular icon button"><i class="massive database icon"></i></div>
+        <div class="ui inverted green circular icon button"><i class="massive checkmark icon"></i></div>
+      </div>
+    </div>
+  </div>
+  <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
+
+
+    <div class="ui secondary menu" id="topbar">
+      <div class="item" id="topbar-index">
+        <div class="ui button" id="topbar-btn-index"></div>
+      </div>
+      <div class="item" id="topbar-menu">
+        <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>
+      </div>
+      <div class="item" id="topbar-undo">
+        <div class="ui button" id="topbar-btn-undo">Undo</div>
+      </div>
+      <div class="item" id="topbar-save">
+        <div class="ui button" id="topbar-btn-save">Save</div>
+      </div>
+      <div class="item" id="topbar-help">
+        <div class="ui button" id="topbar-btn-help">Help</div>
+      </div>
+      <div class="right menu">
+        <div class="item" id="topbar-design">
+          <div class="ui button" id="topbar-btn-design">Design</div>
+        </div>
+        <div class="item" id="topbar-modeling">
+          <div class="ui button" id="topbar-btn-modeling">Modeling</div>
+        </div>
+        <div class="item" id="topbar-experiment">
+          <div class="ui button" id="topbar-btn-experiment">Experiment</div>
+        </div>
+      </div>
+      <div id="topbar-bottom-line"></div>
+    </div>
+
+<!--  main_container -->
+    <div class="main_container">
+      <div class="ui attached tabular menu">
+        <a id="simulation-menu" class="item active" data-tab="simulation">Simulation</a>
+        <a id="experiment-menu" class="item" data-tab="experimentData">Experiment Data</a>
+      </div>
+      <div class="ui bottom attached tab segment active" data-tab="simulation" id="simulation-box">
+        <div id="simulation">
+          <div id="map"></div>
+        </div>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="experiment" id="experiment-box">
+      </div>
+    </div>
+    <script type="text/javascript" src="/static/js/semantic.min.js"></script>
+    <script type="text/javascript" src="/static/js/modeling/highcharts.js"></script>
+    <script type="text/javascript" src="/static/js/modeling/modeling.js"></script>
+  </body>
+</html>

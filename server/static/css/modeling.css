@@ -1,0 +1,39 @@
+.float-right {
+	float: right;
+}
+
+.main_container {
+	margin-top: 50px;
+	padding: 20px 20px;
+	height: 85%;
+}
+
+.main_container .tab {
+	height: 100%;
+}
+
+.main_container .tabular.menu .item {
+	background-color: #BEBEBF;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.main_container .tabular.menu .item .active {
+	background-color: #fff;
+}
+
+#simulation-box, #experiment-box {
+    box-shadow: 5px 5px 10px #989898 !important;/*opera或ie9*/  
+    -moz-box-shadow: 5px 5px 10px #989898 !important;/*firefox*/  
+    -webkit-box-shadow: 5px 5px 10px #989898 !important;/*webkit*/  
+}
+
+#experiment-menu {
+
+}
+
+
+#simulation #map {
+	height:400px;
+	width: 700px;
+}
