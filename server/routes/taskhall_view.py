@@ -41,14 +41,14 @@ def task_detail(id):
     db.session.add(t)
     return render_template('task/detail.html', task=t)
 
-@taskhall.route('/action/likes', methods=["POST"])
-def like_a_task():
+@taskhall.route('/action/vote', methods=["POST"])
+def vote_a_task():
     data = request.get_json()
 
     task_id = data['task_id']
     t = Task.query.get(task_id)
     if not t: abort(404)
-    t.likes += 1
+    t.vote += 1
     db.session.add(t)
 
     return 'success' 
@@ -56,12 +56,11 @@ def like_a_task():
 @taskhall.route('/action/answer', methods=["POST"])
 @login_required
 def answer_a_task():
-    data = request.get_json()
-    task_id = data['task_id']
+    task_id = request.form.get('task_id', 0)
     t = Task.query.get(task_id)
     if not t: abort(404)
 
-    a = Answer(content=data['content'])
+    a = Answer(content=request.form.get('content', ''))
     a.owner = current_user
     a.task = t
     t.active_time = datetime.now()
@@ -74,13 +73,11 @@ def answer_a_task():
 @taskhall.route('/action/comment', methods=["POST"])
 @login_required
 def comment_a_answer():
-    data = request.get_json()
-
-    answer_id = data['answer_id']
+    answer_id = request.form.get('answer_id', 0)
     a = Answer.query.get(answer_d)
     if not a: abort(404)
 
-    c = Comment(content=data['content'])
+    c = Comment(content=request.form.get('content', ''))
     c.owner = current_user
     c.answer = a
     db.session.add(c)
@@ -89,3 +86,8 @@ def comment_a_answer():
 
     return redirect(url_for('taskhall.task_detail', id = a.task.id) )
 
+
+# create task: Form
+# answer: form 
+# comment: form 
+# vote: json

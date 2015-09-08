@@ -34,7 +34,7 @@ class Task(db.Model):
 
     views = db.Column(db.Integer, default=0)
     """How many views it got."""
-    likes = db.Column(db.Integer, default=0)
+    votes = db.Column(db.Integer, default=0)
     """How many votes it got."""
 
     def jsonify(self):

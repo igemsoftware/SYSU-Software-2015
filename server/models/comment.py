@@ -22,6 +22,9 @@ class Answer(db.Model):
     """The :attr:`User.id` of sender."""
     comments = db.relationship('Comment', backref='answer', lazy='dynamic')
 
+    def __repr__(self):
+        return '<Answer[%d] by [%s]: %s>' % (self.id, self.owner.username, self.content[:50])
+
 
 class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -32,4 +35,6 @@ class Comment(db.Model):
     answer_id = db.Column(db.Integer, db.ForeignKey('answer.id'))
     sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    def __repr__(self):
+        return '<Comment[%d] by [%s]: %s>' % (self.id, self.owner.username, self.content[:50])
 

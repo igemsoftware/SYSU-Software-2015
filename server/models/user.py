@@ -5,7 +5,7 @@ from .. import login_manager
 from message import Message
 from task import watched_tasks, Task
 from memo import Memo
-from comment import Comment
+from comment import Comment, Answer
 from track import Track, tracks
 from synbio import Favorite_circuit
 
@@ -109,7 +109,8 @@ class User(UserMixin, db.Model):
 
     def create_task(self, **kwargs):
         """Create a :class:`Task`."""
-        t = Task(watcher=[self], sender_id=self.id, **kwargs)
+        t = Task(watcher=[self], **kwargs)
+        t.owner = self
         db.session.add(t)
         db.session.commit()
         return t
@@ -123,10 +124,19 @@ class User(UserMixin, db.Model):
     # comment
     answers = db.relationship('Answer', backref='owner', lazy='dynamic')
     comments = db.relationship('Comment', backref='owner', lazy='dynamic')
-    def make_comment(self, task_id, content):
-        """Make a :class:`Comment` about a :class:`Task`.""" 
-        c = Comment(content=content, task_id=task_id)
-        self.comments.append(c)
+    def answer_a_task(self, task, content):
+        """Give an :class:`Answer` about a :class:`Task`.""" 
+        a = Answer(content=content)
+        a.task = task 
+        a.owner = self
+        db.session.add(a)
+        db.session.commit()
+        return a
+    def comment_an_answer(self, answer, content):
+        """Make a :class:`Comment` about an :class:`Answer`.""" 
+        c = Comment(content=content)
+        c.answer = answer 
+        c.owner = self
         db.session.add(c)
         db.session.commit()
         return c
