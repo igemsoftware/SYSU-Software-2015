@@ -102,6 +102,7 @@ def testinit(slient=False, noinit=False, quickcheck=False):
 
         # circuit 
         u = User(username='test', email='test@example.com', password='test', send_email=False)
+        u.tracks.append(Track.query.first())
         db.session.add(u)
         c = Circuit(name='My first circuit', introduction='First circuit', owner=u, is_shared=True)._copy_from_device(1)
         c = Circuit(name='My second circuit', introduction='Second circuit', owner=u, is_public=True)._copy_from_device(1)

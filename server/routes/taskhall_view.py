@@ -29,7 +29,7 @@ def get_task_list():
     pagination = Task.query.order_by(order_obj.get(keyword, Task.timestamp.desc())).paginate(
             page, per_page=per_page, error_out=False)
 
-    tasks = map(json_parser, pagination.items)
+    tasks = map(lambda x: x.jsonify(), pagination.items)
     return jsonify(tasks=tasks)
 
 
@@ -39,11 +39,21 @@ def task_detail(id):
     if not t: abort(404)
     t.views += 1
     db.session.add(t)
-
     return render_template('task/detail.html', task=t)
 
+@taskhall.route('/action/likes', methods=["POST"])
+def like_a_task():
+    data = request.get_json()
 
-@taskhall.route('/answer', methods=["POST"])
+    task_id = data['task_id']
+    t = Task.query.get(task_id)
+    if not t: abort(404)
+    t.likes += 1
+    db.session.add(t)
+
+    return 'success' 
+
+@taskhall.route('/action/answer', methods=["POST"])
 @login_required
 def answer_a_task():
     data = request.get_json()
@@ -61,8 +71,7 @@ def answer_a_task():
 
     return redirect(url_for('taskhall.task_detail', id = task_id) )
 
-
-@taskhall.route('/comment', methods=["POST"])
+@taskhall.route('/action/comment', methods=["POST"])
 @login_required
 def comment_a_answer():
     data = request.get_json()

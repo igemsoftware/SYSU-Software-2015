@@ -34,12 +34,22 @@ class Task(db.Model):
 
     views = db.Column(db.Integer, default=0)
     """How many views it got."""
-    votes = db.Column(db.Integer, default=0)
+    likes = db.Column(db.Integer, default=0)
     """How many votes it got."""
 
-    def jsonify():
+    def jsonify(self):
         return {'title':self.title,
-                'content':self.content,'timestamp', 'author.name, #question, #answer, #shared, tracks.name'
+                'content':self.content,
+                'timestamp': (self.timestamp - datetime.utcfromtimestamp(0)).total_seconds(),
+                        #.strftime('%H:%M %d %b, %Y'),
+                'author': { 
+                        'name': self.owner.username,
+                        'avatar': self.owner.avatar,
+                        'question': self.owner.tasks.count(),
+                        'answer': self.answers.count(),
+                        'shared': self.owner.circuits.filter_by(is_shared=True).count(),
+                        'tracks': len(self.owner.tracks)
+                    } 
                }
 
 
