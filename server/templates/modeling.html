@@ -63,11 +63,18 @@
     <div class="main_container">
       <div class="ui attached tabular menu">
         <a id="simulation-menu" class="item active" data-tab="simulation">Simulation</a>
-        <a id="experiment-menu" class="item" data-tab="experimentData">Experiment Data</a>
+        <a id="experiment-menu" class="item" data-tab="experiment">Experiment Data</a>
       </div>
       <div class="ui bottom attached tab segment active" data-tab="simulation" id="simulation-box">
         <div id="simulation">
-          <div id="map"></div>
+          <h1 class='title'>Circuit title<button class="ui button iyello float-right">Choose a circuit</button></h1>
+          <div class="ui divider"></div>
+          <div class="ui grid">
+            <div class="left-box four wide column"></div>
+            <div class="right-box twelve wide column">
+              <div id="map"></div>
+            </div>
+          </div>
         </div>
       </div>
       <div class="ui bottom attached tab segment" data-tab="experiment" id="experiment-box">

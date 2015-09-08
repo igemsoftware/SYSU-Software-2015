@@ -28,12 +28,39 @@
     -webkit-box-shadow: 5px 5px 10px #989898 !important;/*webkit*/  
 }
 
-#experiment-menu {
-
+#experiment-menu.active {
+	background-color: rgba(235, 245, 149, 1);
+	border-bottom: none;
 }
 
+#simulation-menu.active {
+	background-color: rgba(235, 245, 149, 1);
+	border-bottom: none;
+}
+
+#experiment-menu {
+	background-color: rgba(245, 250, 205, 0.6);
+}
+
+#simulation-menu {
+	background-color: rgba(245, 250, 205, 0.6);
+}
 
 #simulation #map {
 	height:400px;
-	width: 700px;
+	min-width: 700px;
 }
+
+#simulation .title > button {
+	display: inline-block;
+}
+
+.float-right {
+	float: right;
+}
+
+.iyello {
+	background-color: rgba(235, 245, 149, 1) !important;
+}
+
+
