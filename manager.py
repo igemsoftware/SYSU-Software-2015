@@ -72,44 +72,47 @@ def init(slient=False):
         print bcolors.OKGREEN+'OK'+'\nInit done.'+bcolors.ENDC
 
 @manager.command
-def testinit(slient=False, noinit=False, quickcheck=False):
+def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
     if not noinit: init(slient)
     with app.app_context():
         if not slient: print bcolors.HEADER+'Adding test components ...',
         # useless
-#        db.engine.raw_connection().connection.text_factory = 'utf8'
+        # db.engine.raw_connection().connection.text_factory = 'utf8'
 
-
-        # add default protocols 
-        for dir in app.config.get('INIT_PRELOAD_PROTOCOL_DIRS', []):
-            for filename in get_file_list(dir):
-                protocol = Protocol().load_from_file(filename)
-
-        # add testing parts
-        for dir in app.config.get('INIT_PRELOAD_PART_DIRS', []):
-            for filename in get_file_list(dir):
-                preload_parts(filename)
-
-        # add testing component prototype
-        for dir in app.config.get('INIT_PRELOAD_DEVICE_DIRS', []):
-            for filename in get_file_list(dir):
-                device = Device().load_from_file(filename)
-        if quickcheck: return
-    
-
-        Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
-        Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
-
-        # circuit 
+        # our bravery user 
         u = User(username='test', email='test@example.com', password='test', send_email=False)
+        u.tracks.append(Track.query.first())
         db.session.add(u)
-        c = Circuit(name='My first circuit', introduction='First circuit', owner=u, is_shared=True)._copy_from_device(1)
-        c = Circuit(name='My second circuit', introduction='Second circuit', owner=u, is_public=True)._copy_from_device(1)
-        c = Circuit(name='My third circuit', introduction='3rd circuit', owner=u)._copy_from_device(2)
 
-        admin = User.query.first()
-        c = Circuit(name='My first circuit', introduction='First circuit', owner=admin)._copy_from_device(1)
-        u.favorite_circuits.append(c)
+        if not Skipbio:
+            # add default protocols 
+            for dir in app.config.get('INIT_PRELOAD_PROTOCOL_DIRS', []):
+                for filename in get_file_list(dir):
+                    protocol = Protocol().load_from_file(filename)
+
+            # add testing parts
+            for dir in app.config.get('INIT_PRELOAD_PART_DIRS', []):
+                for filename in get_file_list(dir):
+                    preload_parts(filename)
+
+            # add testing component prototype
+            for dir in app.config.get('INIT_PRELOAD_DEVICE_DIRS', []):
+                for filename in get_file_list(dir):
+                    device = Device().load_from_file(filename)
+            if quickcheck: return
+        
+
+            Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
+            Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
+
+            # circuit 
+            c = Circuit(name='My first circuit', introduction='First circuit', owner=u, is_shared=True)._copy_from_device(1)
+            c = Circuit(name='My second circuit', introduction='Second circuit', owner=u, is_public=True)._copy_from_device(1)
+            c = Circuit(name='My third circuit', introduction='3rd circuit', owner=u)._copy_from_device(2)
+
+            admin = User.query.first()
+            c = Circuit(name='My first circuit', introduction='First circuit', owner=admin)._copy_from_device(1)
+            u.favorite_circuits.append(c)
 
         # memo
         u = User.query.filter_by(username='test').first()
@@ -121,7 +124,7 @@ def testinit(slient=False, noinit=False, quickcheck=False):
 
         # task
         u = User.query.filter_by(username='test').first()
-        u.create_task(title='Hidden features of Python',
+        t = u.create_task(title='Hidden features of Python',
                 content='What are the lesser-known but useful features of the Python programming language?',
                 votes=23, views=12)
         u.create_task(title='What IDE to use for Python?',
@@ -130,7 +133,10 @@ def testinit(slient=False, noinit=False, quickcheck=False):
         u.create_task(title='What is the name of the "-->" operator in C?',
                 content='int x = 10;\n while (x --> 0) {\\\\ x count down to 0\n \\\\foo\n}',
                 votes=20, views=19) 
-
+        admin = User.query.first()
+        a1 = u.answer_a_task(t, "haha, I don't know.")
+        a2 = admin.answer_a_task(t, "haha, I don't know too.")
+        u.comment_an_answer(a2, "be serious.")
 
         # message
         u = User.query.filter_by(username='test').first()
