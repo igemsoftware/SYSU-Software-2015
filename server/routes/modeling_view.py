@@ -24,14 +24,15 @@ def plot_design(id):
         if e.target in system_set: continue
         # Filter
         if e.target not in design_set: continue
-        print design_set
-        print e.all_related
-        print design_set <= e.all_related
-        if design_set <= e.all_related:
+        # debug codes
+#       print design_set
+#       print e.all_related
+#       print design_set >= e.all_related
+        if design_set >= e.all_related:
             system.append(e.packed())
             system_set.update([e.target])
-    from pprint import pprint
-    pprint(system)
+#   from pprint import pprint
+#   pprint(system)
 
     ODEModel, names = getModel(system)
     if ODEModel == None:

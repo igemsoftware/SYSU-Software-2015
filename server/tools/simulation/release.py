@@ -29,11 +29,12 @@ def getModel(system):
     # check dependancy
     set_provided = set([equ[0] for equ in system]) 
     set_needed = set(reduce(lambda x, y: x+y, [equ[1] for equ in system])) 
-    if not set_needed <= set_provided:
-        print 'Needed value is not provided.'
-        return None 
-    else:
-        print 'Dependancy test: pass.'
+# dependancy checking is not needed.
+#   if not set_needed <= set_provided:
+#       print 'Needed value is not provided.'
+#       return None 
+#   else:
+#       print 'Dependancy test: pass.'
 
     # check valid
     rendered = []
