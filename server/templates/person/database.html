@@ -1,23 +1,50 @@
-<div id="view-database" v-cloak>
-  <div id="database-sidebar" class="pc-sidebar">
-    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'all'" v-on="click: selectTag('all', true, null, null, false)">All</button>
-    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'drafts'" v-on="click: selectTag('drafts', true, 2, 'progress', true)">Drafts</button>
-    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'finished'" v-on="click: selectTag('finished', true, 2, 'progress', false)">Finished</button>
-    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'favorites'" v-on="click: selectTag('favorites', false, null, null, false)">Favorites</button>
-    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'share'" v-on="click: selectTag('share', true, 'share', 'tags', false)">My Sharings</button>
-    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'public'" v-on="click: selectTag('public', true, 'public', 'tags', false)">My Publics</button>
-    <button class="ui fluid button database tag" v-class="selected: selectedTag === 'task'" v-on="click: selectTag('task', true, 'task', 'tags', false)">Mentioned In TaskHall</button>
-  </div>
+{% extends 'core_common.html' %}
 
-  <div id="database-main">
-    <div id="database-list">
-      <p id="database-stats">[[recordsBeingDisplayed.length]] [[recordsBeingDisplayed.length | pluralize 'record' 'records']] <a v-on="click: editStatus = !editStatus">Edit</a></p>
-      <div id="database-search" class="ui left icon input">
-        <input type="text" placeholder="Search..." v-model="searchTerm" debounce="500">
-        <i class="search icon"></i>
+{% block title %}Personal Center - Database{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/custom_scrollbar.css">
+  <link rel="stylesheet" href="/static/css/personal_center.css">
+{% endblock %}
+
+{% block body %}
+  {{ super() }}
+
+  <v-topbar>
+    <div class="right menu">
+      <div class="item">
+        <a class="ui button">Design</a>
       </div>
-      <div class="database items">
-        <button class="ui fluid button database item"
+      <div class="item">
+        <a class="ui button">Modeling</a>
+      </div>
+      <div class="item">
+        <a class="ui button">Experiment</a>
+      </div>
+    </div>
+  </v-topbar>
+
+  <div id="view-database" v-cloak>
+    <div id="database-sidebar" class="pc-sidebar">
+      <button class="ui fluid button database tag" v-class="selected: selectedTag === 'all'" v-on="click: selectTag('all', true, null, null, false)">All</button>
+      <button class="ui fluid button database tag" v-class="selected: selectedTag === 'drafts'" v-on="click: selectTag('drafts', true, 2, 'progress', true)">Drafts</button>
+      <button class="ui fluid button database tag" v-class="selected: selectedTag === 'finished'" v-on="click: selectTag('finished', true, 2, 'progress', false)">Finished</button>
+      <button class="ui fluid button database tag" v-class="selected: selectedTag === 'favorites'" v-on="click: selectTag('favorites', false, null, null, false)">Favorites</button>
+      <button class="ui fluid button database tag" v-class="selected: selectedTag === 'share'" v-on="click: selectTag('share', true, 'share', 'tags', false)">My Sharings</button>
+      <button class="ui fluid button database tag" v-class="selected: selectedTag === 'public'" v-on="click: selectTag('public', true, 'public', 'tags', false)">My Publics</button>
+      <button class="ui fluid button database tag" v-class="selected: selectedTag === 'task'" v-on="click: selectTag('task', true, 'task', 'tags', false)">Mentioned In TaskHall</button>
+    </div>
+
+    <div id="database-main">
+      <div id="database-list">
+        <p id="database-stats">[[recordsBeingDisplayed.length]] [[recordsBeingDisplayed.length | pluralize 'record' 'records']] <a v-on="click: editStatus = !editStatus">Edit</a></p>
+        <div id="database-search" class="ui left icon input">
+          <input type="text" placeholder="Search..." v-model="searchTerm" debounce="500">
+          <i class="search icon"></i>
+        </div>
+        <div class="database items">
+          <button class="ui fluid button database item"
           v-repeat="rec in recordsBeingDisplayed"
           v-class="selected: selectedRecord === rec"
           v-on="click: selectRecord(rec)">
@@ -32,9 +59,9 @@
         <div id="detail-progress" class="detail header meta">
           <div class="text">progress:</div>
           <div v-repeat="item in ['design', 'modeling', 'experiment']"
-               v-show="selectedRecord.progress >= $index"
-               class="progress [[item]]"
-               data-content="[[item | capitalize]]"></div>
+          v-show="selectedRecord.progress >= $index"
+          class="progress [[item]]"
+          data-content="[[item | capitalize]]"></div>
         </div>
         <div id="detail-tags" class="detail header meta">
           <div class="text">tags:</div>
@@ -47,9 +74,9 @@
       <div id="detail-tabs">
         <div class="ui pointing secondary menu">
           <a v-repeat="i in ['Description', 'Circuits', 'Equations', 'Charts', 'Plasmids', 'References']"
-             class="item"
-             v-class="active: selectedTab === $index"
-             v-on="click: selectedTab = $index">[[i]]</a>
+          class="item"
+          v-class="active: selectedTab === $index"
+          v-on="click: selectedTab = $index">[[i]]</a>
         </div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 0" id="details-description-tab">[[selectedRecord.description]]</div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 1"></div>
@@ -63,3 +90,7 @@
   </div>
 
 </div>
+
+<script src="/static/js/personal_center/dashboard_database.js"></script>
+{% endblock %}
+

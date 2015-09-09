@@ -1,3 +1,30 @@
+{% extends 'core_common.html' %}
+
+{% block title %}Personal Center - Notifications{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/custom_scrollbar.css">
+  <link rel="stylesheet" href="/static/css/personal_center.css">
+{% endblock %}
+
+{% block body %}
+  {{ super() }}
+
+  <v-topbar>
+    <div class="right menu">
+      <div class="item">
+        <a class="ui button">Design</a>
+      </div>
+      <div class="item">
+        <a class="ui button">Modeling</a>
+      </div>
+      <div class="item">
+        <a class="ui button">Experiment</a>
+      </div>
+    </div>
+  </v-topbar>
+
 <div id="view-notifications" class="main-container" v-cloak>
 
   <div class="ui container" id="notifications-main">
@@ -32,3 +59,6 @@
   </div>
 
 </div>
+
+  <script src="/static/js/personal_center/dashboard_notifications.js"></script>
+{% endblock %}

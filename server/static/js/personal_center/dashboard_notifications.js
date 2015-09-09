@@ -1,5 +1,5 @@
-var vNotificationsComponent = Vue.component('dashboard-notifications', {
-    template: "#notifications-template",
+var vNotifications = new Vue({
+    el : 'body',
     data: function() { return {
         notifications: [
             {
