@@ -434,7 +434,7 @@ class Device(db.Model, BioBase):
             # add relationship for instance
             self.add_connection(A_instance.partID, B_instance.partID, R_type)
 
-       # print 'here' 
+        # print 'here'
         self.commit_to_db()
 
 #       from pprint import pprint
@@ -459,6 +459,22 @@ class Design(db.Model, BioBase):
 
     title = db.Column(db.Text, default='')
     """Its title, which will be shown in calendar"""
+
+    short_description = db.Column(db.Text, default='')
+    full_description = db.Column(db.Text, default='')
+#    graph
+#    statistical chart
+    references = db.Column(db.Text, default='')
+    Rate = db.Column(db.Numeric, default = 0)
+    eval_efficiency = db.Column(db.Numeric, default = 0)
+    eval_reliability = db.Column(db.Numeric, default = 0)
+    eval_accessibility = db.Column(db.Numeric, default = 0)
+    eval_compatibility = db.Column(db.Numeric, default = 0)
+    eval_demand = db.Column(db.Numeric, default = 0)
+    eval_safety = db.Column(db.Numeric, default = 0)
+    eval_completeness = db.Column(db.Numeric, default = 0)
+    active_time = db.Column(db.DateTime, default=datetime.now)
+    
 
     is_finished = db.Column(db.Boolean, default=False)
     """Whether the design is complete."""
