@@ -250,12 +250,15 @@ class BioBase():
     """The input of it."""
     interfaceB = ''
     """The output of it."""
+    backbone = []
+    """The backbone of it."""
 
     def __init__(self):
         self.parts = []
         self.relationship = []
         self.interfaceA = ''
         self.interfaceB = ''
+        self.backbone = []
 
     def update_from_db(self):
         """Update :attr:`parts`, :attr:`relationship`, 
@@ -266,6 +269,7 @@ class BioBase():
         self.relationship = json_obj['relationship'] 
         self.interfaceA = json_obj['interfaceA']
         self.interfaceB = json_obj['interfaceB']
+        self.backbone = json_obj['backbone']
         
     def commit_to_db(self):
         """Pack :attr:`parts`, :attr:`relationship`, 
@@ -275,7 +279,8 @@ class BioBase():
                         'parts': self.parts if isinstance(self.parts[0], dict) else map(lambda x: x.jsonify(), self.parts),
                         'relationship': self.relationship,
                         'interfaceA': self.interfaceA,
-                        'interfaceB': self.interfaceB
+                        'interfaceB': self.interfaceB,
+                        'backbone': self.backbone,
                    }
         self.content = json.dumps(json_obj)
 
@@ -470,7 +475,6 @@ class Circuit(db.Model, BioBase):
 
     protocols = db.Column(db.Text, default='')
     """The protocols it is using."""
-
     plasmids = db.Column(db.Text, default='[]')
     """Plasimid information"""
     img = db.Column(db.Text, default='')
