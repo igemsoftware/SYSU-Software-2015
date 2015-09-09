@@ -1,12 +1,12 @@
-Demo2-Toggle switch 2008Bologna
-The molecular circuit can switch between two different stable states (CI-ON and TetR-ON), driven by the external stimuli. Toggle switch,CI,TetR
+Demo2_Toggle switch 2008Bologna
+The molecular circuit can switch between two different stable states (CI_ON and TetR_ON), driven by the external stimuli. Toggle switch,CI,TetR
 http://2008.igem.org/Team:Bologna
 http://2008.igem.org/Team:Bologna/Notebook
 1
-UVB_1,UVR8-TetR_1,TetR_1		
+UVB_1,UVR8_TetR_1,TetR_1		
 YFP_1,GFP_1		
-UVB_1	UVR8-TetR_1	inhibition
-UVR8-TetR_1	Ptet_1	inhibition
+UVB_1	UVR8_TetR_1	inhibition
+UVR8_TetR_1	Ptet_1	inhibition
 TetR_1	Ptet_1	inhibition
 Ptet_1	RBS_1	normal
 RBS_1	cI_1	normal
