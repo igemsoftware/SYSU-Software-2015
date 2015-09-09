@@ -72,6 +72,7 @@
 {% endfor %}
 
   <div class="ui divider"></div>
+  {% if current_user.is_authenticated() %}
   <form id="taskhall-detail-answer-form" class="ui form" action="/taskhall/action/answer" method="POST">
     <div class="ui header">Add Your Answer</div>
     <input type="hidden" name="task_id" value="{{task.id}}">
@@ -82,6 +83,9 @@
     </div>
     <input type="submit" class="ui blue button" value="Submit">
   </form>
+  {% else %}
+  <p>You must <a href="/auth/login">login</a> to add an answer.</p>
+  {% endif %}
 
   </div>
 
@@ -122,7 +126,11 @@
       </div>
       <content select="div.text"></content>
       <div class="actions">
+        {% if current_user.is_authenticated() %}
         <a class="reply" v-on="click: showReply = !showReply">[[showReply ? 'Hide' : 'Reply']]</a>
+        {% else %}
+        <a class="reply" href="/auth/login">Reply</a>
+        {% endif %}
       </div>
     </div>
   <form action="/taskhall/action/comment" method="POST" class="ui reply form" v-show="showReply">
@@ -152,6 +160,7 @@
         <div class="ui minimal comments" v-show="showComments">
           <content select="v-comment"></content>
           <div class="ui divider"></div>
+          {% if current_user.is_authenticated() %}
           <form action="/taskhall/action/comment" class="ui form" method="POST">
             <input type="hidden" name="answer_id" v-attr="value: answerId">
             <div class="field">
@@ -161,6 +170,9 @@
               <i class="edit icon"></i>Add New Comment
             </button>
           </form>
+          {% else %}
+          <p>You must <a href="/auth/login">login</a> to add a comment.</p>
+          {% endif %}
         </div>
       </div>
     </div>
