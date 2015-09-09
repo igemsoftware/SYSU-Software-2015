@@ -27,12 +27,10 @@ def plot_design(id):
         if design_set <= e.all_related:
             system.append(e.packed())
             system_set.update([e.target])
-    print system_set
-
+    # print system_set
 
     ODEModel, names = getModel(system)
+    if ODEModel == None:
+        return jsonify(x_axis=[], variables=[], title=d.title)
     t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
-    return jsonify(x_axis=t, variables=result) 
-
-
-
+    return jsonify(x_axis=t, variables=result, title=d.title)

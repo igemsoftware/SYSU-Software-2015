@@ -74,7 +74,7 @@ def answer_a_task():
 @login_required
 def comment_a_answer():
     answer_id = request.form.get('answer_id', 0)
-    a = Answer.query.get(answer_d)
+    a = Answer.query.get(answer_id)
     if not a: abort(404)
 
     c = Comment(content=request.form.get('content', ''))
@@ -85,6 +85,26 @@ def comment_a_answer():
     db.session.commit()
 
     return redirect(url_for('taskhall.task_detail', id = a.task.id) )
+
+
+@taskhall.route('/action/store', methods=["POST"])
+@login_required
+def store_a_task():
+    task_id = request.form.get('task_id', 0)
+
+    if task_id < 0:
+        t = Task()
+    else:
+        t = Task.query.get(task_id)
+    if not t: abort(404)
+
+    t.title = request.form.get('title', 0)
+    t.content = request.form.get('content', 0)
+    t.owner = current_user
+    db.session.add(t)
+
+    return redirect(url_for('taskhall.task_detail', id = t.id) )
+
 
 
 # create task: Form
