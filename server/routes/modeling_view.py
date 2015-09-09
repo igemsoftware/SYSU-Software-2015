@@ -27,7 +27,7 @@ def plot_design(id):
         if design_set <= e.all_related:
             system.append(e.packed())
             system_set.update([e.target])
-    # print system_set
+    print system_set
 
     ODEModel, names = getModel(system)
     if ODEModel == None:
