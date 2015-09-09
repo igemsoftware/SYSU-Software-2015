@@ -32,9 +32,9 @@ def yfp_gfp(t, y):
     n = len(y)
     dydt = np.zeros((n, 1))
     dydt[0] = t
-    dydt[1] = a*dna/(1+y[0] ** k) - u1*y[1]
-    dydt[2] = b*dna - u2*y[2]
-    dydt[3] = c*dna - u3*y[3]
+    dydt[1] = a*dna/(1+UVB ** k) - u1*puvr8
+    dydt[2] = b*dna - u2*pci
+    dydt[3] = c*dna - u3*ptetr
     dydt[4] = b*dna/(1+GFP ** a1) - u4*YFP
     dydt[5] = c*dna/(1+YFP ** a1) - u4*GFP
 
