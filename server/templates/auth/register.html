@@ -26,7 +26,6 @@
       <div class="ui blue ok basic inverted button"><i class="checkmark icon"></i>Okay</div>
     </div>
   </div>
-  <script>$(function() { $('#error-modal').modal('show'); })</script>
   {% endif %}
 
   <div class="ui modal" id="avatar-modal">
@@ -154,6 +153,9 @@
   <script src="/static/js/jquery.form.min.js"></script>
   <script src="/static/js/semantic.min.js"></script>
   <script src="/static/js/register.js"></script>
+  {% if form.errors %}
+  <script>$(function() { $('#error-modal').modal('show'); })</script>
+  {% endif %}
 
 </body>
 </html>
