@@ -407,9 +407,9 @@ Rubberband.prototype._listenDrawAreaMouseMove = function() {
         var h = (event.pageY > that._y) ? hcalc : (hcalc * -1); 
      
         // Update the rubberband with the new values
-        if (leftBar.isOpenLeftBar == true) {
-            l -= leftBar.view.width();
-        }
+        // if (leftBar.isOpenLeftBar == true) {
+        //     l -= leftBar.view.width();
+        // }
 
         // t -= drawArea_menu.height();
 
