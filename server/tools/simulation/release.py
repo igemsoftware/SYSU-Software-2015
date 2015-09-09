@@ -33,7 +33,7 @@ def getModel(system):
         print 'Needed value is not provided.'
         return None 
     else:
-        print 'Dependancy test pass.'
+        print 'Dependancy test: pass.'
 
     # check valid
     rendered = []
@@ -52,6 +52,7 @@ def getModel(system):
         except Exception, exp:
             print 'Test error:', e.render()
             print '\t', exp
+            return None
     
     def ODEModel(t, y):
         calc_dict = dict(zip([ele[0] for ele in system], y))

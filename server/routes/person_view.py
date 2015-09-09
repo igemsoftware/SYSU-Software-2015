@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import person
-from ..models import Circuit
+from ..models import Design 
 from ..tools.parser import json_parser
 
 from flask.ext.login import current_user, login_required
@@ -15,15 +15,15 @@ def index():
 @person.route('/mine')
 @login_required
 def mine():
-    l = Circuit.query.filter_by(owner=current_user).all()
-    l = map(Circuit.jsonify(), l)
+    l = Design.query.filter_by(owner=current_user).all()
+    l = map(Design.jsonify(), l)
     return jsonify(mine=l)
 
 @person.route('/favorite')
 @login_required
 def favorite():
-    l = current_user.favorite_circuits
-    l = map(Circuit.jsonify, l)
+    l = current_user.favorite_designs
+    l = map(Design.jsonify, l)
     return jsonify(favorite=l)
 
 
