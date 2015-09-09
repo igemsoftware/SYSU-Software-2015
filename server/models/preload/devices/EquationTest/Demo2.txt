@@ -16,10 +16,10 @@ RBS_2	yfp_1	normal
 yfp_1	YFP_1	promotion
 yfp_1	Terminator_1	normal
 CI_1	PcI_1	inhibition
-PcI_1	RBS_1	normal
-RBS_1	tetR_1	normal
+PcI_1	RBS_3	normal
+RBS_3	tetR_1	normal
 tetR_1	TetR_1	promotion
-tetR_1	RBS_2	normal
-RBS_2	gfp_1	normal
+tetR_1	RBS_4	normal
+RBS_4	gfp_1	normal
 gfp_1	GFP_1	promotion
 gfp_1	Terminator_1	normal
