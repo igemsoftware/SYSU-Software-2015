@@ -3,7 +3,7 @@
 from . import design
 
 from ..models import ComponentPrototype, ComponentInstance, Relationship
-from ..models import Protocol, Device, Circuit 
+from ..models import Protocol, Device, Design
 from flask import jsonify, request
 from flask.ext.login import login_required, current_user
 import json
@@ -72,9 +72,9 @@ def data_fetch_device():
     return jsonify(deviceList=devices)
 
 
-@design.route('/circuit/<int:id>', methods=['GET'])
-def get_circuit(id):
-    c = Circuit.query.get(id)
+@design.route('/<int:id>', methods=['GET'])
+def get_design(id):
+    c = Design.query.get(id)
     c.update_from_db()
     
     content = {
@@ -93,14 +93,14 @@ def get_circuit(id):
     }
     return jsonify(content=content)
 
-@design.route('/circuit/<int:id>', methods=['POST'])
-def store_circuit(id):
+@design.route('/<int:id>', methods=['POST'])
+def store_design(id):
     if id < 0:
-        c = Circuit()
-        current_user.circuits.append(c)
+        c = Design()
+        current_user.designs.append(c)
         c.commit_to_db()
     else:
-        c = Circuit.query.get(id)
+        c = Design.query.get(id)
     
     data = request.get_json()
 
@@ -120,12 +120,12 @@ def store_circuit(id):
 
     return jsonify(id=c.id)
 
-@design.route('/circuit/all', methods=['GET'])
+@design.route('/all', methods=['GET'])
 @login_required
-def get_all_circuit():
+def get_all_designs():
 
     l = []
-    for c in current_user.circuits.all():
+    for c in current_user.designs.all():
         c.update_from_db()
         
         l.append( {
@@ -134,6 +134,6 @@ def get_all_circuit():
                 'introduction': c.introduction,
                 'img': c.img,
         })
-    return jsonify(circuits=l)
+    return jsonify(designs=l)
 
 

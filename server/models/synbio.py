@@ -37,7 +37,7 @@ class Protocol(db.Model):
     """Whether it is in setB. SetB is the general operation mannual."""
 
     recommend = db.Column(db.Boolean, default = False)
-    """The recommended protocol will added in circuit by default."""
+    """The recommended protocol will added in design by default."""
 
 #    liked = db.Column(db.Integer, default=0)
 #    used_times = db.Column(db.Integer, default=0)
@@ -223,6 +223,10 @@ class ComponentInstance():
         self.positionX = positionX
         self.positionY = positionY
 
+    def __getitem__(self, key):
+        if hasattr(self, key):
+            return getattr(self, key)
+
     def jsonify(self):
         """Tranform itself into a json object."""
         return {
@@ -238,7 +242,7 @@ class ComponentInstance():
 
 
 class BioBase():
-    """A base class for :class:`Device` and :class:`Circuit`."""
+    """A base class for :class:`Device` and :class:`Design`."""
     content = db.Column(db.Text)
     """String of a dumpped json object."""
 
@@ -441,13 +445,13 @@ class Device(db.Model, BioBase):
 
 from datetime import datetime
 
-Favorite_circuit = db.Table('Favorite_circuit',
-    db.Column('circuit_id', db.Integer, db.ForeignKey('circuit.id')),
+Favorite_design = db.Table('Favorite_design',
+    db.Column('design_id', db.Integer, db.ForeignKey('design.id')),
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
 )
 
-class Circuit(db.Model, BioBase):
-    """Circuit model in CORE."""
+class Design(db.Model, BioBase):
+    """Design model in CORE."""
     id = db.Column(db.Integer, primary_key=True)
     """ID is an unique number to identify each :class:`Memo`."""
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
@@ -457,17 +461,17 @@ class Circuit(db.Model, BioBase):
     """Its title, which will be shown in calendar"""
 
     is_finished = db.Column(db.Boolean, default=False)
-    """Whether the circuit is complete."""
+    """Whether the design is complete."""
     is_shared = db.Column(db.Boolean, default=False)
-    """Whether the circuit is shared."""
+    """Whether the design is shared."""
     is_public = db.Column(db.Boolean, default=False)
-    """Whether the circuit is public."""
+    """Whether the design is public."""
     # task_related = db.Column(db.Integer, default=-1)
 
     create_time = db.Column(db.DateTime, index=True, default=datetime.now)
-    """When the circuit is created."""
+    """When the design is created."""
     progress = db.Column(db.Integer, default=0)
-    """The progress of the circuit."""
+    """The progress of the design."""
     name = db.Column(db.String(128), default='No name')
     """The name of it ."""
     introduction = db.Column(db.Text)
@@ -482,15 +486,15 @@ class Circuit(db.Model, BioBase):
     risk = db.Column(db.Integer, default=-1)
     """Safety risk"""
     source = db.Column(db.String, default=-1)
-    """Circuit source"""
+    """Design source"""
     #experiment = db.Column(db.Text, default='')
 
     # in public database
     db_create_time = db.Column(db.DateTime)
-    """When this circuit is in CORE Bank."""
+    """When this design is in CORE Bank."""
     likes = db.Column(db.Integer, default=0)
     """How many likes it get."""
-    favoriter = db.relationship('User', secondary=Favorite_circuit, backref=db.backref('fav_circuit', lazy='dynamic')) 
+    favoriter = db.relationship('User', secondary=Favorite_design, backref=db.backref('fav_design', lazy='dynamic')) 
     """Who mark it as favorite."""
     grade = db.Column(db.Text) # how ?
     """Grading."""
@@ -504,7 +508,7 @@ class Circuit(db.Model, BioBase):
 
 
     def __init__(self, **kwargs):
-        super(Circuit, self).__init__(**kwargs)
+        super(Design, self).__init__(**kwargs)
         self.protocols = json.dumps([p.jsonify() for p in Protocol.query.filter_by(recommend=True, setB=False).all()])
                                  
 
