@@ -9,7 +9,7 @@ function processAvatarUploadResponse(data) {
         $('#avatar-modal').modal('hide');
     } else if (data.error !== undefined) {
         $('#avatar-upload-error')
-            .text(data.error)
+            .text(data.error.message)
             .parents('.message').removeClass('hidden');
     } else {
         $('#avatar-upload-error')

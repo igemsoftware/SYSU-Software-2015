@@ -38,4 +38,8 @@ CKEDITOR.editorConfig = function( config ) {
 
     // mathjax
     config.mathJaxLib = '//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+
+    // image upload
+    config.extraPlugins = 'uploadimage';
+    config.imageUploadUrl = '/pic/upload';
 };
