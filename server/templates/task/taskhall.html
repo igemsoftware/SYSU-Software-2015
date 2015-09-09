@@ -31,17 +31,16 @@
       <i class="big close icon"></i>
     </div>
     <div class="ui segment">
-      <form class="ui form">
+      <form action="/taskhall/action/ask" method="POST" class="ui form">
         <div class="field">
           <label>Title:</label>
           <input type="text" name="title">
         </div>
         <div class="field">
           <label>Detail:</label>
-          <textarea name="detail" id="editor1"></textarea>
-          <script>//CKEDITOR.replace('editor1');</script>
+          <textarea name="content" id="askcontent"></textarea>
         </div>
-        <input type="submit" class="ui yellow button">
+        <button type="submit" class="ui yellow button">Submit</button>
       </form>
     </div>
   </div>
@@ -91,18 +90,18 @@
             <div class="dummy"></div>
             <div class="ui small image"><img v-attr="src: task.author.avatar" alt="author"></div>
             <div class="info">
-              <div class="date">asked [[task.timestamp]]</div>
+              <div class="date">asked [[new Date(task.timestamp).toDateString()]]</div>
               <div class="author name">[[task.author.name]]</div>
             </div>
           </div>
           <div class="ui author popup transition hidden">
             <div class="author name">[[task.author.name]]</div>
             <div class="track list">
-              <div class="ui circular image" v-repeat="track in task.author.tracks"><img v-src="'/static/img/tracks/' + track.name + '.png'" alt=""></div>
+              <div class="ui circular image" v-repeat="track in task.author.tracks"><img v-attr="src: '/static/img/tracks/' + track.name + '.png'" alt=""></div>
             </div>
             <div class="question count"><span class="figure">[[task.author.question]]</span> questions</div>
             <div class="answer count"><span class="figure">[[task.author.answer]]</span> answers</div>
-            <div class="share public count"><span class="figure">[[task.author.database]]</span> share/public</div>
+            <div class="share public count"><span class="figure">[[task.author.shared]]</span> share/public</div>
           </div>
           </div>
         </div>

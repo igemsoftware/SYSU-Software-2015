@@ -4,7 +4,7 @@ var vueBody = new coreBody({
         user                : "leasunhy",
         notificationCount   : 2,
         questionCount       : 2723,
-        selectedTab         : 'All Question',
+        selectedTab         : 'All Questions',
         currentOrder        : 'vote',
         orders              : ['vote', 'view', 'time'],
         page                : 1,
@@ -37,7 +37,7 @@ var vueBody = new coreBody({
             $('#taskhall-index-ask-modal').modal('show');
             if (!this.ckeInit) {
                 this.ckeInit = true;
-                CKEDITOR.replace('editor1');
+                CKEDITOR.replace('askcontent');
             }
         },
         updateTasks : function(store, page, currentOrder) {
