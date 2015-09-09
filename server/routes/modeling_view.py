@@ -33,4 +33,9 @@ def plot_design(id):
     if ODEModel == None:
         return jsonify(x_axis=[], variables=[], title=d.title)
     t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
+
+# fake data 
+#   d = Design.query.get(id)
+#   ODEModel, names = getModel(__example_system)
+#   t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
     return jsonify(x_axis=t, variables=result, title=d.title)
