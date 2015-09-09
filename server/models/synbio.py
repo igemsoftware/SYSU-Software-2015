@@ -191,7 +191,10 @@ class ComponentPrototype(db.Model):
     @property
     def attr(self):
         """Combine :attr:`BBa` with :attr:`name`, if :attr:`BBa` exists."""
-        return self.name+':'+self.BBa if self.BBa else self.name
+        if self.name in ['Promoter', 'RBS', 'Terminator'] and self.BBa:
+            return self.name+':'+self.BBa
+        else:
+            return self.name
 
     def __repr__(self):
         return '<ComponentPrototype: %s>' % self.name
@@ -279,8 +282,15 @@ class BioBase():
         """Pack :attr:`parts`, :attr:`relationship`, 
         :attr:`interfaceA`, and :attr:`interfaceB` and commit to database."""
 #        print self.connections
+        if self.parts:
+            if isinstance(self.parts[0], dict):
+                json_parts = self.parts
+            else:
+                json_parts = map(lambda x: x.jsonify(), self.parts)
+        else:
+            json_parts = self.parts
         json_obj = {
-                        'parts': self.parts if isinstance(self.parts[0], dict) else map(lambda x: x.jsonify(), self.parts),
+                        'parts': json_parts,
                         'relationship': self.relationship,
                         'interfaceA': self.interfaceA,
                         'interfaceB': self.interfaceB,
