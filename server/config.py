@@ -39,7 +39,7 @@ class DevelopmentConfig(Config):
     # init
     INIT_PRELOAD_DEVICE_DIRS = ['server/models/preload/devices/EquationTest']
     INIT_PRELOAD_PROTOCOL_DIRS = ['server/models/preload/protocols/']
-    INIT_PRELOAD_PART_DIRS = ['server/models/preload/parts/EquationTest']
+    INIT_PRELOAD_PART_DIRS = ['server/models/preload/components/EquationTest']
     INIT_PRELOAD_EQUATION_DIRS = ['server/models/preload/equations/']
 
 class ProductionConfig(Config):
