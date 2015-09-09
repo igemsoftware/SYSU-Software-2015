@@ -6,7 +6,7 @@ from .task import Task
 from .comment import Comment, Answer
 from .memo import Memo
 from .track import Track
-from .equation import Equation
+from .equation import Equation, EquationBase
 
 from .synbio import ComponentPrototype, ComponentInstance, Relationship
 from .synbio import Protocol, Device, Circuit, BioBase
@@ -14,5 +14,5 @@ from .synbio import Protocol, Device, Circuit, BioBase
 
 model_list = [User, Track, Message, Task, Comment, Memo,
               ComponentPrototype, ComponentInstance, Relationship,
-              Protocol, Device, Circuit, Answer]
+              Protocol, Device, Circuit, Answer, EquationBase]
 manager_dict = dict(zip(map(lambda x: x.__name__, model_list), model_list))

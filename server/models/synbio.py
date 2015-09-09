@@ -223,6 +223,10 @@ class ComponentInstance():
         self.positionX = positionX
         self.positionY = positionY
 
+    def __getitem__(self, key):
+        if hasattr(self, key):
+            return getattr(self, key)
+
     def jsonify(self):
         """Tranform itself into a json object."""
         return {
