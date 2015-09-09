@@ -5,7 +5,7 @@ from .. import login_manager
 from message import Message
 from task import watched_tasks, Task
 from memo import Memo
-from comment import Comment
+from comment import Comment, Answer
 from track import Track, tracks
 from synbio import Favorite_circuit
 
@@ -103,12 +103,14 @@ class User(UserMixin, db.Model):
         return Message.query.filter(Message.sender_id==self.id).all()
 
     # tasks
+    tasks = db.relationship('Task', backref='owner', lazy='dynamic')
     watched_tasks = db.relationship('Task', secondary=watched_tasks, backref=db.backref('watcher', lazy='dynamic'))
     """The :class:`Task` user watched."""
 
     def create_task(self, **kwargs):
         """Create a :class:`Task`."""
-        t = Task(watcher=[self], sender_id=self.id, **kwargs)
+        t = Task(watcher=[self], **kwargs)
+        t.owner = self
         db.session.add(t)
         db.session.commit()
         return t
@@ -120,9 +122,21 @@ class User(UserMixin, db.Model):
         db.session.commit()
 
     # comment
-    def make_comment(self, task_id, content):
-        """Make a :class:`Comment` about a :class:`Task`.""" 
-        c = Comment(content=content, task_id=task_id, sender_id=self.id)
+    answers = db.relationship('Answer', backref='owner', lazy='dynamic')
+    comments = db.relationship('Comment', backref='owner', lazy='dynamic')
+    def answer_a_task(self, task, content):
+        """Give an :class:`Answer` about a :class:`Task`.""" 
+        a = Answer(content=content)
+        a.task = task 
+        a.owner = self
+        db.session.add(a)
+        db.session.commit()
+        return a
+    def comment_an_answer(self, answer, content):
+        """Make a :class:`Comment` about an :class:`Answer`.""" 
+        c = Comment(content=content)
+        c.answer = answer 
+        c.owner = self
         db.session.add(c)
         db.session.commit()
         return c

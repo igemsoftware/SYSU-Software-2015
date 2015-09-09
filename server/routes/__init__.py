@@ -12,6 +12,7 @@ design = Blueprint('design', __name__)
 taskhall = Blueprint('taskhall', __name__)
 calendar = Blueprint('calendar', __name__)
 protocol = Blueprint('protocol', __name__)
+modeling = Blueprint('modeling', __name__)
 
 views = [(main, ''),
          (auth, '/auth'),
@@ -22,6 +23,7 @@ views = [(main, ''),
          (taskhall, '/taskhall'),
          (calendar, '/calendar'),
          (protocol, '/protocol'),
+         (modeling, '/modeling'),
          ]
 
 from . import main_view,\
@@ -32,4 +34,5 @@ from . import main_view,\
             design_view,\
             taskhall_view,\
             calendar_view,\
-            protocol_view
+            protocol_view,\
+            modeling_view

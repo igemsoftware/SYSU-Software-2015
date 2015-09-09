@@ -3,3 +3,5 @@ Circuit.plasmids
 Circuit.img
 Circuit.safe
 ComponentInstance.partAttr
+modeling
+task.active_time
