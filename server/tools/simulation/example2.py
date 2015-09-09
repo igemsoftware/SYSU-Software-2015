@@ -106,6 +106,6 @@ if __name__ == '__main__':
         line_ptetr,line_YFP,line_GFP])
     ax1.grid('on')
 
-    fig.savefig('server/tools/simulation/gfp_yfp.png')
+    fig.savefig('gfp_yfp.png')
 
 

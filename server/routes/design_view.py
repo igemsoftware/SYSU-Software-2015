@@ -118,7 +118,7 @@ def store_circuit(id):
 
     c.commit_to_db()
 
-    return 'Success'
+    return jsonify(id=c.id)
 
 @design.route('/circuit/all', methods=['GET'])
 @login_required
