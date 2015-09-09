@@ -94,10 +94,10 @@
               <div class="author name">[[task.author.name]]</div>
             </div>
           </div>
-          <div class="ui author popup transition hidden">
+          <div class="ui author popup transition">
             <div class="author name">[[task.author.name]]</div>
             <div class="track list">
-              <div class="ui circular image" v-repeat="track in task.author.tracks"><img v-attr="src: '/static/img/tracks/' + track.name + '.png'" alt=""></div>
+              <div class="ui circular image" v-repeat="track in task.author.tracks"><img v-attr="src: '/static/img/tracks/tracks_' + track + '.png'" alt=""></div>
             </div>
             <div class="question count"><span class="figure">[[task.author.question]]</span> questions</div>
             <div class="answer count"><span class="figure">[[task.author.answer]]</span> answers</div>
@@ -134,7 +134,11 @@
             </div>
           </div>
           <div class="dummy container">
+          {% if current_user.is_authenticated() %}
             <div class="ui selected button" v-on="click: showAskModal()">Ask a question</div>
+          {% else %}
+            <a class="ui selected button" href="/auth/login">Ask a question</a>
+          {% endif %}
           </div>
         </div>
       </div>

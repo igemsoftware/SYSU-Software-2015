@@ -52,8 +52,8 @@ class Task(db.Model):
                         'avatar': self.owner.avatar or '/static/img/avatar.jpg',
                         'question': self.owner.tasks.count(),
                         'answer': self.owner.answers.count(),
-                        'shared': self.owner.circuits.filter_by(is_shared=True).count(),
-                        'tracks': map(lambda x : x.name, self.owner.tracks)
+                        'shared': self.owner.designs.filter_by(is_shared=True).count(),
+                        'tracks': [x.name for x in self.owner.tracks]
                     } 
                }
 

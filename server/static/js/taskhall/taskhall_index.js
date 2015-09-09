@@ -17,11 +17,6 @@ var vueBody = new coreBody({
             offset: 60,
         });
         $('#taskhall-index-order-dropdown').dropdown();
-        $('.question.author').popup({
-            inline: true,
-            position: 'right center',
-            width: '300px',
-        });
         //this.$eval('fakeTasks(this)');
         this.$eval('updateTasks(this, this.page, this.currentOrder)');
         this.$watch('page', function() {
@@ -30,6 +25,13 @@ var vueBody = new coreBody({
         this.$watch('currentOrder', function() {
             this.page = 1;
             this.$eval('updateTasks(this, this.page, this.currentOrder)');
+        });
+        this.$watch('tasks', function() {
+            $('.question.author').popup({
+                inline: true,
+                position: 'right center',
+                width: '300px',
+            });
         });
     },
     methods: {
