@@ -403,12 +403,12 @@ class Device(db.Model, BioBase):
         rec = set() 
         for line in f:
             line = line.decode('ISO-8859-1')
-            if len(line.strip(' \n').split('\t')) != 3:
+            if len(line.strip(' \n\r').split('\t')) != 3:
                 #raise Exception('Format error (No extra empty line after the table).')
 #                print('Warning: Format error. Skip line [%s].'%line.strip(' \n'))
                 continue
 #            print '[%s]' % line
-            A_name, B_name, R_type = line.strip(' \n').split('\t')
+            A_name, B_name, R_type = line.strip(' \n\r').split('\t')
 
             #print line
 #           try:
