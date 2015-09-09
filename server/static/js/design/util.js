@@ -126,7 +126,45 @@ Util._createNewCNode = function(part) {
     return node;
 };
 
-Util._loadCircuitLinks = function(connections, nodeElems) {
+Util.loadBackbone = function(backbones) {
+    var that = this;
+    $.each(backbones, function(index, elem) {
+        var dotStart = that.createEndpoint();
+        var dotEnd = that.createEndpoint();
+        dotStart.css({left: elem.start[0], top: elem.start[1]});
+        dotEnd.css({left:elem.end[0], top:elem.end[1]});
+        var minusCircle = that.createMinusCircleDiv();
+        minusCircle.appendTo(dotEnd);
+        dotStart.appendTo($("#drawArea"));
+        dotEnd.appendTo($("#drawArea"));
+
+        that.connectBackbone(dotStart, dotEnd);
+    })
+}
+
+Util.connectBackbone = function(dotStart, dotEnd) {
+    jsPlumb.connect({
+        source: dotStart,
+        target: dotEnd,
+        endpoint:"Blank",
+        paintStyle: { strokeStyle: "#123456", lineWidth: 6},
+        connector: ["Straight"],
+        Container: "drawArea"
+    });
+    
+    jsPlumb.draggable(dotStart, {
+        containment: 'parent',
+    });
+    jsPlumb.draggable(dotEnd, {
+        containment: 'parent',
+    });
+}
+
+Util.createEndpoint = function () {
+    return $("<div class='dotShape'></div>");
+}
+
+Util.loadCircuitLinks = function(connections, nodeElems) {
     $.each(connections, function(index, elem) {
         // if (elem.type == "promotion" || elem.type == "inhibition") return;
         var startElem;
@@ -394,13 +432,9 @@ Rubberband.prototype._listenDrawAreaMouseDown = function() {
         that._x = event.pageX;         
         that._y = event.pageY;
         var offset = $("#drawArea").offset();
-        console.log(offset);
         var top = that._y-offset.top;
         var left = that._x-offset.left;
-        console.log(top);
-        console.log(left);
         that.view.css({top:top, left:left, height:1, width:1, position:'relative'});
-        // console.log(that.view.css());
         that.view.show();
     });
 };

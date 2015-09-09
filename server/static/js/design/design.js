@@ -298,7 +298,8 @@ Design.prototype.putNewDevice = function(elem) {
     var parts = device.parts;
     var connections = device.relationship;
     var nodeElems = Util._loadCircuitCNodes(parts);
-    Util._loadCircuitLinks(connections, nodeElems);
+    Util.loadCircuitLinks(connections, nodeElems);
+    Util.loadBackbone(device.backbone);
 
     rightBar.processDropedDevice(device);
     operationLog.addDevice(elem.attr("device-name"));
@@ -334,7 +335,9 @@ Design.prototype._initJsPlumbOption = function() {
         var source = $(CurrentConnection.connection.source);
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
-        if (that._isInhibitLink == true) {
+        if (target.hasClass("dotShape")) {
+            CurrentConnection.connection.scope = "backbone";
+        } else if (that._isInhibitLink == true) {
             CurrentConnection.connection.scope = "inhibition";
             that._isInhibitLink = false;
         } else if (that._isPromoteLink == true) {
@@ -478,8 +481,8 @@ DesignMenu.prototype.init = function() {
 
 DesignMenu.prototype.enableBackboneBtn = function() {
     this.backboneBtn.click(function() {
-        var dotStart = $("<div class='dotShape'></div>");
-        var dotEnd = $("<div class='dotShape'></div>");
+        var dotStart = Util.createEndpoint();
+        var dotEnd = Util.createEndpoint();
         var offSet = $("#drawArea").offset();
         if (leftBar.isOpenLeftBar == true) {
             offSet.left -= leftBar.view.width();
@@ -490,21 +493,8 @@ DesignMenu.prototype.enableBackboneBtn = function() {
         dotEnd.appendTo($("#drawArea"));
         var minusCircle = Util.createMinusCircleDiv();
         minusCircle.appendTo(dotEnd);
-        jsPlumb.connect({
-            source: dotStart,
-            target: dotEnd,
-            endpoint:"Blank",
-            paintStyle: { strokeStyle: "#123456", lineWidth: 6},
-            connector: ["Straight"],
-            Container: "drawArea"
-        });
-        
-        jsPlumb.draggable(dotStart, {
-            containment: 'parent',
-        });
-        jsPlumb.draggable(dotEnd, {
-            containment: 'parent',
-        });
+
+        Util.connectBackbone(dotStart, dotEnd);
     });
 };
 
@@ -578,7 +568,6 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
         curcuitChartData.source = "hello world";
         curcuitChartData.risk = design.risk;
         curcuitChartData.plasmids = dfs.getCircuits();
-
         //test
         curcuitChartData.id = -1;
 
@@ -599,6 +588,8 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
                 });
 
                 curcuitChartData.img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                console.log("Post Data");
+                console.log(curcuitChartData);
                 var postDataJson = JSON.stringify(curcuitChartData);
                 $.ajax({
                     type: 'POST',
@@ -614,26 +605,41 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
 
 DesignMenu.prototype.getDesignChartData = function() {
     var parts = this.getDesignParts();
-    var connections = this.getDesignConns();
+    var data = this.getDesignConns();
     var curcuitChart = {};
     curcuitChart.parts = parts;
     curcuitChart.title = "deviceName";
-    curcuitChart.relationship = connections;
+    curcuitChart.relationship = data.connections;
     curcuitChart.interfaceA = "interfaceB-partName";
     curcuitChart.interfaceB = "interfaceA-partName";
+    curcuitChart.backbone = data.backbones;
     return curcuitChart;
 }
 
 DesignMenu.prototype.getDesignConns = function() {
     var connections = [];
+    var backbones = [];
     $.each(jsPlumb.getAllConnections(), function (idx, CurrentConnection) {
+        console.log(CurrentConnection.scope);
+        if (CurrentConnection.scope == 'backbone') {
+            backbones.push({
+                start: [parseInt($(CurrentConnection.source).css('left'), 10), 
+                        parseInt($(CurrentConnection.source).css('top'), 10)],
+                end: [parseInt($(CurrentConnection.target).css('left'), 10), 
+                    parseInt($(CurrentConnection.target).css('top'), 10)]
+            });
+            return ;
+        }
         connections.push({
             start: $(CurrentConnection.source).attr("part-id"),
             end: $(CurrentConnection.target).attr("part-id"),
             type: CurrentConnection.scope
         });
     });
-    return connections;
+    var data = {};
+    data.connections = connections;
+    data.backbones = backbones;
+    return data;
 }
 
 DesignMenu.prototype.getDesignParts = function() {
@@ -656,11 +662,14 @@ DesignMenu.prototype.enableLoadCircuitchartBtn = function(curcuitChart) {
     this.openFileBtn.click(function() {
         var curcuitChart;
         $.get("/design/circuit/1", function(data) {
+            console.log(data["content"]);
             var curcuitChart = data["content"];
             var parts = curcuitChart.parts;
             var connections = curcuitChart.relationship;
+            var backbones = curcuitChart.backbone;
             var nodeElems = Util._loadCircuitCNodes(parts);
-            Util._loadCircuitLinks(connections, nodeElems);
+            Util.loadBackbone(backbones);
+            Util.loadCircuitLinks(connections, nodeElems);
         });
     });
 };
