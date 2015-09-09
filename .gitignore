@@ -65,3 +65,4 @@ env/
 #database
 *.db
 server/files/
+gfp_yfp.png
