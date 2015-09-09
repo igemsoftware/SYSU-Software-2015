@@ -12,12 +12,27 @@ def modeling_index():
 
 @modeling.route('/design/<int:id>')
 def plot_design(id):
-    c = Design.query.get(id)
-    c.update_from_db()
-    
+    d = Design.query.get(id)
+    d.update_from_db()
+    design_set = [ele['partAttr'] for ele in d.parts]
 
-    ODEModel, names = getModel(__example_system)
-    t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0,0,0,0,0,0])
+    system = []
+    system_set = set({})
+    for e in EquationBase.query.order_by(EquationBase.related_count.desc()).all():
+        e.update_from_db()
+        # Find the max match
+        if e.target in system_set: continue
+        # Filter
+        if e.target not in design_set: continue
+        if design_set <= e.all_related:
+            system.append(e.packed())
+            system_set.update([e.target])
+    print system_set
+
+
+    ODEModel, names = getModel(system)
+    t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
     return jsonify(x_axis=t, variables=result) 
+
 
 

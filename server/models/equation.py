@@ -112,6 +112,10 @@ class EquationBase(db.Model):
     def formular(self):
         return self.content.get('formular', '')
 
+    def packed(self):
+        self.update_from_db()
+        return [self.target, self.related, self.parameter, self.formular]
+
     @target.setter
     def target(self, value):
         self.content['target'] = value
@@ -130,6 +134,7 @@ class EquationBase(db.Model):
 
     @staticmethod
     def preload_from_file(filename):
+        print 'loading equation from %s ...' % filename
         with open(filename, 'r') as f:
             for line in f:
                 line = line.strip()
