@@ -7,7 +7,7 @@ from task import watched_tasks, Task
 from memo import Memo
 from comment import Comment, Answer
 from track import Track, tracks
-from synbio import Favorite_circuit
+from synbio import Favorite_design
 
 from datetime import datetime, timedelta
 from flask.ext.login import UserMixin
@@ -196,11 +196,11 @@ class User(UserMixin, db.Model):
     tracks = db.relationship('Track', secondary=tracks, backref=db.backref('user', lazy='dynamic')) 
     """The :class:`Track` the user belong to."""
 
-    # favoriate circuit
-    favorite_circuits = db.relationship('Circuit', secondary=Favorite_circuit, backref=db.backref('user', lazy='dynamic'))
-    """User's favorite :class:`Circuit`."""
-    circuits = db.relationship('Circuit', backref='owner', lazy='dynamic')
-    """User's :class:`Circuit`."""
+    # favoriate design 
+    favorite_designs = db.relationship('Design', secondary=Favorite_design, backref=db.backref('user', lazy='dynamic'))
+    """User's favorite :class:`Design`."""
+    designs = db.relationship('Design', backref='owner', lazy='dynamic')
+    """User's :class:`Design`."""
 
 
 

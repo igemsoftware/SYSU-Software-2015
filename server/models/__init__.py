@@ -9,10 +9,10 @@ from .track import Track
 from .equation import Equation, EquationBase
 
 from .synbio import ComponentPrototype, ComponentInstance, Relationship
-from .synbio import Protocol, Device, Circuit, BioBase
+from .synbio import Protocol, Device, Design, BioBase
 
 
 model_list = [User, Track, Message, Task, Comment, Memo,
               ComponentPrototype, ComponentInstance, Relationship,
-              Protocol, Device, Circuit, Answer, EquationBase]
+              Protocol, Device, Design, Answer, EquationBase]
 manager_dict = dict(zip(map(lambda x: x.__name__, model_list), model_list))

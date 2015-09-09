@@ -3,16 +3,16 @@
 from . import modeling 
 from flask import render_template, jsonify
 from ..tools.simulation.release import getModel, simulate, __example_system
-from ..models import EquationBase, Circuit
+from ..models import EquationBase, Design 
 
 # /modeling/
 @modeling.route('/')
 def modeling_index():
     return render_template('modeling.html')
 
-@modeling.route('/circuit/<int:id>')
-def plot_circuit(id):
-    c = Circuit.query.get(id)
+@modeling.route('/design/<int:id>')
+def plot_design(id):
+    c = Design.query.get(id)
     c.update_from_db()
     
 

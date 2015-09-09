@@ -2,7 +2,7 @@
 
 from . import protocol 
 from .. import db
-from ..models import Protocol, Circuit
+from ..models import Protocol, Design 
 from flask import jsonify, json, request
 from flask.ext.login import login_required
 
@@ -11,24 +11,24 @@ def all_protocols():
     protocols = map(lambda x: x.jsonify(), Protocol.query.filter_by(recommend=True, setB=True).all())
     return jsonify(protocols=protocols)
 
-@protocol.route('/circuit/<int:id>', methods=['GET'])
+@protocol.route('/design/<int:id>', methods=['GET'])
 @login_required
-def get_circuit_s_protocols(id): 
+def get_design_s_protocols(id): 
     # skip: check whether current user has the privilege 
-    c = Circuit.query.get(id)
+    c = Design.query.get(id)
     if not c: abort(404)
 
     return jsonify(protocols = json.loads(c.protocols))
 
 
-@protocol.route('/circuit/<int:id>', methods=['POST'])
+@protocol.route('/design/<int:id>', methods=['POST'])
 @login_required
-def set_circuit_s_protocols(id): 
+def set_design_s_protocols(id): 
 #    require checking current user
 #    if request.headers['Content-Type'] == 'application/json':
     protocols = request.get_json(force=True)
 
-    c = Circuit.query.get(id)
+    c = Design.query.get(id)
     if not c: abort(404)
 
     for ind, p in enumerate(protocols):

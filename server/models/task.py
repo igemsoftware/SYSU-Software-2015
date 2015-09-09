@@ -47,7 +47,7 @@ class Task(db.Model):
                         'avatar': self.owner.avatar,
                         'question': self.owner.tasks.count(),
                         'answer': self.answers.count(),
-                        'shared': self.owner.circuits.filter_by(is_shared=True).count(),
+                        'shared': self.owner.designs.filter_by(is_shared=True).count(),
                         'tracks': len(self.owner.tracks)
                     } 
                }
