@@ -63,6 +63,7 @@ def data_fetch_device():
                   'relationship': device.relationship,
                   'interfaceA': device.interfaceA,
                   'interfaceB': device.interfaceB,
+                  'backbone': device.backbone,
                    'introduction': device.introduction,
                    'source': device.source,
                    'risk': device.risk,
@@ -84,6 +85,7 @@ def get_circuit(id):
             'interfaceA': c.interfaceA,
             'interfaceB': c.interfaceB,
             'introduction': c.introduction,
+            'backbone': c.backbone,
             'source': c.source,
             'risk': c.risk,
             'plasmids': json.loads(c.plasmids),
@@ -103,16 +105,17 @@ def store_circuit(id):
     data = request.get_json()
 
     c.update_from_db()
-    c.parts = data['parts']
-    c.title = data['title']
-    c.relationship = data['relationship']
-    c.interfaceA = data['interfaceA']
-    c.interfaceB = data['interfaceB']
-    c.introduction = data['introduction']
-    c.source = data['source']
-    c.risk = data['risk']
-    c.plasmids = json.dumps(data['plasmids'])
-    c.img= data['img']
+    for attr in ['parts', 'title', 'relationship',
+            'interfaceA', 'interfaceB', 'introduction',
+            'backbone', 'source', 'risk', 'plasmids',
+            'img']:
+        if not data.has_key(attr): continue
+
+        if attr in ['plasmids']:
+            c.__setattr__(attr, json.dumps(data[attr]))
+        else:
+            c.__setattr__(attr, data[attr])
+
     c.commit_to_db()
 
     return 'Success'
