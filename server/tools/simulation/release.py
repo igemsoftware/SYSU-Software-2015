@@ -38,8 +38,8 @@ def getModel(system):
     # check valid
     rendered = []
     for equ in system:
-        e = Equation(dict(equ[2]), equ[3])
-        var = [equ[0]]+equ[1]+['t']
+        e = Equation(dict(equ[2]), equ[3].replace(':', '_'))
+        var = [ele.replace(':', '_') for ele in [equ[0]]+equ[1]+['t'] ]
         eval_dict = dict(zip(var, [0.]*len(var)))
         eval_dict['__builtins__'] = None
 
@@ -52,10 +52,10 @@ def getModel(system):
         except Exception, exp:
             print 'Test error:', e.render()
             print '\t', exp
-            return None
+            return None, None
     
     def ODEModel(t, y):
-        calc_dict = dict(zip([ele[0] for ele in system], y))
+        calc_dict = dict(zip([ele[0].replace(':', '_') for ele in system], y))
         calc_dict['__builtins__'] = None
         calc_dict['t'] = t
         

@@ -1,0 +1,11 @@
+Demo1-Biosensor-sun light 2012ETH_Zurich
+This senor can detect the present of sunlight.In the dark state, UVR8 forms a dimer, which monomerizes upon UV-B irradiation and induces transcriptional changes necessary for plant UV response. Here, UVR8 is fused with a DNA binding domain of tetracycline repressor protein (TetRDBD). TetRDBD does not contain dimerization domain required for efficient binding and repression of TetR responsive promoter Ptet. However, external dimerization would in principle restore TetRDBD ability to repress Ptet. Thus, our chimeric protein UVR8-TetRDBD acts as an light inducible transcription repressor ¨C at dark state. UVR8 dimer brings TetRDBD at close proximity to bind Ptet, whereas UVR8 monomerization upon UV-B light releases UVR8-TetRDBD from DNA, thus inducing transcription of the downstream genes. UVR8 (UV Resistance Locus 8) acts as a UVB photoreceptor in plants. It regulates the transcription factor COP and indirectly affects the expression of a myriad of genes. Sun light,UVb,sensor
+http://2012.igem.org/Team:ETH_Zurich
+http://2012.igem.org/Team:ETH_Zurich/MaterialMethods
+1
+Promoter_1
+UVR8-TetR_1
+Promoter_1	RBS_1	normal
+RBS_1	UVR8-tetR_1	normal
+UVR8-tetR_1	Terminator_1	normal
+UVR8-tetR_1	UVR8-TetR_1	promotion
