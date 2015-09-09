@@ -34,5 +34,5 @@ from . import main_view,\
             design_view,\
             taskhall_view,\
             calendar_view,\
-            protocol_view,
+            protocol_view,\
             modeling_view

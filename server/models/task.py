@@ -17,7 +17,9 @@ class Task(db.Model):
 
     timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
     """When this task was created."""
-    sender_id = db.Column(db.Integer, nullable=False)
+    active_time = db.Column(db.DateTime, default=datetime.now)
+    """Last update."""
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     """Who this task was created by."""
     
     abstract = db.Column(db.Text)
@@ -27,13 +29,29 @@ class Task(db.Model):
     content = db.Column(db.Text)
     """Its content."""
 
-    comments = db.relationship('Comment', backref='task', lazy='dynamic')
+    answers = db.relationship('Answer', backref='task', lazy='dynamic')
     """Its :class:`Comment`."""
 
     views = db.Column(db.Integer, default=0)
     """How many views it got."""
     votes = db.Column(db.Integer, default=0)
     """How many votes it got."""
+
+    def jsonify(self):
+        return {'title':self.title,
+                'content':self.content,
+                'timestamp': (self.timestamp - datetime.utcfromtimestamp(0)).total_seconds(),
+                        #.strftime('%H:%M %d %b, %Y'),
+                'author': { 
+                        'name': self.owner.username,
+                        'avatar': self.owner.avatar,
+                        'question': self.owner.tasks.count(),
+                        'answer': self.answers.count(),
+                        'shared': self.owner.circuits.filter_by(is_shared=True).count(),
+                        'tracks': len(self.owner.tracks)
+                    } 
+               }
+
 
 # try to add creator to watcher but fail for the recursive import
     def __init__(self, **kwargs):
