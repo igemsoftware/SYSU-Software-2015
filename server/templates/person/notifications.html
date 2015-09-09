@@ -52,7 +52,13 @@
     <div id="notifications-list">
       <div class="notification items">
         <div v-repeat="i in displayingList" class="notification item">
-          [[i.content]]
+          <div class="text">
+            [[i.content]]
+          </div>
+          <div class="toolbar">
+            <a v-on="click: markAsRead(i.id)"><i class="checkmark icon"></i></a>
+            <a v-on="click: deleteNotif(i.id)"><i class="delete icon"></i></a>
+          </div>
         </div>
       </div>
     </div>
