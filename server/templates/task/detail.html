@@ -14,10 +14,7 @@
 <v-topbar>
   <div class="right menu">
     <div class="item">
-      <div class="ui button">All Questions</div>
-    </div>
-    <div class="item">
-      <div class="ui button">Unanswered</div>
+      <a href="/taskhall" class="ui button">Back to Hall</a>
     </div>
   </div>
 </v-topbar>
@@ -32,7 +29,7 @@
       <div class="content">
         <div class="author">
           <div class="avatar">
-            <img class="ui image" src="{{task.owner.avatar}}"></img>
+            <img class="ui image" src="{{task.owner.avatar or '/static/img/avatar.jpg'}}"></img>
           </div>
           <div class="name">{{task.owner.username}}</div>
           <div class="tracks">
@@ -42,9 +39,11 @@
           </div>
         </div>
         <div class="main">
-          {{task.content}}
+          <div class="text">
+            {{task.content}}
+          </div>
           <div class="toolbar">
-            <a href=""><i class="blue thumbs up outline icon"></i> {{task.votes}}</a>
+            <a id="taskhall-detail-votes" style="cursor: pointer;" v-on="click: updateLike({{task.id}})" data-votes="{{task.votes}}"><i class="blue thumbs up outline icon"></i> [[votes]]</a>
           </div>
         </div>
       </div>
@@ -53,43 +52,35 @@
   <div id="taskhall-detail-answers" class="ui segment">
     <h1 class="ui header">{{task.answers.count()}} answers</h1>
     {% for answer in task.answers %}
-    <div class="answer">
-      <div class="author">
-        <div class="avatar">
-          <img class="ui image" src="/static/img/avatar.jpg"></img>
-        </div>
-        <div class="name">{{answer.owner.username}}</div>
-        <div class="date"><div>answered</div><div>{{answer.timestamp.strftime('%H:%M')}}</div><div>{{answer.timestamp.strftime('%d %b, %Y')}}</div></div>
+    <v-answer answer-id="{{answer.id}}">
+      <img class="ui image" src="/static/img/avatar.jpg"></img>
+        <span class="author name">{{answer.owner.username}}</span>
+        <span class="answer time">{{answer.timestamp.strftime('%H:%M')}}</span>
+        <span class="answer date">{{answer.timestamp.strftime('%d %b, %Y')}}</span>
+        <span class="comment count">{{answer.comments.count()}}</span>
+      <div class="text">
+        {{answer.content | safe}}
       </div>
-      <div class="content">
-        <div class="text">
-          {{answer.content | safe}}
-        </div>
-        <a href="" class="comment link">{{answer.comments.count()}} comments</a>
-        <div class="ui minimal comments">
-          {% for comment in answer.comments %}
-          <v-comment>
-            <span class="author">{{comment.owner.username}}</span>
-            <span class="date">{{comment.timestamp.strftime('%d %b, %Y')}}</span>
-            <div class="text">{{comment.content | safe}}</div>
-          </v-comment>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
+      {% for comment in answer.comments %}
+      <v-comment answer-id="{{answer.id}}" comment-author="{{comment.owner.username}}">
+      <span class="author">{{comment.owner.username}}</span>
+      <span class="date">{{comment.timestamp.strftime('%d %b, %Y')}}</span>
+      <div class="text">{{comment.content | safe}}</div>
+      </v-comment>
     {% endfor %}
+  </v-answer>
+{% endfor %}
 
-  <form id="taskhall-detail-answer-form" class="ui form">
-    <div class="header">Add Your Answer</div>
-    <div class="field">
-      <label>Title:</label>
-      <input name="title" type="text">
-    </div>
+  <div class="ui divider"></div>
+  <form id="taskhall-detail-answer-form" class="ui form" action="/taskhall/action/answer" method="POST">
+    <div class="ui header">Add Your Answer</div>
+    <input type="hidden" name="task_id" value="{{task.id}}">
     <div class="field">
       <label>Content:</label>
       <textarea name="content" id="taskhall-detail-answer-content"></textarea>
       <script>CKEDITOR.replace('taskhall-detail-answer-content');</script>
     </div>
+    <input type="submit" class="ui blue button" value="Submit">
   </form>
 
   </div>
@@ -123,30 +114,57 @@
 </div>
 
 <template id="comment-template">
-  <div>
-    <div class="comment">
-      <div class="content">
-        <content select="span.author"></content>
-        <div class="metadata">
-          <content select="span.date"></content>
-        </div>
-        <content select="div.text"></content>
-        <div class="actions">
-          <a class="reply" v-on="click: showReply = !showReply">[[showReply ? 'Hide' : 'Reply']]</a>
-        </div>
+  <div class="comment">
+    <div class="content">
+      <content select="span.author"></content>
+      <div class="metadata">
+        <content select="span.date"></content>
+      </div>
+      <content select="div.text"></content>
+      <div class="actions">
+        <a class="reply" v-on="click: showReply = !showReply">[[showReply ? 'Hide' : 'Reply']]</a>
       </div>
     </div>
-    <form action="" class="ui reply form" v-show="showReply">
-      <div class="field">
-        <input type="text">
-      </div>
-      <div class="ui small blue labeled icon button">
+  <form action="/taskhall/action/comment" method="POST" class="ui reply form" v-show="showReply">
+    <input type="hidden" name="answer_id" v-attr="value: answerId">
+    <div class="ui action input field">
+      <input type="text" name="content" v-attr="value: '@' + commentAuthor + ' '">
+      <button type="submit" class="ui small blue labeled icon button">
         <i class="edit icon"></i>Reply
-      </div>
-    </form>
+      </button>
+    </div>
+  </form>
   </div>
 </template>
 
+<template id="answer-template">
+    <div class="answer">
+      <div class="author">
+        <div class="avatar">
+          <content select="img"></content>
+        </div>
+        <div class="name"><content select="span.author.name"></content></div>
+        <div class="date"><div>answered</div><div><content select="span.answer.time"></content></div><div><content select="span.answer.date"></content></div></div>
+      </div>
+      <div class="content">
+      <content select="div.text"></content>
+        <a style="cursor: pointer;" class="comment link" v-on="click: showComments = !showComments"><content select="span.comment.count"></content> comments</a>
+        <div class="ui minimal comments" v-show="showComments">
+          <content select="v-comment"></content>
+          <div class="ui divider"></div>
+          <form action="/taskhall/action/comment" class="ui form" method="POST">
+            <input type="hidden" name="answer_id" v-attr="value: answerId">
+            <div class="field">
+              <input type="text" name="content">
+            </div>
+            <button type="submit" class="ui small blue labeled icon submit button">
+              <i class="edit icon"></i>Add New Comment
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+</template>
 
 <script src="/static/js/jquery.autoellipsis-1.0.10.min.js"></script>
 <script src="/static/js/taskhall/taskhall_detail.js"></script>

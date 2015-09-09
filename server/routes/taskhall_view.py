@@ -53,7 +53,7 @@ def vote_a_task():
     task_id = data['task_id']
     t = Task.query.get(task_id)
     if not t: abort(404)
-    t.vote += 1
+    t.votes += 1
     db.session.add(t)
 
     return 'success' 
