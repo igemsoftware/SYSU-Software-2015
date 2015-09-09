@@ -661,7 +661,7 @@ DesignMenu.prototype.enableLoadCircuitchartBtn = function(curcuitChart) {
     var that = this;
     this.openFileBtn.click(function() {
         var curcuitChart;
-        $.get("/design/circuit/1", function(data) {
+        $.get("/design/1", function(data) {
             console.log(data["content"]);
             var curcuitChart = data["content"];
             var parts = curcuitChart.parts;
