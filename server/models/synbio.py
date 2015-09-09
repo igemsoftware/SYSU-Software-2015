@@ -191,7 +191,10 @@ class ComponentPrototype(db.Model):
     @property
     def attr(self):
         """Combine :attr:`BBa` with :attr:`name`, if :attr:`BBa` exists."""
-        return self.name+':'+self.BBa if self.BBa else self.name
+        if self.name in ['Promoter', 'RBS', 'Terminator'] and self.BBa:
+            return self.name+':'+self.BBa
+        else:
+            return self.name
 
     def __repr__(self):
         return '<ComponentPrototype: %s>' % self.name
