@@ -22,4 +22,4 @@ tetR_1	TetR_1	promotion
 tetR_1	RBS_4	normal
 RBS_4	gfp_1	normal
 gfp_1	GFP_1	promotion
-gfp_1	Terminator_1	normal
+gfp_1	Terminator_2	normal
