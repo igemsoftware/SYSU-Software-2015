@@ -2,8 +2,6 @@ var vueBody = new coreBody({
     el: 'body',
     data : {
         user                : "leasunhy",
-        notificationCount   : 2,
-        questionCount       : 2723,
         selectedTab         : 'All Questions',
         currentOrder        : 'vote',
         orders              : ['vote', 'view', 'time'],
@@ -13,18 +11,14 @@ var vueBody = new coreBody({
         ckeInit             : false,
     },
     ready: function() {
-        var store = this;
-        $('#taskhall-index-sticky').sticky({
-            offset: 60,
-        });
+        $('#taskhall-index-sticky').sticky({ offset: 60 });
         $('#taskhall-index-order-dropdown').dropdown();
-        //this.$eval('fakeTasks(this)');
         this.$eval('updateTasks(this)');
-        this.$watch('selectedTab', function() {
-            this.page = 1;
+        this.$watch('page', function() {
             this.$eval('updateTasks(this)');
         });
-        this.$watch('page', function() {
+        this.$watch('selectedTab', function() {
+            this.page = 1;
             this.$eval('updateTasks(this)');
         });
         this.$watch('currentOrder', function() {
@@ -67,10 +61,6 @@ var vueBody = new coreBody({
             });
             $('.taskhall-index.question.item > .question.main > .detail').ellipsis();
             $("html, body").animate({ scrollTop: 0 }, "slow");
-        },
-        fakeTasks : function(store) {
-            store.tasks = [];
-            $('.taskhall-index.question.item > .question.main > .detail').ellipsis();
         },
     },
 });

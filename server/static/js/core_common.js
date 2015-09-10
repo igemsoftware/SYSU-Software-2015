@@ -3,7 +3,6 @@ Vue.config.delimiters = ['[[', ']]'];
 Vue.component('v-topbar', {
     template: "#topbar-template",
     data: function() { return {
-        notifications   : 0,
     }},
     ready: function() {
         $('#topbar-avatar').popup({

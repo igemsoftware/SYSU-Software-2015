@@ -14,7 +14,7 @@ from sqlalchemy import or_, not_
 @taskhall.route('/')
 @taskhall.route('/index')
 def taskhall_index():
-    return render_template('task/taskhall.html')
+    return render_template('task/taskhall.html', Task=Task)
 
 @taskhall.route('/list')
 def get_task_list():

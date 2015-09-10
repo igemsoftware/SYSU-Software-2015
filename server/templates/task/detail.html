@@ -14,7 +14,7 @@
 <v-topbar>
   <div class="right menu">
     <div class="item">
-      <a href="/taskhall" class="ui button">Back to Hall</a>
+      <a href="{{url_for(taskhall.index)}}" class="ui button">Back to Hall</a>
     </div>
   </div>
 </v-topbar>
@@ -87,7 +87,7 @@
     <input type="submit" class="ui blue button" value="Submit">
   </form>
   {% else %}
-  <p>You must <a href="/auth/login">login</a> to add an answer.</p>
+  <p>You must <a href="{{url_for(auth.login)}}">login</a> to add an answer.</p>
   {% endif %}
 
   </div>
@@ -132,7 +132,7 @@
         {% if current_user.is_authenticated() %}
         <a class="reply" v-on="click: showReply = !showReply">[[showReply ? 'Hide' : 'Reply']]</a>
         {% else %}
-        <a class="reply" href="/auth/login">Reply</a>
+        <a class="reply" href="{{url_for(auth.login)}}">Reply</a>
         {% endif %}
       </div>
     </div>
@@ -174,7 +174,7 @@
             </button>
           </form>
           {% else %}
-          <p>You must <a href="/auth/login">login</a> to add a comment.</p>
+          <p>You must <a href="{{url_for(auth.login)}}">login</a> to add a comment.</p>
           {% endif %}
         </div>
       </div>

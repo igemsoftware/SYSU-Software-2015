@@ -67,7 +67,7 @@
         </div>
 
 
-        <div class="taskhall-index question item" v-repeat="task in tasks">
+        <div class="taskhall-index question item" v-repeat="task in tasks" track-by="id">
           <div class="question statistics">
             <div class="ui statistic">
               <div class="value">[[task.views]]</div>
@@ -130,7 +130,7 @@
         <div class="ui sticky" id="taskhall-index-sticky">
           <div class="dummy statistic container">
             <div class="ui small statistic">
-              <div class="value">[[questionCount]]</div>
+              <div class="value">{{Task.query.count()}}</div>
               <div class="label">questions in total</div>
             </div>
           </div>
@@ -138,7 +138,7 @@
           {% if current_user.is_authenticated() %}
             <div class="ui selected button" v-on="click: showAskModal()">Ask a question</div>
           {% else %}
-            <a class="ui selected button" href="/auth/login">Ask a question</a>
+            <a class="ui selected button" href="{{url_for(auth.login)}}">Ask a question</a>
           {% endif %}
           </div>
         </div>
