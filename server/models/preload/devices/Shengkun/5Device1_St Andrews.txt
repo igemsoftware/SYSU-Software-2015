@@ -1,5 +1,7 @@
 kill switch 2011StAndrews
 An intracellular Escherichia coli ¡°kill switch¡± that functions differently from any found in nature. This kill switch is regulated by pBAD promoter which is induced by the binding of L_arabinose to the AraC promoter region.
+An intracellular Escherichia coli ¡°kill switch¡± that functions differently from any found in nature. This kill switch is regulated by pBAD promoter which is induced by the binding of L_arabinose to the AraC promoter region.
+None
 http://2011.igem.org/Team:St_Andrews
 no.
 1

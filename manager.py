@@ -113,10 +113,10 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
             Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
 
             # designs 
-            c = Design(name='My first design', short_description='First design', owner=u, is_shared=True)._copy_from_device(1)
-            c = Design(name='My second design', short_description='Second design', owner=u, is_public=True)._copy_from_device(1)
-            c = Design(name='My third design', short_description='3rd design', owner=u)._copy_from_device(2)
-            c = Design(name='My third design', short_description='3rd design', owner=u)._copy_from_device(2)
+            c = Design(name='My first design', brief_description='First design', owner=u, is_shared=True)._copy_from_device(1)
+            c = Design(name='My second design', brief_description='Second design', owner=u, is_public=True)._copy_from_device(1)
+            c = Design(name='My third design', brief_description='3rd design', owner=u)._copy_from_device(2)
+            c = Design(name='My third design', brief_description='3rd design', owner=u)._copy_from_device(2)
             d = DesignComment(content='good design')
             d.owner = u
             d.design = c
@@ -125,7 +125,7 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
             from numpy import random
             for i in range(50):
                 c = Design(name=random_text(2).capitalize()+'design', 
-                        short_description = random_text(4),
+                        brief_description = random_text(4),
                         full_description = random_text(100),
                         references = random_text(4),
 
@@ -144,7 +144,7 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
                         owner=u)._copy_from_device(1)
 
             admin = User.query.first()
-            c = Design(name='My first design', short_description='First design', owner=admin)._copy_from_device(1)
+            c = Design(name='My first design', brief_description='First design', owner=admin)._copy_from_device(1)
             u.favorite_designs.append(c)
 
         # memo

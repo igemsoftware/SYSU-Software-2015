@@ -21,7 +21,7 @@ def data_fetch_parts():
     for c in ComponentPrototype.query.order_by(ComponentPrototype.name.asc()).all():
         if c.id == 1: continue
         l.append({'name': c.name,
-                  'introduction': c.introduction,
+                  'full_description': c.full_description,
                   'source': c.source,
                   'risk': c.risk,
                   'type': c.type,
@@ -64,7 +64,7 @@ def data_fetch_device():
                   'interfaceA': device.interfaceA,
                   'interfaceB': device.interfaceB,
                   'backbone': device.backbone,
-                   'introduction': device.introduction,
+                   'full_description': device.full_description,
                    'source': device.source,
                    'risk': device.risk,
                   })
@@ -84,7 +84,7 @@ def get_design(id):
             'relationship': c.relationship,
             'interfaceA': c.interfaceA,
             'interfaceB': c.interfaceB,
-            'introduction': c.introduction,
+            'full_description': c.full_description,
             'backbone': c.backbone,
             'source': c.source,
             'risk': c.risk,
@@ -106,7 +106,7 @@ def store_design(id):
 
     c.update_from_db()
     for attr in ['parts', 'name', 'relationship',
-            'interfaceA', 'interfaceB', 'introduction',
+            'interfaceA', 'interfaceB', 'full_description',
             'backbone', 'source', 'risk', 'plasmids',
             'img']:
         if not data.has_key(attr): continue
@@ -131,7 +131,7 @@ def get_all_designs():
         l.append( {
                 'id': c.id,
                 'name': c.name,
-                'introduction': c.introduction,
+                'full_description': c.full_description,
                 'img': c.img,
         })
     return jsonify(designs=l)

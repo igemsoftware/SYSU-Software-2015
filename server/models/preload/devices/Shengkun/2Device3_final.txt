@@ -1,5 +1,7 @@
 final 2011USTC
 ColicinE7+Toggle_switch+Aptamer_CheZ+lysis
+ColicinE7+Toggle_switch+Aptamer_CheZ+lysis
+None
 http://2011.igem.org/Team:USTC_China
 http://2011.igem.org/Team:USTC_China/Wet_Lab/protocol
 1

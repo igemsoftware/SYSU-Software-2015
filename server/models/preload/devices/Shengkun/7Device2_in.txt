@@ -1,5 +1,7 @@
 Bioreactor 2008Ottawa
 CRE1 phosphorylates YPD1, which is normally affected by SLN1. SLN1 is constitutively phosphorylated and its kinase activity maintains YPD1 phosphorylated. YPD1 in turn regulates two parallel pathways: SSK1 and SKN7. SSK1 phosphorylation is key to suppressing the yeast¡¯s HOG1 pathway whose activity is lethal. YPD1 also shuttles into the nucleus and activates the SKN7. In order to make SKN7 inducible to IP stimulation, SLN1 had to be deleted; however, SLN1 deletion is lethal due to activation of the HOG1 pathway. In order to keep the HOG1 pathway silenced in the absence of SLN1, the cells were transformed with a plasmid to overexpress PTP2, an endogenous HOG1 phosphatase, thus rescuing the lethal mutant phenotype.
+CRE1 phosphorylates YPD1, which is normally affected by SLN1. SLN1 is constitutively phosphorylated and its kinase activity maintains YPD1 phosphorylated. YPD1 in turn regulates two parallel pathways: SSK1 and SKN7. SSK1 phosphorylation is key to suppressing the yeast¡¯s HOG1 pathway whose activity is lethal. YPD1 also shuttles into the nucleus and activates the SKN7. In order to make SKN7 inducible to IP stimulation, SLN1 had to be deleted; however, SLN1 deletion is lethal due to activation of the HOG1 pathway. In order to keep the HOG1 pathway silenced in the absence of SLN1, the cells were transformed with a plasmid to overexpress PTP2, an endogenous HOG1 phosphatase, thus rescuing the lethal mutant phenotype.
+None
 http://2008.igem.org/Team:University_of_Ottawa
 http://2008.igem.org/Team:University_of_Ottawa
 -1

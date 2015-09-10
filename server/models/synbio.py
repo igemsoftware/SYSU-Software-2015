@@ -337,8 +337,13 @@ class Device(db.Model, BioBase):
     name = db.Column(db.String(32))
     """Its name."""
 
-    introduction = db.Column(db.Text, default="No introduction yet.")
-    """Its introduction."""
+    brief_description = db.Column(db.Text, default="")
+    """Brief description."""
+    full_description = db.Column(db.Text, default="")
+    """Full description."""
+    keyword = db.Column(db.Text, default="")
+    """Keyword"""
+
     source = db.Column(db.Text, default="Come from no where.")
     """Its source."""
     protocol_reference = db.Column(db.Text, default="No reference.")
@@ -402,10 +407,16 @@ class Device(db.Model, BioBase):
         print 'loading device from %s ...' % filename
         f = open(filename, 'r')
         self.name= f.readline().strip().decode('ISO-8859-1')
-        self.introduction = f.readline().strip().decode('ISO-8859-1')
+        self.brief_description = f.readline().strip().decode('ISO-8859-1')
+        self.full_description = f.readline().strip().decode('ISO-8859-1')
+        self.keyword = f.readline().strip().decode('ISO-8859-1')
+        #self.introduction = f.readline().strip().decode('ISO-8859-1')
         self.source = f.readline().strip().decode('ISO-8859-1')
         self.protocol_reference = f.readline().strip().decode('ISO-8859-1')
-        self.saferank = f.readline().strip()
+        try:
+            self.risk = int(f.readline().strip())
+        except:
+            self.risk = -1
         # self.type = f.readline().strip()
         self.interfaceA = f.readline().strip() 
         self.interfaceB = f.readline().strip() #.split(',') 
@@ -473,7 +484,7 @@ class Design(db.Model, BioBase):
     """Its name, which will be shown in calendar"""
     # as well as `name` here
 
-    short_description = db.Column(db.Text, default='')
+    brief_description = db.Column(db.Text, default='')
     """Brief description."""
     full_description = db.Column(db.Text, default='')
     """Full description."""
@@ -554,7 +565,7 @@ class Design(db.Model, BioBase):
         if not d: raise Exception('No device #%d' % device_id) 
         d.update_from_db()
 
-        self.full_description = self.full_description+' (COPYED: '+d.introduction+')'
+        self.full_description = self.full_description+' (COPYED: '+d.brief_description+')'
         self.parts = d.parts
         self.relationship = d.relationship
         self.interfaceA = d.interfaceA
@@ -574,7 +585,7 @@ class Design(db.Model, BioBase):
             'tags': tags,
             'progress': self.progress,
             'name': self.name,
-            'description': self.introduction,
+            'description': self.brief_description,
         }
 
 

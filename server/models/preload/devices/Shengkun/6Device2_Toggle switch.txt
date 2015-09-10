@@ -1,5 +1,7 @@
 Toggle switch 2008Bologna
 The molecular circuit can switch between two different stable states (LacI_ON and TetR_ON), driven by the external stimuli.
+The molecular circuit can switch between two different stable states (LacI_ON and TetR_ON), driven by the external stimuli.
+None
 http://2008.igem.org/Team:Bologna
 http://2008.igem.org/Team:Bologna/Notebook
 1

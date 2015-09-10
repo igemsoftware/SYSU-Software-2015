@@ -1,5 +1,7 @@
 Biosensor_UVc 2008Bologna
 UVc radiation, inactivating LexA repressor through the SOS response can cause LacI transcription.
+UVc radiation, inactivating LexA repressor through the SOS response can cause LacI transcription.
+None
 http://2008.igem.org/Team:Bologna
 http://2008.igem.org/Team:Bologna/Notebook
 1

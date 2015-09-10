@@ -1,5 +1,7 @@
 Kill switch. 2011XMU_China
 The LuxI protein synthesizes a small, diffusible acyl_homoserinelactone (AHL) signaling molecule. The AHL accumulates as the cell density increases. At sufficiently high concentrations, it binds the LuxR, which induces the expression of the killer gene ccdB under the control of a promoter lux pR.
+The LuxI protein synthesizes a small, diffusible acyl_homoserinelactone (AHL) signaling molecule. The AHL accumulates as the cell density increases. At sufficiently high concentrations, it binds the LuxR, which induces the expression of the killer gene ccdB under the control of a promoter lux pR.
+None
 http://2011.igem.org/Team:XMU_China
 http://2011.igem.org/Team:XMU_China/Project/Protocols
 1

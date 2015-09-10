@@ -1,5 +1,7 @@
 Biosensor_ Acetaldehyde 2011ETH_Zurich
 Acetaldehyde associates with constitutively expressed receptor AlcR.  AlcR_acetaldehyde complex can bind to its cognate operator, and inhibits the transcription of the genes under the control of the PAlcR promoter.
+Acetaldehyde associates with constitutively expressed receptor AlcR.  AlcR_acetaldehyde complex can bind to its cognate operator, and inhibits the transcription of the genes under the control of the PAlcR promoter.
+None
 http2011.igem.orgTeamETH_Zurich
 no.
 -1

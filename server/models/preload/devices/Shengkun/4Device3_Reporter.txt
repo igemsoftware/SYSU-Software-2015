@@ -1,5 +1,7 @@
 Reporter 2011ETH_Zurich
 If the input level is below a threshold at least for a large enough minority of the cells in the channel, RFP is repressed in all cells. Only if the input is above the threshold for all cells, no AHL is present in the channel and RFP is produced.
+If the input level is below a threshold at least for a large enough minority of the cells in the channel, RFP is repressed in all cells. Only if the input is above the threshold for all cells, no AHL is present in the channel and RFP is produced.
+None
 http2011.igem.orgTeamETH_Zurich
 no.
 1

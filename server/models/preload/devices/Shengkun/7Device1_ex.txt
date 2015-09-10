@@ -1,5 +1,7 @@
 Regulation 2008Ottawa
 Promoter regulating the S. cerevisiae Prp22 gene involved in mRNA splicing (mediates ATP_dependent mRNA release of lariate intermediates from the spliceosome and unwinds RNA duplexes [Saccharomyces Genome Database]).
+Promoter regulating the S. cerevisiae Prp22 gene involved in mRNA splicing (mediates ATP_dependent mRNA release of lariate intermediates from the spliceosome and unwinds RNA duplexes [Saccharomyces Genome Database]).
+NOne
 http://2008.igem.org/Team:University_of_Ottawa
 http://2008.igem.org/Team:University_of_Ottawa
 1

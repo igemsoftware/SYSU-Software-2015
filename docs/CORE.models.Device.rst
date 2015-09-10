@@ -8,7 +8,9 @@
 
     .. autoattribute:: id
     .. autoattribute:: name 
-    .. autoattribute:: introduction
+    .. autoattribute:: brief_description 
+    .. autoattribute:: full_description 
+    .. autoattribute:: keyword 
     .. autoattribute:: source
     .. autoattribute:: protocol_reference
     .. autoattribute:: risk
