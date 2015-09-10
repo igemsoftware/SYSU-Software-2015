@@ -10,6 +10,17 @@ from ..models import EquationBase, Design
 def modeling_index():
     return render_template('modeling.html')
 
+@modeling.route('/design/all')
+def design_all():
+    l = []
+    for d in Design.query.all():
+        l.append({'title': d.name,
+                  'id': d.id,
+                  'img': d.img})
+    return jsonify(designs=l)
+
+ 
+
 @modeling.route('/design/<int:id>')
 def plot_design(id):
     d = Design.query.get(id)
@@ -36,11 +47,11 @@ def plot_design(id):
 
     ODEModel, names = getModel(system)
     if ODEModel == None:
-        return jsonify(x_axis=[], variables=[], title=d.title)
+        return jsonify(x_axis=[], variables=[], title=d.name)
     t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
 
 # fake data 
 #   d = Design.query.get(id)
 #   ODEModel, names = getModel(__example_system)
 #   t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
-    return jsonify(x_axis=t, variables=result, title=d.title)
+    return jsonify(x_axis=t, variables=result, title=d.name)
