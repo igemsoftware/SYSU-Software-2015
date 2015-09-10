@@ -13,7 +13,6 @@ Contents:
 
    Models
    Routes
-   cheatsheet
 
 
 

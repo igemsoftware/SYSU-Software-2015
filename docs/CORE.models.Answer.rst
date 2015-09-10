@@ -1,15 +1,16 @@
 =========================================
-``CORE.models.Comment`` -- Comment models
+``CORE.models.Answer`` -- Answer models
 =========================================
 
 .. automodule:: server.models
 
-.. autoclass:: Comment 
+.. autoclass:: Answer
     
     .. autoattribute:: id 
     .. autoattribute:: content
     .. autoattribute:: timestamp
-    .. autoattribute:: answer_id 
+    .. autoattribute:: task_id 
     .. autoattribute:: sender_id 
+    .. autoattribute:: comments 
 
 

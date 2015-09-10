@@ -10,11 +10,22 @@ from ..models import EquationBase, Design
 def modeling_index():
     return render_template('modeling.html')
 
+@modeling.route('/design/all')
+def design_all():
+    l = []
+    for d in Design.query.all():
+        l.append({'title': d.name,
+                  'id': d.id,
+                  'img': d.img})
+    return jsonify(designs=l)
+
+ 
+
 @modeling.route('/design/<int:id>')
 def plot_design(id):
     d = Design.query.get(id)
     d.update_from_db()
-    design_set = [ele['partAttr'] for ele in d.parts]
+    design_set = set([ele['partAttr'] for ele in d.parts])
 
     system = []
     system_set = set({})
@@ -24,13 +35,23 @@ def plot_design(id):
         if e.target in system_set: continue
         # Filter
         if e.target not in design_set: continue
-        if design_set <= e.all_related:
+        # debug codes
+#       print design_set
+#       print e.all_related
+#       print design_set >= e.all_related
+        if design_set >= e.all_related:
             system.append(e.packed())
             system_set.update([e.target])
-    # print system_set
+#   from pprint import pprint
+#   pprint(system)
 
     ODEModel, names = getModel(system)
     if ODEModel == None:
-        return jsonify(x_axis=[], variables=[], title=d.title)
+        return jsonify(x_axis=[], variables=[], title=d.name)
     t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
-    return jsonify(x_axis=t, variables=result, title=d.title)
+
+# fake data 
+#   d = Design.query.get(id)
+#   ODEModel, names = getModel(__example_system)
+#   t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
+    return jsonify(x_axis=t, variables=result, title=d.name)

@@ -1,0 +1,113 @@
+iaaM	gene	BBa_K812021	1	Pseudomonas savastanoi
+iaaH	gene	BBa_K812020	1	Pseudomonas savastanoi
+Promoter	promoter			
+Kozak	RBS	RBS B0034		
+mRNA-IAAM	RNA			
+mRNA-IAAH	RNA			
+Trp	chemical			
+IAAM	protein			
+IAAH	protein			
+IAM	chemical			
+IAA	chemical			
+tir1	gene	BBa_K812012		
+mRNA-TIR1	RNA			
+gfp-aid-nls	gene	BBa_K812010		
+mRNA-GFP-AID-NLS	RNA			
+TIR1	protein			
+GFP-AID	protein			
+IAM-TIR1	protein			
+degGFP-AID	protein			
+Terminator	terminator			
+2UVRB-TetRDBD	protein	BBa_K909008		
+UVR8-TetRDBD(dimer)	protein	BBa_K909009		Arabidopsis thaliana
+Ptet	promoter	BBa_R0040		
+pabA pabB	gene	BBa_K909014		
+pabC	gene			
+Chorismic acid	chemical			
+PabAB	protein			
+ADC	chemical			
+PabC	protein			
+PABA	chemical			
+Cph8	gene	Bba_K909002		
+Cph8 (active)	protein		1	Synechocystis
+Cph8* (inactive)	protein			
+OompC	gene			
+Promoter	promoter			
+tetR	gene	BBa_C0040		
+TetR	protein			
+LOV (inactive)	protein			
+LOV* (active)	protein			
+trpO	gene			
+lacI	gene	BBa_C0012		
+LacI	protein			
+tetO	gene			
+lacO	gene			
+pabABC	gene			
+cI	gene	BBa_K909004		
+CI	protein			
+OR	gene			
+Violet Pigment	gene	BBa_K771205		
+Red Pigment	gene	BBa_K1024003		
+Green Pigment	gene	BBa_K274003		
+Light	material			
+Light Receiver	unknown	BBa_S05053		
+Light Promoter	promoter	BBa_S05054		
+cI	gene	BBa_C0051	1	Escherichia coli
+CI	protein			
+PcI	promoter	BBa_R0051		
+lacI	gene	BBa_C0012	1	Escherichia coli
+LacI	protein			
+Plac	promoter	BBa_R0010		
+AHL generator	gene			
+AHL enzyme	protein			
+AHL	chemical			
+AHL receiver	unknown			
+as-FtsZ mRNA	RNA		1	T7 Phage
+FtsZ	protein			
+Cell division	unknown			
+cheZ	gene	BBa_K283008		
+CheZ	protein			
+Cell motility	unknown			
+sRNA1	RNA			
+sRNA2	RNA			
+GFP mRNA	RNA			
+ATC	chemical			
+IPTG	chemical			
+GFP	protein			
+Ptet	promoter	BBa_R0040		
+tetO	gene			
+lux	gene	BBa_K785003	1	Vibrio fischeri
+Light	material			
+PycgZ	promoter	BBa_K238013		
+RBS	RBS	BBa_B0032		
+tetR	gene	BBa_C0040		
+TetR	protein			
+Terminator	terminator	BBa_K785002	1	T7 Phage
+Endogenous Light Sensing System	unknown			
+Ptet	promoter	BBa_R0040		
+OmpR234	gene	BBa_K932001		
+IPTG	chemical			
+OmpA-Sila	gene	BBa_K932002	1	sea sponge?& Escherichia coli
+tetR	gene	BBa_C0040		
+TetR	protein			
+Curli	protein			
+Terminator	terminator			
+Plac	promoter	BBa_R0010		
+RBS	RBS			
+OMPA-SILA	protein			
+TAL B	gene	BBa_K782010		
+TAL A	gene	BBa_K782008		
+pCMV	promoter	BBa_K782003		
+[A]	gene			
+KRAB	gene			
+Reporter1	gene			
+[B]	gene			
+Reporter2	gene			
+pir	gene			
+etr	gene			
+PIP:KRAB	gene			
+PPIP:KRAB	protein			
+E:KRAB	gene			
+PE:KRAB	protein			
+PTAL A	protein			
+PTAL B	protein			

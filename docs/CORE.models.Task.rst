@@ -10,9 +10,10 @@
     .. autoattribute:: timestamp
     .. autoattribute:: sender_id 
     .. autoattribute:: abstract 
+    .. autoattribute:: active_time 
     .. autoattribute:: title 
     .. autoattribute:: content
-    .. autoattribute:: comments
+    .. autoattribute:: answers 
     .. autoattribute:: views
     .. autoattribute:: votes
 

@@ -1,10 +1,10 @@
 Promoter	promoter			
 RBS	RBS			
-UVR8-tetR	gene	BBa_K909009	1	Escherichia coli
-UVR8-TetR	protein			
+UVR8_tetR	gene	BBa_K909009	1	Escherichia coli
+UVR8_TetR	protein			
 Terminator	terminator			
 UVB	material			
-UVR8-TetR	protein			
+UVR8_TetR	protein			
 TetR	protein			
 Ptet	promoter	BBa_R0040		
 RBS	RBS			
