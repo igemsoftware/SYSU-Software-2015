@@ -389,7 +389,6 @@ Design.prototype._initJsPlumbOption = function() {
     })
 
     jsPlumb.on(that.drawArea, "click", ".minus", function() {
-        console.log('1111');
         operationLog.removePart($(this.parentNode.parentNode).attr("part-name"));
         console.log($(this.parentNode.parentNode).attr("part-id"));
         that.removeCNodeElem($(this.parentNode.parentNode).attr("part-id"));
@@ -417,6 +416,24 @@ Design.prototype.removeCNodeElem = function(partID) {
 Design.prototype.addDraggable = function(elem) {
     jsPlumb.draggable(elem, {
         containment: 'parent',
+        drag:function(e){
+            if (designMenu._isHideNormalLine == true) {
+                $("svg").each(function() {
+                    if ($(this).find('path').attr('stroke') == 'green') {
+                        $(this).css('display', 'none');
+                    }
+                });
+            }        
+        },
+        stop: function(e){
+            if (designMenu._isHideNormalLine == true) {
+                $("svg").each(function() {
+                    if ($(this).find('path').attr('stroke') == 'green') {
+                        $(this).css('display', 'none');
+                    }
+                });
+            }        
+        },
     })
 };
 
@@ -467,19 +484,22 @@ function DesignMenu() {
     this.connPartBtn = $("#connect-part");
     this.minusBtn = $("#minus");
     this.backboneBtn = $("#backbone");
+    this.hideBtn = $("#hideNormal");
 
     this._isMinusBtnOpen = false;
     this._isConnectPartBtnOpen = true;
+    this._isHideNormalLine = false;
 };
 
 DesignMenu.prototype.init = function() {
     this.enableSaveCircuitchartBtn();
     this.enableDownloadBtn();
-    this.enableLoadCircuitchartBtn();
+    this.enableLoadDesignBtn();
     this.enableClearCircuitchartBtn();
     this.enableConnectPartBtn();
     this.enableRemovePartBtn();
     this.enableBackboneBtn();
+    this.enableHideNormal();
     this.popUpAllButton();
 
     $("#risk").popup();
@@ -512,6 +532,30 @@ DesignMenu.prototype.popUpAllButton = function() {
     this.connPartBtn.popup();
     this.minusBtn.popup();
     this.backboneBtn.popup();
+    this.hideBtn.popup();
+}
+
+DesignMenu.prototype.enableHideNormal = function() {
+    var that = this;
+    this.hideBtn.click(function() {
+        if (that._isHideNormalLine == false) {
+            $(this).addClass("ired");
+            that._isHideNormalLine = true;
+            $("svg").each(function() {
+                if ($(this).find('path').attr('stroke') == 'green') {
+                    $(this).css('display', 'none');
+                }
+            });
+        } else {
+            $(this).removeClass("ired");
+            that._isHideNormalLine = false;
+            $("svg").each(function() {
+                if ($(this).find('path').attr('stroke') == 'green') {
+                    $(this).css('display', 'block');
+                }
+            });
+        }
+    });
 }
 
 DesignMenu.prototype.enableRemovePartBtn = function() {
@@ -614,7 +658,7 @@ DesignMenu.prototype.getDesignChartData = function() {
     var data = this.getDesignConns();
     var curcuitChart = {};
     curcuitChart.parts = parts;
-    curcuitChart.title = "deviceName";
+    curcuitChart.name = "deviceName";
     curcuitChart.relationship = data.connections;
     curcuitChart.interfaceA = "interfaceB-partName";
     curcuitChart.interfaceB = "interfaceA-partName";
@@ -663,9 +707,22 @@ DesignMenu.prototype.getDesignParts = function() {
     return parts;
 }
 
-DesignMenu.prototype.enableLoadCircuitchartBtn = function(curcuitChart) {
+DesignMenu.prototype.enableLoadDesignBtn = function(curcuitChart) {
     var that = this;
     this.openFileBtn.click(function() {
+        $("#chooseModal").modal('show');
+    });
+
+    $("#designList div").each(function() {
+        $(this).click(function() {
+            $("#designList div").each(function() {
+                $(this).removeClass("ired");
+            })
+            $(this).addClass("ired");
+        });
+    });
+
+    $("#choose").click(function() {
         var curcuitChart;
         $.get("/design/1", function(data) {
             console.log(data["content"]);
@@ -680,6 +737,22 @@ DesignMenu.prototype.enableLoadCircuitchartBtn = function(curcuitChart) {
     });
 };
 
+DesignMenu.prototype.initOpenList = function(designs) {
+    for (var i in designs) {
+        console.log('111');
+        var div = $("<div></div>");
+        div.text(designs[i].name);
+        var idElem = $("<input type='text'></input>");
+        idElem.css("display", "none");
+        idElem.val(designs[i].id);
+        var divider = $("<div class='ui divider'></div>");
+        div.append(idElem);
+        div.addClass('title')
+        $("#designList").append(div);
+        $("#designList").append(divider);
+    }
+}
+
 DesignMenu.prototype.enableDownloadBtn =function() {
     var that = this;
     this.downloadBtn.click(function() {
@@ -690,7 +763,7 @@ DesignMenu.prototype.enableDownloadBtn =function() {
         $('#downloadModal').modal("hide");
         var curcuitChartData = that.getDesignChartData();
         var curcuitName = $("#curcuitDownName").val();
-        curcuitChartData.title = curcuitName;
+        curcuitChartData.name = curcuitName;
         Util.downloadFile(curcuitName+".txt", JSON.stringify(curcuitChartData));
         that.downloadChartAsImage(curcuitName);
     });
@@ -794,9 +867,9 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     var iconSpan = $("<span class='more'><i class='icon zoom'></i></span>");
     
     imgElem.attr("src", "/static/img/design/device.png");
-    titleSpan.text(device.title);
+    titleSpan.text(device.name);
     itemDiv.attr('part-type', 'device');
-    itemDiv.attr('device-name', device.title);
+    itemDiv.attr('device-name', device.name);
     iconSpan.attr("data-content", "Read more about this part");
     iconSpan.popup();
 
@@ -878,7 +951,7 @@ LeftBar.prototype.initDevice = function(deviceList) {
         var dataDiv = this.leftbarWorker.createDeviceView(deviceList[i]);
         this.elemsDeviceList.push(dataDiv);
         this.addDeviceToBar(dataDiv);
-        this._searchDeviceTitle.push({title: deviceList[i].title});
+        this._searchDeviceTitle.push({title: deviceList[i].name});
     }
     this.updateSearchBar();
 }
@@ -1112,7 +1185,7 @@ RightBar.prototype.processDropedDevice = function(device) {
     var deviceElem = this.rightbarWorker.createDeviceView(device);
     if (!this.isDeviceAdded(device)) {
         this.elemsDeviceList.push(deviceElem);
-        this._searchDeviceTitle.push({title: device.title});
+        this._searchDeviceTitle.push({title: device.name});
         this.updateSearchBar();
         this.rightbarWorker.showView(this.elemsDeviceList, this.view.devices);
     }
@@ -1237,6 +1310,9 @@ $(function() {
     DataManager.getDeviceDataFromServer(function(deviceList) {
         leftBar.initDevice(deviceList);
     });
+    DataManager.getDesignDataFromServer(function(designs) {
+        designMenu.initOpenList(designs);
+    })
     DataManager.getRelationAdjDataFromServer();
     DataManager.getRelationShipDataFromServer();
 

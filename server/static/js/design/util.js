@@ -265,9 +265,9 @@ DataManager.getPartByAttr = function(partAttr) {
     return null;
 }
 
-DataManager.getDeviceByTitle = function(deviceTitle) {
+DataManager.getDeviceByTitle = function(deviceName) {
     for (var i in this.deviceList) {
-        if (this.deviceList[i].title == deviceTitle) return this.deviceList[i];
+        if (this.deviceList[i].name == deviceName) return this.deviceList[i];
     }
     return null;
 }
@@ -364,6 +364,15 @@ DataManager.getDeviceDataFromServer = function(callback) {
         that.initDeviceList(data['deviceList']);
         callback(data['deviceList']);
         $('#loadingData').dimmer('hide');
+    });
+}
+
+DataManager.getDesignDataFromServer = function(callback) {
+    var that = this;
+    $.get("/design/all", function(data, status) {
+        console.log("Designs:");
+        that.initDeviceList(data['designs']);
+        callback(data['designs']);
     });
 }
 

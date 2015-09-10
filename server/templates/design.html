@@ -260,6 +260,18 @@
       </div>
     </div>
 <!--   download modal -->
+<!--   chooseModal modal -->
+    <div class="ui small modal" id="chooseModal">
+      <div class="header"><h2>Choose A design</h2></div>
+      <div class="content">
+        <div id="designList"></div>
+        <div class="fluid float-right">
+          <div class="ui tiny cancel button">Cancel</div>
+          <div class="ui tiny button" id="choose">Confirm</div>
+        </div>
+      </div>
+    </div>
+<!--   chooseModal modal -->
 <!--   save modal -->
     <div class="ui small modal" id="saveModal">
       <div class="header">Save your curcuit</div>
@@ -418,6 +430,7 @@
           <button class="ui grey button" id="connect-part" data-content="Connect two parts" ><i class="compress icon"></i></button>
           <button class="ui grey button" id="minus" data-content="Delete a part"><i class="minus icon"></i></button>
           <button class="ui grey button" id="backbone" data-content="Add a DNA Backbone" ><i class="write icon"></i></button>
+          <button class="ui grey button" id="hideNormal" data-content="Hide normal line" ><i class="hide icon"></i></button>
           <button class="ui grey button" id="download" data-content="Download this image" ><i class="download icon"></i></button>
         </div>
         <span id="riskSpan">Risk: <span class="vertical-middle ui green button" id="risk" data-content="Low risk(1)"></span></span>
