@@ -1,9 +1,7 @@
 Bioreactor 2008Ottawa
-This device responds to IP and expresses the Arabidopsis CRE1 cytokinin receptor.
-Upon binding inducer, CRE1 phosphorylates the histidine phosphor-transfer protein YPD1. In yeast, YPD1 is normally affected by the cell surface osmosensor histidine kinase SLN1. Under normal conditions, SLN1 is constitutively phosphorylated and its kinase activity maintains YPD1 in its phosphorylated state. YPD1 in turn regulates two parallel pathways by transferring its phosphate to two proteins: SSK1 and SKN7. SSK1 phosphorylation is key to suppressing the yeast¡¯s HOG1 pathway ¨C a stress reponse pathway to high osmolarity, whose activity is lethal under normal conditions. YPD1 also shuttles into the nucleus and activates the SKN7 transcription factor by phosphorylation. In the design, SKN7 was preferred over SSK1 because the SLN1-YPD1-SSK1 pathway is known to affect many high-osmolarity response genes. In order to make SKN7 inducible to IP stimulation (i.e. not constitutively phosphorylated), SLN1 had to be deleted; however, SLN1 deletion is lethal due to activation of the HOG1 pathway.
-YPD1,SSK1,SKN7,HOG1,PTP2 
+CRE1 phosphorylates YPD1, which is normally affected by SLN1. SLN1 is constitutively phosphorylated and its kinase activity maintains YPD1 phosphorylated. YPD1 in turn regulates two parallel pathways: SSK1 and SKN7. SSK1 phosphorylation is key to suppressing the yeast¡¯s HOG1 pathway whose activity is lethal. YPD1 also shuttles into the nucleus and activates the SKN7. In order to make SKN7 inducible to IP stimulation, SLN1 had to be deleted; however, SLN1 deletion is lethal due to activation of the HOG1 pathway. In order to keep the HOG1 pathway silenced in the absence of SLN1, the cells were transformed with a plasmid to overexpress PTP2, an endogenous HOG1 phosphatase, thus rescuing the lethal mutant phenotype.
 http://2008.igem.org/Team:University_of_Ottawa
-http://2008.igem.org/Team:University_of_Ottawa/Notebook
+http://2008.igem.org/Team:University_of_Ottawa
 -1
 IP_1
 HOG1_1
@@ -14,9 +12,11 @@ ATCRE1_1	YPD1_1	promotion
 YPD1_1	SKN7_1	promotion
 SKN7_1	PSSRE_1	promotion
 PSSRE_1	GFP_1	promotion
-PSSRE_2	Ckx_1	normal
+PSSRE_2	ckx_1	normal
+ckx_1	Ckx_1	promotion
 Ckx_1	IP_1	inhibition
 YPD1_1	SSK1_1	promotion
 SSK1_1	HOG1_1	inhibition
-PPRP22_1	PTP2_1	normal
+PPRP22_1	ptp2_1	normal
+ptp2_1	PTP2_1	promotion
 PTP2_1	HOG1_1	inhibition

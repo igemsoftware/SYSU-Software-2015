@@ -1,7 +1,5 @@
-Biosensor-Uvc 2008Bologna
-This is a reporter of Uvc using Lex A protein as its detector.
-Uvc radiation, inactivating Lex A repressor through the SOS response can cause LacI transcription.
-Biosensor,Uvc,LacI
+Biosensor_UVc 2008Bologna
+UVc radiation, inactivating LexA repressor through the SOS response can cause LacI transcription.
 http://2008.igem.org/Team:Bologna
 http://2008.igem.org/Team:Bologna/Notebook
 1

@@ -1,9 +1,7 @@
 Regulation 2011USTC
-Theophylline activates the expression of downstream gene through a riboswitch.
-The presence of the theophylline would change the equilibrium state which the aptamers secondary structures would shift from "off" state to "on" state.
-theophylline
-http://2011.igem.org/Team:USTC-China
-http://2011.igem.org/Team:USTC-China/Wet_Lab/protocol
+This parts is designed to modulate the ratio of toggle switch (BBa_K228003) by the expression of cI which is one of the two outcomes in toggle switch. It functions better on a low to medium copy plasmid (pSB3T5) and produces more balanced results. More details could be read on the page of BBa_K557002
+http://2011.igem.org/Team:USTC_China
+http://2011.igem.org/Team:USTC_China/Wet_Lab/protocol
 1
 theophylline_1
 CI_1
