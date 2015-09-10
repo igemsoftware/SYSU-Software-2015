@@ -38,10 +38,11 @@ class Task(db.Model):
     """How many votes it got."""
 
     def jsonify(self):
+        from ..tools.parser import htmltotext
         return {
                 'id':self.id,
                 'title':self.title,
-                'content':self.content,
+                'content':htmltotext(self.content),
                 'timestamp': (self.timestamp - datetime.utcfromtimestamp(0)).total_seconds(),
                 'views' : self.views,
                 'votes' : self.votes,

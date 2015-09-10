@@ -32,6 +32,7 @@
     </div>
     <div class="ui segment">
       <form action="{{url_for('taskhall.store_a_task')}}" method="POST" class="ui form">
+        <input type="hidden" name="task_id" value="-1">
         <div class="field">
           <label>Title:</label>
           <input type="text" name="title">
@@ -53,7 +54,7 @@
             [[selectedTab | capitalize]]
           </div>
           <div class="right part">
-            <div class="ui icon input" id="taskhall-index-search-input"><i class="search icon"></i><input type="text" placeholder="Search for questions..."></div>
+            <div class="ui icon input" id="taskhall-index-search-input"><i class="search icon"></i><input type="text" placeholder="Search for questions..." v-model="searchTerm" debounce="500"></div>
             <div class="ui inline dropdown" id="taskhall-index-order-dropdown">
               <input type="hidden" v-model="currentOrder" lazy>
               <div class="text">vote</div>

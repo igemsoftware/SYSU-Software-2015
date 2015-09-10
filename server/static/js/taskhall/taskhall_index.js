@@ -9,6 +9,7 @@ var vueBody = new coreBody({
         orders              : ['vote', 'view', 'time'],
         page                : 1,
         tasks               : [],
+        searchTerm          : '',
         ckeInit             : false,
     },
     ready: function() {
@@ -18,13 +19,21 @@ var vueBody = new coreBody({
         });
         $('#taskhall-index-order-dropdown').dropdown();
         //this.$eval('fakeTasks(this)');
-        this.$eval('updateTasks(this, this.page, this.currentOrder)');
+        this.$eval('updateTasks(this)');
+        this.$watch('selectedTab', function() {
+            this.page = 1;
+            this.$eval('updateTasks(this)');
+        });
         this.$watch('page', function() {
-            this.$eval('updateTasks(this, this.page, this.currentOrder)');
+            this.$eval('updateTasks(this)');
         });
         this.$watch('currentOrder', function() {
             this.page = 1;
-            this.$eval('updateTasks(this, this.page, this.currentOrder)');
+            this.$eval('updateTasks(this)');
+        });
+        this.$watch('searchTerm', function() {
+            this.page = 1;
+            this.$eval('updateTasks(this)');
         });
         this.$watch('tasks', function() {
             $('.question.author').popup({
@@ -34,6 +43,11 @@ var vueBody = new coreBody({
             });
         });
     },
+    computed : {
+        unansweredOnly : function() {
+            return this.selectedTab === 'Unanswered';
+        }
+    },
     methods: {
         showAskModal : function() {
             $('#taskhall-index-ask-modal').modal('show');
@@ -42,8 +56,12 @@ var vueBody = new coreBody({
                 CKEDITOR.replace('askcontent');
             }
         },
-        updateTasks : function(store, page, currentOrder) {
-            $.get('/taskhall/list?page=' + page + '&keyword=' + currentOrder, function(data) {
+        updateTasks : function(store) {
+            var url = '/taskhall/list?page=' + store.page +
+                      '&order=' + store.currentOrder +
+                      '&keyword=' + store.searchTerm +
+                      (store.unansweredOnly ? '&unanswered=True' : '');
+            $.get(url, function(data) {
                 store.tasks = data.tasks;
                 console.log(data);
             });

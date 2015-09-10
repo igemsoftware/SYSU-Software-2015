@@ -95,9 +95,12 @@ def comment_a_answer():
 @taskhall.route('/action/store', methods=["POST"])
 @login_required
 def store_a_task():
-    task_id = request.form.get('task_id', 0)
+    task_id = request.form.get('task_id', 0, type=int)
 
-    t = Task()
+    if task_id < 0:
+        t = Task()
+    else:
+        t = Task.query.get(task_id)
 
     t.title = request.form.get('title', 0)
     t.content = request.form.get('content', 0)
