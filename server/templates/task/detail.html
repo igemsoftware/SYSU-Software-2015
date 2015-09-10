@@ -40,10 +40,10 @@
         </div>
         <div class="main">
           <div class="text">
-            {{task.content}}
+            {{task.content|safe}}
           </div>
           <div class="toolbar">
-            <a id="taskhall-detail-votes" style="cursor: pointer;" v-on="click: updateLike({{task.id}})" data-votes="{{task.votes}}"><i class="blue thumbs up outline icon"></i> [[votes]]</a>
+            <a id="taskhall-detail-votes" style="cursor: pointer;" v-on="click: updateLike({{task.id}})" data-votes="{{task.votes}}"><i class="blue thumbs up icon" v-class="outline: !voted"></i> [[votes]]</a>
           </div>
         </div>
       </div>
@@ -79,7 +79,11 @@
     <div class="field">
       <label>Content:</label>
       <textarea name="content" id="taskhall-detail-answer-content"></textarea>
-      <script>CKEDITOR.replace('taskhall-detail-answer-content');</script>
+      <script>
+      CKEDITOR.replace('taskhall-detail-answer-content', {
+          filebrowserUploadUrl: '/pic/upload'
+      });
+      </script>
     </div>
     <input type="submit" class="ui blue button" value="Submit">
   </form>

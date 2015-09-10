@@ -97,16 +97,13 @@ def comment_a_answer():
 def store_a_task():
     task_id = request.form.get('task_id', 0)
 
-    if task_id < 0:
-        t = Task()
-    else:
-        t = Task.query.get(task_id)
-    if not t: abort(404)
+    t = Task()
 
     t.title = request.form.get('title', 0)
     t.content = request.form.get('content', 0)
     t.owner = current_user
     db.session.add(t)
+    db.session.commit()
 
     return redirect(url_for('taskhall.task_detail', id = t.id) )
 
