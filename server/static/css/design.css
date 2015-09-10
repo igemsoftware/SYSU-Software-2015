@@ -1,3 +1,604 @@
+.red {
+	color: red;
+}
+
+#main-contain {
+    width: 100%;
+    position: absolute;
+    padding-top: 1%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+
+#drawArea {
+	width: 100%;
+	height: 600px;
+	position: relative;
+    margin-top: 10px;
+	border: solid 1px #C5C5C5;
+	z-index: 0;
+    background-color: white;
+}
+
+#left-sidebar {
+    position: fixed;
+    top: 50px;
+    left:-400px;
+    width: 400px;
+    height: 100%;
+    padding:0 0; 
+    z-index: 900;
+    transition: right 0.5s;
+    -webkit-transition: right 0.5s;   /* Safari 和 Chrome */
+    background-color: rgba(179, 179, 179, 0.26);
+
+    box-shadow: 5px 2px 10px #989898;/*opera或ie9*/  
+    -moz-box-shadow: 5px 2px 10px #989898;/*firefox*/  
+    -webkit-box-shadow: 5px 2px 10px #989898;/*webkit*/  
+}
+
+#left-sidebar .trigger-left {
+    position: absolute;
+    width:1px;
+    right: -1px;
+    top: 45%;
+    background:none;
+    padding:0;
+    border:none;
+}
+
+#left-sidebar .accordion .content {
+    height: 60%;
+}
+
+#left-sidebar .accordion {
+    height: 80%;
+    background: none;
+    background-color: rgba(248, 248, 248, 1);
+}
+
+#left-sidebar .accordion .title{
+    color: white;
+    background-color: rgba(149, 149, 149, 0.8);
+}
+
+#left-sidebar .accordion .title:hover{
+    background-color: rgba(100, 100, 100, 0.8);
+}
+
+#left-sidebar .accordion .title.active {
+    background-color: rgba(239, 130, 130, 0.8);
+}
+
+#left-sidebar #parts {
+    overflow: auto;
+    width: 100%;
+    height: 73%;
+}
+
+#left-sidebar #devices {
+    overflow: auto;
+    width: 100%;
+    height: 73%;
+}
+
+#left-sidebar #systems {
+    overflow: auto;
+    width: 100%;
+    height: 73%;
+}
+
+.ui.bottom.attached.tab.segment {
+    height: 100%;
+}
+
+#left-sidebar #partsCom {
+    height: 100%;
+    overflow: auto;
+}
+
+#left-sidebar .left-sidebar-body {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#left-sidebar #parts .data img {
+    margin-right: 10px;
+}
+
+#left-sidebar #parts .item {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#left-sidebar #parts .item .partTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
+#left-sidebar #parts .data span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+#left-sidebar #parts .data span.more {
+    width: 10%;
+    cursor: pointer;
+}
+
+#left-sidebar #parts .divider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#left-sidebar #parts .data > div {
+    display: inline;
+}
+
+#left-sidebar #parts .data .BBa {
+    font-size: 12px;
+}
+
+#left-sidebar #parts .data .leftBox {
+    display: inline-block;
+    width: 85%;
+}
+
+#left-sidebar .data .item {
+    display: inline;
+    cursor: pointer;
+}
+
+#left-sidebar .data {
+    margin: 0 0;
+}
+
+#left-sidebar #customs .data img {
+    margin-right: 10px;
+}
+
+#left-sidebar #customs .item {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#left-sidebar #customs .item .partTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
+#left-sidebar #customs .data span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+#left-sidebar #customs .data span.more {
+    width: 10%;
+    cursor: pointer;
+}
+
+#left-sidebar #customs .divider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#left-sidebar #customs .data > div {
+    display: inline;
+}
+
+#left-sidebar #customs .data .BBa {
+    font-size: 12px;
+}
+
+#left-sidebar #customs .data .leftBox {
+    display: inline-block;
+    width: 85%;
+}
+
+/*=================================================*/
+#left-sidebar #relates .data img {
+    margin-right: 10px;
+}
+
+#left-sidebar #relates .item {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#left-sidebar #relates .item .partTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
+#left-sidebar #relates .data span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+#left-sidebar #relates .data span.more {
+    width: 10%;
+    cursor: pointer;
+}
+
+#left-sidebar #relates .divider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#left-sidebar #relates .data > div {
+    display: inline;
+}
+
+#left-sidebar #relates .data .BBa {
+    font-size: 12px;
+}
+
+#left-sidebar #relates .data .leftBox {
+    display: inline-block;
+    width: 85%;
+}
+
+/*==================================================*/
+#left-sidebar #devices .deviceTitle {
+    font-size: 14px;
+    width: 90%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#left-sidebar #devices .more {
+    width: 10%;
+    font-size: 17px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#left-sidebar #devices .item {
+    width: 100%;
+    overflow: hidden;
+    height: 164px;
+}
+
+#left-sidebar #devices .item img {
+    float: right;
+    width: 100%;
+    height: 160px;
+}
+
+#left-sidebar #devices .divider {
+    margin-top: 2px;
+}
+/*======================================================*/
+#right-sidebar {
+    position: fixed;
+    top: 50px;
+    right:-400px;
+    width: 400px;
+    height: 100%;
+    padding:0 0; 
+    z-index: 900;
+    transition: right 0.5s;
+    -webkit-transition: left 0.5s;   /* Safari 和 Chrome */
+    background-color: rgba(228, 228, 228, 0.46);
+    -moz-box-shadow: -5px 2px 10px #989898;/*firefox  
+    -webkit-box-shadow: -5px 2px 10px #989898;/*webkit*/  
+    box-shadow: -5px 2px 10px #989898;/*opera或ie9*/  
+}
+
+#right-sidebar .trigger-right {
+    position: absolute;
+    width:1px;
+    left: -40px;
+    top: 45%;
+    background:none;
+    padding:0;
+    border:none;
+}
+
+#right-sidebar .attached.tab.segment {
+    height: 95%;
+}
+
+#right-sidebar .styled.accordion {
+    height: 90%;
+}
+
+#right-sidebar > .accordion {
+    height: 100%;
+    background: none;
+    background-color: rgba(179, 179, 179, 0.46);
+}
+
+#right-sidebar .accordion .title:hover{
+    background-color: rgba(100, 100, 100, 0.8);
+}
+
+#right-sidebar .accordion .title.active {
+    background-color: rgba(239, 130, 130, 0.8);
+}
+
+#right-sidebar .accordion .title{
+    color: white;
+    background-color: rgba(149, 149, 149, 0.8);
+}
+
+#right-sidebar #addedParts {
+    height: 65%;
+    overflow: auto;
+    width: 100%;
+}
+
+#right-sidebar #addedSystems {
+    height: 65%;
+    overflow: auto;
+    width: 425px;
+}
+
+#right-sidebar #addedCustoms {
+    height: 65%;
+    overflow: auto;
+    width: 425px;
+}
+
+#right-sidebar .data img {
+    width: 15%;
+    margin-right: 10px;
+}
+
+#right-sidebar .item {
+    cursor: pointer;
+}
+
+#right-sidebar .data span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+#right-sidebar .data span.more {
+    width: 10%;
+}
+
+#right-sidebar .divider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#right-sidebar .data > div {
+    display: inline;
+}
+
+#right-sidebar .data .BBa {
+    font-size: 12px;
+}
+
+#right-sidebar .data .leftBox {
+    display: inline-block;
+    width: 85%;
+}
+
+#right-sidebar .data .zoom {
+    cursor: pointer;
+}
+
+#right-sidebar .data .item {
+    /*width: 85%;*/
+    display: inline;
+}
+
+/*right-bar device style*/
+#right-sidebar #addedDevices {
+    height: 65%;
+    overflow: auto;
+    width: 100%;
+}
+
+#right-sidebar #addedDevices .deviceTitle {
+    font-size: 14px;
+    width: 90%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#right-sidebar #addedDevices .more {
+    width: 10%;
+    font-size: 17px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#right-sidebar #addedDevices .item {
+    width: 100%;
+    overflow: hidden;
+    height: 164px;
+}
+
+#right-sidebar #addedDevices .item img {
+    float: left;
+    width: 100%;
+    height: 160px;
+}
+
+#right-sidebar #addedDevices .divider {
+    margin-top: 2px;
+}
+/*=====================================================*/
+::-webkit-scrollbar-track {
+    border-radius: 5px;
+    height: 8px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 0;
+    background-color: rgba(179, 179, 179, 0.46);;
+    border: none;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(179, 179, 179, 0.9);
+}
+
+/*--------------------------------------------------------*/
+#history {
+    overflow: auto;
+}
+
+
+/*======================================================*/
+#drawArea-menu  .buttons button {
+    background-color: rgba(250, 250, 250, 1) !important;
+}
+
+#drawArea-menu .buttons button i.icon{
+    color: black;
+}
+
+#drawArea-menu  .buttons {
+    border: solid 1px #C5C5C5
+}
+
+#drawArea-menu #riskSpan {
+    margin-left: 10px;
+}
+
+#drawArea-menu #riskSpan .button {
+    padding-top: 0;
+    margin-left: 5px;
+}
+
+.selected {
+    border: 2px solid #09FF0B;
+}
+
+/*.ui .search {
+    width: 100%;
+}
+*/
+.ui .search {
+    margin-bottom: 15px;
+}
+
+.no-margin {
+    margin: 0 0 !important;
+}
+
+#rubberband {
+    border: 2px solid #FF949B !important;
+}
+
+.filterDiv {
+    position: absolute;
+    bottom: 40%;
+    right: 40%;
+    width: 10px;
+    height: 10px;
+    background-color: #FFA500;
+    cursor: pointer;
+    box-shadow: 0px 0px 2px #000;
+    transition: box-shadow 0.25s ease-in 0s;
+}
+
+.dragHover { 
+    border: 2px solid orange;
+}
+
+.minusCircle {
+    position: absolute;
+    top:1px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    display: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
 #topbar-bottom-line {
     background: linear-gradient(to right, #bf4849, #ec5a5b, #e65859);
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.vertical-middle {
+    vertical-align:middle !important;
+}
+
+/*#equation {
+    width: 98%;
+}*/
+
+#equation .selection {
+    min-width: 11em;
+    width: 100%;
+}
+
+/*#risk {
+    float: right;
+}*/
+
+#saveModal textarea {
+    margin-bottom: 1em;
+}
+
+
+/*==============================*/
+.filterTitle {
+    display: inline-block;
+    text-align: center;
+    width: 25%;
+    font-size: 15px;
+}
+
+.filterDrowdown {
+    display: inline-block;
+    text-align: center; 
+    width: 70%;
+}
+
+#customCreate {
+    background-color: #ec5a5b;
+}
+
+#createCustomPartModal .item button {
+
+}
+
+#saveSuccessModal .check.icon {
+    color: #71e3d0
+}
+
+#saveSuccessModal .cancel {
+    margin-right: 20px;
+}
+
+#saveSuccessModal .move {
+    margin-left: 20px;
+    background-color: #ec5a5b;
+    color: white;
+}
+
+#deleteModal .content {
+    vertical-align: middle;
+}
+
+#deleteModal .content .cancel {
+    margin-right: 20px;
+}
+
+#deleteModal .content #deleteBtn {
+    margin-left: 20px;
+    background-color: #ec5a5b;
+    color: white;
 }

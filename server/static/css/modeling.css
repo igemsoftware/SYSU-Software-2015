@@ -1,0 +1,165 @@
+.float-right {
+	float: right;
+}
+
+.main_container {
+	margin-top: 50px;
+	padding: 20px 20px;
+	height: 85%;
+}
+
+.main_container .tab {
+	height: 100%;
+}
+
+.main_container .tabular.menu .item {
+	background-color: #BEBEBF;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.main_container .tabular.menu .item .active {
+	background-color: #fff;
+}
+
+#simulation-box, #experiment-box {
+    box-shadow: 5px 5px 10px #989898 !important;/*opera或ie9*/  
+    -moz-box-shadow: 5px 5px 10px #989898 !important;/*firefox*/  
+    -webkit-box-shadow: 5px 5px 10px #989898 !important;/*webkit*/  
+}
+
+#experiment-menu.active {
+	background-color: rgba(235, 245, 149, 1);
+	border-bottom: none;
+}
+
+#simulation-menu.active {
+	background-color: rgba(235, 245, 149, 1);
+	border-bottom: none;
+}
+
+#experiment-menu {
+	background-color: rgba(245, 250, 205, 0.6);
+}
+
+#simulation-menu {
+	background-color: rgba(245, 250, 205, 0.6);
+}
+
+#simulation #chart {
+	height:85%;
+	min-width: 80%;
+}
+
+#myChart {
+	height:85%;
+	min-width: 80%;
+}
+
+#simulation .title > button {
+	display: inline-block;
+}
+
+.float-right {
+	float: right;
+}
+
+.iyellow {
+	background-color: rgba(235, 245, 149, 1) !important;
+}
+
+#chooseModal {
+	margin-left: 30%;
+	width: 40%;
+	left: 0;
+	padding-bottom: 20px;
+	height: 70%;
+	/*overflow: auto;	*/
+}
+
+#chooseModal .content {
+	height: 100%;
+}
+
+#chooseModal .content .button {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#chooseModal #designList {
+	height: 90%;
+	overflow: auto;	
+}
+
+#chooseModal #designList .title {
+	cursor: pointer;
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
+
+#chooseModal .divider {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#chooseModal div{
+	/*height: 1em;*/
+	font-size: 17px;
+}
+
+#chooseModal #choose {
+	background-color: rgba(235, 245, 149, 1) !important;
+}
+
+#experiment-box {
+	height: 100%;
+	padding-left: 50px;
+	padding-top: 20px;
+	overflow: auto;
+}
+
+#experiment-box table tr td {
+	max-width: 30px;
+	padding-top: 6px;
+	padding-bottom: 6px;
+}
+
+#experiment-box table thead tr th{
+	background-color: rgba(235, 245, 149, 1) !important;
+	max-width: 30px;
+	padding-top: 7px;
+	padding-bottom: 7px;
+}
+
+#getPlot {
+	background-color: rgba(235, 245, 149, 1) !important;
+	float: right;
+}
+
+/*=====================================================*/
+::-webkit-scrollbar-track {
+    border-radius: 5px;
+    height: 8px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 0;
+    background-color: rgba(179, 179, 179, 0.46);;
+    border: none;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(179, 179, 179, 0.9);
+}
+
+/*--------------------------------------------------------*/
+.inline {
+	display: inline-block;
+}
+
+.lineTitle {
+	margin-right: 10px;
+}

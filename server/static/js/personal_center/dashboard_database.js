@@ -1,5 +1,5 @@
-var vDatabaseComponent = Vue.component('dashboard-database', {
-    template: '#database-template',
+var vDatabase = new Vue({
+    el: 'body',
     data    : function() {
         return {
             databaseRecords : [],

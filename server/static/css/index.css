@@ -1,0 +1,64 @@
+body {
+    height: 100%;
+    background-image: url(/static/img/index/background.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.grid {
+    height: 100%;
+}
+
+#index-topbar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: right;
+    padding-top: 15px;
+    padding-right: 25px;
+}
+
+#index-topbar > .ui.button {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.95);
+    border-radius: 0;
+    font-weight: lighter;
+    margin-left: 15px;
+    font-size: 1.2rem;
+    line-height: 1.3rem;
+}
+
+#index-topbar > .ui.button:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.95);
+}
+
+#index-topbar > .signup.button {
+    background-color: #909292;
+    color: #313131;
+}
+
+#index-topbar > .login.button {
+    background-color: #3b3f42;
+    color: #ffffff;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+#index-container {
+    text-align: center;
+}
+
+#index-logo {
+    margin-bottom: 30px;
+}
+
+#index-links {
+    text-align: center;
+}
+
+#index-links > .link {
+    display: inline-block;
+    margin: 25px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.95);
+}

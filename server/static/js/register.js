@@ -1,5 +1,5 @@
 var selected_tracks = [];
-var avatar_url = '/static/img/avatar.jpg';
+var avatar_url = '';
 
 function processAvatarUploadResponse(data) {
     if (data.url !== undefined) {
@@ -9,7 +9,7 @@ function processAvatarUploadResponse(data) {
         $('#avatar-modal').modal('hide');
     } else if (data.error !== undefined) {
         $('#avatar-upload-error')
-            .text(data.error)
+            .text(data.error.message)
             .parents('.message').removeClass('hidden');
     } else {
         $('#avatar-upload-error')
@@ -19,6 +19,7 @@ function processAvatarUploadResponse(data) {
 }
 
 $(function() {
+    avatar_url = $('avatar-url-input').val();
     $("#avatar .dimmer, .track.option .dimmer").dimmer({
         on: 'hover',
         closable: false,

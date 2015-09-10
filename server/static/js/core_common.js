@@ -3,7 +3,6 @@ Vue.config.delimiters = ['[[', ']]'];
 Vue.component('v-topbar', {
     template: "#topbar-template",
     data: function() { return {
-        notifications   : 0,
     }},
     ready: function() {
         $('#topbar-avatar').popup({
@@ -13,8 +12,8 @@ Vue.component('v-topbar', {
             offset: "-1",
             on: "click",
         });
-        $('#topbar-menu').click(function() {
-            $('#main-switcher').modal('show');
+        $('#topbar-btn-menu').click(function() {
+            $('#main-switcher').dimmer('show');
         });
         console.log('topbar init done.')
     },

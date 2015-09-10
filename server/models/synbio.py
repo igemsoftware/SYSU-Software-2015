@@ -474,20 +474,33 @@ class Design(db.Model, BioBase):
     # as well as `name` here
 
     short_description = db.Column(db.Text, default='')
+    """Brief description."""
     full_description = db.Column(db.Text, default='')
+    """Full description."""
 #    graph
 #    statistical chart
     references = db.Column(db.Text, default='')
+    """References."""
     rate = db.Column(db.Integer, default = 0)
+    """The integrated rate."""
     eval_efficiency = db.Column(db.Integer, default = 0)
+    """Evaluation of efficiency."""
     eval_reliability = db.Column(db.Integer, default = 0)
+    """Evaluation of reliability."""
     eval_accessibility = db.Column(db.Integer, default = 0)
+    """Evaluation of accessibiliy."""
     eval_compatibility = db.Column(db.Integer, default = 0)
+    """Evaluation of compatibility."""
     eval_demand = db.Column(db.Integer, default = 0)
+    """Evaluation of demand."""
     eval_safety = db.Column(db.Integer, default = 0)
+    """Evaluation of safety."""
     eval_completeness = db.Column(db.Integer, default = 0)
+    """Evaluation of completeness."""
     last_active = db.Column(db.DateTime, default=datetime.now)
+    """Last active time."""
     comments = db.relationship('DesignComment', backref='design', lazy='dynamic')
+    """:class:`DesignComment` of it."""
 
     is_finished = db.Column(db.Boolean, default=False)
     """Whether the design is complete."""

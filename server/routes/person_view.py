@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from . import person
-from ..models import Design 
+from .. import db
+from ..models import Design, Message
 from ..tools.parser import json_parser
 
 from flask.ext.login import current_user, login_required
@@ -10,13 +11,18 @@ from flask import jsonify, json, render_template
 @person.route('/')
 @login_required
 def index():
-    return render_template('person/personal_center.html')
+    return render_template('person/database.html')
+
+@person.route('/notifs')
+@login_required
+def notifications():
+    return render_template('person/notifications.html')
 
 @person.route('/mine')
 @login_required
 def mine():
     l = Design.query.filter_by(owner=current_user).all()
-    l = map(Design.jsonify(), l)
+    l = map(Design.jsonify, l)
     return jsonify(mine=l)
 
 @person.route('/favorite')
@@ -46,13 +52,15 @@ def mark_notification_as_read(id):
     if m:
         m.isread = True
         db.session.add(m)
+    return 'success'
 
 @person.route('/notifications/<int:id>', methods=['DELETE'])
 @login_required
 def delete_notification(id):
     m = Message.query.get(id)
     if m:
-        db.session.remove(m)
+        db.session.delete(m)
+    return 'success'
 
 
 
