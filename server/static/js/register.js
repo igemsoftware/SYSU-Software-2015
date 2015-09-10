@@ -1,5 +1,5 @@
 var selected_tracks = [];
-var avatar_url = '/static/img/avatar.jpg';
+var avatar_url = '';
 
 function processAvatarUploadResponse(data) {
     if (data.url !== undefined) {
@@ -19,6 +19,7 @@ function processAvatarUploadResponse(data) {
 }
 
 $(function() {
+    avatar_url = $('avatar-url-input').val();
     $("#avatar .dimmer, .track.option .dimmer").dimmer({
         on: 'hover',
         closable: false,
