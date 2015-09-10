@@ -138,7 +138,7 @@
           {% if current_user.is_authenticated() %}
             <div class="ui selected button" v-on="click: showAskModal()">Ask a question</div>
           {% else %}
-            <a class="ui selected button" href="{{url_for(auth.login)}}">Ask a question</a>
+            <a class="ui selected button" href="{{url_for('auth.login')}}">Ask a question</a>
           {% endif %}
           </div>
         </div>
