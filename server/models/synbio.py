@@ -460,6 +460,8 @@ Favorite_design = db.Table('Favorite_design',
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
 )
 
+
+
 class Design(db.Model, BioBase):
     """Design model in CORE."""
     id = db.Column(db.Integer, primary_key=True)
@@ -467,24 +469,25 @@ class Design(db.Model, BioBase):
     owner_id = db.Column(db.Integer, db.ForeignKey('user.id')) 
     """The :attr:`User.id` of owner."""
 
-    title = db.Column(db.Text, default='')
+    name = db.Column(db.Text, default='')
     """Its title, which will be shown in calendar"""
+    # as well as `name` here
 
     short_description = db.Column(db.Text, default='')
     full_description = db.Column(db.Text, default='')
 #    graph
 #    statistical chart
     references = db.Column(db.Text, default='')
-    Rate = db.Column(db.Numeric, default = 0)
-    eval_efficiency = db.Column(db.Numeric, default = 0)
-    eval_reliability = db.Column(db.Numeric, default = 0)
-    eval_accessibility = db.Column(db.Numeric, default = 0)
-    eval_compatibility = db.Column(db.Numeric, default = 0)
-    eval_demand = db.Column(db.Numeric, default = 0)
-    eval_safety = db.Column(db.Numeric, default = 0)
-    eval_completeness = db.Column(db.Numeric, default = 0)
-    active_time = db.Column(db.DateTime, default=datetime.now)
-    
+    rate = db.Column(db.Integer, default = 0)
+    eval_efficiency = db.Column(db.Integer, default = 0)
+    eval_reliability = db.Column(db.Integer, default = 0)
+    eval_accessibility = db.Column(db.Integer, default = 0)
+    eval_compatibility = db.Column(db.Integer, default = 0)
+    eval_demand = db.Column(db.Integer, default = 0)
+    eval_safety = db.Column(db.Integer, default = 0)
+    eval_completeness = db.Column(db.Integer, default = 0)
+    last_active = db.Column(db.DateTime, default=datetime.now)
+    comments = db.relationship('DesignComment', backref='design', lazy='dynamic')
 
     is_finished = db.Column(db.Boolean, default=False)
     """Whether the design is complete."""
@@ -498,10 +501,6 @@ class Design(db.Model, BioBase):
     """When the design is created."""
     progress = db.Column(db.Integer, default=0)
     """The progress of the design."""
-    name = db.Column(db.String(128), default='No name')
-    """The name of it ."""
-    introduction = db.Column(db.Text)
-    """The introduction of it ."""
 
     protocols = db.Column(db.Text, default='')
     """The protocols it is using."""
@@ -516,14 +515,12 @@ class Design(db.Model, BioBase):
     #experiment = db.Column(db.Text, default='')
 
     # in public database
-    db_create_time = db.Column(db.DateTime)
+    public_create_time = db.Column(db.DateTime)
     """When this design is in CORE Bank."""
     likes = db.Column(db.Integer, default=0)
     """How many likes it get."""
     favoriter = db.relationship('User', secondary=Favorite_design, backref=db.backref('fav_design', lazy='dynamic')) 
     """Who mark it as favorite."""
-    grade = db.Column(db.Text) # how ?
-    """Grading."""
 
 
 ##  recommended_protocol = db.relationship('ProtocolRecommend',
@@ -544,7 +541,7 @@ class Design(db.Model, BioBase):
         if not d: raise Exception('No device #%d' % device_id) 
         d.update_from_db()
 
-        self.introduction = self.introduction+' (COPYED: '+d.introduction+')'
+        self.full_description = self.full_description+' (COPYED: '+d.introduction+')'
         self.parts = d.parts
         self.relationship = d.relationship
         self.interfaceA = d.interfaceA

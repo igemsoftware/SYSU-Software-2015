@@ -38,3 +38,14 @@ class Comment(db.Model):
     def __repr__(self):
         return '<Comment[%d] by [%s]: %s>' % (self.id, self.owner.username, self.content[:50])
 
+
+class DesignComment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+
+    content = db.Column(db.Text)
+
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
+    design_id = db.Column(db.Integer, db.ForeignKey('design.id'))
+    sender_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
