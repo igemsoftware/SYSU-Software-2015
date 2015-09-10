@@ -13,10 +13,9 @@ The Model reference provides detailed descriptions of CORE's classes and functio
     CORE.models.User
     CORE.models.Task
     CORE.models.Message
-    CORE.models.Comment
+    CORE.models.Response
     CORE.models.Memo
     CORE.models.Equation
     CORE.models.Track
-
 
 

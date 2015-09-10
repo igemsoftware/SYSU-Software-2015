@@ -69,50 +69,63 @@ class Equation():
 from .. import db 
 
 class EquationBase(db.Model):
-    """Equation in Database""" 
+    """EquationBase model in CORE.""" 
    
 #   target = db.Column(db.Text)
 #   related = db.Column(db.Text, default='[]')
 #   parameter = db.Column(db.Text, default='[]')
 
     id = db.Column(db.Integer, primary_key=True)
+    """ID is an unique number to identify each :class:`Memo`."""
     related_count = db.Column(db.Integer, default=0, index=True)
+    """How many components related to it."""
     _content = db.Column(db.Text, default = '{}') 
+    """Raw content in database."""
     printable = db.Column(db.Text, default = '')
+    """Printable formular in Tex."""
     content = {}
+    """Its content object."""
 
     def __repr__(self):
         return '<EquationBase[%d] #%d: %s>' % (self.id, self.related_count, self.formular)
 
     def commit_to_db(self):
+        """Encode things into :attr:`_content` ."""
         self._content = json.dumps(self.content)
         self.related_count = len(self.content.get('related', [])) + 1
         db.session.add(self)
 
     def update_from_db(self):
+        """Decode things from :attr:`_content` ."""
         self.content = json.loads(self._content)
 
     @property
     def target(self):
+        """The target variable in differential equation."""
         return self.content.get('target', '')
 
     @property
     def related(self):
+        """Other related variables in differential equation."""
         return self.content.get('related', [])
 
     @property
     def all_related(self):
+        """All related variables in differential equation."""
         return set([self.target]+self.related)
 
     @property
     def parameter(self):
+        """The parameters in differential equation."""
         return self.content.get('parameter', {})
 
     @property
     def formular(self):
+        """The differential equation itself."""
         return self.content.get('formular', '')
 
     def packed(self):
+        """Pack things together."""
         self.update_from_db()
         return [self.target, self.related, self.parameter, self.formular]
 
