@@ -389,7 +389,9 @@ Design.prototype._initJsPlumbOption = function() {
     })
 
     jsPlumb.on(that.drawArea, "click", ".minus", function() {
+        console.log('1111');
         operationLog.removePart($(this.parentNode.parentNode).attr("part-name"));
+        console.log($(this.parentNode.parentNode).attr("part-id"));
         that.removeCNodeElem($(this.parentNode.parentNode).attr("part-id"));
         jsPlumb.remove(this.parentNode.parentNode);
     });
@@ -403,9 +405,13 @@ Design.prototype.getNodeViewByPartId = function(partID) {
     }
 }
 
-Design.prototype.removeCNodeElem = function(elem) {
-    var index2 = this.nodeElemList.indexOf(elem);
-    this.nodeElemList.splice(index2, 1);
+Design.prototype.removeCNodeElem = function(partID) {
+    for (var i in this.nodeElemList) {
+        if ($(this.nodeElemList[i]).attr('part-id') == partID) {
+            this.nodeElemList.splice(i, 1);
+            break;
+        }
+    }
 }
 
 Design.prototype.addDraggable = function(elem) {
