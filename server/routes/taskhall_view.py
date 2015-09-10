@@ -9,6 +9,7 @@ from flask import request, current_app, jsonify, \
         render_template, abort, redirect, url_for
 from flask.ext.login import login_required, current_user
 from datetime import datetime
+from sqlalchemy import or_, not_
 
 @taskhall.route('/')
 @taskhall.route('/index')
@@ -22,12 +23,14 @@ def get_task_list():
             current_app.config['FLASKY_TASKS_PER_PAGE'], type=int)
     order = request.args.get('order', 'time', type=str)
     keyword = request.args.get('keyword', '', type=str)
+    unanswered = request.args.get('unanswered', False, type=bool)
 
     order_obj = {'time': Task.timestamp.desc(),
                  'vote': Task.votes.desc(),
                  'view': Task.views.desc(),
                 }
-    pagination = Task.query.filter(Task.title.like('%'+keyword+'%')).\
+    pagination = Task.query.filter(or_(not unanswered, not_(Task.answers))).\
+            filter(Task.title.like('%'+keyword+'%')).\
             order_by(order_obj.get(order, Task.timestamp.desc())).\
             paginate(page, per_page=per_page, error_out=False)
 

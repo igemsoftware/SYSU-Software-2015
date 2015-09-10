@@ -10,6 +10,17 @@ from ..models import EquationBase, Design
 def modeling_index():
     return render_template('modeling.html')
 
+@modeling.route('/design/all')
+def design_all():
+    l = []
+    for d in Design.query.all():
+        l.append({'title': d.title,
+                  'id': d.id,
+                  'img': d.img})
+    return jsonify(designs=l)
+
+ 
+
 @modeling.route('/design/<int:id>')
 def plot_design(id):
     d = Design.query.get(id)
