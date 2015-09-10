@@ -37,9 +37,9 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///sysu2015_dev.db"
 
     # init
-    INIT_PRELOAD_DEVICE_DIRS = ['server/models/preload/devices/EquationTest']
+    INIT_PRELOAD_DEVICE_DIRS = ['server/models/preload/devices/'] #EquationTest']
     INIT_PRELOAD_PROTOCOL_DIRS = ['server/models/preload/protocols/']
-    INIT_PRELOAD_PART_DIRS = ['server/models/preload/components/EquationTest']
+    INIT_PRELOAD_PART_DIRS = ['server/models/preload/components/'] #EquationTest']
     INIT_PRELOAD_EQUATION_DIRS = ['server/models/preload/equations/']
 
 class ProductionConfig(Config):
