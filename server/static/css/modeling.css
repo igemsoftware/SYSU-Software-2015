@@ -64,7 +64,7 @@
 	float: right;
 }
 
-.iyello {
+.iyellow {
 	background-color: rgba(235, 245, 149, 1) !important;
 }
 
@@ -73,6 +73,38 @@
 	width: 40%;
 	left: 0;
 	padding-bottom: 20px;
+	height: 70%;
+	/*overflow: auto;	*/
+}
+
+#chooseModal .content {
+	height: 100%;
+}
+
+#chooseModal .content .button {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#chooseModal #designList {
+	height: 90%;
+	overflow: auto;	
+}
+
+#chooseModal #designList .title {
+	cursor: pointer;
+	padding-bottom: 5px;
+	padding-top: 5px;
+}
+
+#chooseModal .divider {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+#chooseModal div{
+	/*height: 1em;*/
+	font-size: 17px;
 }
 
 #chooseModal #choose {

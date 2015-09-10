@@ -58,25 +58,18 @@
       </div>
       <div id="topbar-bottom-line"></div>
     </div>
-<!--   download modal -->
+<!--   chooseModal modal -->
     <div class="ui small modal" id="chooseModal">
-      <div class="header">Choose A design</div>
-      <div class="content"> 
-        <div class="ui form">
-          <div class="inline fields">
-            <div class="field">
-              <label>Design Name</label>
-              <input id="curcuitDownName" type="text" placeholder="Enter Curcuit Name">
-            </div>
-          </div>
-        </div>
+      <div class="header"><h2>Choose A design</h2></div>
+      <div class="content">
+        <div id="designList"></div>
         <div class="fluid float-right">
-          <div class="ui cancel button">Cancel</div>
-          <div class="ui button" id="choose">Confirm</div>
+          <div class="ui tiny cancel button">Cancel</div>
+          <div class="ui tiny button" id="choose">Confirm</div>
         </div>
       </div>
     </div>
-<!--   download modal -->
+<!--   chooseModal modal -->
 <!--  main_container -->
     <div class="main_container">
       <div class="ui attached tabular menu">
@@ -85,7 +78,7 @@
       </div>
       <div class="ui bottom attached tab segment active" data-tab="simulation" id="simulation-box">
         <div id="simulation">
-          <h1 class='title'>Circuit title<button class="ui button iyello float-right">Choose a circuit</button></h1>
+          <h1 class='title'>Circuit title<button class="ui button iyello float-right" id="chooseDesignBtn">Choose a circuit</button></h1>
           <div class="ui divider"></div>
           <div class="ui grid">
             <div class="left-box two wide column"></div>
@@ -102,10 +95,8 @@
             <div class="ui selection dropdown">
               <input type="hidden" name="title" id="protein">
               <i class="dropdown icon"></i>
-              <div class="default text"></div>
+              <div class="default text">Protein</div>
               <div class="menu" id="myMenu">
-   <!--              <div class="item" data-value="1">Male</div>
-                <div class="item" data-value="0">Female</div> -->
               </div>
             </div>
             <table class="ui celled striped table">

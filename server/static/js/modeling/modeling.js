@@ -9,7 +9,12 @@ function Modeling() {
     this.count = 0;
 }
 
-Modeling.prototype.drawChart = function(view, xArray, yArray) {
+Modeling.prototype.init = function() {
+    this.enableGetPlot();
+    this.enableChooseDesignBtn();
+}
+
+Modeling.prototype.drawChart = function(view, xArray, series) {
     var that = this;
     view.highcharts({
         plotOptions: {
@@ -62,20 +67,22 @@ Modeling.prototype.drawChart = function(view, xArray, yArray) {
             verticalAlign: 'middle',
             borderWidth: 0
         },
-        series: yArray
+        series: series
     });
 }
 
 Modeling.prototype.loadData = function() {
     var that = this;
-    // $.get("/modeling/design/1", function(data) {
-    //     console.log(data);
-    //     that.variables = data.variables;
-    //     that.xAxis = data.x_axis;
-    //     console.log(that.variables);
-    //     console.log(that.xAxis);
-    //     that.drawChart($("#chart", that.xAxis, that.variables));
-    // });
+    $.get("/modeling/design/1", function(data) {
+        console.log(data);
+        that.variables = data.variables;
+        that.xAxis = data.x_axis;
+        console.log(that.variables);
+        console.log(that.xAxis);
+		that.drawChart($("#chart"), that.xAxis, that.variables);
+        that.drawChart($("#myChart"));
+        that.initMenu();
+    });
     // that.drawMyChart();
 }
 
@@ -87,10 +94,10 @@ Modeling.prototype.initTable = function() {
 Modeling.prototype.createLine = function() {
     var tr = $("<tr></tr>");
     var td1 = $("<td></td>");
-    var td2 = $("<td class='x'></td>");
-    var td3 = $("<td class='y'></td>");
-    var input1 = $("<div class='ui fluid transparent input'><input type='text'><div>")
-    var input2 = $("<div class='ui fluid transparent input'><input type='text'><div>")
+    var td2 = $("<td></td>");
+    var td3 = $("<td></td>");
+    var input1 = $("<div class='ui fluid transparent input'><input class='x' type='text'><div>")
+    var input2 = $("<div class='ui fluid transparent input'><input class='y' type='text'><div>")
     this.count += 1;
     td1.append(String(this.count));
     td2.append(input1);
@@ -102,6 +109,7 @@ Modeling.prototype.createLine = function() {
 }
 
 Modeling.prototype.initMenu = function() {
+	$("#myMenu").empty();
     for (var i in this.variables) {
         this.addItem(this.variables[i].name);
     }
@@ -111,33 +119,86 @@ Modeling.prototype.addItem = function(name) {
     var itemElem = $("<div class='item'></div>");
     itemElem.text(name);
     itemElem.attr("data-value", name);
-    itemElem.append($("#myMenu"));
+    itemElem.appendTo($("#myMenu"));
 }
 
 Modeling.prototype.enableGetPlot = function() {
     var that = this;
     $('#getPlot').click(function() {
+        console.log('getPot function');
         var name = $("#protein").val();
         var yArray = [];
         var xArray = [];
         $("table tbody tr").each(function() {
-            xArray.push(this.find('.x').val());
-            yArray.push(this.find('.y').val());
+            if ($(this).find('.x').val() == "" ||
+                $(this).find('.y').val() == "") {
+                return;
+            }
+            xArray.push(parseFloat($(this).find('.x').val()));
+            yArray.push(parseFloat($(this).find('.y').val()));
         });
-        var series = {};
-        series.data = xArray;
-        series.name = name;
-        that.drawChart($("#myChart"), xArray, yArray);
+        var serie = {};
+        var series = [];
+        serie.data = xArray;
+        serie.name = name;
+        series.push(serie);
+        that.drawChart($("#myChart"), xArray, series);
     })
+}
+
+Modeling.prototype.enableChooseDesignBtn = function() {
+	$("#chooseDesignBtn").click(function() {
+		$("#chooseModal").modal('show');
+	});
+}
+
+Modeling.prototype.initChooseModal = function(designs) {
+	var that = this;
+	for (var i in designs) {
+		var div	= $("<div></div>");
+		div.text(designs[i].title);
+		var idElem = $("<input type='text'></input>");
+		idElem.css("display", "none");
+		idElem.val(designs[i].id);
+		var divider = $("<div class='ui divider'></div>");
+		div.append(idElem);
+		div.addClass('title')
+		$("#designList").append(div);
+		$("#designList").append(divider);
+	}
+
+	$("#designList div").each(function() {
+		$(this).click(function() {
+			$("#designList div").each(function() {
+				$(this).removeClass("iyellow");
+			})
+			$(this).addClass("iyellow");
+		});
+	});
+
+	$("#choose").click(function() {
+		$("#designList div").each(function() {
+			if($(this).hasClass('iyellow')) {
+				var id = $(this).find('input').val();
+				$.get("/modeling/design/"+String(id), function(data) {
+					that.variables = data.variables;
+        			that.xAxis = data.x_axis;
+        			that.drawChart($("#chart"), that.xAxis, that.variables);
+			        that.drawChart($("#myChart"));
+			        that.initMenu();
+				});
+			}
+		});
+		$("#chooseModal").modal('hide');
+	})
 }
 
 $(function() {
     modeling = new Modeling();
+    modeling.init();
     modeling.loadData();
     modeling.initTable();
 })
-
-// $("#chooseModal").modal('show');
 
 $(".cancel").click(function() {
     $('.ui.modal').modal('hide');
@@ -152,3 +213,8 @@ $("#addLine").click(function() {
 $('.ui.dropdown')
   .dropdown()
 ;
+
+$.get("/modeling/design/all", function(data) {
+	console.log(data);
+	modeling.initChooseModal(data['designs']);
+});
