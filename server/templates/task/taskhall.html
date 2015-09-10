@@ -5,6 +5,7 @@
 {% block head %}
   {{ super() }}
   <link rel="stylesheet" href="/static/css/taskhall.css">
+  <script src="/static/plugins/ckeditor/ckeditor.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -30,16 +31,17 @@
       <i class="big close icon"></i>
     </div>
     <div class="ui segment">
-      <form class="ui form">
+      <form action="{{url_for('taskhall.store_a_task')}}" method="POST" class="ui form">
+        <input type="hidden" name="task_id" value="-1">
         <div class="field">
           <label>Title:</label>
           <input type="text" name="title">
         </div>
         <div class="field">
           <label>Detail:</label>
-          <textarea name="detail"></textarea>
+          <textarea name="content" id="askcontent"></textarea>
         </div>
-        <input type="submit" class="ui yellow button">
+        <button type="submit" class="ui yellow button">Submit</button>
       </form>
     </div>
   </div>
@@ -52,7 +54,7 @@
             [[selectedTab | capitalize]]
           </div>
           <div class="right part">
-            <div class="ui icon input" id="taskhall-index-search-input"><i class="search icon"></i><input type="text" placeholder="Search for questions..."></div>
+            <div class="ui icon input" id="taskhall-index-search-input"><i class="search icon"></i><input type="text" placeholder="Search for questions..." v-model="searchTerm" debounce="500"></div>
             <div class="ui inline dropdown" id="taskhall-index-order-dropdown">
               <input type="hidden" v-model="currentOrder" lazy>
               <div class="text">vote</div>
@@ -65,7 +67,7 @@
         </div>
 
 
-        <div class="taskhall-index question item" v-repeat="task in tasks">
+        <div class="taskhall-index question item" v-repeat="task in tasks" track-by="id">
           <div class="question statistics">
             <div class="ui statistic">
               <div class="value">[[task.views]]</div>
@@ -81,26 +83,26 @@
             </div>
           </div>
           <div class="question main">
-          <div class="header"><a href="/taskhall/detail">[[task.title]]</a></div>
+          <div class="header"><a v-attr="href: '/taskhall/detail/' + task.id">[[task.title]]</a></div>
             <div class="detail">
               [[[task.content]]]
             </div>
           <div class="question author">
             <div class="dummy"></div>
-            <div class="ui small image"><img src="/static/img/avatar.jpg" alt="author"></div>
+            <div class="ui small image"><img v-attr="src: task.author.avatar" alt="author"></div>
             <div class="info">
-              <div class="date">asked [[task.timestamp]]</div>
+              <div class="date">asked [[new Date(task.timestamp).toDateString()]]</div>
               <div class="author name">[[task.author.name]]</div>
             </div>
           </div>
-          <div class="ui author popup transition hidden">
+          <div class="ui author popup transition">
             <div class="author name">[[task.author.name]]</div>
             <div class="track list">
-              <div class="ui circular image" v-repeat="track in task.author.tracks"><img v-src="'/static/img/tracks/' + track.name + '.png'" alt=""></div>
+              <div class="ui circular image" v-repeat="track in task.author.tracks"><img v-attr="src: '/static/img/tracks/tracks_' + track + '.png'" alt=""></div>
             </div>
             <div class="question count"><span class="figure">[[task.author.question]]</span> questions</div>
             <div class="answer count"><span class="figure">[[task.author.answer]]</span> answers</div>
-            <div class="share public count"><span class="figure">[[task.author.database]]</span> share/public</div>
+            <div class="share public count"><span class="figure">[[task.author.shared]]</span> share/public</div>
           </div>
           </div>
         </div>
@@ -128,12 +130,16 @@
         <div class="ui sticky" id="taskhall-index-sticky">
           <div class="dummy statistic container">
             <div class="ui small statistic">
-              <div class="value">[[questionCount]]</div>
+              <div class="value">{{Task.query.count()}}</div>
               <div class="label">questions in total</div>
             </div>
           </div>
           <div class="dummy container">
+          {% if current_user.is_authenticated() %}
             <div class="ui selected button" v-on="click: showAskModal()">Ask a question</div>
+          {% else %}
+            <a class="ui selected button" href="{{url_for('auth.login')}}">Ask a question</a>
+          {% endif %}
           </div>
         </div>
       </div>
@@ -144,5 +150,6 @@
 
 <script src="/static/js/jquery.autoellipsis-1.0.10.min.js"></script>
 <script src="/static/js/taskhall/taskhall_index.js"></script>
+<script src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
 {% endblock %}

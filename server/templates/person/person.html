@@ -1,0 +1,27 @@
+{% extends 'core_common.html' %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/custom_scrollbar.css">
+  <link rel="stylesheet" href="/static/css/personal_center.css">
+{% endblock %}
+
+{% block body %}
+  {{ super() }}
+
+  <v-topbar>
+    <div class="right menu">
+      <div class="item">
+        <a class="ui button" href="{{url_for('main.design')}}">Design</a>
+      </div>
+      <div class="item">
+        <a class="ui button" href="{{url_for('modeling.modeling_index')}}">Modeling</a>
+      </div>
+      <div class="item">
+        <a class="ui button" href="{{url_for('main.experiment')}}">Experiment</a>
+      </div>
+    </div>
+  </v-topbar>
+
+{% endblock %}
+
