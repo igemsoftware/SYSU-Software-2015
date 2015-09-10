@@ -66,3 +66,6 @@ env/
 *.db
 server/files/
 gfp_yfp.png
+
+# OSX noise
+.DS_Store
