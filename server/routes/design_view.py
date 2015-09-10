@@ -58,7 +58,7 @@ def data_fetch_device():
     devices = [] 
     for device in Device.query.filter_by().all():
         device.update_from_db()
-        devices.append({'title': device.title,
+        devices.append({'name': device.name,
                   'parts': map(lambda x: x.jsonify(), device.parts),
                   'relationship': device.relationship,
                   'interfaceA': device.interfaceA,
@@ -80,7 +80,7 @@ def get_design(id):
     content = {
             'id': c.id,
             'parts': map(lambda x: x.jsonify(), c.parts),
-            'title': c.title,
+            'name': c.name,
             'relationship': c.relationship,
             'interfaceA': c.interfaceA,
             'interfaceB': c.interfaceB,
@@ -105,7 +105,7 @@ def store_design(id):
     data = request.get_json()
 
     c.update_from_db()
-    for attr in ['parts', 'title', 'relationship',
+    for attr in ['parts', 'name', 'relationship',
             'interfaceA', 'interfaceB', 'introduction',
             'backbone', 'source', 'risk', 'plasmids',
             'img']:
@@ -130,7 +130,7 @@ def get_all_designs():
         
         l.append( {
                 'id': c.id,
-                'title': c.title,
+                'name': c.name,
                 'introduction': c.introduction,
                 'img': c.img,
         })

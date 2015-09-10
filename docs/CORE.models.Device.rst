@@ -7,7 +7,7 @@
 .. autoclass:: Device
 
     .. autoattribute:: id
-    .. autoattribute:: title
+    .. autoattribute:: name 
     .. autoattribute:: introduction
     .. autoattribute:: source
     .. autoattribute:: protocol_reference

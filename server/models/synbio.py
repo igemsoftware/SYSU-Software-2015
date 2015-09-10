@@ -334,8 +334,8 @@ class Device(db.Model, BioBase):
     id = db.Column(db.Integer, primary_key=True)
     """ID is an unique number to identify each :class:`Device`."""
 
-    title = db.Column(db.String(32))
-    """Its title."""
+    name = db.Column(db.String(32))
+    """Its name."""
 
     introduction = db.Column(db.Text, default="No introduction yet.")
     """Its introduction."""
@@ -401,7 +401,7 @@ class Device(db.Model, BioBase):
         """Load from local files. Mostly called in preload stage."""
         print 'loading device from %s ...' % filename
         f = open(filename, 'r')
-        self.title = f.readline().strip().decode('ISO-8859-1')
+        self.name= f.readline().strip().decode('ISO-8859-1')
         self.introduction = f.readline().strip().decode('ISO-8859-1')
         self.source = f.readline().strip().decode('ISO-8859-1')
         self.protocol_reference = f.readline().strip().decode('ISO-8859-1')
@@ -470,7 +470,7 @@ class Design(db.Model, BioBase):
     """The :attr:`User.id` of owner."""
 
     name = db.Column(db.Text, default='')
-    """Its title, which will be shown in calendar"""
+    """Its name, which will be shown in calendar"""
     # as well as `name` here
 
     short_description = db.Column(db.Text, default='')
@@ -573,7 +573,7 @@ class Design(db.Model, BioBase):
             'id': self.id,
             'tags': tags,
             'progress': self.progress,
-            'title': self.name,
+            'name': self.name,
             'description': self.introduction,
         }
 
