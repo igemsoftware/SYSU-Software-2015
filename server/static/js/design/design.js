@@ -485,6 +485,7 @@ function DesignMenu() {
     this.minusBtn = $("#minus");
     this.backboneBtn = $("#backbone");
     this.hideBtn = $("#hideNormal");
+    this.importBtn = $("#importBtn");
 
     this._isMinusBtnOpen = false;
     this._isConnectPartBtnOpen = true;
@@ -494,7 +495,7 @@ function DesignMenu() {
 DesignMenu.prototype.init = function() {
     this.enableSaveCircuitchartBtn();
     this.enableDownloadBtn();
-    this.enableLoadDesignBtn();
+    // this.enableLoadDesignBtn();
     this.enableClearCircuitchartBtn();
     this.enableConnectPartBtn();
     this.enableRemovePartBtn();
@@ -614,7 +615,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
         var img;
         var curcuitChartData = that.getDesignChartData();
         curcuitChartData.title = $("#curcuitName").val();
-        curcuitChartData.introduction = $("#designIntro").val();
+        curcuitChartData.full_description = $("#designIntro").val();
         curcuitChartData.source = "hello world";
         curcuitChartData.risk = design.risk;
         curcuitChartData.plasmids = dfs.getCircuits();
@@ -707,11 +708,18 @@ DesignMenu.prototype.getDesignParts = function() {
     return parts;
 }
 
-DesignMenu.prototype.enableLoadDesignBtn = function(curcuitChart) {
+DesignMenu.prototype.enableLoadDesignBtn = function() {
     var that = this;
+    var isImport = false;
     this.openFileBtn.click(function() {
         $("#chooseModal").modal('show');
+        isImport = false;
     });
+    this.importBtn.click(function() {
+        $("#chooseModal").modal('show');
+        isImport = true;
+    });
+
 
     $("#designList div").each(function() {
         $(this).click(function() {
@@ -723,23 +731,32 @@ DesignMenu.prototype.enableLoadDesignBtn = function(curcuitChart) {
     });
 
     $("#choose").click(function() {
-        var curcuitChart;
-        $.get("/design/1", function(data) {
-            console.log(data["content"]);
-            var curcuitChart = data["content"];
-            var parts = curcuitChart.parts;
-            var connections = curcuitChart.relationship;
-            var backbones = curcuitChart.backbone;
-            var nodeElems = Util._loadCircuitCNodes(parts);
-            Util.loadBackbone(backbones);
-            Util.loadCircuitLinks(connections, nodeElems);
+        if (isImport == false) {
+            jsPlumb.empty("drawArea");
+            design.clear();
+        }
+        $("#designList div").each(function() {
+            if($(this).hasClass('ired')) {
+                var id = $(this).find('input').val();
+                var curcuitChart;
+                $.get("/design/"+String(id), function(data) {
+                    console.log(data["content"]);
+                    var curcuitChart = data["content"];
+                    var parts = curcuitChart.parts;
+                    var connections = curcuitChart.relationship;
+                    var backbones = curcuitChart.backbone;
+                    var nodeElems = Util._loadCircuitCNodes(parts);
+                    Util.loadBackbone(backbones);
+                    Util.loadCircuitLinks(connections, nodeElems);
+                });
+            }
         });
+        $("#chooseModal").modal('hide');
     });
 };
 
 DesignMenu.prototype.initOpenList = function(designs) {
     for (var i in designs) {
-        console.log('111');
         var div = $("<div></div>");
         div.text(designs[i].name);
         var idElem = $("<input type='text'></input>");
@@ -751,6 +768,7 @@ DesignMenu.prototype.initOpenList = function(designs) {
         $("#designList").append(div);
         $("#designList").append(divider);
     }
+    this.enableLoadDesignBtn();
 }
 
 DesignMenu.prototype.enableDownloadBtn =function() {
@@ -800,7 +818,7 @@ function SideBarWorker() {
 SideBarWorker.prototype.createPartView = function(part) {
     var partName = part.name;
     var partType = part.type;
-    var partIntro = part.introduction;
+    var partIntro = part.full_description;
     var BBa = part.BBa;
     var attr = part.attr;
 
@@ -1348,7 +1366,7 @@ $("#customCreate").click(function() {
     part.name = $("#customPartName").val();
     part.BBa = $("#customBBaName").val();
     part.type = $("#customPartType").val();
-    part.introduction = $("#customIntro").val();
+    part.full_description = $("#customIntro").val();
     DataManager.addPart(part);
     leftBar.addCustomPart(part);
 

@@ -535,18 +535,10 @@
     vertical-align:middle !important;
 }
 
-/*#equation {
-    width: 98%;
-}*/
-
 #equation .selection {
     min-width: 11em;
     width: 100%;
 }
-
-/*#risk {
-    float: right;
-}*/
 
 #saveModal textarea {
     margin-bottom: 1em;
@@ -659,8 +651,8 @@
     font-size: 17px;
 }
 
-#chooseModal #choose {
-    background-color: rgba(235, 245, 149, 1) !important;
+.float-right {
+    float: right;
 }
 
 .ired {
