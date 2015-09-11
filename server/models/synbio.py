@@ -334,11 +334,16 @@ class Device(db.Model, BioBase):
     id = db.Column(db.Integer, primary_key=True)
     """ID is an unique number to identify each :class:`Device`."""
 
-    title = db.Column(db.String(32))
-    """Its title."""
+    name = db.Column(db.String(32))
+    """Its name."""
 
-    introduction = db.Column(db.Text, default="No introduction yet.")
-    """Its introduction."""
+    brief_description = db.Column(db.Text, default="")
+    """Brief description."""
+    full_description = db.Column(db.Text, default="")
+    """Full description."""
+    keyword = db.Column(db.Text, default="")
+    """Keyword"""
+
     source = db.Column(db.Text, default="Come from no where.")
     """Its source."""
     protocol_reference = db.Column(db.Text, default="No reference.")
@@ -401,11 +406,17 @@ class Device(db.Model, BioBase):
         """Load from local files. Mostly called in preload stage."""
         print 'loading device from %s ...' % filename
         f = open(filename, 'r')
-        self.title = f.readline().strip().decode('ISO-8859-1')
-        self.introduction = f.readline().strip().decode('ISO-8859-1')
+        self.name= f.readline().strip().decode('ISO-8859-1')
+        self.brief_description = f.readline().strip().decode('ISO-8859-1')
+        self.full_description = f.readline().strip().decode('ISO-8859-1')
+        self.keyword = f.readline().strip().decode('ISO-8859-1')
+        #self.introduction = f.readline().strip().decode('ISO-8859-1')
         self.source = f.readline().strip().decode('ISO-8859-1')
         self.protocol_reference = f.readline().strip().decode('ISO-8859-1')
-        self.saferank = f.readline().strip()
+        try:
+            self.risk = int(f.readline().strip())
+        except:
+            self.risk = -1
         # self.type = f.readline().strip()
         self.interfaceA = f.readline().strip() 
         self.interfaceB = f.readline().strip() #.split(',') 
@@ -470,10 +481,10 @@ class Design(db.Model, BioBase):
     """The :attr:`User.id` of owner."""
 
     name = db.Column(db.Text, default='')
-    """Its title, which will be shown in calendar"""
+    """Its name, which will be shown in calendar"""
     # as well as `name` here
 
-    short_description = db.Column(db.Text, default='')
+    brief_description = db.Column(db.Text, default='')
     """Brief description."""
     full_description = db.Column(db.Text, default='')
     """Full description."""
@@ -508,6 +519,8 @@ class Design(db.Model, BioBase):
     """Whether the design is shared."""
     is_public = db.Column(db.Boolean, default=False)
     """Whether the design is public."""
+    used = db.Column(db.Integer, default=0)
+    """Used times."""
     # task_related = db.Column(db.Integer, default=-1)
 
     create_time = db.Column(db.DateTime, index=True, default=datetime.now)
@@ -554,7 +567,7 @@ class Design(db.Model, BioBase):
         if not d: raise Exception('No device #%d' % device_id) 
         d.update_from_db()
 
-        self.full_description = self.full_description+' (COPYED: '+d.introduction+')'
+        self.full_description = self.full_description+' (COPYED: '+d.brief_description+')'
         self.parts = d.parts
         self.relationship = d.relationship
         self.interfaceA = d.interfaceA
@@ -573,8 +586,8 @@ class Design(db.Model, BioBase):
             'id': self.id,
             'tags': tags,
             'progress': self.progress,
-            'title': self.name,
-            'description': self.introduction,
+            'name': self.name,
+            'description': self.brief_description,
         }
 
 

@@ -78,11 +78,16 @@ def answer_a_task():
 @taskhall.route('/action/comment', methods=["POST"])
 @login_required
 def comment_a_answer():
-    answer_id = request.form.get('answer_id', 0)
+#   answer_id = request.form.get('answer_id', 0)
+#   content = request.form.get('content', '')
+    json_obj = request.get_json()
+    answer_id = json_obj['answer_id']
+    content = json_obj['content']
+
     a = Answer.query.get(answer_id)
     if not a: abort(404)
 
-    c = Comment(content=request.form.get('content', ''))
+    c = Comment(content=content)
     c.owner = current_user
     c.answer = a
     db.session.add(c)
