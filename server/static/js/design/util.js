@@ -83,7 +83,7 @@ Util._loadCircuitCNodes = function(parts) {
         var node = that._createNewCNode(part);
         node.appendTo(design.drawArea);
         design.addPartEvent(node);
-        design.addProAndInhibitLine(elem);
+        // design.addProAndInhibitLine(node);
         var partID = part.partID;
         nodeElems.push([partID, node]);
     });
