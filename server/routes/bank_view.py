@@ -64,7 +64,8 @@ def get_list():
 def share_design():
     id = request.form.get('Design', -1)
     d = Design.query.get(id)
-    if not d: return jsonify(msg='false')
+    if not d or d.owner != current_user: 
+        return redirect(url_for('bank.index'))#jsonify(msg='false')
 
     d.is_shared = d.is_public = True
     d.full_description = request.form.get('full_description', '')
@@ -73,7 +74,7 @@ def share_design():
     db.session.add(d)
     db.session.commit()
 
-    return jsonify(msg='success')
+    return redirect(url_for('bank.index'))
 
 @bank.route('/finishedList/')
 @login_required

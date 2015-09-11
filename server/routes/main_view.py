@@ -18,7 +18,7 @@ def index():
     return render_template('index.html')
 
 @main.route('/design')
-#@login_required
+@login_required
 def design():
     return render_template('design.html')
 
