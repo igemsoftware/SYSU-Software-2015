@@ -21,7 +21,7 @@ def data_fetch_parts():
     for c in ComponentPrototype.query.order_by(ComponentPrototype.name.asc()).all():
         if c.id == 1: continue
         l.append({'name': c.name,
-                  'full_description': c.full_description,
+                  'introduction': c.introduction,
                   'source': c.source,
                   'risk': c.risk,
                   'type': c.type,
