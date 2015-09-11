@@ -33,7 +33,7 @@ def get_list():
         if current_user.is_anonymous():
             """ authentic check """
             return jsonify(error=1, aux=url_for(login_manager.login_view, next=url_for('bank.index')) )
-        query_obj = current_user.designs
+        query_obj = current_user.designs.filter(Design.is_shared==True)
     else:
         query_obj = Design.query
 
