@@ -153,7 +153,7 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
                         owner=u)._copy_from_device(1)
 
             admin = User.query.first()
-            c = Design(name='My first design', brief_description='First design', owner=admin)._copy_from_device(1)
+            c = Design(name='My first design', brief_description='First design', owner=admin, is_public=True)._copy_from_device(1)
             u.favorite_designs.append(c)
 
         # memo

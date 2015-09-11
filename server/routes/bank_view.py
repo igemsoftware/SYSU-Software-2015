@@ -2,12 +2,13 @@
 
 from . import bank
 from ..models import Design, User
-from .. import login_manager
+from .. import login_manager, db
 
 from flask import render_template, jsonify, request, \
-        current_app, url_for
+        current_app, url_for, redirect
 from flask.ext.login import login_required, current_user
 from sqlalchemy import or_
+from datetime import datetime
 
 @bank.route('/')
 def index():
@@ -35,7 +36,7 @@ def get_list():
             return jsonify(error=1, aux=url_for(login_manager.login_view, next=url_for('bank.index')) )
         query_obj = current_user.designs.filter(Design.is_shared==True)
     else:
-        query_obj = Design.query
+        query_obj = Design.query.filter(Design.is_public==True)
 
     all_list = query_obj.\
             filter(or_(Design.name.like('%'+keyword+'%'),\
@@ -57,5 +58,29 @@ def get_list():
                  })
 
     return jsonify(designs=l, count=all_list.count())
+
+@bank.route('/share', methods=["POST"])
+@login_required
+def share_design():
+    id = request.form.get('Design', -1)
+    d = Design.query.get(id)
+    if not d: return jsonify(msg='false')
+
+    d.is_shared = d.is_public = True
+    d.full_description = request.form.get('full_description', '')
+    d.brief_description = request.form.get('brief_description', '')
+    d.last_active = datetime.now()
+    db.session.add(d)
+    db.session.commit()
+
+    return jsonify(msg='success')
+
+@bank.route('/finishedList/')
+@login_required
+def get_finished_list(): 
+    l = []
+    for d in current_user.designs.filter_by(is_shared=False).filter_by(is_finished=True).all():
+        l.append({'id':d.id, 'name': d.name})
+    return jsonify(finishedList = l)
 
 
