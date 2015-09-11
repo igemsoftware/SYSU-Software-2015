@@ -421,7 +421,7 @@
 </div>
 
 <!-- main-contain -->
-    <div id="main-contain">
+    <!-- <div id="main-contain"> -->
       <div id="drawArea-menu">
         <div class="ui large icon buttons">
           <button class="ui grey button" id="openFile" data-content="Open an circuit"><i class="folder open icon"></i></button>
@@ -433,13 +433,17 @@
           <button class="ui grey button" id="hideNormal" data-content="Hide normal line" ><i class="hide icon"></i></button>
           <button class="ui grey button" id="download" data-content="Download this image" ><i class="download icon"></i></button>
         </div>
+        <span>Canvas size:</span>
+        <div class="slider">
+            <input type="range">
+        </div>
         <span id="riskSpan">Risk: <span class="vertical-middle ui green button" id="risk" data-content="Low risk(1)"></span></span>
       </div>
       <div class="" id="drawArea">
           <!-- <div id="test">hello</div> -->
-          <div id="rubberband" style="border:1px solid green;display:none;"></div>
+          <div id="rubberband"></div>
       </div>
-    </div>
+    <!-- </div> -->
     <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/static/js/design/dom.jsPlumb-1.7.6-min.js"></script>
     <script type="text/javascript" src="/static/js/semantic.min.js"></script>

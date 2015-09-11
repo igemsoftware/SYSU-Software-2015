@@ -268,13 +268,15 @@ Design.prototype._makeDrawAreaDroppabble = function() {
             }
             var node = new CNode();
             node.createCNode($(dropedElement));
+            node.view.css({left: e.pageX, top: e.pageY});
             $("#drawArea").append(node.view);
-            var left = node.view.position().left - leftBar.view.width();
-            var top  = node.view.position().top - that.drawMenu.height();
+            var offset = $("#drawArea").offset();
+            var left = node.view.position().left - offset.left- 30;
+            var top  = node.view.position().top - offset.top - 50;
             node.view.css({left:left, top:top});
 
             that.addPartEvent(node.view);
-            that.addProAndInhibitLine(elem);
+            that.addProAndInhibitLine(node.view);
             //write log
             operationLog.addPart(dropedElement.attr("part-attr"));
         }
@@ -503,6 +505,7 @@ DesignMenu.prototype.init = function() {
     this.enableRemovePartBtn();
     this.enableBackboneBtn();
     this.enableHideNormal();
+    this.enableDesignSlider();
     this.popUpAllButton();
 
     $("#risk").popup();
@@ -536,6 +539,23 @@ DesignMenu.prototype.popUpAllButton = function() {
     this.minusBtn.popup();
     this.backboneBtn.popup();
     this.hideBtn.popup();
+}
+
+DesignMenu.prototype.enableDesignSlider = function() {
+    design.drawAreaHeight = $("#drawArea").css("height"); 
+    $(".slider input").val(0);
+    $(".slider input").change(function() {
+        var zoom = parseFloat($(this).val())/100;
+        var height = parseInt(design.drawAreaHeight);
+        console.log(design.drawAreaHeight);
+        // console.log(height);
+        $("#drawArea").css("height", String(height*(zoom+1)+'px'));
+        // %("#main-contain").height = $("#drawArea").height;
+        // $(".node").each(function() {
+        //     $(this).css('zoom',0.5+zoom);
+        // });
+        // console.log($('body').height());
+    });
 }
 
 DesignMenu.prototype.enableHideNormal = function() {
@@ -1063,7 +1083,13 @@ LeftBar.prototype._leftTriggerAnimation = function() {
                 left: '-' + that._leftBarWidth + 'px'
             }, 500);
 
-            $("#main-contain").animate({
+            // $("#main-contain").animate({
+            //     left: '0px'
+            // }, 500);
+            $("#drawArea").animate({
+                left: '0px'
+            }, 500);
+            $("#drawArea-menu").animate({
                 left: '0px'
             }, 500);
             that.leftTrigger.find("i").removeClass("left").addClass("right");
@@ -1074,10 +1100,16 @@ LeftBar.prototype._leftTriggerAnimation = function() {
                 left: '0px'
             }, 500);
 
-            $("#main-contain").animate({
+            // $("#main-contain").animate({
+            //     left: that._leftBarWidth + 'px'
+            // }, 500);
+
+            $("#drawArea").animate({
                 left: that._leftBarWidth + 'px'
             }, 500);
-
+            $("#drawArea-menu").animate({
+                left: that._leftBarWidth + 'px'
+            }, 500);
             that.leftTrigger.find("i").removeClass("right").addClass("left");
         }
     });
