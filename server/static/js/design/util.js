@@ -83,7 +83,7 @@ Util._loadCircuitCNodes = function(parts) {
         var node = that._createNewCNode(part);
         node.appendTo(design.drawArea);
         design.addPartEvent(node);
-
+        design.addProAndInhibitLine(elem);
         var partID = part.partID;
         nodeElems.push([partID, node]);
     });
@@ -173,7 +173,7 @@ Util.loadCircuitLinks = function(connections, nodeElems) {
             if (nodeElems[index][0] == elem.start) startElem = nodeElems[index][1];
             if (nodeElems[index][0] == elem.end) endElem = nodeElems[index][1];
         }
-        if (elem.type == 'normal') {
+        // if (elem.type == 'normal') {
             var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
             var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
             startNormalNum += 1;
@@ -181,7 +181,7 @@ Util.loadCircuitLinks = function(connections, nodeElems) {
             $(startElem).attr("normal-connect-num", startNormalNum);
             $(endElem).attr("normal-connect-num", endNormalNum);
             design.drawLine(startElem, endElem, elem.type);
-        }
+        // }
     }); 
 };
 //========================================================================================

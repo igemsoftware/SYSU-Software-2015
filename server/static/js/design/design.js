@@ -274,6 +274,7 @@ Design.prototype._makeDrawAreaDroppabble = function() {
             node.view.css({left:left, top:top});
 
             that.addPartEvent(node.view);
+            that.addProAndInhibitLine(elem);
             //write log
             operationLog.addPart(dropedElement.attr("part-attr"));
         }
@@ -282,7 +283,7 @@ Design.prototype._makeDrawAreaDroppabble = function() {
 
 Design.prototype.addPartEvent = function(elem) {
     this.addDraggable(elem);
-    this.addProAndInhibitLine(elem);
+    // this.addProAndInhibitLine(elem);
     this.makeSourceAndTarget(elem);
     this.nodeElemList.push(elem);
     this._partCount += 1;
