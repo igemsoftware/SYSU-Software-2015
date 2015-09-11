@@ -18,6 +18,7 @@ body {
     text-align: right;
     padding-top: 15px;
     padding-right: 25px;
+    z-index: 100;
 }
 
 #index-topbar > .ui.button {
