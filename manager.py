@@ -124,6 +124,10 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
             
             from numpy import random
             for i in range(50):
+                is_finished = random.randint(2) == 1
+                is_shared = is_finished and random.randint(2) == 1
+                is_public = is_shared and random.randint(2) == 1
+                used = random.randint(100) if is_public else 0
                 c = Design(name=random_text(2).capitalize()+'design', 
                         brief_description = random_text(4),
                         full_description = random_text(100),
@@ -140,6 +144,11 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
 
                         progress = random.randint(1, 100),
                         likes = random.randint(1, 100),
+
+                        is_finished = is_finished,
+                        is_shared = is_shared,
+                        is_public = is_public,
+                        used = used,
 
                         owner=u)._copy_from_device(1)
 

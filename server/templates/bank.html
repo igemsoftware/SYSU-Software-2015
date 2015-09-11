@@ -27,15 +27,15 @@
                 <i class="search icon"></i>
             </div>
             <div class="ui small horizontal statistic" id="totalNumber">
-                <div class="value" id="totalCircuits"> </div>
-                <div class="label">circuits</div>
+                <div class="value" id="totalDesigns"> </div>
+                <div class="label">designs</div>
             </div>
             <select class="ui dropdown" id="order">
                 <option value="last-active">Last Active</option>
-                <option value="users">Users</option>
+                <option value="used">Used</option>
                 <option value="rate">Rate</option>
             </select>
-            <button class="ui button" id="btnShare">Share</button>
+            <button class="ui button" id="btnShare" style="display:none;">Share</button>
         </div>
     
         <div style="clear:both; height:0px;"></div>
@@ -47,82 +47,19 @@
                     <th>Description</th>
                     <th>Contributor</th>
                     <th>Rate</th>
-                    <th>Users</th>
+                    <th>Used</th>
                     <th>Comments</th>
                     <th>Last Active</th>
                 </tr>
             </thead>
             <tbody>
+                {% for i in range(7) %}
                 <tr>
+                    {% for j in range(8) %}
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    {% endfor %}
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div id="pager">
@@ -143,8 +80,8 @@
         <div class="content">
           <div class="ui form">
             <div class="field">
-                <a id="addCircuits"><i class="add circle icon"></i></a>
-                <span>Add fromfinished circuits</span>
+                <a id="addDesigns"><i class="add circle icon"></i></a>
+                <span>Add fromfinished designs</span>
             </div>
             <div class="field">
                 <div class="ui input">
@@ -163,14 +100,30 @@
     <script src="/static/js/semantic.min.js"></script>
     <script>
         $(document).ready(function() {
+            var attrName = ["id", "name", "description", "contributor", "rate", "used", "comments", "last active"];
+
+            var totalNumber = 0;
+            var keyword = "";
+
+            var mode = "public";
+
             $("#linkPublic").click(function(event) {
                 $("#linkPublic").addClass("highlight");
                 $("#linkShare").removeClass("highlight");
+                $("#btnShare").fadeOut('fast'); // blinking might happen
+                //$("#btnShare").stop().fadeTo('fast', 0, function() {$(this).hide();});
+                mode = "public";
+                fillTable(1, "id", keyword);
             });
             $("#linkShare").click(function(event) {
                 $("#linkShare").addClass("highlight");
                 $("#linkPublic").removeClass("highlight");
+                // $("#btnShare").fadeIn('fast');
+                $("#btnShare").stop().fadeTo('fast',1, function() {$(this).show();});
+                mode = "share";
+                fillTable(1, "id", keyword);
             });
+
             $("#btnShare").click(function(event) {
                 $(".ui.modal").modal('show');
             });
@@ -178,23 +131,24 @@
                 $(".ui.modal").modal('hide');
             });
 
-            var attrName = ["id", "name", "description", "contributor", "rate", "users", "comments", "last active"];
-
-            var totalNumber = 0;
-            var keyword = "";
-
-            $.get('/bank/list?per_page=100000&page=1', function(data) {
-                setTotalNumber(data["designs"].length);
-            });
+          //$.get('/bank/list?per_page=100000&page=1', function(data) {
+          //    setTotalNumber(data["designs"].length);
+          //});
 
             function setTotalNumber(_number) {
                 totalNumber = _number;
-                $("#totalCircuits").text(_number);
+                $("#totalDesigns").text(_number);
             }
 
             function fillTable(page, order, keyword) {
-                var url = "/bank/list?per_page=7&page=" + page + "&order=" + order + "&keyword=" + keyword;
+                var url = "";
+                url = "/bank/list?per_page=7&page=" + page + "&order=" + order + "&keyword=" + keyword + "&mode=" + mode;
                 $.get(url, function(data, needToSearch) {
+                    if (data['error'] == 1) { 
+                        alert(data['aux']);
+                        window.location.href = data['aux'];
+                    }
+                    setTotalNumber(data["count"]);
                     designs = data["designs"];
                     
                     for (var i = 0; i < 9; i++) {
@@ -215,6 +169,7 @@
                 });
             }
             
+            $("#linkPublic").click();
             fillTable(1, "id", keyword);
             $(".number a").click(function(event) {
                 console.log($(this).html());
@@ -226,6 +181,7 @@
                 $(this).addClass("selected");
             });
 
+            // after switch to page 2, and search for something, error occurs
             $("#pageAdd").click(function(event) {
                 var links = $(".number a");
                 console.log(links[4]);
@@ -256,5 +212,6 @@
             });
         });
     </script>
+
 </body>
 </html>
