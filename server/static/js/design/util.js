@@ -266,7 +266,9 @@ DataManager.getPartByAttr = function(partAttr) {
 }
 
 DataManager.getDeviceByTitle = function(deviceName) {
+    console.log(deviceName);
     for (var i in this.deviceList) {
+        console.log(this.deviceList[i].name);
         if (this.deviceList[i].name == deviceName) return this.deviceList[i];
     }
     return null;
@@ -371,7 +373,6 @@ DataManager.getDesignDataFromServer = function(callback) {
     var that = this;
     $.get("/design/all", function(data, status) {
         console.log("Designs:");
-        that.initDeviceList(data['designs']);
         callback(data['designs']);
     });
 }

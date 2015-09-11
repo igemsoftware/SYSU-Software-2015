@@ -4,6 +4,7 @@
 
 #main-contain {
     width: 100%;
+    height: 80%;
     position: absolute;
     padding-top: 1%;
     padding-left: 3%;
@@ -12,13 +13,18 @@
 
 
 #drawArea {
-	width: 100%;
-	height: 600px;
+	/*width: 100%;*/
+	height: 100%;
 	position: relative;
     margin-top: 10px;
 	border: solid 1px #C5C5C5;
 	z-index: 0;
     background-color: white;
+    overflow: auto;
+}
+
+#drawArea .node {
+    cursor: pointer;
 }
 
 #left-sidebar {
@@ -618,7 +624,6 @@
     left: 0;
     padding-bottom: 20px;
     height: 70%;
-    /*overflow: auto;   */
 }
 
 #chooseModal .content {

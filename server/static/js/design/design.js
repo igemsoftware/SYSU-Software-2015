@@ -415,7 +415,8 @@ Design.prototype.removeCNodeElem = function(partID) {
 
 Design.prototype.addDraggable = function(elem) {
     jsPlumb.draggable(elem, {
-        containment: 'parent',
+        // containment: 'parent', //设置后会导致无法scrollable
+        // scroll: true,
         drag:function(e){
             if (designMenu._isHideNormalLine == true) {
                 $("svg").each(function() {
@@ -1398,3 +1399,7 @@ $('#loadingData').dimmer('show');
 $("#moveTo").click(function() {
     window.location.href = "/modal";
 }); 
+
+$("#test").draggable({
+    scroll:true
+});
