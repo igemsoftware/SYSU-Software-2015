@@ -14,7 +14,7 @@ from sqlalchemy import or_, not_
 @taskhall.route('/')
 @taskhall.route('/index')
 def taskhall_index():
-    return render_template('task/taskhall.html')
+    return render_template('task/taskhall.html', Task=Task)
 
 @taskhall.route('/list')
 def get_task_list():
@@ -53,7 +53,7 @@ def vote_a_task():
     task_id = data['task_id']
     t = Task.query.get(task_id)
     if not t: abort(404)
-    t.vote += 1
+    t.votes += 1
     db.session.add(t)
 
     return 'success' 
@@ -95,18 +95,18 @@ def comment_a_answer():
 @taskhall.route('/action/store', methods=["POST"])
 @login_required
 def store_a_task():
-    task_id = request.form.get('task_id', 0)
+    task_id = request.form.get('task_id', 0, type=int)
 
     if task_id < 0:
         t = Task()
     else:
         t = Task.query.get(task_id)
-    if not t: abort(404)
 
     t.title = request.form.get('title', 0)
     t.content = request.form.get('content', 0)
     t.owner = current_user
     db.session.add(t)
+    db.session.commit()
 
     return redirect(url_for('taskhall.task_detail', id = t.id) )
 

@@ -28,7 +28,7 @@ def get_list():
 
     pagination = Design.query.\
             filter(or_(Design.name.like('%'+keyword+'%'),\
-                       Design.short_description.like('%'+keyword+'%'))\
+                       Design.brief_description.like('%'+keyword+'%'))\
                   ).\
             order_by(order_obj.get(order, Design.id.asc())).\
             paginate(page, per_page=per_page, error_out=False)
@@ -37,7 +37,7 @@ def get_list():
     for d in pagination.items:
         l.append({'id': d.id,
                   'name': d.name,
-                  'description': d.short_description,
+                  'description': d.brief_description,
                   'contributor': d.owner.username,
                   'rate': d.rate,
                   'comments': d.comments.count(),

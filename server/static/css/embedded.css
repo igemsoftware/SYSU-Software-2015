@@ -1,0 +1,77 @@
+body {
+    background-color: #eee;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+}
+
+#embedded-container {
+    display: flex;
+    padding-top: 40px;
+    height: 100%;
+}
+
+#embedded-container > .left {
+    flex: 1;
+}
+
+#embedded-container > .right {
+    width: 250px;
+    border-left: 1px solid #458ac6;
+    height: 100%;
+    background-color: rgba(255,255,255,0.8);
+}
+
+#embedded-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.75);
+    z-index: 100;
+}
+
+#embedded-topbar > a {
+    margin: 0;
+}
+
+#embedded-topbar-bottom-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    width: 100%;
+    background-color: #458ac6;
+}
+
+#embedded-tabs {
+}
+
+#embedded-rating {
+    padding-top: 10px;
+    text-align: center;
+}
+
+#embedded-rating > .rating.container {
+    display: flex;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#embedded-rating > .rating.container > .description {
+    flex: 1;
+}
+
+#embedded-rating > .rating.container > .rating {
+    width: 100px;
+}
+
+#embedded-rating > .rating.submit.button {
+    border-radius: 0;
+    margin-top: 20px;
+}
+
