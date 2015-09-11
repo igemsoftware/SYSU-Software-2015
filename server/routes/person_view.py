@@ -49,7 +49,7 @@ def get_person_notifications():
 @login_required
 def mark_notification_as_read(id):
     m = Message.query.get(id)
-    if m:
+    if m and m.receiver == current_user:
         m.isread = True
         db.session.add(m)
     return 'success'
@@ -58,7 +58,7 @@ def mark_notification_as_read(id):
 @login_required
 def delete_notification(id):
     m = Message.query.get(id)
-    if m:
+    if m and m.receiver == current_user:
         db.session.delete(m)
     return 'success'
 

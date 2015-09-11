@@ -28,7 +28,7 @@
           v-repeat="rec in recordsBeingDisplayed"
           v-class="selected: selectedRecord === rec"
           v-on="click: selectRecord(rec)">
-          [[rec.title]]
+          [[rec.name]]
         </button>
       </div>
 

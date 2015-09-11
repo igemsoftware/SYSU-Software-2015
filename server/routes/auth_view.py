@@ -14,21 +14,23 @@ def register():
     form = RegistrationForm(request.form)
     form.tracks.choices = [(track.id, track.name) for track in Track.query.all()]
 
-    print form.avatar.data
+    # print form.avatar.data
 
     if request.method == 'POST' and form.validate():
         u = User(username=form.username.data, email=form.email.data, password=form.password.data, avatar=form.avatar.data)
         for track_id in form.tracks.data:
-            u.tracks.append(Track.query.get(track_id))
+            t = Track.query.get(track_id)
+            if t: u.tracks.append(t)
         db.session.add(u)
         db.session.commit()
         return redirect(url_for('auth.login')) 
     else:
         return render_template('auth/register.html', form=form, tracks=Track.query.all())
 
-
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    if not current_user.is_anonymous():
+        return redirect(request.args.get('next') or url_for('person.index'))
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
         user = User.query.filter_by(username=form.username.data).first()

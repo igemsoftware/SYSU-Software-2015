@@ -74,6 +74,9 @@ def data_fetch_device():
 
 @design.route('/<int:id>', methods=['GET'])
 def get_design(id):
+    if current_user.is_anonymous():
+        return jsonify(error=1, aux=url_for(login_manager.login_view, next=url_for('bank.index')) )
+
     c = Design.query.get(id)
     c.update_from_db()
     
@@ -120,10 +123,13 @@ def store_design(id):
 
     return jsonify(id=c.id)
 
+
+
+# get designs from different sources
+
 @design.route('/all', methods=['GET'])
 @login_required
 def get_all_designs():
-
     l = []
     for c in current_user.designs.all():
         c.update_from_db()
@@ -136,4 +142,33 @@ def get_all_designs():
         })
     return jsonify(designs=l)
 
+@design.route('/public', methods=['GET'])
+@login_required
+def get_public_designs():
+    l = []
+    for c in Design.query.filter_by(is_public=True).all():
+        c.update_from_db()
+        
+        l.append( {
+                'id': c.id,
+                'name': c.name,
+                'full_description': c.full_description,
+                'img': c.img,
+        })
+    return jsonify(designs=l)
+
+@design.route('/favorite', methods=['GET'])
+@login_required
+def get_favorite_designs():
+    l = []
+    for c in current_user.favorite_designs:
+        c.update_from_db()
+        
+        l.append( {
+                'id': c.id,
+                'name': c.name,
+                'full_description': c.full_description,
+                'img': c.img,
+        })
+    return jsonify(designs=l)
 
