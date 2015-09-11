@@ -595,11 +595,14 @@ DesignMenu.prototype.enableConnectPartBtn = function() {
 };
 
 DesignMenu.prototype.enableClearCircuitchartBtn = function() {
+    var that = this;
     this.clearBtn.click(function() {
         $("#deleteModal").modal('show');
         $("#deleteBtn").click(function() {
             jsPlumb.empty("drawArea");
             design.clear();
+            var rubberband = new Rubberband();
+            rubberband.init();
             $("#deleteModal").modal('hide');
         });
     });
@@ -889,7 +892,7 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     titleSpan.text(device.name);
     itemDiv.attr('part-type', 'device');
     itemDiv.attr('device-name', device.name);
-    iconSpan.attr("data-content", "Read more about this part");
+    iconSpan.attr("data-content", "Read more about this device");
     iconSpan.popup();
 
     itemDiv.append(imgElem);
@@ -1399,7 +1402,3 @@ $('#loadingData').dimmer('show');
 $("#moveTo").click(function() {
     window.location.href = "/modal";
 }); 
-
-$("#test").draggable({
-    scroll:true
-});

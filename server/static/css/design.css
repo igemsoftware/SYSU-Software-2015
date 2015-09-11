@@ -12,6 +12,7 @@
 }
 
 
+
 #drawArea {
 	/*width: 100%;*/
 	height: 100%;
@@ -25,6 +26,11 @@
 
 #drawArea .node {
     cursor: pointer;
+}
+
+#drawArea #rubberband {
+    border:1px solid green;
+    display:none;
 }
 
 #left-sidebar {
@@ -433,7 +439,7 @@
     margin-top: 2px;
 }
 /*=====================================================*/
-::-webkit-scrollbar-track {
+::-webkit-scrollbar-track:horizontal {
     border-radius: 5px;
     height: 8px;
 }
@@ -667,3 +673,4 @@
 #drawArea-menu .buttons .ired {
     background-color: #ec5a5b !important;
 }
+

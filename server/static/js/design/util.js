@@ -386,13 +386,18 @@ DataManager.getDesignDataFromServer = function(callback) {
  */
 
 function Rubberband() {
-    this.view = $("#rubberband");
     this.drawArea = $("#drawArea");
     this._x = null;
     this._y = null;
 };
 
+Rubberband.prototype.createView = function() {
+    this.view = $('<div id="rubberband"></div>');
+    this.view.appendTo(this.drawArea);
+}
+
 Rubberband.prototype.init = function() {
+    this.createView();
     this._listenDrawAreaMouseMove();
     this._listenDrawAreaMouseDown();
     this._listenDrawAreaMouseup();
