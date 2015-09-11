@@ -519,6 +519,8 @@ class Design(db.Model, BioBase):
     """Whether the design is shared."""
     is_public = db.Column(db.Boolean, default=False)
     """Whether the design is public."""
+    used = db.Column(db.Integer, default=0)
+    """Used times."""
     # task_related = db.Column(db.Integer, default=-1)
 
     create_time = db.Column(db.DateTime, index=True, default=datetime.now)

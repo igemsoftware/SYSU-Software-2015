@@ -137,6 +137,18 @@ $(document).ready(function() {
     // Share modal
     
     $("#btnShare").click(function(event) {
+        $.get('/bank/finishedList', function(data) {
+            var arr = data['finishedList'];
+            $(arr).each(function(ind, ele) {
+                $('#designList').append("<div class='item' data-value=\""+ele['id']+"\" data-text=\""+ele['name']+"\">"+ele['name']+"</div>");
+            });
+
+            if (arr.length == 0) 
+                $('#designText').html('You own no design that is finished but not shared.');
+            else 
+                $('#designText').html('Select a finished but not shared Design.');
+        });
+
         $(".ui.modal").modal('show');
     });
 //  $("#confirm").click(function(event) {
@@ -146,12 +158,12 @@ $(document).ready(function() {
     $('.ui.form')
         .form({
             fields: {
-                gender: {
-                    identifier  : 'gender',
+                design: {
+                    identifier  : 'design',
                     rules: [
                     {
                         type   : 'empty',
-                        prompt : 'Please select a gender'
+                        prompt : 'Please select a design'
                     }
                     ]
                 },
