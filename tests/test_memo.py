@@ -20,12 +20,12 @@ class TestMemo(TestCase):
         m = u.add_memo(title='Sleep', content='I want to sleep', time_scale=60*8)
         assert m.id is not None # added into db
 
-        assert len(u.recv_messages.all()) == 0
+        assert len(u.msg_box.all()) == 0
         u.check_memo()
-        assert len(u.recv_messages.all()) == 1
+        assert len(u.msg_box.all()) == 1
 
         u.check_memo()
-        assert len(u.recv_messages.all()) == 1
+        assert len(u.msg_box.all()) == 1
 
         td1 = timedelta(hours=1)
         td2 = timedelta(hours=2)

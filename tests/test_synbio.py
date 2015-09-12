@@ -2,17 +2,18 @@
 
 from . import TestCase
 
-from server.models import Device, ComponentPrototype, ComponentInstance, Relationship
+from server.models import Device, ComponentPrototype, ComponentInstance, \
+        Relationship, Design
 from server import db
 
 class TestFunction(TestCase):
 
-    def test_component(self):
-        c = ComponentInstance('Promotor')
-        assert c.partID == 'Promotor'
+#   def test_component(self):
+#       c = ComponentInstance('Promotor')
+#       assert c.partID == 'Promotor'
 
-        c = ComponentInstance(100)
-        assert c.partID == 'None'
+#       c = ComponentInstance(100)
+#       assert c.partID == 'None'
 
     def test_relationship(self):
         pro = ComponentPrototype.query.get(2)
@@ -28,7 +29,7 @@ class TestFunction(TestCase):
         assert rbs.be_point.all() != []
 
     
-    def test_work(self):
+    def test_Device(self):
         d = Device(title='test')
         d.commit_to_db() # use this method to commit
 
