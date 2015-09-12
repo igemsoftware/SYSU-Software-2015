@@ -314,7 +314,7 @@ Design.prototype.removeCNodeElem = function(partID) {
 
 Design.prototype.addDraggable = function(elem) {
     jsPlumb.draggable(elem, {
-        // containment: 'parent', //设置后会导致无法scrollable
+        containment: 'parent', //设置后会导致无法scrollable
         // scroll: true,
         grid: [20, 20],
         drag:function(e){
