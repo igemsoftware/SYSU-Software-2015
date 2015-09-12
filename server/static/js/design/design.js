@@ -36,6 +36,8 @@ function CNode() {
 CNode.prototype.createCNode = function(partElem) {
     this.view = partElem;
     this.view.attr('normal-connect-num', '0');
+    this.view.attr("data-content", "Most link to two objects");
+    console.log(this.view);
     this.view.removeAttr("class");
     this.view.find(".BBa").remove();
     var partType = partElem.attr('part-type');
@@ -193,6 +195,7 @@ function Design() {
     this.nodeElemList = [];
     this._partCount = 0;
     this.risk = 1;
+    this.isRemove = false;
 };
 
 Design.prototype.clear = function() {
@@ -298,6 +301,8 @@ Design.prototype.addPartEvent = function(elem) {
 
 Design.prototype.putNewDevice = function(elem) {
     var device = DataManager.getDeviceByTitle(elem.attr('device-name'));
+    console.log('Put a device:');
+    console.log(device);
     var parts = device.parts;
     var connections = device.relationship;
     var nodeElems = Util._loadCircuitCNodes(parts);
@@ -348,17 +353,17 @@ Design.prototype._initJsPlumbOption = function() {
             that._isPromoteLink = false;
         } else {
             CurrentConnection.connection.scope = "normal";
-            if (sourceNormalNum === 2) {
-                source.attr("data-content", "Most link to two objects");
+            if (sourceNormalNum == 2) {
+                // source.attr("data-content", "Most link to two objects");
                 source.popup('show');
-                source.removeAttr("data-content");
+                // source.removeAttr("data-content");
                 jsPlumb.detach(CurrentConnection.connection);
                 return;
             }
-            if (targetNormalNum === 2){
-                target.attr("data-content", "Most link to two objects");
+            if (targetNormalNum == 2){
+                // target.attr("data-content", "Most link to two objects");
                 target.popup('show');
-                target.removeAttr("data-content");
+                // target.removeAttr("data-content");
                 jsPlumb.detach(CurrentConnection.connection);
                 return;
             }
@@ -383,15 +388,17 @@ Design.prototype._initJsPlumbOption = function() {
         }
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
-        if (info.connection.scope == "normal") {
+        if (that.isRemove == true && info.connection.scope == "normal") {
             targetNormalNum -= 1;
             sourceNormalNum -= 1;
             source.attr("normal-connect-num", sourceNormalNum);
             target.attr("normal-connect-num", targetNormalNum);
+            that.isRemove = false;
         }
     })
 
     jsPlumb.on(that.drawArea, "click", ".minus", function() {
+        that.isRemove = true;
         operationLog.removePart($(this.parentNode.parentNode).attr("part-name"));
         console.log($(this.parentNode.parentNode).attr("part-id"));
         that.removeCNodeElem($(this.parentNode.parentNode).attr("part-id"));

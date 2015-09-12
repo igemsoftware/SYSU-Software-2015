@@ -98,10 +98,8 @@ Util._createNewCNode = function(part) {
     node.css({left: left, top: top});
     node.css({position: "absolute"});
     node.attr("part-name", part.partName);
-    //need recover
     node.attr("part-attr", part.partAttr);
-    // node.attr("part-attr", part.partName);
-    //need recover
+    node.attr("data-content", "Most link to two objects");
     node.attr("normal-connect-num", 0);
     node.addClass("node");
     node.css("text-align", "center");
@@ -174,12 +172,14 @@ Util.loadCircuitLinks = function(connections, nodeElems) {
             if (nodeElems[index][0] == elem.end) endElem = nodeElems[index][1];
         }
         // if (elem.type == 'normal') {
-            var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
-            var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
-            startNormalNum += 1;
-            endNormalNum += 1;
-            $(startElem).attr("normal-connect-num", startNormalNum);
-            $(endElem).attr("normal-connect-num", endNormalNum);
+            // var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
+            // var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
+            // if (elem.type == 'normal') {
+            //     startNormalNum += 1;
+            //     endNormalNum += 1;
+            //     $(startElem).attr("normal-connect-num", startNormalNum);
+            //     $(endElem).attr("normal-connect-num", endNormalNum);
+            // }
             design.drawLine(startElem, endElem, elem.type);
         // }
     }); 
@@ -266,9 +266,7 @@ DataManager.getPartByAttr = function(partAttr) {
 }
 
 DataManager.getDeviceByTitle = function(deviceName) {
-    console.log(deviceName);
     for (var i in this.deviceList) {
-        console.log(this.deviceList[i].name);
         if (this.deviceList[i].name == deviceName) return this.deviceList[i];
     }
     return null;
