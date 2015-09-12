@@ -79,6 +79,7 @@ Modeling.prototype.loadData = function() {
         that.xAxis = data.x_axis;
         console.log(that.variables);
         console.log(that.xAxis);
+        $("#simulation .title span").text(data.title);
 		that.drawChart($("#chart"), that.xAxis, that.variables);
         that.drawChart($("#myChart"));
         that.initMenu();
@@ -180,6 +181,7 @@ Modeling.prototype.initChooseModal = function(designs) {
 		$("#designList div").each(function() {
 			if($(this).hasClass('iyellow')) {
 				var id = $(this).find('input').val();
+				$("#simulation .title span").text($(this).text());
 				$.get("/modeling/design/"+String(id), function(data) {
 					that.variables = data.variables;
         			that.xAxis = data.x_axis;
