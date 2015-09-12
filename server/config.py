@@ -27,7 +27,7 @@ class Config:
 
     #
     FLASKY_TASKS_PER_PAGE = 2
-    FLASKY_DESIGNS_PER_PAGE = 9
+    FLASKY_DESIGNS_PER_PAGE = 7
 
     @staticmethod
     def init_app(app):

@@ -466,7 +466,7 @@ class Device(db.Model, BioBase):
 
 from datetime import datetime
 
-Favorite_design = db.Table('Favorite_design',
+Favorite_design = db.Table('favorite_design',
     db.Column('design_id', db.Integer, db.ForeignKey('design.id')),
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
 )
@@ -519,6 +519,8 @@ class Design(db.Model, BioBase):
     """Whether the design is shared."""
     is_public = db.Column(db.Boolean, default=False)
     """Whether the design is public."""
+    used = db.Column(db.Integer, default=0)
+    """Used times."""
     # task_related = db.Column(db.Integer, default=-1)
 
     create_time = db.Column(db.DateTime, index=True, default=datetime.now)
@@ -585,7 +587,7 @@ class Design(db.Model, BioBase):
             'tags': tags,
             'progress': self.progress,
             'name': self.name,
-            'description': self.brief_description,
+            'description': self.full_description,
         }
 
 

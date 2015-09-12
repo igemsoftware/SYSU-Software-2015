@@ -27,15 +27,15 @@
                 <i class="search icon"></i>
             </div>
             <div class="ui small horizontal statistic" id="totalNumber">
-                <div class="value" id="totalCircuits"> </div>
-                <div class="label">circuits</div>
+                <div class="value" id="totalDesigns"> </div>
+                <div class="label">designs</div>
             </div>
             <select class="ui dropdown" id="order">
                 <option value="last-active">Last Active</option>
-                <option value="users">Users</option>
+                <option value="used">Used</option>
                 <option value="rate">Rate</option>
             </select>
-            <button class="ui button" id="btnShare">Share</button>
+            <button class="ui button" id="btnShare" style="display:none;">Share</button>
         </div>
     
         <div style="clear:both; height:0px;"></div>
@@ -47,82 +47,19 @@
                     <th>Description</th>
                     <th>Contributor</th>
                     <th>Rate</th>
-                    <th>Users</th>
+                    <th>Used</th>
                     <th>Comments</th>
                     <th>Last Active</th>
                 </tr>
             </thead>
             <tbody>
+                {% for i in range(7) %}
                 <tr>
+                    {% for j in range(8) %}
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    {% endfor %}
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+                {% endfor %}
             </tbody>
         </table>
         <div id="pager">
@@ -139,122 +76,35 @@
     </div>
     
     <div class="ui modal small">
-        <div class="header">Update Your Settings <i class="close icon"></i></div>
+        <div class="header">Share your Design<i class="close icon"></i></div>
         <div class="content">
-          <div class="ui form">
-            <div class="field">
-                <a id="addCircuits"><i class="add circle icon"></i></a>
-                <span>Add fromfinished circuits</span>
-            </div>
-            <div class="field">
-                <div class="ui input">
-                    <input type="text" placeholder="Add contributor">
+            <form class="ui form segment error" action="/bank/share" method="POST">
+                <div class="field">
+                    <div class="ui selection dropdown">
+                        <input type="hidden" name="Design">
+                        <i class="dropdown icon"></i>
+                        <div class="default text" id="designText">Select a finished but not shared Design</div>
+                        <div class="menu" id="designList">
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div class="field">
-                <textarea name="" id="" cols="30" rows="10" placeholder="Add short description"></textarea>
-            </div>
-          </div>
-          <div class="ui button" id="confirm">Confirm</div>
+                <div class="field">
+                    <div class="ui input">
+                        <input type="text" name="brief_description" id="bdtext" placeholder="Input brief description.">
+                    </div>
+                </div>
+                <div class="field">
+                    <textarea name="full_description" id="" cols="30" rows="10" id="fdtext" placeholder="Input full description"></textarea>
+                </div>
+
+                <button class="ui button" type="submit">Comfirm</button>
+            </form>
         </div>
   </div>
 
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/semantic.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $("#linkPublic").click(function(event) {
-                $("#linkPublic").addClass("highlight");
-                $("#linkShare").removeClass("highlight");
-            });
-            $("#linkShare").click(function(event) {
-                $("#linkShare").addClass("highlight");
-                $("#linkPublic").removeClass("highlight");
-            });
-            $("#btnShare").click(function(event) {
-                $(".ui.modal").modal('show');
-            });
-            $("#confirm").click(function(event) {
-                $(".ui.modal").modal('hide');
-            });
+    <script src="/static/js/bank.js"></script>
 
-            var attrName = ["id", "name", "description", "contributor", "rate", "users", "comments", "last active"];
-
-            var totalNumber = 0;
-            var keyword = "";
-
-            $.get('/bank/list?per_page=100000&page=1', function(data) {
-                setTotalNumber(data["designs"].length);
-            });
-
-            function setTotalNumber(_number) {
-                totalNumber = _number;
-                $("#totalCircuits").text(_number);
-            }
-
-            function fillTable(page, order, keyword) {
-                var url = "/bank/list?per_page=7&page=" + page + "&order=" + order + "&keyword=" + keyword;
-                $.get(url, function(data, needToSearch) {
-                    designs = data["designs"];
-                    
-                    for (var i = 0; i < 9; i++) {
-                        for (var j = 0; j < 8; j++) {
-                            var cellName = "#dataTable tr:gt(0):eq(" + i + ") td:eq("+ j +")";
-                            if (designs[i]) {
-                                var attrVal = designs[i][attrName[j]];
-                                if (j == 7) {
-                                    // attrVal = attrVal.substring(0, 10);
-                                };  
-                                $(cellName).text(attrVal);
-                            } else {
-                                $(cellName).text("");
-                            }
-                            
-                        };
-                    };
-                });
-            }
-            
-            fillTable(1, "id", keyword);
-            $(".number a").click(function(event) {
-                console.log($(this).html());
-                fillTable($(this).html(), $("#order").val(), keyword);
-                var links = $(".number a");
-                for (var i = 0; i < 5; i++) {
-                    $(links[i]).removeClass("selected");
-                };
-                $(this).addClass("selected");
-            });
-
-            $("#pageAdd").click(function(event) {
-                var links = $(".number a");
-                console.log(links[4]);
-                console.log($(links[4]).html());
-                if ($(links[4]).html() * 7 < totalNumber) {
-                    for (var i = 0; i < 5; i++) {
-                        $(links[i]).html(parseInt($(links[i]).html())+1);
-                    };
-                }
-            });
-
-            $("#pageMinus").click(function(event) {
-                var links = $(".number a");
-                if ($(links[0]).html() > 1) {
-                    for (var i = 0; i < 5; i++) {
-                        $(links[i]).html(parseInt($(links[i]).html())-1);
-                    };
-                }
-            });
-
-            $("#order").change(function(event) {
-                fillTable($(".number .selected").html(), $("#order").val(), keyword);
-            });
-
-            $("#search input").bind('input propertychange', function() { 
-                keyword = $("#search input").val();
-                fillTable($(".number .selected").html(), $("#order").val(), keyword);
-            });
-        });
-    </script>
 </body>
 </html>

@@ -21,7 +21,6 @@ def get_day(date):
     l = map(lambda x: x.calendar_jsonify(), l)
     return jsonify(event=l)
     
-
 @calendar.route('/all', methods=["GET"]) 
 @login_required
 def get_all(): 
