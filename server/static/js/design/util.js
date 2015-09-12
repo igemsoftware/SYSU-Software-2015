@@ -95,16 +95,17 @@ Util._createNewCNode = function(part) {
     var node = $("<div></div>");
     var left = part.positionX;
     var top = part.positionY;
+    var partType = DataManager.getPartType(part.partName);
     node.css({left: left, top: top});
     node.css({position: "absolute"});
     node.attr("part-name", part.partName);
+    node.attr("part-type", partType);
     node.attr("part-attr", part.partAttr);
     node.attr("data-content", "Most link to two objects");
     node.attr("normal-connect-num", 0);
     node.addClass("node");
     node.css("text-align", "center");
 
-    var partType = DataManager.getPartType(part.partName)
     var img = this.createImageDiv(partType);
     img.appendTo(node);
 
@@ -438,13 +439,6 @@ Rubberband.prototype._listenDrawAreaMouseMove = function() {
         var hcalc = event.pageY - that._y;
         var h = (event.pageY > that._y) ? hcalc : (hcalc * -1); 
      
-        // Update the rubberband with the new values
-        // if (leftBar.isOpenLeftBar == true) {
-        //     l -= leftBar.view.width();
-        // }
-
-        // t -= drawArea_menu.height();
-
         that.view.css({top:t-offset.top, left:l-offset.left, height:h, width:w, position:'relative'});
     });
 };
@@ -644,7 +638,8 @@ DFS.prototype.searchCircuit = function() {
             queue.push(this.map[i]);
         }
     }
-    
+    // console.log("Queue:");
+    // console.log(queue);
     for (var i in queue) {
         circuit = [];
         var head = queue[i];
@@ -681,12 +676,15 @@ DFS.prototype.searchCircuit = function() {
         }
         circuits.push(circuit.slice(0, circuit.length));
     }
+    console.log("Found circuit:");
     console.log(circuits);
     return circuits;
 };
 
 DFS.prototype.getCircuits = function() {
     this.createMap();
+    console.log("Map:");
+    console.log(this.map);
     var circuitsElems = this.searchCircuit();
     var circuits = [];
     var circuit = [];

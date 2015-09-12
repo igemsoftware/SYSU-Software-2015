@@ -532,7 +532,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
         var there = this;
         var img;
         var curcuitChartData = that.getDesignChartData();
-        curcuitChartData.title = $("#curcuitName").val();
+        curcuitChartData.name = $("#curcuitName").val();
         curcuitChartData.full_description = $("#designIntro").val();
         curcuitChartData.source = "hello world";
         curcuitChartData.risk = design.risk;
@@ -577,7 +577,6 @@ DesignMenu.prototype.getDesignChartData = function() {
     var data = this.getDesignConns();
     var curcuitChart = {};
     curcuitChart.parts = parts;
-    curcuitChart.name = "deviceName";
     curcuitChart.relationship = data.connections;
     curcuitChart.interfaceA = "interfaceB-partName";
     curcuitChart.interfaceB = "interfaceA-partName";
@@ -589,7 +588,6 @@ DesignMenu.prototype.getDesignConns = function() {
     var connections = [];
     var backbones = [];
     $.each(jsPlumb.getAllConnections(), function (idx, CurrentConnection) {
-        console.log(CurrentConnection.scope);
         if (CurrentConnection.scope == 'backbone') {
             backbones.push({
                 start: [parseInt($(CurrentConnection.source).css('left'), 10), 
