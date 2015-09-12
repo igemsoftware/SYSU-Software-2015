@@ -30,19 +30,20 @@
   </div>
 
   {% set logged_in = current_user.is_authenticated() %}
+  {% set unread_count = current_user.msg_box.filter_by(isread=False).count() %}
   <template id="topbar-template">
     <div class="ui secondary menu" id="topbar">
       {% if logged_in %}
       <div class="ui circular image" id="topbar-avatar">
         <img src="{{current_user.avatar or '/static/img/avatar.jpg'}}" alt="avatar">
-        <div class="ui red circular label">{{current_user.msg_box.count()}}</div>
+        <div class="ui red circular label">{{unread_count}}</div>
       </div>
       {% endif %}
       <div class="ui popup transition hidden" id="topbar-avatar-popup">
         <div class="ui link list">
         {% if logged_in %}
           <a class="item" href="/person">Dashboard</a>
-          <a class="item" href="/person/notifs">Notifications <div class="ui red circular label">{{current_user.msg_box.count()}}</div></a>
+          <a class="item" href="/person/notifs">Notifications <div class="ui red circular label">{{unread_count}}</div></a>
           <a href="{{url_for('auth.logout')}}" class="item">Log Out</a>
         {% else %}
           <a href="{{url_for('auth.login')}}" class="item">Log In</a>
