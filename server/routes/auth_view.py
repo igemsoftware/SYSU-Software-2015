@@ -11,6 +11,10 @@ from .. import db
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+        :Usage: The page where you can register. For the security issue, we strongly recommend that you should use our webpage to register instead of sending POST request directly.
+        :Data Format: Contains username, email, password, tracks' number and avatar url. 
+    """
     form = RegistrationForm(request.form)
     form.tracks.choices = [(track.id, track.name) for track in Track.query.all()]
 
@@ -29,6 +33,10 @@ def register():
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+        :Usage: The page where you can login. For the security issue, we strongly recommend that you should use our webpage to login instead of sending POST request directly.
+        :Data Format: Contains username and password. 
+    """
     if not current_user.is_anonymous():
         return redirect(request.args.get('next') or url_for('person.index'))
     form = LoginForm(request.form)
@@ -42,6 +50,11 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    """
+        :Note: Login required.
+        :Usage: Access this route can logout your accout.
+        :Data: None 
+    """
     logout_user()
     return redirect(url_for('main.index'))
 
