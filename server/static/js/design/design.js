@@ -674,6 +674,7 @@ DesignMenu.prototype.enableLoadDesignBtn = function() {
 };
 
 DesignMenu.prototype.initOpenList = function(designs) {
+    $("#designList").empty();
     for (var i in designs) {
         var div = $("<div></div>");
         div.text(designs[i].name);
