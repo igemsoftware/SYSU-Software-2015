@@ -1,0 +1,9 @@
+2-2-1 Casting a 150 ml gel
+Procedure	Time	Notes
+1. Close the ends of the gel tray either with tape or by a casting stand, depending on the equipment. The gel tray must be on a level surface.	10s	
+2. Insert the comb into the gel tray at one end  1 cm from the edge.	10s	
+3. For a 1% 150 mL agarose gel, weigh 1.5 g of agarose in a 500 mL conical flask. Add 150 mL 1x TBE buffer.	2min	If the gel tray is smaller, calculate the amount needed.
+4. To dissolve the agarose in the buffer, swirl to mix and microwave for a few minutes taking care not to boil the solution out of the flask. Remove the flask occasionally and check whether the agarose has dissolved completely.	3min	Be careful — the solution is very hot! Insulated gloves are too bulky to easily pull the flask out of the microwave, so a folded up paper towel is suggested.
+5. Let the agarose solution cool down. Once the solution is touchable, add the DNA stain. Check the stock concentration and add the appropriate amount to give the desired final concentration.	5min	The working concentration for ethidium bromide is 0.5 g/mL while for Sybr®Safe it is simply 1x.
+6. Pour the gel solution into the gel tray. Remove any air bubbles with a pipette tip. Put in comb.	1min	
+7. The gel will solidify while cooling down to room temperature. Depending on the initial temperature, this will take ~30 min.	30min	

@@ -1,0 +1,22 @@
+Reporter 2014Colombia
+This reporter produce AmilCP, a blue chromoprotein, when the present of Phosphorylated LuxO.
+This reporter produce AmilCP, a blue chromoprotein, when the present of Phosphorylated LuxO.
+Phosphorylated LuxO,AmilCP
+http://2014.igem.org/Team:Colombia/Project
+http://2014.igem.org/Team:Colombia/Protocols
+2
+LuxOp_1
+AmilCP_1
+LuxOp_1	Pqrr4_1	promotion
+Pqrr4_1	tetR_1	normal
+tetR_1	TetR_1	promotion
+TetR_1	Ptet_1	inhibition
+Ptet_1	amilCP_1	normal
+amilCP_1	AmilCP_1	promotion
+amilCP_1	tetA_1	normal
+tetA_1	TetA_1	promotion
+TetA_1	tetR_1	promotion
+
+tetA_1	TetA_1	promotion
+TetA_1	tetR_1	promotion
+

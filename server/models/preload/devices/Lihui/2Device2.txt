@@ -1,0 +1,26 @@
+Kill switch 2014Wageningen_UR
+The Kill-switch will reassure regulated expression by providing a stable expression of the fungal inhibitors that are activated only during exposure to fusaric acid.
+The Kill-switch will reassure regulated expression by providing a stable expression of the fungal inhibitors that are activated only during exposure to fusaric acid. After exposure to fusaric acid the Kill-switch will have a stable expression of toxins that will kill the bacteria. This reassures that the bacterium removes itself when the threat of Fusarium oxysporum is gone. The designed Kill-switch system consists of two plasmids, an input/output plasmid and a toggle switch plasmid. 
+Kill switch,fungal inhibitor,fusaric acid
+http://2014.igem.org/Team:Wageningen_UR/project/kill-switch
+http://2014.igem.org/Team:Wageningen_UR/notebook/protocols
+1
+FadP_1,Rhamnose_1
+GFP_1
+FadP_1	Prha_1	promotion
+Rhamnose_1	Prha_1	promotion
+Prha_1	cI¦Ë_1	normal
+cI¦Ë_1	CI¦Ë_1	promotion
+CI¦Ë_1	PcI/tetR_1	inhibition
+PcI/lac_1	gfp_1	normal
+gfp_1	GFP_1	promotion
+CI¦Ë_1	PcI/lac_1	inhibition
+PcI/lac_1	tetR_1	normal
+tetR_1	TetR_1	promotion
+TetR_1	PcI/tetR_1	inhibition
+TetR_1	Ptet_1	inhibition
+Ptet_1	LacI_1	normal
+LacI_1	PcI/lac_1	inhibition
+
+
+

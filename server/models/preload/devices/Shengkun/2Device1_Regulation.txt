@@ -1,0 +1,15 @@
+Regulation 2011USTC
+This parts is designed to modulate the ratio of toggle switch (BBa_K228003) by the expression of cI which is one of the two outcomes in toggle switch. It functions better on a low to medium copy plasmid (pSB3T5) and produces more balanced results. More details could be read on the page of BBa_K557002
+This parts is designed to modulate the ratio of toggle switch (BBa_K228003) by the expression of cI which is one of the two outcomes in toggle switch. It functions better on a low to medium copy plasmid (pSB3T5) and produces more balanced results. More details could be read on the page of BBa_K557002
+None
+http://2011.igem.org/Team:USTC_China
+http://2011.igem.org/Team:USTC_China/Wet_Lab/protocol
+1
+theophylline_1
+CI_1
+theophylline_1	lux pR_1	promotion
+lux pR_1	RBS:BBa_B0030_1	normal
+RBS:BBa_B0030_1	cI_1	normal
+cI_1	CI_1	promotion
+cI_1	Terminator:BBa_B0010_1	normal
+Terminator:BBa_B0010_1	Terminator:BBa_B0012_2	normal

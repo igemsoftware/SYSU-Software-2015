@@ -27,6 +27,7 @@ class Config:
 
     #
     FLASKY_TASKS_PER_PAGE = 2
+    FLASKY_DESIGNS_PER_PAGE = 7
 
     @staticmethod
     def init_app(app):
@@ -37,9 +38,10 @@ class DevelopmentConfig(Config):
     SQLALCHEMY_DATABASE_URI = "sqlite:///sysu2015_dev.db"
 
     # init
-    INIT_PRELOAD_DEVICE_DIRS = ['server/models/preload/devices/']
+    INIT_PRELOAD_DEVICE_DIRS = ['server/models/preload/devices/'] #EquationTest']
     INIT_PRELOAD_PROTOCOL_DIRS = ['server/models/preload/protocols/']
-    INIT_PRELOAD_PART_DIRS = ['server/models/preload/parts/']
+    INIT_PRELOAD_PART_DIRS = ['server/models/preload/components/']#EquationTest']
+    INIT_PRELOAD_EQUATION_DIRS = ['server/models/preload/equations/']
 
 class ProductionConfig(Config):
     DEBUG = False 

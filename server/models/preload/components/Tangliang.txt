@@ -1,0 +1,89 @@
+Pconst	promoter	BBa_K093000		
+cas9-VP16	gene	BBa_K1150020	2	Mammalian cells
+Terminator	terminator			
+Pcas9-VP16	protein			
+emx	gene	BBa_K1150003	2	Mammalian cells
+Pmin	promoter	BBa_K1150019		
+seap	gene	BBa_K747016	2	Mammalian cells
+SEAP	protein			
+tracr/crRNA	gene	BBa_K1150034	2	Mammalian cells
+Tracr/crRNA	RNA			
+tetR-VP16	gene	BBa_K105001	2	Mammalian cells
+TetR-VP16	protein			
+tetO	gene	BBa_K079036	2	Mammalian cells
+cas9-KRAB	gene	BBa_K1150002 	2	Mammalian cells
+Cas9-KRAB	protein			
+Promoter	promoter			
+RBS	RBS	BBa_K1031221		
+hbpR	gene	BBa_K1031300	1	Escherichia coli
+Terminator	terminator			
+HbpR	protein			
+X	chemical			
+sfgfp	gene	BBa_I0500	1	Escherichia coli
+sfGFP	protein			
+Promoter	promoter	BBa_K1163102		
+RBS	RBS			
+Fur Binding Site	gene	BBa_K1163999	1	Escherichia coli
+Terminator	terminator			
+sfGFP	gene	BBa_K1163001	1	Escherichia coli
+Fe-FUR	chemical			
+lacI	gene	BBa_K1163003	1	Escherichia coli
+Plac	promoter			
+LacI	protein			
+rfp	gene	BBa_J04450	1	Escherichia coli
+PT7	promoter	BBa_K1022124		
+RBS34	RBS			
+Ptet	promoter	BBa_K1022123		
+Terminator	terminator			
+tet	gene	BBa_I13600	1	Staphylococcus aureus
+Peptide+SUMO	gene	BBa_K1022101	1	Staphylococcus aureus
+cl	gene	BBa_I738009	1	Staphylococcus aureus
+ulp	gene	BBa_K1022107	1	Staphylococcus aureus
+Pcl	promoter			
+holin	gene		1	Staphylococcus aureus
+endolysin	gene	BBa_K124003	1	Staphylococcus aureus
+Pconst	promoter	BBa_K093000		
+anti-holin	gene	BBa_K112000	1	Staphylococcus aureus
+SUMO	protein			
+Peptide	protein			
+PcI	promoter	BBa_K1140005		
+RBS	RBS			
+cheZ	gene	BBa_K108031	1	Escherichia coli
+cI	gene	BBa_K1145007	1	Escherichia coli
+Plux	promoter			
+tetR	gene	BBa_F2620	1	Escherichia coli
+Ptet	promoter	BBa_J01101		
+Pcon	promoter	BBa_K176004		
+A-RBS	RBS			
+luxI	gene	BBa_R0061	1	Escherichia coli
+LuxI	protein			
+luxR	gene	BBa_K1145006	1	Escherichia coli
+LuxR	protein			
+homoserine	chemical			
+Plux/cI	promoter			
+AHL	chemical			
+RBS	RBS			
+Terminator	terminator			
+PlacI	promoter	BBa_K185018		
+Plac	promoter	BBa_K185012		
+PcI	promoter	BBa_R0051		
+Pc	promoter			
+PsmpB	promoter			
+PBAD	promoter			
+ParoC	promoter			
+lacI	gene	BBa_C0012		
+relE	gene	BBa_K185003	1	Escherichia coli
+lon	gene	BBa_K185002	1	Escherichia coli
+cI	gene	BBa_K150004	1	Escherichia coli
+relB	gene	BBa_K185028	1	Escherichia coli
+smpB	gene	BBa_K185013	1	Escherichia coli
+tmRNA	RNA		1	Escherichia coli
+aroC	gene		1	Escherichia coli
+Promoter	promoter	BBa_E0040		
+RBS	RBS	BBa_J61100		
+Terminator	terminator	BBa_B0015		
+dmpR	gene	BBa_J61051	2	Pseudomonas aeruginosa 
+phz genes	gene		2	Pseudomonas aeruginosa
+DNT	chemical			
+Pyocyanin	protein			
+tf	gene	BBa_M45699		

@@ -1,0 +1,23 @@
+RelB antitoxin system 2009SJTU-BioX-Shanghai
+This device can neutralize the toxic relE.
+The growth of E.coli can be restored by coexpression of the cognate relB antitoxin, which can form a heterotetrameric (relB-relE)2 structure when binding with relE. Thus,this structure is too large to fit into the A site, so the toxic relE can be neutralized. The RelB-antitoxin is under control of Lamda CI promoter, which means we can use L-tryptophan to induce expression of RelB-antitoxin. The Lamda CI promoter can also be induced by high temperature.The RelB-antitoxin is under control of Lamda CI promoter, which means we can use L-tryptophan to induce expression of RelB-antitoxin. The Lamda CI promoter can also be induced by high temperature.
+Antitoxin,relB,Lamda CI promoter
+http://2009.igem.org/Team:SJTU-BioX-Shanghai
+http://2009.igem.org/Team:SJTU-BioX-Shanghai/Protocols#bannerTop
+2
+PcI_1,Pc_1
+Terminator_1,Terminator_2,Terminator_3,Terminator_4
+PcI_1	RBS_1	normal
+RBS_1	cI_1	normal
+cI_1	Terminator_1	normal
+Terminator_1	Terminator_2	normal
+Terminator_2	Pc_1	normal
+Pc_1	RBS_2	normal
+RBS_2	relB_1	normal
+relB_1	Terminator_3	normal
+Terminator_3	Terminator_4	normal
+
+
+
+
+

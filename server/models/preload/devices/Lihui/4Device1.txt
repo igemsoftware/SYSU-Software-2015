@@ -1,0 +1,18 @@
+Part C 2014XMU-China
+When there is no L-arabinose involved in, promoter PBAD has leakage expression, so that this device will produce repressor LacI. Therefore, this device can inhibit to chemotaxis.  
+Without any exogenous stimulus, E. coli will produce background amount of AraC to repress PBAD at limit degree. That means even no L-arabinose involved in, promoter PBAD has leakage expression, so that this device will produce repressor LacI which can bind to the operon of promoter Plac and thus repress its transcription. Because L-arabinose could induce PBAD, within certain concentration range, the more L-arabinose involved in, the more repressor LacI this device could produce resulting the inhibition to chemotaxis. Because of its ability to constrain chemotaxis, this part is named C.
+production of lacI,Inhibition to chemotaxis
+http://2014.igem.org/Team:XMU-China/Project_ConicCurve
+http://2014.igem.org/Team:XMU-China/Notebook_Protocol
+1
+AraC_1,L-arabinose_1
+LacI_1
+AraC_1	PBAD_1	inhibition
+L-arabinose_1	PBAD_1	promotion
+PBAD_1	RBS:BBa_B0034_1	normal
+RBS:BBa_B0034_1	lacI_1	normal
+lacI_1	LacI_1	promotion
+lacI_1	Terminator:BBa_B0010_1	normal
+Terminator:BBa_B0010_1	Terminator:BBa_B0012_1	normal
+
+

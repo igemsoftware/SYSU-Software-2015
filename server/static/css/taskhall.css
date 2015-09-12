@@ -1,5 +1,9 @@
+#topbar {
+    background-color: #646b70;
+}
+
 #topbar-bottom-line {
-    background: linear-gradient(to right, #c09340, #edb84e);
+    background: linear-gradient(to right, #bf933f, #edb84e, #eab54d);
 }
 
 /* taskhall index */
@@ -233,10 +237,6 @@
     padding-right: 40px;
 }
 
-#taskhall-detail-main > .info {
-    width: 180px;
-}
-
 #taskhall-detail-question {
     min-height: 300px;
 }
@@ -281,6 +281,11 @@
 #taskhall-detail-question > .content > .main {
     flex: 1;
     text-align: justify;
+}
+
+#taskhall-detail-question > .content > .main > .text {
+    text-align: justify;
+    min-height: 100px;
 }
 
 #taskhall-detail-question > .content > .main > .toolbar {
@@ -341,10 +346,18 @@
     text-align: justify;
 }
 
+#taskhall-detail-answers > .answer > .content > .text {
+    min-height: 100px;
+}
+
 #taskhall-detail-answers > .answer > .content > .comment.link {
     display: block;
     margin-top: 30px;
     margin-bottom: 20px;
+}
+
+#taskhall-detail-answers > .answer > .content > .comments > .comment + .comment {
+    margin-top: 5px;
 }
 
 /*
@@ -372,7 +385,7 @@
 #taskhall-detail-main > .info {
     width: 180px;
     padding-left: 20px;
-    padding-top: 100px;
+    padding-top: 80px;
 }
 
 #taskhall-detail-main > .info > .meta {
@@ -391,4 +404,12 @@
 
 #taskhall-detail-main > .info > .meta > .content > .title + .number {
     margin-top: 8px;
+}
+
+#taskhall-detail-answer-form > .field > label {
+    font-size: 1.2rem;
+}
+
+#taskhall-detail-answer-form input {
+    border-radius: 0;
 }

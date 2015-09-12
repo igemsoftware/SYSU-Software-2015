@@ -1,0 +1,20 @@
+Biosensor-YenR 2014Uppsala
+This device is a quorum sensing system of the gut pathogen Yersinia enterocolitica.
+This system contains two parts. A recognition region, the yenbox, fused together with a promoter and an activator, YenR, that can recognise and interact with the yenbox. When YenR binds to the yenbox it induces the expression level of the promoter fused to the yenbox. Later, in the presence of Y. enterocolitica, its signaling molecules, 3-oxo-hexanoyl homoserine lactone (OHHL), will start flowing into our system, interacting with YenR. When binding occurs between OHHL and YenR, YenR will lose its active shape and thereby its ability to interact with the yenbox. The induction will then be lost and the expression level will return to its base level.
+Biosensor,YenRquorum sensing,3-oxo-hexanoyl homoserine lactone (OHHL)
+http://2014.igem.org/Team:Uppsala/Project_Sensing
+http://2014.igem.org/Team:Uppsala/Project_Notebook
+1
+OHHL_1
+YenR_1
+Promoter:BBa_K1381000_1	RBS:BBa_B0032_1	normal
+RBS:BBa_B0032_1	gfp_1	normal
+OHHL_1	YenR_1	inhibition
+Promoter:BBa_J23100_2	RBS:BBa_B0034_1	normal
+RBS:BBa_B0034_1	yenR_1	normal
+yenR_1	YenR_1	promotion
+YenR_1	Promoter:BBa_K1381000_1	promotion
+
+
+
+

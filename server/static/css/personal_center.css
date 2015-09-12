@@ -209,6 +209,22 @@
     line-height: 1.2em;
     padding: 0.7em 2em;
     background-color: #eeeeee;
+    display: flex;
+}
+
+#notifications-list > .notification.items > .notification.item > .text {
+    flex: 1;
+}
+
+#notifications-list > .notification.items > .notification.item > .toolbar {
+    width: 50px;
+    height: 20px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+#notifications-list > .notification.items > .notification.item > .toolbar > a {
+    cursor: pointer;
 }
 
 #notifications-list > .notification.items > .notification.item:nth-child(2n) {

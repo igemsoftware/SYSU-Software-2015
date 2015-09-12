@@ -1,0 +1,21 @@
+Promoter	promoter			
+RBS	RBS			
+UVR8_tetR	gene	BBa_K909009	1	Escherichia coli
+UVR8_TetR	protein			
+Terminator	terminator			
+UVB	material			
+UVR8_TetR	protein			
+TetR	protein			
+Ptet	promoter	BBa_R0040		
+RBS	RBS			
+cI	gene	BBa_K909004	1	Escherichia coli
+CI	protein			
+yfp	gene			
+YFP	protein			
+Terminator	terminator			
+PcI	promoter	BBa_R1051		
+RBS	RBS			
+tetR	gene	BBa_C0040	1	Escherichia coli
+gfp	gene	BBa_E0040	1	Escherichia coli
+GFP	protein			
+Terminator	terminator			

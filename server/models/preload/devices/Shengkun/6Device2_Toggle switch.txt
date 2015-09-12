@@ -1,0 +1,20 @@
+Toggle switch 2008Bologna
+The molecular circuit can switch between two different stable states (LacI_ON and TetR_ON), driven by the external stimuli.
+The molecular circuit can switch between two different stable states (LacI_ON and TetR_ON), driven by the external stimuli.
+None
+http://2008.igem.org/Team:Bologna
+http://2008.igem.org/Team:Bologna/Notebook
+1
+IPTG_1
+RFP_1,GFP_1
+LacI_1	PLacI_1	inhibition
+IPTG_1	LacI_1	inhibition
+PLacI_1	tetR_1	normal
+tetR_1	rfp_1	normal
+rfp_1	RFP_1	promotion
+tetR_1	TetR_1	promotion
+TetR_1	PtetR_1	inhibition
+PtetR_1	lacI_1	normal
+lacI_1	gfp_1	normal
+gfp_1	GFP_1	promotion
+lacI_1	LacI_1	promotion

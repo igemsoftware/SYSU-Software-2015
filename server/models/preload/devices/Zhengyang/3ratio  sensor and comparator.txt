@@ -1,0 +1,18 @@
+Biosensor-ratio sensor and comparator 2012OUC-China
+Overloading of phosphorus and nitrogen are the most important causes of red tide. This device is a corresponding sensors which is able to respond effectively and accurately.
+A typical TCS is comprised of a membrane-bound histidine kinase (HK) and a partner response regulator (RR). Specific environmental signals lead to activation (autophosphorylation) of the HK, which in turn acts as a phosphoryl donor for activation (autophosphorylation) of the partner RR. Phosphate and nitrate sensors. Phosphate sensor: The extracellular concentration of phosphate is sensed by the two-component regulatory system PhoBR, in which PhoR encodes the HK and PhoB the RR. PhoB, when phosphorylated by PhoR, would form homodimers and bind to the consensus pho-box sequence involved in the corresponding promoter and activate downstream genes expression. Generally speaking, phoBR system responds to phosphate limitation, when the extracellular phosphate concentration falls below 4 uM. Nitrate-sensitive sensor: Similar to phoBR system, NarX serves as the trans-membrane HK and NarL serves as the RR. Once the extracellular concentration of nitrate reaches certain concentration, NarX autophosphorylates and acts as the phosphate group donor of NarL. Two phospharylated NarL molecules form a homodimer and act as DNA-binding proteins that activate the transcription of downstream genes expression.
+Biosensor,ratio sensor,comparator
+http://2012.igem.org/Team:OUC-China
+http://2012.igem.org/Team:OUC-China/protocol
+-1
+ATC_1,IPTG_1
+GFP_1
+sRNA1_1	sRNA2_1	inhibition
+sRNA2_1	sRNA1_1	inhibition
+sRNA1_1	GFP mRNA_1	inhibition
+sRNA2_1	GFP mRNA_1	inhibition
+GFP mRNA_1	sRNA1_1	inhibition
+GFP mRNA_1	sRNA2_1	inhibition
+GFP mRNA_1	GFP_1	promotion
+ATC_1	sRNA1_1	promotion
+IPTG_1	sRNA2_1	promotion

@@ -13,7 +13,7 @@
   <div id="pic">
     <div id="pic-content-wrapper">
       <img src="/static/img/common/logo.png" alt="LOGO" id="logo" class="ui image">
-      <form class="ui form" id="form" action={{ url_for("auth.login") }} method="POST">
+      <form class="ui form" id="form" action={{ url_for("auth.login", next=request.args.get('next') ) }} method="POST">
         {{ form.hidden_tag() }}
 
         <div class="ui input field">
@@ -25,7 +25,7 @@
         </div>
 
         {{ form.submit(class_='ui button') }}
-        <button class="ui button" id="signup">Create A Free Account</button>
+        <a href="{{url_for('auth.register')}}" class="ui button" id="signup">Create A Free Account</a>
       </form>
     </div>
   </div>
@@ -50,12 +50,14 @@
     <div class="ui blue ok basic inverted button"><i class="checkmark icon"></i>Okay</div>
   </div>
 </div>
-<script>$(function() { $('#error-modal').modal('show'); })</script>
 {% endif %}
 
 
 <script src="/static/js/jquery.min.js"></script>
 <script src="/static/js/semantic.min.js"></script>
+{% if form.username.errors or form.password.errors %}
+<script>$(function() { $('#error-modal').modal('show'); })</script>
+{% endif %}
 
 </body>
 </html>

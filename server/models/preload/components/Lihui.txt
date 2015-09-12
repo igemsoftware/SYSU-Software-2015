@@ -1,0 +1,111 @@
+C4HSL	chemical			
+Ptet	promoter	BBa_R0071		
+gfp	gene	BBa_E0040		
+rhlR	gene	BBa_C0071	1	Escherichia coli 
+RhlR	protein			
+Prhl	promoter	BBa_K1529300		
+cmR	gene	BBa_K395162	1	Escherichia coli 
+lasI	gene	BBa_C0078	1	Escherichia coli 
+LasI	protein			
+3OC12HSL	chemical			
+luxR	gene	BBa_C0062	1	Escherichia coli 
+LuxR	protein			
+Plac	promoter	BBa_R0010		
+Plux	promoter	BBa_R0062		
+rhlI	gene	BBa_C0070	2	Pseudomonas aeruginosa
+RhlI	protein			
+rfp	gene	BBa_E1010		
+Fusaric Acid	chemical			
+fadP	gene		1	Fusarium oxysporum
+FadP	protein			
+Rhamnose	chemical			
+cI¦Ë	gene	BBa_I13504	1	Fusarium oxysporum
+CI¦Ë	protein			
+PcI/lac	promoter	BBa_K909012		
+tetR	gene	BBa_P0440	1	Fusarium oxysporum
+TetR	protein			
+Ptet	promoter	BBa_R0040		
+lacI	gene	BBa_C0012	1	Fusarium oxysporum
+LacI 	protein			
+Prha	promoter	BBa_K914003		
+PcI/tetR	promoter	BBa_K909013		
+gfp	gene		1	Fusarium oxysporum
+GFP	protein	BBa_I13504		
+AraC	protein			
+L-arabinose	chemical			
+RBS	RBS	BBa_B0034		
+lacI	gene	BBa_I732100	1	Escherichia coli 
+LacI	protein			
+Terminator	terminator	BBa_B0010		
+IPTG	chemical			
+Plac	promoter	BBa_R0010		
+RBS	RBS	BBa_B0034		
+cheZ	gene	BBa_K629003	1	Escherichia coli 
+CheZ	protein			
+Terminator	terminator	BBa_B0010		
+PBAD	promoter	BBa_K206000		
+Terminator	terminator	BBa_B0012		
+CAI-1	chemical			
+CqsS	protein			
+CAI-1-CqsS	protein			
+LuxUp	protein			
+LuxOp	protein			
+Pqrr4	promoter	BBa_K1455007		
+Ptet	promoter	BBa_R0040		
+amilCP	gene	BBa_K592009	2	Vibrio cholerae
+AmilCP	protein			
+tetR	gene	BBa_C0040	2	Vibrio cholerae
+TetR	protein			
+tetA	gene	BBa_I746351	2	Vibrio cholerae
+TetA	protein			
+tetR	gene	BBA_R0040	1	Methylobacterium extorquens
+TetR	protein			
+ATC	chemical			
+tetO	promoter	BBa_K079036		
+dcmR	gene	BBa_K1446003	1	Methylobacterium extorquens
+DcmR	protein			
+DCM	chemical			
+mCherry	gene	BBA_J06505	1	Methylobacterium extorquens
+PdcmA	promoter			
+sfgfp	gene	Bba_K1446002	1	Methylobacterium extorquens
+sfGFP	protein			
+Ptef1	promoter	BBa_K1346000		
+rtTA	gene		1	vibrio fischeri
+RtTA	protein			
+DOXYCYCLINE	chemical			
+RtTA-DOXYCYCLINE	protein			
+mf¦Á	gene		1	vibrio fischeri
+¦Á	protein			
+PAGA1	promoter			
+Ptet	promoter	BBa_R0040		
+gfp	gene			
+rfp	gene		1	vibrio fischeri
+GFP	protein			
+RFP	protein			
+RBS	RBS	BBa_B0032		
+OHHL	chemical			
+Promoter	promoter	BBa_J23100		
+RBS	RBS	BBa_B0034		
+yenR	gene	BBa_K1381004	1	Escherichia coli 
+YenR	protein			
+Promoter	promoter	BBa_J23113		
+Promoter	promoter			
+spot42_usp45	gene		1	Escherichia coli 
+Spot42_USP45	protein			
+gfp	gene	BBa_E0040		
+Promoter	promoter	BBa_K1381000		
+cheZ	gene	BBa_K629003		
+usp45_cfy	gene	BBa_K1381017	1	Escherichia coli 
+USP45_CFY	protein			
+Pconst	promoter	BBa_J23100		
+luxR	gene	BBa_C0062	1	Escherichia coli 
+LuxR	protein			
+lux-AHL 3OC6HSL	chemical			
+LuxR-lux-AHL	protein			
+Plux	promoter	BBa_R0062		
+bxb1	gene		1	Escherichia coli 
+Bxb1	protein			
+sfgfp	gene	BBa_K1541009	1	Escherichia coli 
+sfGFP	protein			
+luxI	gene	BBa_C0161	1	Escherichia coli 
+LuxI	protein			

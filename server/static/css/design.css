@@ -1,3 +1,776 @@
+.red {
+	color: red;
+}
+
+body {
+    min-height: 100%;
+    height: 100%;
+/*    position: relative;
+    overflow: auto;*/
+}
+
+/*#main-contain {
+    width: 100%;
+    height: 85%;
+    position: relative;
+    padding-top: 1%;
+    padding-left: 3%;
+    padding-right: 3%;
+    /*padding-bottom: 3%;*/
+/*    overflow: auto;
+}
+*/
+
+
+#drawArea {
+	width: 92%;
+	height: 78%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 2%;
+	position: relative;
+    margin-top: 10px;
+	border: solid 1px #C5C5C5;
+	z-index: 0;
+    background-color: white;
+    overflow: auto;
+}
+
+#drawArea .node {
+    cursor: pointer;
+}
+
+#drawArea #rubberband {
+    border:1px solid green;
+    display:none;
+}
+
+#left-sidebar {
+    position: fixed;
+    top: 50px;
+    left:-400px;
+    width: 400px;
+    height: 100%;
+    padding:0 0; 
+    z-index: 900;
+    transition: right 0.5s;
+    -webkit-transition: right 0.5s;   /* Safari 和 Chrome */
+    background-color: rgba(179, 179, 179, 0.26);
+
+    box-shadow: 5px 2px 10px #989898;/*opera或ie9*/  
+    -moz-box-shadow: 5px 2px 10px #989898;/*firefox*/  
+    -webkit-box-shadow: 5px 2px 10px #989898;/*webkit*/  
+}
+
+#left-sidebar .trigger-left {
+    position: absolute;
+    width:1px;
+    right: -1px;
+    top: 45%;
+    background:none;
+    padding:0;
+    border:none;
+}
+
+#left-sidebar .accordion .content {
+    height: 60%;
+}
+
+#left-sidebar .accordion {
+    height: 80%;
+    background: none;
+    background-color: rgba(248, 248, 248, 1);
+}
+
+#left-sidebar .accordion .title{
+    color: white;
+    background-color: rgba(149, 149, 149, 0.8);
+}
+
+#left-sidebar .accordion .title:hover{
+    background-color: rgba(100, 100, 100, 0.8);
+}
+
+#left-sidebar .accordion .title.active {
+    background-color: rgba(239, 130, 130, 0.8);
+}
+
+#left-sidebar #parts {
+    overflow: auto;
+    width: 100%;
+    height: 73%;
+}
+
+#left-sidebar #devices {
+    overflow: auto;
+    width: 100%;
+    height: 73%;
+}
+
+#left-sidebar #systems {
+    overflow: auto;
+    width: 100%;
+    height: 73%;
+}
+
+.ui.bottom.attached.tab.segment {
+    height: 100%;
+}
+
+#left-sidebar #partsCom {
+    height: 100%;
+    overflow: auto;
+}
+
+#left-sidebar .left-sidebar-body {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+#left-sidebar #parts .data img {
+    margin-right: 10px;
+}
+
+#left-sidebar #parts .item {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#left-sidebar #parts .item .partTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
+#left-sidebar #parts .data span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+#left-sidebar #parts .data span.more {
+    width: 10%;
+    cursor: pointer;
+}
+
+#left-sidebar #parts .divider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#left-sidebar #parts .data > div {
+    display: inline;
+}
+
+#left-sidebar #parts .data .BBa {
+    font-size: 12px;
+}
+
+#left-sidebar #parts .data .leftBox {
+    display: inline-block;
+    width: 85%;
+}
+
+#left-sidebar .data .item {
+    display: inline;
+    cursor: pointer;
+}
+
+#left-sidebar .data {
+    margin: 0 0;
+}
+
+#left-sidebar #customs .data img {
+    margin-right: 10px;
+}
+
+#left-sidebar #customs .item {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#left-sidebar #customs .item .partTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
+#left-sidebar #customs .data span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+#left-sidebar #customs .data span.more {
+    width: 10%;
+    cursor: pointer;
+}
+
+#left-sidebar #customs .divider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#left-sidebar #customs .data > div {
+    display: inline;
+}
+
+#left-sidebar #customs .data .BBa {
+    font-size: 12px;
+}
+
+#left-sidebar #customs .data .leftBox {
+    display: inline-block;
+    width: 85%;
+}
+
+/*=================================================*/
+#left-sidebar #relates .data img {
+    margin-right: 10px;
+}
+
+#left-sidebar #relates .item {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#left-sidebar #relates .item .partTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
+#left-sidebar #relates .data span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+#left-sidebar #relates .data span.more {
+    width: 10%;
+    cursor: pointer;
+}
+
+#left-sidebar #relates .divider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#left-sidebar #relates .data > div {
+    display: inline;
+}
+
+#left-sidebar #relates .data .BBa {
+    font-size: 12px;
+}
+
+#left-sidebar #relates .data .leftBox {
+    display: inline-block;
+    width: 85%;
+}
+
+/*==================================================*/
+#left-sidebar #devices .deviceTitle {
+    font-size: 14px;
+    width: 90%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#left-sidebar #devices .more {
+    width: 10%;
+    font-size: 17px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#left-sidebar #devices .item {
+    width: 100%;
+    overflow: hidden;
+    height: 164px;
+}
+
+#left-sidebar #devices .item img {
+    float: right;
+    width: 100%;
+    height: 160px;
+}
+
+#left-sidebar #devices .divider {
+    margin-top: 2px;
+}
+/*======================================================*/
+#right-sidebar {
+    position: fixed;
+    top: 50px;
+    right:-400px;
+    width: 400px;
+    height: 100%;
+    padding:0 0; 
+    z-index: 900;
+    transition: right 0.5s;
+    -webkit-transition: left 0.5s;   /* Safari 和 Chrome */
+    background-color: rgba(228, 228, 228, 0.46);
+    -moz-box-shadow: -5px 2px 10px #989898;/*firefox  
+    -webkit-box-shadow: -5px 2px 10px #989898;/*webkit*/  
+    box-shadow: -5px 2px 10px #989898;/*opera或ie9*/  
+}
+
+#right-sidebar .trigger-right {
+    position: absolute;
+    width:1px;
+    left: -40px;
+    top: 45%;
+    background:none;
+    padding:0;
+    border:none;
+}
+
+#right-sidebar .attached.tab.segment {
+    height: 95%;
+}
+
+#right-sidebar .styled.accordion {
+    height: 90%;
+}
+
+#right-sidebar > .accordion {
+    height: 100%;
+    background: none;
+    background-color: rgba(179, 179, 179, 0.46);
+}
+
+#right-sidebar .accordion .title:hover{
+    background-color: rgba(100, 100, 100, 0.8);
+}
+
+#right-sidebar .accordion .title.active {
+    background-color: rgba(239, 130, 130, 0.8);
+}
+
+#right-sidebar .accordion .title{
+    color: white;
+    background-color: rgba(149, 149, 149, 0.8);
+}
+
+#right-sidebar #addedParts {
+    height: 65%;
+    overflow: auto;
+    width: 100%;
+}
+
+#right-sidebar #addedSystems {
+    height: 65%;
+    overflow: auto;
+    width: 425px;
+}
+
+#right-sidebar #addedCustoms {
+    height: 65%;
+    overflow: auto;
+    width: 425px;
+}
+
+#right-sidebar .data img {
+    width: 15%;
+    margin-right: 10px;
+}
+
+#right-sidebar .item {
+    cursor: pointer;
+}
+
+#right-sidebar .data span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+}
+
+#right-sidebar .data span.more {
+    width: 10%;
+}
+
+#right-sidebar .divider {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+#right-sidebar .data > div {
+    display: inline;
+}
+
+#right-sidebar .data .BBa {
+    font-size: 12px;
+}
+
+#right-sidebar .data .leftBox {
+    display: inline-block;
+    width: 85%;
+}
+
+#right-sidebar .data .zoom {
+    cursor: pointer;
+}
+
+#right-sidebar .data .item {
+    /*width: 85%;*/
+    display: inline;
+}
+
+/*right-bar device style*/
+#right-sidebar #addedDevices {
+    height: 65%;
+    overflow: auto;
+    width: 100%;
+}
+
+#right-sidebar #addedDevices .deviceTitle {
+    font-size: 14px;
+    width: 90%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#right-sidebar #addedDevices .more {
+    width: 10%;
+    font-size: 17px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#right-sidebar #addedDevices .item {
+    width: 100%;
+    overflow: hidden;
+    height: 164px;
+}
+
+#right-sidebar #addedDevices .item img {
+    float: left;
+    width: 100%;
+    height: 160px;
+}
+
+#right-sidebar #addedDevices .divider {
+    margin-top: 2px;
+}
+/*=====================================================*/
+::-webkit-scrollbar-track:horizontal {
+    border-radius: 5px;
+    height: 8px;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 0;
+    background-color: rgba(179, 179, 179, 0.46);;
+    border: none;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(179, 179, 179, 0.9);
+}
+
+/*--------------------------------------------------------*/
+#history {
+    overflow: auto;
+}
+
+
+/*======================================================*/
+#drawArea-menu {
+    margin-left: 4%;
+    margin-top: 2%;
+    position: relative;
+}
+
+
+#drawArea-menu  .buttons button {
+    background-color: rgba(250, 250, 250, 1) !important;
+}
+
+#drawArea-menu .buttons button i.icon{
+    color: black;
+}
+
+#drawArea-menu  .buttons {
+    border: solid 1px #C5C5C5
+}
+
+#drawArea-menu #riskSpan {
+    margin-left: 10px;
+}
+
+#drawArea-menu #riskSpan .button {
+    padding-top: 0;
+    margin-left: 5px;
+}
+
+#drawArea-menu span {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.selected {
+    border: 2px solid #09FF0B;
+}
+
+/*.ui .search {
+    width: 100%;
+}
+*/
+.ui .search {
+    margin-bottom: 15px;
+}
+
+.no-margin {
+    margin: 0 0 !important;
+}
+
+#rubberband {
+    border: 2px solid #FF949B !important;
+}
+
+.filterDiv {
+    position: absolute;
+    bottom: 40%;
+    right: 40%;
+    width: 10px;
+    height: 10px;
+    background-color: #FFA500;
+    cursor: pointer;
+    box-shadow: 0px 0px 2px #000;
+    transition: box-shadow 0.25s ease-in 0s;
+}
+
+.dragHover { 
+    border: 2px solid orange;
+}
+
+.minusCircle {
+    position: absolute;
+    top:1px;
+    right: 5px;
+    width: 15px;
+    height: 15px;
+    cursor: pointer;
+    display: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
 #topbar-bottom-line {
     background: linear-gradient(to right, #bf4849, #ec5a5b, #e65859);
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.vertical-middle {
+    vertical-align:middle !important;
+}
+
+#equation .selection {
+    min-width: 11em;
+    width: 100%;
+}
+
+#saveModal textarea {
+    margin-bottom: 1em;
+}
+
+
+/*==============================*/
+.filterTitle {
+    display: inline-block;
+    text-align: center;
+    width: 25%;
+    font-size: 15px;
+}
+
+.filterDrowdown {
+    display: inline-block;
+    text-align: center; 
+    width: 70%;
+}
+
+#customCreate {
+    background-color: #ec5a5b;
+}
+
+#createCustomPartModal .item button {
+
+}
+
+#saveSuccessModal .check.icon {
+    color: #71e3d0
+}
+
+#saveSuccessModal .cancel {
+    margin-right: 20px;
+}
+
+#saveSuccessModal .move {
+    margin-left: 20px;
+    background-color: #ec5a5b;
+    color: white;
+}
+
+#deleteModal .content {
+    vertical-align: middle;
+}
+
+#deleteModal .content .cancel {
+    margin-right: 20px;
+}
+
+#deleteModal .content #deleteBtn {
+    margin-left: 20px;
+    background-color: #ec5a5b;
+    color: white;
+}
+
+
+.dotShape {
+    position: absolute;
+    height:10px; 
+    width: 80px;
+    z-index:2;
+    opacity:0.7;
+    filter:alpha(opacity=70);
+    position:absolute;
+    cursor:pointer;
+    color:#333;
+    border-radius: 5px; /* 所有角都使用半径为5px的圆角，此属性为CSS3标准属性 */ 
+    -moz-border-radius: 5px; /* Mozilla浏览器的私有属性 */ 
+    -webkit-border-radius: 5px; /* Webkit浏览器的私有属性 */ 
+    border-radius: 5px 4px 3px 2px; /* 四个半径值分别是左上角、右上角、右下角和左下角 */ 
+}
+
+#chooseModal {
+    margin-left: 30%;
+    width: 40%;
+    left: 0;
+    padding-bottom: 20px;
+    height: 70%;
+}
+
+#chooseModal .content {
+    height: 100%;
+}
+
+#chooseModal .content .button {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#chooseModal #designList {
+    height: 90%;
+    overflow: auto; 
+}
+
+#chooseModal #designList .title {
+    cursor: pointer;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+#chooseModal .divider {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#chooseModal div{
+    /*height: 1em;*/
+    font-size: 17px;
+}
+
+.float-right {
+    float: right;
+}
+
+.ired {
+    background-color: #ec5a5b !important;
+}
+
+#drawArea-menu .buttons .ired {
+    background-color: #ec5a5b !important;
+}
+
+/*============================================*/
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.slider {
+  width: 80px;
+  display: inline-block;
+  vertical-align: middle;
+
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  width: 100%;
+  height: 20px;
+  margin: 0;
+  border: none;
+  padding: 1px 2px;
+  border-radius: 14px;
+  background: rgba(250, 250, 250, 1);
+  box-shadow: inset 0 1px 0 0 #0d0e0f, inset 0 -1px 0 0 #3a3d42;
+  -webkit-box-shadow: inset 0 1px 0 0 #AFB3B6, inset 0 -1px 0 0 #AEAEAE;
+  outline: none; /* no focus outline */
+}
+
+input[type="range"]::-moz-range-track {
+  border: inherit;
+  background: transparent;
+}
+
+input[type="range"]::-ms-track {
+  border: inherit;
+  color: transparent; /* don't drawn vertical reference line */
+  background: transparent;
+}
+
+input[type="range"]::-ms-fill-lower,
+input[type="range"]::-ms-fill-upper {
+  background: transparent;
+}
+
+input[type="range"]::-ms-tooltip {
+  display: none;
+}
+
+/* thumb */
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 30px;
+  height: 18px;
+  border: none;
+  border-radius: 12px;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #529de1), color-stop(100%, #245e8f)); /* android <= 2.2 */
+  background-image: -webkit-linear-gradient(top , #ec5a5b#ec5a5b 0, #ec5a5b 100%); /* older mobile safari and android > 2.2 */;
+  background-image: linear-gradient(to bottom, #ec5a5b 0, #ec5a5b 100%); /* W3C */
+}
+input[type="range"]::-moz-range-thumb {
+  width: 40px;
+  height: 18px;
+  border: none;
+  border-radius: 12px;
+  background-image: linear-gradient(to bottom, #ec5a5b 0, #ec5a5b 100%); /* W3C */
+}
+
+input[type="range"]::-ms-thumb {
+  width: 40px;
+  height: 18px;
+  border-radius: 12px;
+  border: 0;
+  background-image: linear-gradient(to bottom, #ec5a5b 0, #ec5a5b 100%); /* W3C */
 }

@@ -65,3 +65,11 @@ env/
 #database
 *.db
 server/files/
+gfp_yfp.png
+
+# OSX noise
+.DS_Store
+
+# docs cheatsheet
+cheatsheet.rst
+

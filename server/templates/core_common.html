@@ -13,29 +13,47 @@
   <div class="ui page dimmer" id="main-switcher">
     <div class="content">
       <div class="center">
-        <div class="ui inverted blue circular icon button"><i class="massive idea icon"></i></div>
-        <div class="ui inverted red circular icon button"><i class="massive database icon"></i></div>
-        <div class="ui inverted green circular icon button"><i class="massive checkmark icon"></i></div>
+        <a href="/taskhall" class="link">
+          <img src="/static/img/common/co-development_circular.png" class="ui image">
+          <div class="description">Co-development</div>
+        </a>
+        <a href="/design" class="link">
+          <img src="/static/img/common/design_circular.png" class="ui image">
+          <div class="description">Design</div>
+        </a>
+        <a href="/bank" class="link">
+          <img src="/static/img/common/bank_circular.png" class="ui image">
+          <div class="description">Bank</div>
+        </a>
       </div>
     </div>
   </div>
 
+  {% set logged_in = current_user.is_authenticated() %}
   <template id="topbar-template">
     <div class="ui secondary menu" id="topbar">
+      {% if logged_in %}
       <div class="ui circular image" id="topbar-avatar">
-        <img src="/static/img/avatar.jpg" alt="avatar">
-        <div class="ui red circular label">[[notifications]]</div>
+        <img src="{{current_user.avatar or '/static/img/avatar.jpg'}}" alt="avatar">
+        <div class="ui red circular label">{{current_user.msg_box.count()}}</div>
       </div>
+      {% endif %}
       <div class="ui popup transition hidden" id="topbar-avatar-popup">
         <div class="ui link list">
-          <a class="item">Dashboard</a>
-          <a class="item">Notifications <div class="ui red circular label">[[notifications]]</div></a>
-          <a href="/logout" class="item">Log Out</a>
+        {% if logged_in %}
+          <a class="item" href="/person">Dashboard</a>
+          <a class="item" href="/person/notifs">Notifications <div class="ui red circular label">{{current_user.msg_box.count()}}</div></a>
+          <a href="{{url_for('auth.logout')}}" class="item">Log Out</a>
+        {% else %}
+          <a href="{{url_for('auth.login')}}" class="item">Log In</a>
+        {% endif %}
         </div>
       </div>
 
       <div class="item" id="topbar-index">
-        <div class="ui button" id="topbar-btn-index"></div>
+        <a href="{{url_for('main.index')}}" class="ui image" id="topbar-btn-index">
+          <img src="/static/img/common/logo_small.png" alt="">
+        </a>
       </div>
       <div class="item" id="topbar-menu">
         <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>

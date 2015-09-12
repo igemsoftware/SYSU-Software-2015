@@ -1,0 +1,17 @@
+Biosensor_lasP 2011Northwestern
+A sensor of LasP. The inducible promoters drive the expression of reporter proteins to report the presence of P. aeruginosa autoinducer molecules
+A sensor of LasP. The inducible promoters drive the expression of reporter proteins to report the presence of P. aeruginosa autoinducer molecules
+LasP
+http://2011.igem.org/Team:Northwestern
+http://2011.igem.org/Team:Northwestern/Notebook/Protocols
+2
+A1i_1
+GFP_1
+Promoter:BBa_J23119_1	RBS:BBa_B0030_1	normal
+RBS:BBa_B0030_1	lasR_1	normal
+lasR_1	LasR_1	promotion
+A1i_1	LasR_1	promotion
+LasR_1	Promoter:BBa_R0079_1	promotion
+Promoter:BBa_R0079_1	RBS:BBa_B0030_2	normal
+RBS:BBa_B0030_2	gfp_1	normal
+gfp_1	GFP_1	promotion
