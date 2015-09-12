@@ -268,12 +268,15 @@ Design.prototype._makeDrawAreaDroppabble = function() {
             }
             var node = new CNode();
             node.createCNode($(dropedElement));
+            node.view.css({left: e.pageX, top: e.pageY});
             $("#drawArea").append(node.view);
-            var left = node.view.position().left - leftBar.view.width();
-            var top  = node.view.position().top - that.drawMenu.height();
+            var offset = $("#drawArea").offset();
+            var left = node.view.position().left - offset.left- 30;
+            var top  = node.view.position().top - offset.top - 50;
             node.view.css({left:left, top:top});
 
             that.addPartEvent(node.view);
+            that.addProAndInhibitLine(node.view);
             //write log
             operationLog.addPart(dropedElement.attr("part-attr"));
         }
@@ -282,7 +285,7 @@ Design.prototype._makeDrawAreaDroppabble = function() {
 
 Design.prototype.addPartEvent = function(elem) {
     this.addDraggable(elem);
-    this.addProAndInhibitLine(elem);
+    // this.addProAndInhibitLine(elem);
     this.makeSourceAndTarget(elem);
     this.nodeElemList.push(elem);
     this._partCount += 1;
@@ -298,7 +301,8 @@ Design.prototype.putNewDevice = function(elem) {
     var parts = device.parts;
     var connections = device.relationship;
     var nodeElems = Util._loadCircuitCNodes(parts);
-    Util._loadCircuitLinks(connections, nodeElems);
+    Util.loadCircuitLinks(connections, nodeElems);
+    Util.loadBackbone(device.backbone);
 
     rightBar.processDropedDevice(device);
     operationLog.addDevice(elem.attr("device-name"));
@@ -334,7 +338,9 @@ Design.prototype._initJsPlumbOption = function() {
         var source = $(CurrentConnection.connection.source);
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
-        if (that._isInhibitLink == true) {
+        if (target.hasClass("dotShape")) {
+            CurrentConnection.connection.scope = "backbone";
+        } else if (that._isInhibitLink == true) {
             CurrentConnection.connection.scope = "inhibition";
             that._isInhibitLink = false;
         } else if (that._isPromoteLink == true) {
@@ -372,6 +378,9 @@ Design.prototype._initJsPlumbOption = function() {
     jsPlumb.bind('connectionDetached', function(info, originalEvent) {
         var target = $(info.connection.target);
         var source = $(info.connection.source);
+        if (target.hasClass("dotShape")) {
+            source.remove();
+        }
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
         if (info.connection.scope == "normal") {
@@ -384,6 +393,7 @@ Design.prototype._initJsPlumbOption = function() {
 
     jsPlumb.on(that.drawArea, "click", ".minus", function() {
         operationLog.removePart($(this.parentNode.parentNode).attr("part-name"));
+        console.log($(this.parentNode.parentNode).attr("part-id"));
         that.removeCNodeElem($(this.parentNode.parentNode).attr("part-id"));
         jsPlumb.remove(this.parentNode.parentNode);
     });
@@ -397,14 +407,37 @@ Design.prototype.getNodeViewByPartId = function(partID) {
     }
 }
 
-Design.prototype.removeCNodeElem = function(elem) {
-    var index2 = this.nodeElemList.indexOf(elem);
-    this.nodeElemList.splice(index2, 1);
+Design.prototype.removeCNodeElem = function(partID) {
+    for (var i in this.nodeElemList) {
+        if ($(this.nodeElemList[i]).attr('part-id') == partID) {
+            this.nodeElemList.splice(i, 1);
+            break;
+        }
+    }
 }
 
 Design.prototype.addDraggable = function(elem) {
     jsPlumb.draggable(elem, {
-        containment: 'parent',
+        // containment: 'parent', //设置后会导致无法scrollable
+        // scroll: true,
+        drag:function(e){
+            if (designMenu._isHideNormalLine == true) {
+                $("svg").each(function() {
+                    if ($(this).find('path').attr('stroke') == 'green') {
+                        $(this).css('display', 'none');
+                    }
+                });
+            }        
+        },
+        stop: function(e){
+            if (designMenu._isHideNormalLine == true) {
+                $("svg").each(function() {
+                    if ($(this).find('path').attr('stroke') == 'green') {
+                        $(this).css('display', 'none');
+                    }
+                });
+            }        
+        },
     })
 };
 
@@ -454,22 +487,51 @@ function DesignMenu() {
     this.clearBtn = $("#clear");
     this.connPartBtn = $("#connect-part");
     this.minusBtn = $("#minus");
+    this.backboneBtn = $("#backbone");
+    this.hideBtn = $("#hideNormal");
+    this.importPerBtn = $("#importPerBtn");
+    this.importForBtn = $("#importForBtn");
+    this.importPubBtn = $("#importPubBtn");
+
 
     this._isMinusBtnOpen = false;
     this._isConnectPartBtnOpen = true;
+    this._isHideNormalLine = false;
 };
 
 DesignMenu.prototype.init = function() {
     this.enableSaveCircuitchartBtn();
     this.enableDownloadBtn();
-    this.enableLoadCircuitchartBtn();
+    this.enableLoadDesignBtn();
     this.enableClearCircuitchartBtn();
     this.enableConnectPartBtn();
     this.enableRemovePartBtn();
+    this.enableBackboneBtn();
+    this.enableHideNormal();
+    this.enableDesignSlider();
     this.popUpAllButton();
 
     $("#risk").popup();
 }
+
+DesignMenu.prototype.enableBackboneBtn = function() {
+    this.backboneBtn.click(function() {
+        var dotStart = Util.createEndpoint();
+        var dotEnd = Util.createEndpoint();
+        var offSet = $("#drawArea").offset();
+        if (leftBar.isOpenLeftBar == true) {
+            offSet.left -= leftBar.view.width();
+        }
+        dotStart.css({left:offSet.left+100, top: '10px'});
+        dotEnd.css({left:offSet.left+300, top:'10px'});
+        dotStart.appendTo($("#drawArea"));
+        dotEnd.appendTo($("#drawArea"));
+        var minusCircle = Util.createMinusCircleDiv();
+        minusCircle.appendTo(dotEnd);
+
+        Util.connectBackbone(dotStart, dotEnd);
+    });
+};
 
 DesignMenu.prototype.popUpAllButton = function() {
     this.saveBtn.popup();
@@ -478,6 +540,41 @@ DesignMenu.prototype.popUpAllButton = function() {
     this.clearBtn.popup();
     this.connPartBtn.popup();
     this.minusBtn.popup();
+    this.backboneBtn.popup();
+    this.hideBtn.popup();
+}
+
+DesignMenu.prototype.enableDesignSlider = function() {
+    design.drawAreaHeight = $("#drawArea").css("height"); 
+    $(".slider input").val(0);
+    $(".slider input").change(function() {
+        var zoom = parseFloat($(this).val())/100;
+        var height = parseInt(design.drawAreaHeight);
+        $("#drawArea").css("height", String(height*(zoom+1)+'px'));
+    });
+}
+
+DesignMenu.prototype.enableHideNormal = function() {
+    var that = this;
+    this.hideBtn.click(function() {
+        if (that._isHideNormalLine == false) {
+            $(this).addClass("ired");
+            that._isHideNormalLine = true;
+            $("svg").each(function() {
+                if ($(this).find('path').attr('stroke') == 'green') {
+                    $(this).css('display', 'none');
+                }
+            });
+        } else {
+            $(this).removeClass("ired");
+            that._isHideNormalLine = false;
+            $("svg").each(function() {
+                if ($(this).find('path').attr('stroke') == 'green') {
+                    $(this).css('display', 'block');
+                }
+            });
+        }
+    });
 }
 
 DesignMenu.prototype.enableRemovePartBtn = function() {
@@ -515,11 +612,14 @@ DesignMenu.prototype.enableConnectPartBtn = function() {
 };
 
 DesignMenu.prototype.enableClearCircuitchartBtn = function() {
+    var that = this;
     this.clearBtn.click(function() {
-        $("#deleteModal").modal('show');
+        $("#deleteModal").modal({transition: 'bounce'}).modal('show');
         $("#deleteBtn").click(function() {
             jsPlumb.empty("drawArea");
             design.clear();
+            var rubberband = new Rubberband();
+            rubberband.init();
             $("#deleteModal").modal('hide');
         });
     });
@@ -536,11 +636,10 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
         var img;
         var curcuitChartData = that.getDesignChartData();
         curcuitChartData.title = $("#curcuitName").val();
-        curcuitChartData.introduction = $("#designIntro").val();
+        curcuitChartData.full_description = $("#designIntro").val();
         curcuitChartData.source = "hello world";
         curcuitChartData.risk = design.risk;
         curcuitChartData.plasmids = dfs.getCircuits();
-
         //test
         curcuitChartData.id = -1;
 
@@ -561,6 +660,8 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
                 });
 
                 curcuitChartData.img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                console.log("Post Data");
+                console.log(curcuitChartData);
                 var postDataJson = JSON.stringify(curcuitChartData);
                 $.ajax({
                     type: 'POST',
@@ -576,26 +677,41 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
 
 DesignMenu.prototype.getDesignChartData = function() {
     var parts = this.getDesignParts();
-    var connections = this.getDesignConns();
+    var data = this.getDesignConns();
     var curcuitChart = {};
     curcuitChart.parts = parts;
-    curcuitChart.title = "deviceName";
-    curcuitChart.relationship = connections;
+    curcuitChart.name = "deviceName";
+    curcuitChart.relationship = data.connections;
     curcuitChart.interfaceA = "interfaceB-partName";
     curcuitChart.interfaceB = "interfaceA-partName";
+    curcuitChart.backbone = data.backbones;
     return curcuitChart;
 }
 
 DesignMenu.prototype.getDesignConns = function() {
     var connections = [];
+    var backbones = [];
     $.each(jsPlumb.getAllConnections(), function (idx, CurrentConnection) {
+        console.log(CurrentConnection.scope);
+        if (CurrentConnection.scope == 'backbone') {
+            backbones.push({
+                start: [parseInt($(CurrentConnection.source).css('left'), 10), 
+                        parseInt($(CurrentConnection.source).css('top'), 10)],
+                end: [parseInt($(CurrentConnection.target).css('left'), 10), 
+                    parseInt($(CurrentConnection.target).css('top'), 10)]
+            });
+            return ;
+        }
         connections.push({
             start: $(CurrentConnection.source).attr("part-id"),
             end: $(CurrentConnection.target).attr("part-id"),
             type: CurrentConnection.scope
         });
     });
-    return connections;
+    var data = {};
+    data.connections = connections;
+    data.backbones = backbones;
+    return data;
 }
 
 DesignMenu.prototype.getDesignParts = function() {
@@ -613,19 +729,75 @@ DesignMenu.prototype.getDesignParts = function() {
     return parts;
 }
 
-DesignMenu.prototype.enableLoadCircuitchartBtn = function(curcuitChart) {
+DesignMenu.prototype.enableLoadDesignBtn = function() {
     var that = this;
+    var isOpen = false;
     this.openFileBtn.click(function() {
-        var curcuitChart;
-        $.get("/design/circuit/1", function(data) {
-            var curcuitChart = data["content"];
-            var parts = curcuitChart.parts;
-            var connections = curcuitChart.relationship;
-            var nodeElems = Util._loadCircuitCNodes(parts);
-            Util._loadCircuitLinks(connections, nodeElems);
+        $("#chooseModal").modal('show');
+        isOpen = true;
+        that.initOpenList(that.perDesignList);
+    });
+    this.importPerBtn.click(function() {
+        $("#chooseModal").modal('show');
+        isOpen = false;
+        that.initOpenList(that.perDesignList);
+    });
+    this.importForBtn.click(function() {
+        $("#chooseModal").modal('show');
+        isOpen = false;
+        that.initOpenList(that.forDesignList);
+    });
+    this.importPubBtn.click(function() {
+        $("#chooseModal").modal('show');
+        isOpen = false;
+        that.initOpenList(that.pubDesignList);
+    });
+
+    $("#choose").click(function() {
+        if (isOpen == true) {
+            jsPlumb.empty("drawArea");
+            design.clear();
+        }
+        $("#designList div").each(function() {
+            if($(this).hasClass('ired')) {
+                var id = $(this).find('input').val();
+                var curcuitChart;
+                $.get("/design/"+String(id), function(data) {
+                    console.log(data["content"]);
+                    var curcuitChart = data["content"];
+                    var parts = curcuitChart.parts;
+                    var connections = curcuitChart.relationship;
+                    var backbones = curcuitChart.backbone;
+                    var nodeElems = Util._loadCircuitCNodes(parts);
+                    Util.loadBackbone(backbones);
+                    Util.loadCircuitLinks(connections, nodeElems);
+                });
+            }
         });
+        $("#chooseModal").modal('hide');
     });
 };
+
+DesignMenu.prototype.initOpenList = function(designs) {
+    for (var i in designs) {
+        var div = $("<div></div>");
+        div.text(designs[i].name);
+        var idElem = $("<input type='text'></input>");
+        idElem.css("display", "none");
+        idElem.val(designs[i].id);
+        var divider = $("<div class='ui divider'></div>");
+        div.append(idElem);
+        div.addClass('title')
+        div.click(function() {
+            $("#designList div").each(function() {
+                $(this).removeClass("ired");
+            })
+            $(this).addClass("ired");
+        });
+        $("#designList").append(div);
+        $("#designList").append(divider);
+    }
+}
 
 DesignMenu.prototype.enableDownloadBtn =function() {
     var that = this;
@@ -637,7 +809,7 @@ DesignMenu.prototype.enableDownloadBtn =function() {
         $('#downloadModal').modal("hide");
         var curcuitChartData = that.getDesignChartData();
         var curcuitName = $("#curcuitDownName").val();
-        curcuitChartData.title = curcuitName;
+        curcuitChartData.name = curcuitName;
         Util.downloadFile(curcuitName+".txt", JSON.stringify(curcuitChartData));
         that.downloadChartAsImage(curcuitName);
     });
@@ -674,7 +846,7 @@ function SideBarWorker() {
 SideBarWorker.prototype.createPartView = function(part) {
     var partName = part.name;
     var partType = part.type;
-    var partIntro = part.introduction;
+    var partIntro = part.full_description;
     var BBa = part.BBa;
     var attr = part.attr;
 
@@ -741,10 +913,10 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     var iconSpan = $("<span class='more'><i class='icon zoom'></i></span>");
     
     imgElem.attr("src", "/static/img/design/device.png");
-    titleSpan.text(device.title);
+    titleSpan.text(device.name);
     itemDiv.attr('part-type', 'device');
-    itemDiv.attr('device-name', device.title);
-    iconSpan.attr("data-content", "Read more about this part");
+    itemDiv.attr('device-name', device.name);
+    iconSpan.attr("data-content", "Read more about this device");
     iconSpan.popup();
 
     itemDiv.append(imgElem);
@@ -790,6 +962,9 @@ function LeftBar() {
     this.elemsGeneList = [];
     this.elemsTermiList = [];
     this.elemsChemList = [];
+    this.elemsRNAList = [];
+    this.elemsMatList = [];
+    this.elemsUnkList = [];
 
     this.view.searchRelateInputBox = $("#searchRelate");
     this.view.searchPartInput = $("#searchNew");
@@ -825,7 +1000,7 @@ LeftBar.prototype.initDevice = function(deviceList) {
         var dataDiv = this.leftbarWorker.createDeviceView(deviceList[i]);
         this.elemsDeviceList.push(dataDiv);
         this.addDeviceToBar(dataDiv);
-        this._searchDeviceTitle.push({title: deviceList[i].title});
+        this._searchDeviceTitle.push({title: deviceList[i].name});
     }
     this.updateSearchBar();
 }
@@ -854,9 +1029,18 @@ LeftBar.prototype.addPartToBar = function(elem) {
     if (partType == 'terminator') {
         this.elemsTermiList.push(elemClone);
     }
-    if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
+    if (partType == 'chemical') {
         this.elemsChemList.push(elemClone);
     }
+    if (partType == 'RNA') {
+        this.elemsRNAList.push(elemClone);
+    }
+    if (partType == 'material') {
+        this.elemsMatList.push(elemClone);
+    }
+    if (partType == 'unknown') {
+        this.elemsUnkList.push(elemClone);
+    } 
 
     this.leftbarWorker.addElemToView(elem, this.view.parts);
 }
@@ -880,8 +1064,17 @@ LeftBar.prototype.enableFilter = function() {
         if (partType == 'terminator') {
             that.leftbarWorker.showView(that.elemsTermiList, that.view.parts);
         }
-        if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
+        if (partType == 'chemical') {
             that.leftbarWorker.showView(that.elemsChemList, that.view.parts);
+        }
+        if (partType == 'material') {
+            that.leftbarWorker.showView(that.elemsMatList, that.view.parts);
+        }
+        if (partType == 'unknown') {
+            that.leftbarWorker.showView(that.elemsUnkList, that.view.parts);
+        }
+        if (partType == 'RNA') {
+            that.leftbarWorker.showView(that.elemsRNAList, that.view.parts);
         }
         if (partType == 'all') {
             that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
@@ -914,7 +1107,13 @@ LeftBar.prototype._leftTriggerAnimation = function() {
                 left: '-' + that._leftBarWidth + 'px'
             }, 500);
 
-            $("#main-contain").animate({
+            // $("#main-contain").animate({
+            //     left: '0px'
+            // }, 500);
+            $("#drawArea").animate({
+                left: '0px'
+            }, 500);
+            $("#drawArea-menu").animate({
                 left: '0px'
             }, 500);
             that.leftTrigger.find("i").removeClass("left").addClass("right");
@@ -925,10 +1124,16 @@ LeftBar.prototype._leftTriggerAnimation = function() {
                 left: '0px'
             }, 500);
 
-            $("#main-contain").animate({
+            // $("#main-contain").animate({
+            //     left: that._leftBarWidth + 'px'
+            // }, 500);
+
+            $("#drawArea").animate({
                 left: that._leftBarWidth + 'px'
             }, 500);
-
+            $("#drawArea-menu").animate({
+                left: that._leftBarWidth + 'px'
+            }, 500);
             that.leftTrigger.find("i").removeClass("right").addClass("left");
         }
     });
@@ -1059,7 +1264,7 @@ RightBar.prototype.processDropedDevice = function(device) {
     var deviceElem = this.rightbarWorker.createDeviceView(device);
     if (!this.isDeviceAdded(device)) {
         this.elemsDeviceList.push(deviceElem);
-        this._searchDeviceTitle.push({title: device.title});
+        this._searchDeviceTitle.push({title: device.name});
         this.updateSearchBar();
         this.rightbarWorker.showView(this.elemsDeviceList, this.view.devices);
     }
@@ -1184,6 +1389,15 @@ $(function() {
     DataManager.getDeviceDataFromServer(function(deviceList) {
         leftBar.initDevice(deviceList);
     });
+    DataManager.getPerDesignDataFromServer(function(designs) {
+        designMenu.perDesignList = designs;
+    })
+    DataManager.getForDesignDataFromServer(function(designs) {
+        designMenu.forDesignList = designs;
+    })
+    DataManager.getPubDesignDataFromServer(function(designs) {
+        designMenu.pubDesignList = designs;
+    })
     DataManager.getRelationAdjDataFromServer();
     DataManager.getRelationShipDataFromServer();
 
@@ -1219,7 +1433,7 @@ $("#customCreate").click(function() {
     part.name = $("#customPartName").val();
     part.BBa = $("#customBBaName").val();
     part.type = $("#customPartType").val();
-    part.introduction = $("#customIntro").val();
+    part.full_description = $("#customIntro").val();
     DataManager.addPart(part);
     leftBar.addCustomPart(part);
 
@@ -1251,3 +1465,5 @@ $('#loadingData').dimmer('show');
 $("#moveTo").click(function() {
     window.location.href = "/modal";
 }); 
+
+$(".modal").modal({transition: 'horizontal flip'});

@@ -83,7 +83,7 @@ Util._loadCircuitCNodes = function(parts) {
         var node = that._createNewCNode(part);
         node.appendTo(design.drawArea);
         design.addPartEvent(node);
-
+        // design.addProAndInhibitLine(node);
         var partID = part.partID;
         nodeElems.push([partID, node]);
     });
@@ -126,7 +126,45 @@ Util._createNewCNode = function(part) {
     return node;
 };
 
-Util._loadCircuitLinks = function(connections, nodeElems) {
+Util.loadBackbone = function(backbones) {
+    var that = this;
+    $.each(backbones, function(index, elem) {
+        var dotStart = that.createEndpoint();
+        var dotEnd = that.createEndpoint();
+        dotStart.css({left: elem.start[0], top: elem.start[1]});
+        dotEnd.css({left:elem.end[0], top:elem.end[1]});
+        var minusCircle = that.createMinusCircleDiv();
+        minusCircle.appendTo(dotEnd);
+        dotStart.appendTo($("#drawArea"));
+        dotEnd.appendTo($("#drawArea"));
+
+        that.connectBackbone(dotStart, dotEnd);
+    })
+}
+
+Util.connectBackbone = function(dotStart, dotEnd) {
+    jsPlumb.connect({
+        source: dotStart,
+        target: dotEnd,
+        endpoint:"Blank",
+        paintStyle: { strokeStyle: "#123456", lineWidth: 6},
+        connector: ["Straight"],
+        Container: "drawArea"
+    });
+    
+    jsPlumb.draggable(dotStart, {
+        containment: 'parent',
+    });
+    jsPlumb.draggable(dotEnd, {
+        containment: 'parent',
+    });
+}
+
+Util.createEndpoint = function () {
+    return $("<div class='dotShape'></div>");
+}
+
+Util.loadCircuitLinks = function(connections, nodeElems) {
     $.each(connections, function(index, elem) {
         // if (elem.type == "promotion" || elem.type == "inhibition") return;
         var startElem;
@@ -135,7 +173,7 @@ Util._loadCircuitLinks = function(connections, nodeElems) {
             if (nodeElems[index][0] == elem.start) startElem = nodeElems[index][1];
             if (nodeElems[index][0] == elem.end) endElem = nodeElems[index][1];
         }
-        if (elem.type == 'normal') {
+        // if (elem.type == 'normal') {
             var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
             var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
             startNormalNum += 1;
@@ -143,7 +181,7 @@ Util._loadCircuitLinks = function(connections, nodeElems) {
             $(startElem).attr("normal-connect-num", startNormalNum);
             $(endElem).attr("normal-connect-num", endNormalNum);
             design.drawLine(startElem, endElem, elem.type);
-        }
+        // }
     }); 
 };
 //========================================================================================
@@ -227,9 +265,11 @@ DataManager.getPartByAttr = function(partAttr) {
     return null;
 }
 
-DataManager.getDeviceByTitle = function(deviceTitle) {
+DataManager.getDeviceByTitle = function(deviceName) {
+    console.log(deviceName);
     for (var i in this.deviceList) {
-        if (this.deviceList[i].title == deviceTitle) return this.deviceList[i];
+        console.log(this.deviceList[i].name);
+        if (this.deviceList[i].name == deviceName) return this.deviceList[i];
     }
     return null;
 }
@@ -329,6 +369,33 @@ DataManager.getDeviceDataFromServer = function(callback) {
     });
 }
 
+DataManager.getPerDesignDataFromServer = function(callback) {
+    var that = this;
+    $.get("/design/all", function(data, status) {
+        console.log("Personal Designs:");
+        console.log(data['designs']);
+        callback(data['designs']);
+    });
+}
+
+DataManager.getForDesignDataFromServer = function(callback) {
+    var that = this;
+    $.get("/design/favorite", function(data, status) {
+        console.log("Favorite Designs:");
+        console.log(data['designs']);
+        callback(data['designs']);
+    });
+}
+
+DataManager.getPubDesignDataFromServer = function(callback) {
+    var that = this;
+    $.get("/design/public", function(data, status) {
+        console.log("Public Designs:");
+        console.log(data['designs']);
+        callback(data['designs']);
+    });
+}
+
 //========================================================================================
 /**
  * @class Rubberband
@@ -338,13 +405,18 @@ DataManager.getDeviceDataFromServer = function(callback) {
  */
 
 function Rubberband() {
-    this.view = $("#rubberband");
     this.drawArea = $("#drawArea");
     this._x = null;
     this._y = null;
 };
 
+Rubberband.prototype.createView = function() {
+    this.view = $('<div id="rubberband"></div>');
+    this.view.appendTo(this.drawArea);
+}
+
 Rubberband.prototype.init = function() {
+    this.createView();
     this._listenDrawAreaMouseMove();
     this._listenDrawAreaMouseDown();
     this._listenDrawAreaMouseup();
@@ -355,7 +427,7 @@ Rubberband.prototype._listenDrawAreaMouseMove = function() {
     var that = this;
     this.drawArea.mousemove(function(event) {
         if(that.view.is(":visible") !== true) { return; }
-             
+        var offset = $("#drawArea").offset();
         // Get the top- and left values
         var t = (event.pageY > that._y) ? that._y : event.pageY;
         var l = (event.pageX >= that._x) ? that._x : event.pageX;
@@ -369,12 +441,13 @@ Rubberband.prototype._listenDrawAreaMouseMove = function() {
         var h = (event.pageY > that._y) ? hcalc : (hcalc * -1); 
      
         // Update the rubberband with the new values
-        if (leftBar.isOpenLeftBar == true) {
-            l -= leftBar.view.width();
-        }
+        // if (leftBar.isOpenLeftBar == true) {
+        //     l -= leftBar.view.width();
+        // }
+
         // t -= drawArea_menu.height();
 
-        that.view.css({top:t, left:l, height:h, width:w, position:'relative'});
+        that.view.css({top:t-offset.top, left:l-offset.left, height:h, width:w, position:'relative'});
     });
 };
 
@@ -392,8 +465,10 @@ Rubberband.prototype._listenDrawAreaMouseDown = function() {
         if ($(event.target).attr("class") == "filterDiv") return;
         that._x = event.pageX;         
         that._y = event.pageY;
-                 
-        that.view.css({top:that._y, left:that._x, height:1, width:1, position:'relative'});
+        var offset = $("#drawArea").offset();
+        var top = that._y-offset.top;
+        var left = that._x-offset.left;
+        that.view.css({top:top, left:left, height:1, width:1, position:'relative'});
         that.view.show();
     });
 };
