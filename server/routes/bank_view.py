@@ -12,10 +12,50 @@ from datetime import datetime
 
 @bank.route('/')
 def index():
+    """
+        :Usage: "The index of the CORE-Bank. There are two list.
+    """
     return render_template('bank.html')
 
 @bank.route('/list')
 def get_list():
+    """
+        :Usage: Get a list of :class:`Design` . 
+        :Output: A list of :class:`Design` . 
+        :Argument:
+
+        * per_page: How many tasks per page. (default=7)
+        * page: Which page you want to get. (default=1) 
+        * keyword: Sort by :attr:`Design.id`, :attr:`Design.used``, :attr:`Design.rate`, or :attr:`Design.last_active` . (default= :attr:`Design.id`)
+        * mode: ``share`` or ``public`` (default=``public``)
+
+        :Output Example: 
+
+        .. code-block:: json
+
+            {
+              "designs": [
+                {
+                  "comments": 0,
+                  "contributor": "test",
+                  "description": "First design",
+                  "id": 1,
+                  "last active": "2015-09-10 19:46:58",
+                  "name": "My first design",
+                  "rate": 0
+                },
+                {
+                  "comments": 0,
+                  "contributor": "test",
+                  "description": "Second design",
+                  "id": 2,
+                  "last active": "2015-09-10 19:46:58",
+                  "name": "My second design",
+                  "rate": 0
+                }] 
+            }
+    """
+
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page',
             current_app.config['FLASKY_DESIGNS_PER_PAGE'], type=int)
@@ -34,7 +74,7 @@ def get_list():
         if current_user.is_anonymous():
             """ authentic check """
             return jsonify(error=1, aux=url_for(login_manager.login_view, next=url_for('bank.index')) )
-        query_obj = current_user.designs.filter(Design.is_shared==True)
+        query_obj = Design.query.filter(Design.is_shared==True)
     else:
         query_obj = Design.query.filter(Design.is_public==True)
 
@@ -62,6 +102,21 @@ def get_list():
 @bank.route('/share', methods=["POST"])
 @login_required
 def share_design():
+    """
+        :Note: Login required
+        :Usage: Share a finished but not shared design from your repo.
+        :Input: A list of :class:`Design` . 
+        
+        :Input Example: 
+
+        .. code-block:: json
+
+            {
+                "Design": 1,
+                "brief_description": "toggle switch",
+                "full_description": "blablabla..."
+            }
+    """
     id = request.form.get('Design', -1)
     d = Design.query.get(id)
     if not d or d.owner != current_user: 
@@ -79,6 +134,26 @@ def share_design():
 @bank.route('/finishedList/')
 @login_required
 def get_finished_list(): 
+    """
+        :Note: Login required
+        :Usage: Get the list of finished but not shared designs. 
+        :Input: A list of :class:`Design` . 
+        
+        :Output Example: 
+
+        .. code-block:: json
+
+            {"finishedList": 
+                [{
+                    "id": 1,
+                    "name":"toggle switch"
+                },
+                {
+                    "id": 13,
+                    "name":"GFP"
+                }]
+            } 
+    """
     l = []
     for d in current_user.designs.filter_by(is_shared=False).filter_by(is_finished=True).all():
         l.append({'id':d.id, 'name': d.name})
