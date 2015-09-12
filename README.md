@@ -1,7 +1,7 @@
 <p align="center"><img src="https://raw.githubusercontent.com/igemsoftware/SYSU-Software-2015/master/server/static/img/common/logo.png"></p>
 
 <p align="center">
-  <a href="https://magnum.travis-ci.com/igemsoftware/SYSU-Software-2015"><img src="https://circleci.com/gh/yyx990803/vue/tree/master.svg?style=shield" alt="Build Status"></a>
+  <a href="https://magnum.travis-ci.com/igemsoftware/SYSU-Software-2015"><img src="https://magnum.travis-ci.com/igemsoftware/SYSU-Software-2015.svg?token=NsrgXLpyHNmqMexEuqoe&branch=master" alt="Build Status"></a>
 </p>
 
 ## Introduction 
