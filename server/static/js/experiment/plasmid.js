@@ -45,6 +45,12 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
   		$scope.circuits = data;
   	});
 
+  	$http.get("http://parts.igem.org/cgi/xml/part.cgi?part=BBa_R0071")
+  	.success(function(data) {
+  		console.log(data);
+  		// $scope.circuits = data;
+  	});
+
 	$scope.$watch('curPlaIndex', function(newValue,oldValue, scope) {
 		if (newValue !== undefined) {
 	  		$scope.currentPlasmid = $scope.plasmids[newValue];

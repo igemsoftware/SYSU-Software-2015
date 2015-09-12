@@ -556,7 +556,7 @@ DataManager.getSysProtocolData = function(callback) {
 DataManager.getPerProtocolData = function(callback) {
 	this.newId = 0;
 	var that = this;
-    $.get("/protocol/circuit/1", function(data, status) {
+    $.get("/protocol/design/1", function(data, status) {
     	console.log(data['protocols']);
         that.perProtocols = data['protocols'];
         callback(that.perProtocols);
@@ -607,7 +607,7 @@ DataManager.syncProtocol = function(id) {
 	$.ajax({
 	    type: 'POST',
 	    contentType: 'application/json',
-	    url: '/protocol/circuit/'+id,
+	    url: '/protocol/design/'+id,
 	    dataType : 'json',
 	    data : postDataJson,
 	});
