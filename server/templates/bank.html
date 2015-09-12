@@ -1,13 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Core Bank</title>
-    <link rel="stylesheet" href="/static/css/semantic.min.css">
-    <link rel="stylesheet" href="/static/font/lato.css">
+{% extends "core_common.html" %}
+{% block title %} Core - Bank {% endblock %}
+
+{% block head %}
+    {{ super() }}
     <link rel="stylesheet" href="/static/css/bank.css">
-</head>
-<body>
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+<!--
     <nav class="ui menu" id="topbar">
         <img src="/static/img/common/logo_small.png" alt="logo" class="item">
         <a class="item" id="sidebar"><i class="sidebar icon"></i></a>
@@ -17,8 +18,17 @@
             <a class="item" id="linkShare">Share</a>
         </div>
     </nav>
-    
-    <div class="ui circular image" id="userAvatar" data-content="Dashboard"><a href=""><img src="/static/img/avatar.jpg" alt="avatar"></a></div>
+-->
+    <v-topbar>
+        <div class="right menu">
+            <div class="item">
+                <a class="ui button highlight" id="linkPublic">Public</a>
+            </div>
+            <div class="item">
+                <a class="ui button" id="linkShare">Share</a>
+            </div>
+        </div>
+    </v-topbar>
 
     <div id="main">
         <div class="header">
@@ -37,7 +47,7 @@
             </select>
             <button class="ui button" id="btnShare" style="display:none;">Share</button>
         </div>
-    
+
         <div style="clear:both; height:0px;"></div>
         <table class="ui striped table" id="dataTable">
             <thead>
@@ -74,7 +84,7 @@
             <i class="caret right icon" id="pageAdd"></i>
         </div>
     </div>
-    
+
     <div class="ui modal small">
         <div class="header">Share your Design<i class="close icon"></i></div>
         <div class="content">
@@ -105,6 +115,4 @@
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/semantic.min.js"></script>
     <script src="/static/js/bank.js"></script>
-
-</body>
-</html>
+{% endblock %}
