@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Test documentation build configuration file, created by
+# CORE documentation build configuration file, created by
 # sphinx-quickstart on Mon Aug 17 18:19:40 2015.
 #
 # This file is execfile()d with the current directory set to its
@@ -166,7 +166,7 @@ html_static_path = ['_static']
 #html_additional_pages = {}
 
 # If false, no module index is generated.
-#html_domain_indices = True
+html_domain_indices = False
 
 # If false, no index is generated.
 #html_use_index = True
@@ -227,10 +227,10 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title,
 #  author, documentclass [howto, manual, or own class]).
-#latex_documents = [
-#  (master_doc, 'Test.tex', u'Test Documentation',
-#   u'Lyuan', 'manual'),
-#]
+latex_documents = [
+  (master_doc, 'CORE.tex', u'CORE Documentation',
+   u'SYSU Software', 'manual'),
+]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
