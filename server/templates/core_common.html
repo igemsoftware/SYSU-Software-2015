@@ -30,7 +30,7 @@
   </div>
 
   {% set logged_in = current_user.is_authenticated() %}
-  {% set unread_count = current_user.msg_box.filter_by(isread=False).count() %}
+  {% set unread_count = current_user.msg_box.filter_by(isread=False).count() if logged_in else 0 %}
   <template id="topbar-template">
     <div class="ui secondary menu" id="topbar">
       {% if logged_in %}
