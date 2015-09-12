@@ -16,6 +16,13 @@ def allowed_file(filename):
 
 @pic.route('/upload', methods=['POST', 'GET'])
 def upload():
+    """
+        :Method: GET 
+        :Usage: A simple form to upload file. Use in development.
+
+        :Method: POST 
+        :Usage: The entrance of uploading file. 
+    """
     if request.method == 'POST':
         file = request.files['file']
         if not file:
@@ -51,6 +58,9 @@ def upload():
 
 @pic.route('/fetch/<path:filename>')
 def fetch(filename):
+    """
+        :Usage: Get a file named ``filename`` in the picture server. 
+    """
     filename = filename.strip()
     if '..' in filename or filename.startswith('/'):
         return 'not found'
