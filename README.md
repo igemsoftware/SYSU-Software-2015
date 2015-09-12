@@ -1,6 +1,6 @@
 # CORE - Crowdsourcing Open Redesign Engine
 
-[![Build Status](https://magnum.travis-ci.com/leasunhy/SYSU-Software-2015.svg?token=NsrgXLpyHNmqMexEuqoe&branch=master)](https://magnum.travis-ci.com/leasunhy/SYSU-Software-2015)
+[![Build Status](https://magnum.travis-ci.com/igemsoftware/SYSU-Software-2015.svg?token=NsrgXLpyHNmqMexEuqoe&branch=master)](https://magnum.travis-ci.com/leasunhy/SYSU-Software-2015)
 
 ## Introduction 
 
