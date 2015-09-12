@@ -36,6 +36,8 @@ function CNode() {
 CNode.prototype.createCNode = function(partElem) {
     this.view = partElem;
     this.view.attr('normal-connect-num', '0');
+    this.view.attr("data-content", "Most link to two objects");
+    console.log(this.view);
     this.view.removeAttr("class");
     this.view.find(".BBa").remove();
     var partType = partElem.attr('part-type');
@@ -64,117 +66,6 @@ CNode.prototype.setCNodeId = function(id) {
 }
 
 //-===================================================
-function DFS() {
-    this.map = [];
-}
-
-DFS.prototype.addEdge = function(nodeElemA, nodeElemB) {
-    var flagA = false;
-    var flagB = false;
-    nodeElemA.attr('dirty', '0');
-    nodeElemB.attr('dirty','0');
-    for (var i in this.map) {
-        if (this.map[i][0].attr('part-id') == nodeElemA.attr('part-id')) {
-            this.map[i].push(nodeElemB);
-            flagA = true;
-        }
-        if (this.map[i][0].attr('part-id') == nodeElemB.attr('part-id')) {
-            this.map[i].push(nodeElemA);
-            flagB = true;
-        }
-    }
-    if (flagA == false) {
-        var list = [];
-        list.push(nodeElemA);
-        list.push(nodeElemB);
-        this.map.push(list);
-    }
-
-    if (flagB == false) {
-        var list = [];
-        list.push(nodeElemB);
-        list.push(nodeElemA);
-        this.map.push(list);
-    }
-};
-
-DFS.prototype.createMap = function() {
-    this.map = [];
-    var connections = jsPlumb.getAllConnections();
-    for (var i in connections) {
-        if (connections[i].scope == "normal") {
-            this.addEdge($(connections[i].source), $(connections[i].target));
-        }
-    }
-};
-
-DFS.prototype.searchCircuit = function() {
-    var circuits = [];
-    var queue = [];
-    var circuit = [];
-    for (var i in this.map) {
-        if (this.map[i][0].attr('part-type') == "promoter" &&
-            this.map[i][0].attr('normal-connect-num') == "1") {
-            queue.push(this.map[i]);
-        }
-    }
-    
-    for (var i in queue) {
-        circuit = [];
-        var head = queue[i];
-        if (head[0].dirty == true) continue;
-        circuit.push(head[0]);
-        head[0].attr('dirty', '1');
-        while ((head.length == 2 && head[1].attr('dirty') == '0') || head.length == 3) {
-            if (head.length == 2) {
-                circuit.push(head[1]);
-                head[1].attr('dirty', '1');
-                for (var j in this.map) {
-                    if (this.map[j][0].attr('part-id') == head[1].attr('part-id')) {
-                        head = this.map[j];
-                        break;
-                    }
-                }
-            } else {
-                var index;
-                if (head[1].attr('dirty') == '1') index = 2;
-                if (head[2].attr('dirty') == '1') index = 1;
-                if (head[1].attr('dirty') == '1' && head[2].attr('dirty') == '1') {
-                    console.log("Error !!!");
-                    break;
-                }
-                circuit.push(head[index]);
-                head[index].attr('dirty', '1');
-                for (var j in this.map) {
-                    if (this.map[j][0].attr('part-id') == head[index].attr('part-id')) {
-                        head = this.map[j];
-                        break;
-                    }
-                }
-            }
-        }
-        circuits.push(circuit.slice(0, circuit.length));
-    }
-    console.log(circuits);
-    return circuits;
-};
-
-DFS.prototype.getCircuits = function() {
-    this.createMap();
-    var circuitsElems = this.searchCircuit();
-    var circuits = [];
-    var circuit = [];
-    for (var i in circuitsElems) {
-        circuit = [];
-        for (var j in circuitsElems[i]) {
-            var part = DataManager.getPartByAttr(circuitsElems[i][j].attr('part-attr'));
-            circuit.push(part);
-        }
-        circuits.push(circuit);
-    }
-    return circuits;
-}
-
 //==========================================================================================
 /**
  * @class Design
@@ -193,6 +84,7 @@ function Design() {
     this.nodeElemList = [];
     this._partCount = 0;
     this.risk = 1;
+    this.isRemove = false;
 };
 
 Design.prototype.clear = function() {
@@ -298,6 +190,8 @@ Design.prototype.addPartEvent = function(elem) {
 
 Design.prototype.putNewDevice = function(elem) {
     var device = DataManager.getDeviceByTitle(elem.attr('device-name'));
+    console.log('Put a device:');
+    console.log(device);
     var parts = device.parts;
     var connections = device.relationship;
     var nodeElems = Util._loadCircuitCNodes(parts);
@@ -348,17 +242,17 @@ Design.prototype._initJsPlumbOption = function() {
             that._isPromoteLink = false;
         } else {
             CurrentConnection.connection.scope = "normal";
-            if (sourceNormalNum === 2) {
-                source.attr("data-content", "Most link to two objects");
+            if (sourceNormalNum == 2) {
+                // source.attr("data-content", "Most link to two objects");
                 source.popup('show');
-                source.removeAttr("data-content");
+                // source.removeAttr("data-content");
                 jsPlumb.detach(CurrentConnection.connection);
                 return;
             }
-            if (targetNormalNum === 2){
-                target.attr("data-content", "Most link to two objects");
+            if (targetNormalNum == 2){
+                // target.attr("data-content", "Most link to two objects");
                 target.popup('show');
-                target.removeAttr("data-content");
+                // target.removeAttr("data-content");
                 jsPlumb.detach(CurrentConnection.connection);
                 return;
             }
@@ -383,15 +277,17 @@ Design.prototype._initJsPlumbOption = function() {
         }
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
-        if (info.connection.scope == "normal") {
+        if (that.isRemove == true && info.connection.scope == "normal") {
             targetNormalNum -= 1;
             sourceNormalNum -= 1;
             source.attr("normal-connect-num", sourceNormalNum);
             target.attr("normal-connect-num", targetNormalNum);
+            that.isRemove = false;
         }
     })
 
     jsPlumb.on(that.drawArea, "click", ".minus", function() {
+        that.isRemove = true;
         operationLog.removePart($(this.parentNode.parentNode).attr("part-name"));
         console.log($(this.parentNode.parentNode).attr("part-id"));
         that.removeCNodeElem($(this.parentNode.parentNode).attr("part-id"));
@@ -420,6 +316,7 @@ Design.prototype.addDraggable = function(elem) {
     jsPlumb.draggable(elem, {
         // containment: 'parent', //设置后会导致无法scrollable
         // scroll: true,
+        grid: [20, 20],
         drag:function(e){
             if (designMenu._isHideNormalLine == true) {
                 $("svg").each(function() {
@@ -635,7 +532,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
         var there = this;
         var img;
         var curcuitChartData = that.getDesignChartData();
-        curcuitChartData.title = $("#curcuitName").val();
+        curcuitChartData.name = $("#curcuitName").val();
         curcuitChartData.full_description = $("#designIntro").val();
         curcuitChartData.source = "hello world";
         curcuitChartData.risk = design.risk;
@@ -666,7 +563,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
                 $.ajax({
                     type: 'POST',
                     contentType: 'application/json',
-                    url: '/design/circuit/1',
+                    url: '/design/1',
                     dataType : 'json',
                     data : postDataJson,
                 });
@@ -680,7 +577,6 @@ DesignMenu.prototype.getDesignChartData = function() {
     var data = this.getDesignConns();
     var curcuitChart = {};
     curcuitChart.parts = parts;
-    curcuitChart.name = "deviceName";
     curcuitChart.relationship = data.connections;
     curcuitChart.interfaceA = "interfaceB-partName";
     curcuitChart.interfaceB = "interfaceA-partName";
@@ -692,7 +588,6 @@ DesignMenu.prototype.getDesignConns = function() {
     var connections = [];
     var backbones = [];
     $.each(jsPlumb.getAllConnections(), function (idx, CurrentConnection) {
-        console.log(CurrentConnection.scope);
         if (CurrentConnection.scope == 'backbone') {
             backbones.push({
                 start: [parseInt($(CurrentConnection.source).css('left'), 10), 

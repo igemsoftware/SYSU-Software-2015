@@ -95,18 +95,17 @@ Util._createNewCNode = function(part) {
     var node = $("<div></div>");
     var left = part.positionX;
     var top = part.positionY;
+    var partType = DataManager.getPartType(part.partName);
     node.css({left: left, top: top});
     node.css({position: "absolute"});
     node.attr("part-name", part.partName);
-    //need recover
+    node.attr("part-type", partType);
     node.attr("part-attr", part.partAttr);
-    // node.attr("part-attr", part.partName);
-    //need recover
+    node.attr("data-content", "Most link to two objects");
     node.attr("normal-connect-num", 0);
     node.addClass("node");
     node.css("text-align", "center");
 
-    var partType = DataManager.getPartType(part.partName)
     var img = this.createImageDiv(partType);
     img.appendTo(node);
 
@@ -174,12 +173,14 @@ Util.loadCircuitLinks = function(connections, nodeElems) {
             if (nodeElems[index][0] == elem.end) endElem = nodeElems[index][1];
         }
         // if (elem.type == 'normal') {
-            var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
-            var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
-            startNormalNum += 1;
-            endNormalNum += 1;
-            $(startElem).attr("normal-connect-num", startNormalNum);
-            $(endElem).attr("normal-connect-num", endNormalNum);
+            // var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
+            // var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
+            // if (elem.type == 'normal') {
+            //     startNormalNum += 1;
+            //     endNormalNum += 1;
+            //     $(startElem).attr("normal-connect-num", startNormalNum);
+            //     $(endElem).attr("normal-connect-num", endNormalNum);
+            // }
             design.drawLine(startElem, endElem, elem.type);
         // }
     }); 
@@ -266,9 +267,7 @@ DataManager.getPartByAttr = function(partAttr) {
 }
 
 DataManager.getDeviceByTitle = function(deviceName) {
-    console.log(deviceName);
     for (var i in this.deviceList) {
-        console.log(this.deviceList[i].name);
         if (this.deviceList[i].name == deviceName) return this.deviceList[i];
     }
     return null;
@@ -440,13 +439,6 @@ Rubberband.prototype._listenDrawAreaMouseMove = function() {
         var hcalc = event.pageY - that._y;
         var h = (event.pageY > that._y) ? hcalc : (hcalc * -1); 
      
-        // Update the rubberband with the new values
-        // if (leftBar.isOpenLeftBar == true) {
-        //     l -= leftBar.view.width();
-        // }
-
-        // t -= drawArea_menu.height();
-
         that.view.css({top:t-offset.top, left:l-offset.left, height:h, width:w, position:'relative'});
     });
 };
@@ -590,3 +582,119 @@ OperationLog.prototype._writeToRightBar = function(EventElem) {
     $(".ui .feed").prepend(EventElem);
     $("time.timeago").timeago();
 };
+
+//==================================================================
+function DFS() {
+    this.map = [];
+}
+
+DFS.prototype.addEdge = function(nodeElemA, nodeElemB) {
+    var flagA = false;
+    var flagB = false;
+    nodeElemA.attr('dirty', '0');
+    nodeElemB.attr('dirty','0');
+    for (var i in this.map) {
+        if (this.map[i][0].attr('part-id') == nodeElemA.attr('part-id')) {
+            this.map[i].push(nodeElemB);
+            flagA = true;
+        }
+        if (this.map[i][0].attr('part-id') == nodeElemB.attr('part-id')) {
+            this.map[i].push(nodeElemA);
+            flagB = true;
+        }
+    }
+    if (flagA == false) {
+        var list = [];
+        list.push(nodeElemA);
+        list.push(nodeElemB);
+        this.map.push(list);
+    }
+
+    if (flagB == false) {
+        var list = [];
+        list.push(nodeElemB);
+        list.push(nodeElemA);
+        this.map.push(list);
+    }
+};
+
+DFS.prototype.createMap = function() {
+    this.map = [];
+    var connections = jsPlumb.getAllConnections();
+    for (var i in connections) {
+        if (connections[i].scope == "normal") {
+            this.addEdge($(connections[i].source), $(connections[i].target));
+        }
+    }
+};
+
+DFS.prototype.searchCircuit = function() {
+    var circuits = [];
+    var queue = [];
+    var circuit = [];
+    for (var i in this.map) {
+        if (this.map[i][0].attr('part-type') == "promoter" &&
+            this.map[i][0].attr('normal-connect-num') == "1") {
+            queue.push(this.map[i]);
+        }
+    }
+    // console.log("Queue:");
+    // console.log(queue);
+    for (var i in queue) {
+        circuit = [];
+        var head = queue[i];
+        if (head[0].dirty == true) continue;
+        circuit.push(head[0]);
+        head[0].attr('dirty', '1');
+        while ((head.length == 2 && head[1].attr('dirty') == '0') || head.length == 3) {
+            if (head.length == 2) {
+                circuit.push(head[1]);
+                head[1].attr('dirty', '1');
+                for (var j in this.map) {
+                    if (this.map[j][0].attr('part-id') == head[1].attr('part-id')) {
+                        head = this.map[j];
+                        break;
+                    }
+                }
+            } else {
+                var index;
+                if (head[1].attr('dirty') == '1') index = 2;
+                if (head[2].attr('dirty') == '1') index = 1;
+                if (head[1].attr('dirty') == '1' && head[2].attr('dirty') == '1') {
+                    console.log("Error !!!");
+                    break;
+                }
+                circuit.push(head[index]);
+                head[index].attr('dirty', '1');
+                for (var j in this.map) {
+                    if (this.map[j][0].attr('part-id') == head[index].attr('part-id')) {
+                        head = this.map[j];
+                        break;
+                    }
+                }
+            }
+        }
+        circuits.push(circuit.slice(0, circuit.length));
+    }
+    console.log("Found circuit:");
+    console.log(circuits);
+    return circuits;
+};
+
+DFS.prototype.getCircuits = function() {
+    this.createMap();
+    console.log("Map:");
+    console.log(this.map);
+    var circuitsElems = this.searchCircuit();
+    var circuits = [];
+    var circuit = [];
+    for (var i in circuitsElems) {
+        circuit = [];
+        for (var j in circuitsElems[i]) {
+            var part = DataManager.getPartByAttr(circuitsElems[i][j].attr('part-attr'));
+            circuit.push(part);
+        }
+        circuits.push(circuit);
+    }
+    return circuits;
+}
