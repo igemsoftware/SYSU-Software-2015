@@ -35,7 +35,7 @@
     </div>
     <div id="database-detail" v-show="selectedRecord !== null">
       <div id="detail-header">
-        <div class="title">[[selectedRecord.title]]</div>
+        <div class="title">[[selectedRecord.name]]</div>
         <div id="detail-progress" class="detail header meta">
           <div class="text">progress:</div>
           <div v-repeat="item in ['design', 'modeling', 'experiment']"
