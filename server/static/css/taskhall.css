@@ -1,5 +1,9 @@
+#topbar {
+    background-color: #646b70;
+}
+
 #topbar-bottom-line {
-    background: linear-gradient(to right, #c09340, #edb84e);
+    background: linear-gradient(to right, #bf933f, #edb84e, #eab54d);
 }
 
 /* taskhall index */

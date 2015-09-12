@@ -13,11 +13,8 @@
 
 <v-topbar>
   <div class="right menu">
-    <div class="item">
-      <div v-on="click: selectedTab = 'All Questions'" class="ui button">All Questions</div>
-    </div>
-    <div class="item">
-      <div v-on="click: selectedTab = 'Unanswered'" class="ui button">Unanswered</div>
+    <div class="item" v-repeat="i in ['All Questions', 'Unanswered']">
+      <div v-on="click: selectedTab = i" class="ui button" v-class="highlight: selectedTab === i">[[i]]</div>
     </div>
   </div>
 </v-topbar>
