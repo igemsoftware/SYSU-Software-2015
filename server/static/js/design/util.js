@@ -369,10 +369,29 @@ DataManager.getDeviceDataFromServer = function(callback) {
     });
 }
 
-DataManager.getDesignDataFromServer = function(callback) {
+DataManager.getPerDesignDataFromServer = function(callback) {
     var that = this;
     $.get("/design/all", function(data, status) {
-        console.log("Designs:");
+        console.log("Personal Designs:");
+        console.log(data['designs']);
+        callback(data['designs']);
+    });
+}
+
+DataManager.getForDesignDataFromServer = function(callback) {
+    var that = this;
+    $.get("/design/favorite", function(data, status) {
+        console.log("Favorite Designs:");
+        console.log(data['designs']);
+        callback(data['designs']);
+    });
+}
+
+DataManager.getPubDesignDataFromServer = function(callback) {
+    var that = this;
+    $.get("/design/public", function(data, status) {
+        console.log("Public Designs:");
+        console.log(data['designs']);
         callback(data['designs']);
     });
 }

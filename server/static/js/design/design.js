@@ -489,7 +489,10 @@ function DesignMenu() {
     this.minusBtn = $("#minus");
     this.backboneBtn = $("#backbone");
     this.hideBtn = $("#hideNormal");
-    this.importBtn = $("#importBtn");
+    this.importPerBtn = $("#importPerBtn");
+    this.importForBtn = $("#importForBtn");
+    this.importPubBtn = $("#importPubBtn");
+
 
     this._isMinusBtnOpen = false;
     this._isConnectPartBtnOpen = true;
@@ -499,7 +502,7 @@ function DesignMenu() {
 DesignMenu.prototype.init = function() {
     this.enableSaveCircuitchartBtn();
     this.enableDownloadBtn();
-    // this.enableLoadDesignBtn();
+    this.enableLoadDesignBtn();
     this.enableClearCircuitchartBtn();
     this.enableConnectPartBtn();
     this.enableRemovePartBtn();
@@ -547,14 +550,7 @@ DesignMenu.prototype.enableDesignSlider = function() {
     $(".slider input").change(function() {
         var zoom = parseFloat($(this).val())/100;
         var height = parseInt(design.drawAreaHeight);
-        console.log(design.drawAreaHeight);
-        // console.log(height);
         $("#drawArea").css("height", String(height*(zoom+1)+'px'));
-        // %("#main-contain").height = $("#drawArea").height;
-        // $(".node").each(function() {
-        //     $(this).css('zoom',0.5+zoom);
-        // });
-        // console.log($('body').height());
     });
 }
 
@@ -618,7 +614,7 @@ DesignMenu.prototype.enableConnectPartBtn = function() {
 DesignMenu.prototype.enableClearCircuitchartBtn = function() {
     var that = this;
     this.clearBtn.click(function() {
-        $("#deleteModal").modal('show');
+        $("#deleteModal").modal({transition: 'bounce'}).modal('show');
         $("#deleteBtn").click(function() {
             jsPlumb.empty("drawArea");
             design.clear();
@@ -735,28 +731,30 @@ DesignMenu.prototype.getDesignParts = function() {
 
 DesignMenu.prototype.enableLoadDesignBtn = function() {
     var that = this;
-    var isImport = false;
+    var isOpen = false;
     this.openFileBtn.click(function() {
         $("#chooseModal").modal('show');
-        isImport = false;
+        isOpen = true;
+        that.initOpenList(that.perDesignList);
     });
-    this.importBtn.click(function() {
+    this.importPerBtn.click(function() {
         $("#chooseModal").modal('show');
-        isImport = true;
+        isOpen = false;
+        that.initOpenList(that.perDesignList);
     });
-
-
-    $("#designList div").each(function() {
-        $(this).click(function() {
-            $("#designList div").each(function() {
-                $(this).removeClass("ired");
-            })
-            $(this).addClass("ired");
-        });
+    this.importForBtn.click(function() {
+        $("#chooseModal").modal('show');
+        isOpen = false;
+        that.initOpenList(that.forDesignList);
+    });
+    this.importPubBtn.click(function() {
+        $("#chooseModal").modal('show');
+        isOpen = false;
+        that.initOpenList(that.pubDesignList);
     });
 
     $("#choose").click(function() {
-        if (isImport == false) {
+        if (isOpen == true) {
             jsPlumb.empty("drawArea");
             design.clear();
         }
@@ -790,10 +788,15 @@ DesignMenu.prototype.initOpenList = function(designs) {
         var divider = $("<div class='ui divider'></div>");
         div.append(idElem);
         div.addClass('title')
+        div.click(function() {
+            $("#designList div").each(function() {
+                $(this).removeClass("ired");
+            })
+            $(this).addClass("ired");
+        });
         $("#designList").append(div);
         $("#designList").append(divider);
     }
-    this.enableLoadDesignBtn();
 }
 
 DesignMenu.prototype.enableDownloadBtn =function() {
@@ -959,6 +962,9 @@ function LeftBar() {
     this.elemsGeneList = [];
     this.elemsTermiList = [];
     this.elemsChemList = [];
+    this.elemsRNAList = [];
+    this.elemsMatList = [];
+    this.elemsUnkList = [];
 
     this.view.searchRelateInputBox = $("#searchRelate");
     this.view.searchPartInput = $("#searchNew");
@@ -1023,9 +1029,18 @@ LeftBar.prototype.addPartToBar = function(elem) {
     if (partType == 'terminator') {
         this.elemsTermiList.push(elemClone);
     }
-    if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
+    if (partType == 'chemical') {
         this.elemsChemList.push(elemClone);
     }
+    if (partType == 'RNA') {
+        this.elemsRNAList.push(elemClone);
+    }
+    if (partType == 'material') {
+        this.elemsMatList.push(elemClone);
+    }
+    if (partType == 'unknown') {
+        this.elemsUnkList.push(elemClone);
+    } 
 
     this.leftbarWorker.addElemToView(elem, this.view.parts);
 }
@@ -1049,8 +1064,17 @@ LeftBar.prototype.enableFilter = function() {
         if (partType == 'terminator') {
             that.leftbarWorker.showView(that.elemsTermiList, that.view.parts);
         }
-        if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
+        if (partType == 'chemical') {
             that.leftbarWorker.showView(that.elemsChemList, that.view.parts);
+        }
+        if (partType == 'material') {
+            that.leftbarWorker.showView(that.elemsMatList, that.view.parts);
+        }
+        if (partType == 'unknown') {
+            that.leftbarWorker.showView(that.elemsUnkList, that.view.parts);
+        }
+        if (partType == 'RNA') {
+            that.leftbarWorker.showView(that.elemsRNAList, that.view.parts);
         }
         if (partType == 'all') {
             that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
@@ -1365,8 +1389,14 @@ $(function() {
     DataManager.getDeviceDataFromServer(function(deviceList) {
         leftBar.initDevice(deviceList);
     });
-    DataManager.getDesignDataFromServer(function(designs) {
-        designMenu.initOpenList(designs);
+    DataManager.getPerDesignDataFromServer(function(designs) {
+        designMenu.perDesignList = designs;
+    })
+    DataManager.getForDesignDataFromServer(function(designs) {
+        designMenu.forDesignList = designs;
+    })
+    DataManager.getPubDesignDataFromServer(function(designs) {
+        designMenu.pubDesignList = designs;
     })
     DataManager.getRelationAdjDataFromServer();
     DataManager.getRelationShipDataFromServer();
@@ -1435,3 +1465,5 @@ $('#loadingData').dimmer('show');
 $("#moveTo").click(function() {
     window.location.href = "/modal";
 }); 
+
+$(".modal").modal({transition: 'horizontal flip'});
