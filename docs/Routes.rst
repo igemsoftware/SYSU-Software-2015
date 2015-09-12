@@ -9,8 +9,8 @@ The Route reference provides detailed descriptions of CORE's route and how they 
     :maxdepth: 2
 
     CORE.routes.auth
-    CORE.routes.calendar
     CORE.routes.bank
+    CORE.routes.calendar
     CORE.routes.design
     CORE.routes.main
     CORE.routes.person

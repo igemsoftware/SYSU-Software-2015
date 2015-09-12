@@ -14,10 +14,55 @@ from sqlalchemy import or_, not_
 @taskhall.route('/')
 @taskhall.route('/index')
 def taskhall_index():
+    """
+        :Usage: The index of taskhall.
+    """
     return render_template('task/taskhall.html', Task=Task)
 
 @taskhall.route('/list')
 def get_task_list():
+    """
+        :Usage: Get a list of :class:`Task` . 
+        :Output: A list of :class:`Task` . 
+        :Argument:
+
+        * per_page: How many tasks per page. (default=2)
+        * page: Which page you want to get. (default=1) 
+        * keyword: Sort by ``time``, ``vote`` or ``view`` . (default= ``time`` )
+
+        :Output Example: 
+
+        .. code-block:: json
+
+            {
+              "tasks": [
+                {
+                  "abstract": null,
+                  "content": "int x = 10; while (x --> 0) {\\\\ x count down to 0 \\\\foo}",
+                  "id": 3,
+                  "sender_id": 2,
+                  "timestamp": "datetime.datetime(2015, 9, 4, 9, 46, 41, 898979)",
+                  "title": "What is the name of the '-->' operator in C?",
+                  "views": 19,
+                  "votes": 20
+                },
+                {
+                  "abstract": null,
+                  "content": "What IDEs ('GUIs/editors') do others use for Python coding?",
+                  "id": 2,
+                  "sender_id": 2,
+                  "timestamp": "datetime.datetime(2015, 9, 4, 9, 46, 41, 695891)",
+                  "title": "What IDE to use for Python?",
+                  "views": 24,
+                  "votes": 12
+                }
+              ]
+            }
+
+
+
+
+    """
     page = request.args.get('page', 1, type=int)
     per_page = request.args.get('per_page',
             current_app.config['FLASKY_TASKS_PER_PAGE'], type=int)
@@ -40,6 +85,10 @@ def get_task_list():
 
 @taskhall.route('/detail/<int:id>')
 def task_detail(id):
+    """
+        :Usage: Get details of a  :class:`Task` . 
+        :Output: Using jinja2 to render . 
+    """
     t = Task.query.get(id)
     if not t: abort(404)
     t.views += 1
@@ -48,6 +97,10 @@ def task_detail(id):
 
 @taskhall.route('/action/vote', methods=["POST"])
 def vote_a_task():
+    """
+        :Usage: Vote for a :class:`Task` . 
+        :Content-type: Application/json
+    """
     data = request.get_json()
 
     task_id = data['task_id']
@@ -61,6 +114,9 @@ def vote_a_task():
 @taskhall.route('/action/answer', methods=["POST"])
 @login_required
 def answer_a_task():
+    """
+        :Usage: Give an :class:`Answer` to :class:`Task` . 
+    """
     task_id = request.form.get('task_id', 0)
     t = Task.query.get(task_id)
     if not t: abort(404)
@@ -78,6 +134,10 @@ def answer_a_task():
 @taskhall.route('/action/comment', methods=["POST"])
 @login_required
 def comment_a_answer():
+    """
+        :Usage: Give an :class:`Comment` to :class:`Answer` . 
+        :Content-type: Application/json
+    """
 #   answer_id = request.form.get('answer_id', 0)
 #   content = request.form.get('content', '')
     json_obj = request.get_json()
@@ -100,6 +160,9 @@ def comment_a_answer():
 @taskhall.route('/action/store', methods=["POST"])
 @login_required
 def store_a_task():
+    """
+        :Usage: Store or create a :class:`Task` . 
+    """
     task_id = request.form.get('task_id', 0, type=int)
 
     if task_id < 0:

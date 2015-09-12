@@ -1,3 +1,5 @@
+var vBody = new Vue({ el: 'body' });
+
 $(document).ready(function() {
     var attrName = ["id", "name", "description", "contributor", "rate", "used", "comments", "last active"];
 
@@ -48,27 +50,27 @@ $(document).ready(function() {
         var links = $(".number a");
         for (var i = 0; i < 5; ++i) {
             $(links[i]).html(i+1).removeClass("selected");
-            if (i*per_page <= totalNumber) 
+            if (i*per_page <= totalNumber)
                 $(links[i]).show();
             else
                 $(links[i]).hide();
         }
-        $(links[0]).addClass("selected"); 
+        $(links[0]).addClass("selected");
     }
 
     function fillTable(page, refreshTotalNubmer) {
         var url = "";
         url = "/bank/list?per_page="+per_page+"&page=" + page + "&order=" + order + "&keyword=" + $("#search input").val() + "&mode=" + mode;
         $.get(url, function(data, needToSearch) {
-            if (data['error'] == 1) { 
+            if (data['error'] == 1) {
                 // alert(data['aux']);
                 window.location.href = data['aux'];
             }
-            if (refreshTotalNubmer) 
+            if (refreshTotalNubmer)
                 setTotalNumber(data["count"]);
             designs = data["designs"];
 
-            
+
             for (var i = 0; i < 9; i++) {
                 for (var j = 0; j < 8; j++) {
                     var cellName = "#dataTable tr:gt(0):eq(" + i + ") td:eq("+ j +")";
@@ -76,19 +78,19 @@ $(document).ready(function() {
                         var attrVal = designs[i][attrName[j]];
                         if (j == per_page) {
                             // attrVal = attrVal.substring(0, 10);
-                        };  
+                        };
                         $(cellName).text(attrVal);
                     } else {
                         $(cellName).text("");
                     }
-                    
+
                 };
             };
 
 
         });
     }
-    
+
     $("#linkPublic").click();
     // fillTable(1, "id", keyword, true);
     $(".number a").click(function(event) {
@@ -127,7 +129,7 @@ $(document).ready(function() {
         fillTable(1, true);
     });
 
-    $("#search input").bind('input propertychange', function() { 
+    $("#search input").bind('input propertychange', function() {
         //keyword = $("#search input").val();
         // fillTable($(".number .selected").html(), $("#order").val(), keyword);
         fillTable(1, true);
@@ -135,7 +137,7 @@ $(document).ready(function() {
 
 
     // Share modal
-    
+
     $("#btnShare").click(function(event) {
         $.get('/bank/finishedList', function(data) {
             var arr = data['finishedList'];
@@ -143,9 +145,9 @@ $(document).ready(function() {
                 $('#designList').append("<div class='item' data-value=\""+ele['id']+"\" data-text=\""+ele['name']+"\">"+ele['name']+"</div>");
             });
 
-            if (arr.length == 0) 
+            if (arr.length == 0)
                 $('#designText').html('You own no design that is finished but not shared.');
-            else 
+            else
                 $('#designText').html('Select a finished but not shared Design.');
         });
 
@@ -154,7 +156,7 @@ $(document).ready(function() {
 //  $("#confirm").click(function(event) {
 //      $(".ui.modal").modal('hide');
 //  });
-    
+
     $('.ui.form')
         .form({
             fields: {

@@ -1,6 +1,19 @@
 language: python
 python:
-    - "2.7"
-install: "pip install -r requirements.txt"
+    - "2.7_with_system_site_packages"
+
+sudo: false
+
+addons:
+    apt:
+        packages:
+        - python-numpy
+        - python-scipy
+
+notifications: false
+
+install: "pip install -r .travisrequirements.txt"
+
 script: nosetests
+
 
