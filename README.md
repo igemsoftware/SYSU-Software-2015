@@ -1,6 +1,8 @@
-# CORE - Crowdsourcing Open Redesign Engine
+<p align="center"><img src="https://raw.githubusercontent.com/igemsoftware/SYSU-Software-2015/master/server/static/img/common/logo.png"></p>
 
-[![Build Status](https://magnum.travis-ci.com/igemsoftware/SYSU-Software-2015.svg?token=NsrgXLpyHNmqMexEuqoe&branch=master)](https://magnum.travis-ci.com/leasunhy/SYSU-Software-2015)
+<p align="center">
+  <a href="https://magnum.travis-ci.com/igemsoftware/SYSU-Software-2015"><img src="https://circleci.com/gh/yyx990803/vue/tree/master.svg?style=shield" alt="Build Status"></a>
+</p>
 
 ## Introduction 
 
