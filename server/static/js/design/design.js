@@ -66,117 +66,6 @@ CNode.prototype.setCNodeId = function(id) {
 }
 
 //-===================================================
-function DFS() {
-    this.map = [];
-}
-
-DFS.prototype.addEdge = function(nodeElemA, nodeElemB) {
-    var flagA = false;
-    var flagB = false;
-    nodeElemA.attr('dirty', '0');
-    nodeElemB.attr('dirty','0');
-    for (var i in this.map) {
-        if (this.map[i][0].attr('part-id') == nodeElemA.attr('part-id')) {
-            this.map[i].push(nodeElemB);
-            flagA = true;
-        }
-        if (this.map[i][0].attr('part-id') == nodeElemB.attr('part-id')) {
-            this.map[i].push(nodeElemA);
-            flagB = true;
-        }
-    }
-    if (flagA == false) {
-        var list = [];
-        list.push(nodeElemA);
-        list.push(nodeElemB);
-        this.map.push(list);
-    }
-
-    if (flagB == false) {
-        var list = [];
-        list.push(nodeElemB);
-        list.push(nodeElemA);
-        this.map.push(list);
-    }
-};
-
-DFS.prototype.createMap = function() {
-    this.map = [];
-    var connections = jsPlumb.getAllConnections();
-    for (var i in connections) {
-        if (connections[i].scope == "normal") {
-            this.addEdge($(connections[i].source), $(connections[i].target));
-        }
-    }
-};
-
-DFS.prototype.searchCircuit = function() {
-    var circuits = [];
-    var queue = [];
-    var circuit = [];
-    for (var i in this.map) {
-        if (this.map[i][0].attr('part-type') == "promoter" &&
-            this.map[i][0].attr('normal-connect-num') == "1") {
-            queue.push(this.map[i]);
-        }
-    }
-    
-    for (var i in queue) {
-        circuit = [];
-        var head = queue[i];
-        if (head[0].dirty == true) continue;
-        circuit.push(head[0]);
-        head[0].attr('dirty', '1');
-        while ((head.length == 2 && head[1].attr('dirty') == '0') || head.length == 3) {
-            if (head.length == 2) {
-                circuit.push(head[1]);
-                head[1].attr('dirty', '1');
-                for (var j in this.map) {
-                    if (this.map[j][0].attr('part-id') == head[1].attr('part-id')) {
-                        head = this.map[j];
-                        break;
-                    }
-                }
-            } else {
-                var index;
-                if (head[1].attr('dirty') == '1') index = 2;
-                if (head[2].attr('dirty') == '1') index = 1;
-                if (head[1].attr('dirty') == '1' && head[2].attr('dirty') == '1') {
-                    console.log("Error !!!");
-                    break;
-                }
-                circuit.push(head[index]);
-                head[index].attr('dirty', '1');
-                for (var j in this.map) {
-                    if (this.map[j][0].attr('part-id') == head[index].attr('part-id')) {
-                        head = this.map[j];
-                        break;
-                    }
-                }
-            }
-        }
-        circuits.push(circuit.slice(0, circuit.length));
-    }
-    console.log(circuits);
-    return circuits;
-};
-
-DFS.prototype.getCircuits = function() {
-    this.createMap();
-    var circuitsElems = this.searchCircuit();
-    var circuits = [];
-    var circuit = [];
-    for (var i in circuitsElems) {
-        circuit = [];
-        for (var j in circuitsElems[i]) {
-            var part = DataManager.getPartByAttr(circuitsElems[i][j].attr('part-attr'));
-            circuit.push(part);
-        }
-        circuits.push(circuit);
-    }
-    return circuits;
-}
-
 //==========================================================================================
 /**
  * @class Design
@@ -674,7 +563,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
                 $.ajax({
                     type: 'POST',
                     contentType: 'application/json',
-                    url: '/design/circuit/1',
+                    url: '/design/1',
                     dataType : 'json',
                     data : postDataJson,
                 });
