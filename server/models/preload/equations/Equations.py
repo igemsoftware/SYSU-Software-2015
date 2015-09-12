@@ -1,6 +1,6 @@
 ['UVB', [], [], 't']
 
-['UVR8_TetR', ['Promoter', 'UVB'], [('a',80.), ('dna', 150.), ('k', 50.), ('u1', 20.)], '{{a}}*{{dna}}/(1+UVB ** {{k}}) - {{u1}}*UVR8_TetR']
+['UVR8_TetR', ['Promoter:BBa_J23100', 'UVB'], [('a',80.), ('dna', 150.), ('k', 50.), ('u1', 20.)], '{{a}}*{{dna}}/(1+UVB ** {{k}}) - {{u1}}*UVR8_TetR']
 ['UVR8_TetR', [], [('u1', 20.)], '-{{u1}}*UVR8_TetR']
 
 ['CI', ['Ptet', 'UVR8_TetR', 'TetR'], [('dna', 150.), ('u2', 20.)], '1./(1+(UVR8_TetR*TetR)) *{{dna}} - {{u2}}*CI']
