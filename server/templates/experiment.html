@@ -259,6 +259,13 @@
     </div>
 <!-- Delete modal -->
 
+<div class="ui segment" id="loadingData">
+  <div class="ui active page inverted dimmer">
+    <div class="ui text loader">Loading data...</div>
+  </div>
+</div>
+
+
 <!-- 	main_container -->
     <div class="main_container">
 			<div class="ui attached tabular menu">
@@ -294,7 +301,7 @@
                       </trackmarker>
 
                       <trackmarker ng-repeat="m in currentCircuit.markers" start="{[m.start]}" end="{[m.end]}" arrowendlength="4" arrowstartlength="-4" markerstyle="{[m.markerStyleIn]}">
-                          <markerlabel type="path" class="mdlabel" text="{[m.name]}" vadjust='{[m.vadjust]}' valign="{[m.valign]}" showline="{[m.showline]}" linevadjust="-5" lineclass="labelline" style='font-size:17px' ></markerlabel>
+                          <markerlabel type="path" class="mdlabel" text="{[m.part_short_name]}" vadjust='{[m.vadjust]}' valign="{[m.valign]}" showline="{[m.showline]}" linevadjust="-5" lineclass="labelline" style='font-size:17px' ></markerlabel>
                       </trackmarker>
 
                       <!-- draw the marker regions -->

@@ -59,11 +59,20 @@ def proxy():
             res = urllib2.urlopen(req)
             dom = xml.dom.minidom.parseString(res.read())
             root = dom.documentElement
-            part['cds'] = root.getElementsByTagName("seq_data")[0].childNodes[0].nodeValue
-            part['part_short_name'] = root.getElementsByTagName("part_short_name")[0].childNodes[0].nodeValue
-            part['part_short_des'] = root.getElementsByTagName("part_short_desc")[0].childNodes[0].nodeValue
+            part['cds'] = root.getElementsByTagName("seq_data")[0].childNodes[0].nodeValue.strip('\n')
+            part['part_short_name'] = root.getElementsByTagName("part_short_name")[0].childNodes[0].nodeValue.strip('\n')
+            part['part_short_des'] = root.getElementsByTagName("part_short_desc")[0].childNodes[0].nodeValue.strip('\n')
+            part['length'] = len(part['cds'])
         else:
             part['cds'] = ''
-            part['part_short_name'] = ''
+            part['part_short_name'] = part['name']
             part['part_short_des'] = ''
+            if part['type'] == 'promoter':
+                part['length'] = 50
+            if part['type'] == 'RBS':
+                part['length'] = 20
+            if part['type'] == 'gene':
+                part['length'] = 600
+            if part['type'] == 'terminator':
+                part['length'] = 50
     return jsonify(circuit=parts)

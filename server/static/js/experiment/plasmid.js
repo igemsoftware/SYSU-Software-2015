@@ -2,19 +2,23 @@ var plasmid;
 
 function Plasmid() {
 	this.plasmidCirs = [];
-	var circuitCount = 0;
+	this.circuitCount = 0;
 }
 
 Plasmid.prototype.extendPartInfoByXml = function(xmlDoc) {
 	part.name = $(xmlDoc).find('part_short_name').text();
 	part.fullName = $(xmlDoc).find('part_short_desc').text();
 	part.cds = $(xmlDoc).find('seq_data').text();
+	console.log(part.cds);
+	console.log(part.cds.length);
 	part.length = part.cds.length;
 }
 
 Plasmid.prototype.getMarkerByPart = function(part) {
 	var marker = {};
-	marker.name = part.part_short_name;
+	marker.name = part.name
+	marker.part_short_name = part.part_short_name;
+	marker.part_short_des = part.part_short_des;
 	marker.BBa = part.BBa;
 	marker.length = part.length;
 	marker.cds = part.cds;
@@ -36,7 +40,7 @@ Plasmid.prototype.getMakerStyleIn = function(part) {
 	if (part.type == 'gene') {
 		return 'fill:rgba(155,131,193,0.9)';
 	}
-	if (part.type == 'terminal') {
+	if (part.type == 'terminator') {
 		return "fill:rgba(255,221,238,0.6)";
 	}
 }
@@ -51,7 +55,7 @@ Plasmid.prototype.getMarkerStyleOut = function(part) {
 	if (part.type == 'gene') {
 		return 'fill:rgba(238,255,221,0.6)';
 	}
-	if (part.type == 'terminal') {
+	if (part.type == 'terminator') {
 		return "fill:rgba(238,255,221,0.6)";
 	}
 }
@@ -64,10 +68,10 @@ Plasmid.prototype.getVadjust = function(part) {
 		return "50";
 	}
 	if (part.type == 'gene') {
-		return '';
+		return '15';
 	}
-	if (part.type == 'terminal') {
-		return "55";
+	if (part.type == 'terminator') {
+		return "65";
 	}
 }
 
@@ -79,9 +83,9 @@ Plasmid.prototype.getValign = function(part) {
 		return "outer";
 	}
 	if (part.type == 'gene') {
-		return '';
+		return 'outer';
 	}
-	if (part.type == 'terminal') {
+	if (part.type == 'terminator') {
 		return "outer";
 	}
 }
@@ -94,9 +98,9 @@ Plasmid.prototype.getShowline = function(part) {
 		return 1;
 	}
 	if (part.type == 'gene') {
-		return 0;
+		return 1;
 	}
-	if (part.type == 'terminal') {
+	if (part.type == 'terminator') {
 		return 1;
 	}
 }
@@ -114,33 +118,51 @@ Plasmid.prototype.formatCircuit = function(circuit, length, callback) {
 	var xmlDocs;
 	var postDataJson = JSON.stringify(circuit);
 	// $.post("/proxy", postDataJson, function(data) {
-	// 		console.log('Circuit:')
-	// 		console.log(data);
 	// 		var circuit = data['circuit'];
 	// 		var markers = [];
 	// 		for (var i in circuit) {
 	// 			markers.push(that.getMarkerByPart(circuit[i]));
 	// 		}
-	// 		console.log()
 	// 		var plasmidCir = {};
-	// 		circuitCount += 1;
-	// 		plasmidCir.name = "circuit" + String(circuitCount);
+	// 		that.circuitCount += 1;
+	// 		plasmidCir.name = "circuit" + String(that.circuitCount);
 	// 		plasmidCir.markers = markers;
-	// 		plasmidCir.length = that.getMarkersLength();
+	// 		plasmidCir.length = that.getMarkersLength(markers);
 	// 		that.plasmidCirs.push(plasmidCir);
-			// if (that.circuitCount == length) {
-			// 	callback();
-			// }
-		// }
+	// 		if (that.circuitCount == length) {
+	// 			callback();
+	// 		}
+	// 	}
 	// );
+	$.ajax({
+		type: 'POST',
+		url: '/proxy',
+		data: postDataJson,
+		dataType : 'json',
+		contentType: 'application/json',
+		success: function(data) {
+			var circuit = data['circuit'];
+			var markers = [];
+			for (var i in circuit) {
+				markers.push(that.getMarkerByPart(circuit[i]));
+			}
+			var plasmidCir = {};
+			that.circuitCount += 1;
+			plasmidCir.name = "circuit" + String(that.circuitCount);
+			plasmidCir.markers = markers;
+			plasmidCir.length = that.getMarkersLength(markers);
+			that.plasmidCirs.push(plasmidCir);
+			if (that.circuitCount == length) {
+				callback();
+			}
+		}
+	});
 }
 
 Plasmid.prototype.loadCircuits = function(circuits, callback) {
-	console.log("circuits:");
-	console.log(circuits);
-	// for (var i in circuits) {
-	// 	this.formatCircuit(circuits[i], circuits.length, callback);
-	// }
+	for (var i in circuits) {
+		this.formatCircuit(circuits[i], circuits.length, callback);
+	}
 }
 
 
@@ -155,23 +177,24 @@ app.config(['$interpolateProvider', function($interpolateProvider) {
 app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $scope, $timeout) {
     $http.get("/static/js/experiment/plasmidData.json")
   	.success(function(data) {
-  		console.log(data);
   		$scope.plasmids = data;
-  		$scope.currentPlasmid = $scope.plasmids[0];
+  		// $scope.currentPlasmid = $scope.plasmids[0];
   	});
 
-  	// $http.get("/design/1")
-  	// .success(function(data) {
-  	// 	console.log("Design:");
-  	// 	console.log(data['content']);
-  	// 	var design = data['content'];
-  	// 	plasmid = new Plasmid();
-  	// 	plasmid.loadCircuits(design['plasmids'], function() {
-  	// 		$scope.circuits = plasmid.plasmidCirs;
-  	// 		console.log("Circuits:");
-	  // 		console.log($scope.circuits);
-  	// 	});
-  	// });
+  	$http.get("/design/1")
+  	.success(function(data) {
+  		console.log("Design:");
+  		console.log(data['content']);
+  		var design = data['content'];
+  		plasmid = new Plasmid();
+  		$scope.circuits = null;
+  		plasmid.loadCircuits(design['plasmids'], function(scope) {
+  			$scope.circuits = plasmid.plasmidCirs;
+  			console.log("Circuits:");
+	  		console.log($scope.circuits);
+	  		$('#loadingData').dimmer('hide');
+  		});
+  	});
 
 	$scope.$watch('curPlaIndex', function(newValue,oldValue, scope) {
 		if (newValue !== undefined) {
@@ -182,6 +205,8 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
 	$scope.$watch('curCirIndex', function(newValue,oldValue, scope) {
 		if (newValue !== undefined) {
 	  		$scope.currentCircuit = $scope.circuits[newValue];
+	  		console.log("currentCircuit:");
+	  		console.log($scope.currentCircuit);
 		}
   	});
 

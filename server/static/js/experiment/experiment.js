@@ -682,3 +682,6 @@ $('.menu .item')
 $(".cancel").click(function() {
 	$(".modal").modal("hide");
 });
+
+$('.ui.dropdown').dropdown();
+$('#loadingData').dimmer('show');
