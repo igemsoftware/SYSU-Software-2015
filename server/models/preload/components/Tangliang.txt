@@ -1,7 +1,7 @@
 Pconst	promoter	BBa_K093000		
 cas9-VP16	gene	BBa_K1150020	2	Mammalian cells
 Terminator	terminator			
-Pcas9-VP16	protein			
+Cas9-VP16	protein			
 emx	gene	BBa_K1150003	2	Mammalian cells
 Pmin	promoter	BBa_K1150019		
 seap	gene	BBa_K747016	2	Mammalian cells
@@ -46,7 +46,7 @@ Pconst	promoter	BBa_K093000
 anti-holin	gene	BBa_K112000	1	Staphylococcus aureus
 SUMO	protein			
 Peptide	protein			
-PcI	promoter	BBa_K1140005		
+PcI	promoter	BBa_R0051		
 RBS	RBS			
 cheZ	gene	BBa_K108031	1	Escherichia coli
 cI	gene	BBa_K1145007	1	Escherichia coli

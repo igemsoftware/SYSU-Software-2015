@@ -19,7 +19,8 @@ PcI/lac_1	tetR_1	normal
 tetR_1	TetR_1	promotion
 TetR_1	PcI/tetR_1	inhibition
 TetR_1	Ptet_1	inhibition
-Ptet_1	LacI_1	normal
+Ptet_1	lacI_1	normal
+lacI_1	LacI_1	promotion
 LacI_1	PcI/lac_1	inhibition
 
 

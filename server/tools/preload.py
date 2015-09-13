@@ -3,15 +3,16 @@
 from ..models import ComponentPrototype
 from .. import db
 import os
+import codecs
 
 def preload_parts(filename):
     print 'loading parts from %s' % filename
-    with open(filename, 'r') as f:
+    with codecs.open(filename, 'r', 'gb2312') as f:
         for line in f:
-            if len(line.strip(' \n').split('\t')) != 5:
+            if len(line.strip(' \n\r').split('\t')) != 5:
                 #raise Exception('Format error (No extra empty line after the table).')
-                print('Warning: Format error. Skip line [%s].'%line.strip(' \n'))
-            name, type, BBa, risk, bacterium = map(lambda x: x.decode('ISO-8859-1'), line.strip(' \n').split('\t') )
+                print('Warning: Format error. Skip line [%s].'%line.strip(' \n\r'))
+            name, type, BBa, risk, bacterium = map(lambda x: x, line.strip(' \n\r').split('\t') )
             try:
                 risk=int(risk)
             except:

@@ -16,7 +16,3 @@ amilCP_1	AmilCP_1	promotion
 amilCP_1	tetA_1	normal
 tetA_1	TetA_1	promotion
 TetA_1	tetR_1	promotion
-
-tetA_1	TetA_1	promotion
-TetA_1	tetR_1	promotion
-

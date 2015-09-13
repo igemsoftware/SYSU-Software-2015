@@ -7,7 +7,7 @@ http://2014.igem.org/Team:Tokyo_Tech/Experiment/Plux_and_Prhl_reporter_assay#Mat
 1
 C4HSL_1
 3OC12HSL_1
-C4HSL_1	rhlR_1	promotion
+C4HSL_1	RhlR_1	normal
 Ptet_1	gfp_1	normal
 gfp_1	Ptet_2	normal
 Ptet_2	rhlR_1	normal
@@ -17,4 +17,3 @@ Prhl_1	cmR_1	normal
 cmR_1	lasI_1	normal
 lasI_1	LasI_1	promotion
 LasI_1	3OC12HSL_1	promotion
-
