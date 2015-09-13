@@ -257,10 +257,11 @@ def store_design(id):
 
     if id < 0:
         c = Design()
-        current_user.designs.append(c)
+        c.owner = current_user
         c.commit_to_db()
     else:
         c = Design.query.get(id)
+    c.owner = current_user
     
     data = request.get_json()
 
