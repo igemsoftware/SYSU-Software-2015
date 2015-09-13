@@ -40,11 +40,18 @@ def login():
     if not current_user.is_anonymous():
         return redirect(request.args.get('next') or url_for('person.index'))
     form = LoginForm(request.form)
-    if request.method == 'POST' and form.validate():
+    if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
+        if not user:
+            form.username.errors = ['The username does not exist.']
+            return render_template('auth/login.html', form=form)
+        elif not user.verify_password(form.data.get('password', '')): 
+            form.password.errors = ['Error password.']
+            return render_template('auth/login.html', form=form)
         login_user(user)
         user.ping()
         return redirect(request.args.get('next') or url_for('person.index'))
+    print form.errors
     return render_template('auth/login.html', form=form)
 
 @auth.route('/logout')

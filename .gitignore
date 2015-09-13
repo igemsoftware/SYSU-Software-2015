@@ -73,3 +73,6 @@ gfp_yfp.png
 # docs cheatsheet
 cheatsheet.rst
 
+# js libs :)
+!server/static/js/lib/
+
