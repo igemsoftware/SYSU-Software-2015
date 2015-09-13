@@ -5,6 +5,8 @@ from ..models import Design
 from flask import render_template, jsonify, request, current_app, url_for, jsonify, abort
 from flask.ext.login import login_required
 import json
+import urllib2
+import xml.dom.minidom
 
 @main.before_app_request 
 def before_request():
@@ -47,3 +49,21 @@ def embedded(id):
     c = Design.query.get(id)
     return render_template('embedded.html', circuit=c)
 
+@main.route('/proxy', methods=['POST'])
+def proxy():
+    parts = request.get_json(force=True)
+    url = "http://parts.igem.org/cgi/xml/part.cgi?part="
+    for part in parts:
+        if not part['BBa'] == '':
+            req = urllib2.Request(url = url+part['BBa'])
+            res = urllib2.urlopen(req)
+            dom = xml.dom.minidom.parseString(res.read())
+            root = dom.documentElement
+            part['cds'] = root.getElementsByTagName("seq_data")[0].childNodes[0].nodeValue
+            part['part_short_name'] = root.getElementsByTagName("part_short_name")[0].childNodes[0].nodeValue
+            part['part_short_des'] = root.getElementsByTagName("part_short_desc")[0].childNodes[0].nodeValue
+        else:
+            part['cds'] = ''
+            part['part_short_name'] = ''
+            part['part_short_des'] = ''
+    return jsonify(circuit=parts)

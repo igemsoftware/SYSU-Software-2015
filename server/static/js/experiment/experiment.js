@@ -1,5 +1,5 @@
 /**
- * @file design.js
+ * @file experiment.js
  * @description Help the user to design circuits and logics
  * @author JinJin Lin
  * @mail jinjin.lin@outlook.com
