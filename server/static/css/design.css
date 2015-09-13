@@ -307,7 +307,7 @@ body {
     z-index: 900;
     transition: right 0.5s;
     -webkit-transition: left 0.5s;   /* Safari 和 Chrome */
-    background-color: rgba(228, 228, 228, 0.46);
+    background-color: rgba(228, 228, 228, 0.8);
     -moz-box-shadow: -5px 2px 10px #989898;/*firefox  
     -webkit-box-shadow: -5px 2px 10px #989898;/*webkit*/  
     box-shadow: -5px 2px 10px #989898;/*opera或ie9*/  
@@ -410,11 +410,9 @@ body {
 }
 
 #right-sidebar .data .item {
-    /*width: 85%;*/
     display: inline;
 }
 
-/*right-bar device style*/
 #right-sidebar #addedDevices {
     height: 65%;
     overflow: auto;
@@ -774,3 +772,8 @@ input[type="range"]::-ms-thumb {
   border: 0;
   background-image: linear-gradient(to bottom, #ec5a5b 0, #ec5a5b 100%); /* W3C */
 }
+
+#readPartInfoModal .content span {
+    font-size: 17px;
+}
+
