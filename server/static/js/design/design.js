@@ -282,7 +282,7 @@ Design.prototype._initJsPlumbOption = function() {
             sourceNormalNum -= 1;
             source.attr("normal-connect-num", sourceNormalNum);
             target.attr("normal-connect-num", targetNormalNum);
-            that.isRemove = false;
+            // that.isRemove = false;
         }
     })
 
@@ -292,6 +292,7 @@ Design.prototype._initJsPlumbOption = function() {
         console.log($(this.parentNode.parentNode).attr("part-id"));
         that.removeCNodeElem($(this.parentNode.parentNode).attr("part-id"));
         jsPlumb.remove(this.parentNode.parentNode);
+        that.isRemove = false;
     });
 };
 
@@ -314,7 +315,7 @@ Design.prototype.removeCNodeElem = function(partID) {
 
 Design.prototype.addDraggable = function(elem) {
     jsPlumb.draggable(elem, {
-        // containment: 'parent', //设置后会导致无法scrollable
+        containment: 'parent', //设置后会导致无法scrollable
         // scroll: true,
         grid: [20, 20],
         drag:function(e){
@@ -674,6 +675,7 @@ DesignMenu.prototype.enableLoadDesignBtn = function() {
 };
 
 DesignMenu.prototype.initOpenList = function(designs) {
+    $("#designList").empty();
     for (var i in designs) {
         var div = $("<div></div>");
         div.text(designs[i].name);
@@ -749,7 +751,7 @@ SideBarWorker.prototype.createPartView = function(part) {
     var itemDiv = $("<div class='item'></div>");
     var imgElem = $("<img class='ui mini avatar image'/>");
     var titleSpan = $("<span class='partTitle'></span>");
-    var iconSpan = $('<span class="more"><i class="zoom icon"></i></span>');
+    var iconSpan = $('<span class="more part-more"><i class="zoom icon"></i></span>');
     var BBaSpan = $("<span class='BBa'></span>");
     var leftSpan = $("<span class='leftBox'></span>");
 
@@ -805,7 +807,7 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     var itemDiv = $("<div class='item'></div>");
     var imgElem = $("<img/>");
     var titleSpan = $("<span class='deviceTitle'></span>");
-    var iconSpan = $("<span class='more'><i class='icon zoom'></i></span>");
+    var iconSpan = $("<span class='more device-more'><i class='icon zoom'></i></span>");
     
     imgElem.attr("src", "/static/img/design/device.png");
     titleSpan.text(device.name);
@@ -821,6 +823,12 @@ SideBarWorker.prototype.createDeviceView = function(device) {
 
     this._makeItJqueryDraggable(itemDiv);
     return dataDiv
+}
+
+SideBarWorker.prototype.enableReadMorePartInfo = function(moreeElem) {
+    moreElem.click(function() {
+
+    });
 }
 
 /**
@@ -1238,7 +1246,8 @@ RightBar.prototype.enableSearchAddBox = function() {
             var searchElemPartList = [];
             for (var i in that.elemsPartList) {
                 var partAttr = $(that.elemsPartList[i].find("div")[0]).attr("part-attr").toLowerCase();
-                if (partAttr.indexOf(val) != -1) {
+                if (partAttr.in0.
+                    dexOf(val) != -1) {
                     searchElemPartList.push(that.elemsPartList[i]);
                 }
             }
@@ -1362,3 +1371,5 @@ $("#moveTo").click(function() {
 }); 
 
 $(".modal").modal({transition: 'horizontal flip'});
+
+$('#readPartInfoModal').modal('show');

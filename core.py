@@ -1,4 +1,6 @@
 from server import create_app
+from gevent.wsgi import WSGIServer
+from gevent import monkey
 
 # Change the host and port here
 HOST = '0.0.0.0'
@@ -11,4 +13,8 @@ kwargs = {
          }
 
 if __name__ == '__main__':
-    app.run(**kwargs)
+    #app.run(**kwargs)
+    monkey.patch_socket()
+    server = WSGIServer((HOST, PORT), app)
+    server.serve_forever()
+

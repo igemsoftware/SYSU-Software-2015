@@ -284,6 +284,46 @@
     </div>
 <!--   deleteModal modal -->
 
+<!--   Part more modal -->
+    <div class="ui small modal" id="readPartInfoModal">
+      <div class="header">Part Information:</div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="three wide column">
+              <img class="ui tiny image" src="/static/img/design/promoter_70.png">
+            </div>
+            <div class="thirteen wide column">
+              <form class="ui form">
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Part Name:</label>
+                    <span>Promoter</span>
+                  </div>
+                  <div class="inline field">
+                    <label>BBa Name</label>
+                    <span>BBa_02333</span>
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Risk ground</label>
+                    <div class="ui green mini button">Low risk(1)</div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Introduction</label>
+                  <textarea rows="4" id="customIntro" name="introduction"></textarea>
+                </div>
+                <div class="fluid text-right">
+                  <div class="ui cancel button">Cancel</div>
+                  <div class="ui submit button" id="customCreate">Create</div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+<!--   custom modal -->
 <!--   custom modal -->
     <div class="ui small modal" id="createCustomPartModal">
       <div class="header">Create a custom part</div>
@@ -391,7 +431,7 @@
           </div>
       </div>
     </div>
-<!--   custom modal -->
+<!--   Part more modal -->
 <div class="ui segment" id="loadingData">
   <div class="ui active page inverted dimmer">
     <div class="ui text loader">Loading...</div>
