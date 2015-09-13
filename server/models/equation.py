@@ -151,7 +151,7 @@ class EquationBase(db.Model):
         with open(filename, 'r') as f:
             for line in f:
                 line = line.strip()
-                if not line: continue
+                if not line or line.startswith('#'): continue
 
                 ele = eval(line, {'__builtins__':None}, {})
                 e = EquationBase()
