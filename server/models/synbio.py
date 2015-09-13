@@ -419,10 +419,40 @@ class Device(db.Model, BioBase):
                     break
         return c, instance
 
+    def new_load_from_file(self, filename):
+        """Load from local files. Mostly called in preload stage."""
+        print 'loading device from %s ...' % filename
+        if filename.split('.')[-1] != 'txt': 
+            print '\tSkip', filename
+            return  
+        import codecs
+        f = codecs.open(filename, 'r', 'gb2312')
+        self.name= f.readline().strip()
+        self.brief_description = f.readline().strip()
+        self.full_description = f.readline().strip()
+        self.keyword = f.readline().strip()
+        #self.introduction = f.readline().strip().decode('ISO-8859-1')
+        self.source = f.readline().strip()
+        self.protocol_reference = f.readline().strip()
+        try:
+            self.risk = int(f.readline().strip())
+        except:
+            self.risk = -1
+        # self.type = f.readline().strip()
+        self.interfaceA = f.readline().strip() 
+        self.interfaceB = f.readline().strip() #.split(',') 
+
+
+
+
+
 
     def load_from_file(self, filename):
         """Load from local files. Mostly called in preload stage."""
         print 'loading device from %s ...' % filename
+        if filename.split('.')[-1] != 'txt': 
+            print '\tSkip', filename
+            return  
         import codecs
         f = codecs.open(filename, 'r', 'gb2312')
         self.name= f.readline().strip()

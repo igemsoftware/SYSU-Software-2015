@@ -1,0 +1,10 @@
+Regulation 2011USTC
+Theophylline activates the expression of downstream gene through a riboswitch.
+The presence of the theophylline would change the equilibrium state which the aptamers secondary structures would shift from "off" state to "on" state.
+theophylline
+http://2011.igem.org/Team:USTC-China
+http://2011.igem.org/Team:USTC-China/Wet_Lab/protocol
+1
+theophylline_1
+CI_1
+{"parts":[{"partID":"theophylline_49","partName":"theophylline","partAttr":"theophylline","positionX":246,"positionY":33},{"partID":"lux pR_50","partName":"lux pR","partAttr":"lux pR","positionX":246,"positionY":171},{"partID":"RBS:BBa_B0034_51","partName":"RBS","partAttr":"RBS:BBa_B0034","positionX":353,"positionY":171},{"partID":"cI_52","partName":"cI","partAttr":"cI","positionX":458,"positionY":171},{"partID":"CI_53","partName":"CI","partAttr":"CI","positionX":458,"positionY":310},{"partID":"Terminator:BBa_B0010_54","partName":"Terminator","partAttr":"Terminator:BBa_B0010","positionX":566,"positionY":171},{"partID":"Terminator:BBa_B0010_55","partName":"Terminator","partAttr":"Terminator:BBa_B0010","positionX":672,"positionY":171}],"name":"Regulation 2011USTC","relationship":[{"start":"theophylline_49","end":"lux pR_50","type":"promotion"},{"start":"RBS:BBa_B0034_51","end":"cI_52","type":"normal"},{"start":"cI_52","end":"CI_53","type":"promotion"},{"start":"cI_52","end":"Terminator:BBa_B0010_54","type":"normal"},{"start":"Terminator:BBa_B0010_54","end":"Terminator:BBa_B0010_55","type":"normal"},{"start":"lux pR_50","end":"RBS:BBa_B0034_51","type":"normal"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[211,239],"end":[708,239]}]}
