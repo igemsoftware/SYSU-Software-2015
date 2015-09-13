@@ -149,6 +149,8 @@ $(function() {
 		selectable: true, //设置日程表的天和时间槽是否可以点击选中和拖拽
 		selectHelper: true, // 设置是否在用户拖拽事件的时候绘制占位符
 		weekMode: "liquid", //  日程表显示4、5或者6周，由当前的月份决定,每周的高度将拉伸到可用高度
+		eventColor: '#A4FAEF',
+		eventTextColor: '#0D0D0D',
 		select: function(start, end) {
 
 			start = start.format('YYYY/MM/DD HH:mm');

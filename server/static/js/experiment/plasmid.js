@@ -134,6 +134,8 @@ Plasmid.prototype.formatCircuit = function(circuit, length, callback) {
 	// 		}
 	// 	}
 	// );
+	console.log('Post Circuit:');
+	console.log(circuit);
 	$.ajax({
 		type: 'POST',
 		url: '/proxy',
