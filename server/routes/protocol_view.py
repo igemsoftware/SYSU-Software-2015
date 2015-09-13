@@ -150,4 +150,3 @@ def set_design_s_protocols(id):
     db.session.add(c)
 
     return 'Success' 
-
