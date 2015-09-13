@@ -53,7 +53,7 @@ def embedded(id):
 def proxy():
     parts = request.get_json(force=True)
     url = "http://parts.igem.org/cgi/xml/part.cgi?part="
-    for part in parts:
+    def fetch(part):
         if not part['BBa'] == '':
             req = urllib2.Request(url = url+part['BBa'])
             res = urllib2.urlopen(req)
@@ -75,4 +75,7 @@ def proxy():
                 part['length'] = 600
             if part['type'] == 'terminator':
                 part['length'] = 50
+    import gevent
+    gevent.joinall([gevent.spawn(fetch, part) for part in parts])
     return jsonify(circuit=parts)
+
