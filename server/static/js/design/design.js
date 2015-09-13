@@ -89,6 +89,8 @@ function Design() {
 
 Design.prototype.clear = function() {
     this.nodeElemList = [];
+    this.risk = 1;
+    this.updateRiskView(1);
 }
 
 Design.prototype.init = function() {
@@ -282,7 +284,6 @@ Design.prototype._initJsPlumbOption = function() {
             sourceNormalNum -= 1;
             source.attr("normal-connect-num", sourceNormalNum);
             target.attr("normal-connect-num", targetNormalNum);
-            // that.isRemove = false;
         }
     })
 
@@ -292,6 +293,7 @@ Design.prototype._initJsPlumbOption = function() {
         console.log($(this.parentNode.parentNode).attr("part-id"));
         that.removeCNodeElem($(this.parentNode.parentNode).attr("part-id"));
         jsPlumb.remove(this.parentNode.parentNode);
+        that.checkDesignRisk();
         that.isRemove = false;
     });
 };
@@ -345,6 +347,18 @@ Design.prototype.updateRisk = function(part) {
     }
 }
 
+Design.prototype.checkDesignRisk = function() {
+    var risk = 1;
+    for (var i in this.nodeElemList) {
+        if (this.nodeElemList[i].attr('risk') > risk) {
+            risk = this.nodeElemList[i].attr('risk');
+        }
+    }
+    if (risk < this.risk) {
+        this.updateRiskView(risk);
+    }
+}
+
 Design.prototype.updateRiskView = function(risk) {
     var color;
     var popupStr;
@@ -368,6 +382,7 @@ Design.prototype.updateRiskView = function(risk) {
     $("#risk").addClass(color);
     $("#risk").attr("data-content", popupStr);
     $("#risk").popup("show");
+    setTimeout(function () {  $("#risk").popup("hide"); }, 3000);
 }
 
 //========================================================================================
@@ -746,6 +761,7 @@ SideBarWorker.prototype.createPartView = function(part) {
     var partIntro = part.full_description;
     var BBa = part.BBa;
     var attr = part.attr;
+    var risk = part.risk;
 
     var dataDiv = $("<div class='data'></div>");
     var itemDiv = $("<div class='item'></div>");
@@ -757,6 +773,7 @@ SideBarWorker.prototype.createPartView = function(part) {
 
     dataDiv.attr("type", partType);
     itemDiv.attr('id', partName);
+    itemDiv.attr('risk', risk);
     itemDiv.attr('part-type', partType);
     itemDiv.attr('part-name', partName);
     itemDiv.attr('part-attr', attr);
