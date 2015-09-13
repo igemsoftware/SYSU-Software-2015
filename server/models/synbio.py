@@ -69,8 +69,9 @@ class Protocol(db.Model):
         _introduction = []
         _component = []
         _procedure = []
-        with open(filename, 'r') as f:
-            self.name = f.readline().strip().decode('ISO-8859-1')
+        import codecs
+        with codecs.open(filename, 'r', 'ISO-8859-1') as f:
+            self.name = f.readline().strip()
             if self.name[0] == 'B': self.setB = True;
 #            self.recommend = f.readline().strip() == 'True'
             self.recommend = True
@@ -83,7 +84,7 @@ class Protocol(db.Model):
                 elif line == 'Procedure' or line.startswith('Procedure'):
                     ptr = _procedure
                 else:
-                    ptr.append(line.strip().decode('ISO-8859-1'))
+                    ptr.append(line.strip())
 
         self.introduction = '\n'.join(_introduction)
         self.component = '\n'.join(_component)
@@ -211,12 +212,18 @@ class ComponentInstance():
     """The position on X-axis."""
     positionY = 0.
     """The position on Y-axis."""
-    def __init__(self, partName, partID=None, partAttr=None, positionX=300., positionY=300.):
+    def __init__(self, partName, partID=None, partAttr=None, BBa=None, positionX=300., positionY=300.):
         """Initialization constructor, can use :attr:`ComponentPrototype.name` 
         or :attr:`ComponentPrototype.attr` to find the prototype."""
-        c = ComponentPrototype.query.filter_by(name=partName).first()
+#        print "New instance: BBa: %s, pname: %s" % (BBa, partName)
+        if partName in ['Promoter', 'RBS', 'Terminator'] and not BBa:
+            BBa = ''
+        if BBa != None:
+            c = ComponentPrototype.query.filter_by(name=partName, BBa=BBa).first()
+        else:
+            c = ComponentPrototype.query.filter_by(name=partName).first()
         if c is None:
-            print 'No prototype named %s' % partName 
+            raise Exception ('No prototype named %s BBa %s' % (partName, BBa) )
             partID = partName = 'None'
             c = ComponentPrototype.query.filter_by(name=partName).first()
 
@@ -323,6 +330,13 @@ class BioBase():
         self.parts.append(c)
         return c
 
+    def add_component_by_name_and_BBa(self, component_name, BBa, **kwargs):
+        c = ComponentInstance(partName=component_name, BBa=BBa, **kwargs)
+        self.parts.append(c)
+        return c
+
+
+
     def add_connection(self, x, y, r):
         self.relationship.append({'start':x, 'end':y, 'type':r})
 
@@ -378,14 +392,17 @@ class Device(db.Model, BioBase):
             except:
                 pname = ':'.join([pname,BBa])
                 BBa = None
+        if not BBa:
+            BBa = ''
 
         # add Prototype if not exist
-        if not BBa:
-            c = ComponentPrototype.query.filter_by(name=pname).first()
-            if c==None: raise Exception('No prototype [name=%s].'%pname)
-        else:
+        if pname in ['Promoter', 'RBS', 'Terminator']:
             c = ComponentPrototype.query.filter_by(name=pname, BBa=BBa).first()
-            if c==None: raise Exception('No prototype [name=%s, BBa=%s].'%(pname, BBa))
+        else:
+            c = ComponentPrototype.query.filter_by(name=pname).first()
+        if c==None: 
+            raise Exception('No prototype [name=%s, BBa=%s].'%(pname, BBa))
+        BBa = c.BBa
 
 #           c = ComponentPrototype(name=pname, type=type)
 #       db.session.add(c)
@@ -393,26 +410,28 @@ class Device(db.Model, BioBase):
 
         # add component if not exist
         if new_instance:
-            instance = self.add_component_by_name(pname, partID=name)
+            instance = self.add_component_by_name_and_BBa(pname, BBa, partID=name)
         else:
+#            print map(lambda x: x.partAttr, self.parts)
             for ins in self.parts:
                 if ins.partID==name:
                     instance = ins
                     break
-
         return c, instance
+
 
     def load_from_file(self, filename):
         """Load from local files. Mostly called in preload stage."""
         print 'loading device from %s ...' % filename
-        f = open(filename, 'r')
-        self.name= f.readline().strip().decode('ISO-8859-1')
-        self.brief_description = f.readline().strip().decode('ISO-8859-1')
-        self.full_description = f.readline().strip().decode('ISO-8859-1')
-        self.keyword = f.readline().strip().decode('ISO-8859-1')
+        import codecs
+        f = codecs.open(filename, 'r', 'gb2312')
+        self.name= f.readline().strip()
+        self.brief_description = f.readline().strip()
+        self.full_description = f.readline().strip()
+        self.keyword = f.readline().strip()
         #self.introduction = f.readline().strip().decode('ISO-8859-1')
-        self.source = f.readline().strip().decode('ISO-8859-1')
-        self.protocol_reference = f.readline().strip().decode('ISO-8859-1')
+        self.source = f.readline().strip()
+        self.protocol_reference = f.readline().strip()
         try:
             self.risk = int(f.readline().strip())
         except:
@@ -423,12 +442,13 @@ class Device(db.Model, BioBase):
 
         rec = set() 
         for line in f:
-            line = line.decode('ISO-8859-1')
+            line = line
             if len(line.strip(' \n\r').split('\t')) != 3:
                 #raise Exception('Format error (No extra empty line after the table).')
 #                print('Warning: Format error. Skip line [%s].'%line.strip(' \n'))
                 continue
 #            print '[%s]' % line
+            print line.strip()
             A_name, B_name, R_type = line.strip(' \n\r').split('\t')
 
             #print line

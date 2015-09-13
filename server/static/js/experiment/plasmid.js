@@ -173,8 +173,10 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
   		var design = data['content'];
   		plasmid = new Plasmid();
   		$scope.circuits = null;
-  		if (design['plasmids'] == []) {
+  		if (design['plasmids'].length == 0) {
   			console.log('Plasmids is empty!!');
+  			$('#loadingData').dimmer('hide');
+  			$("#errorModal").modal({transition: 'bounce'}).modal('show');
   			return;
   		}
   		plasmid.loadCircuits(design['plasmids'], function(scope) {

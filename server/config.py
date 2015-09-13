@@ -4,7 +4,7 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
-    SECRET_KEY = "Hieveryone" 
+    SECRET_KEY = "a09sd8f1=-=1f-12=-12=-f1=2-f1-=2fHieveryone" 
 
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_RECORD_QUERIES = True
@@ -29,6 +29,14 @@ class Config:
     FLASKY_TASKS_PER_PAGE = 2
     FLASKY_DESIGNS_PER_PAGE = 7
 
+    # init
+    INIT_PRELOAD_DEVICE_DIRS = ['server/models/preload/devices/'] #EquationTest']
+    INIT_PRELOAD_PROTOCOL_DIRS = ['server/models/preload/protocols/']
+    INIT_PRELOAD_PART_DIRS = ['server/models/preload/components/']#EquationTest']
+    INIT_PRELOAD_EQUATION_DIRS = ['server/models/preload/equations/']
+
+
+
     @staticmethod
     def init_app(app):
         pass
@@ -37,15 +45,11 @@ class DevelopmentConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = "sqlite:///sysu2015_dev.db"
 
-    # init
-    INIT_PRELOAD_DEVICE_DIRS = ['server/models/preload/devices/'] #EquationTest']
-    INIT_PRELOAD_PROTOCOL_DIRS = ['server/models/preload/protocols/']
-    INIT_PRELOAD_PART_DIRS = ['server/models/preload/components/']#EquationTest']
-    INIT_PRELOAD_EQUATION_DIRS = ['server/models/preload/equations/']
-
 class ProductionConfig(Config):
     DEBUG = False 
-#    SQLALCHEMY_DATABASE_URI = "mysql://"
+    TESTING = False
+    SQLALCHEMY_DATABASE_URI = "sqlite:///sysu2015_pro.db"
+    #SQLALCHEMY_DATABASE_URI = "mysql://"
 
 class TestingConfig(Config):
     DEBUG = True
