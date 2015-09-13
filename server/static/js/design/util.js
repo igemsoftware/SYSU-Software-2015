@@ -7,6 +7,20 @@
  */
 function Util() {};
 
+Util.getRiskText = function(risk) {
+    if (risk == -1 || risk == 1) return "Low risk(1)"
+    if (risk == 2) return 'Moderate risk(2)'
+    if (risk == 3) return 'High risk(3)'
+    if (risk == 4) return 'Extreme risk(4)'
+}
+
+Util.getRiskColor = function(risk) {
+    if (risk == -1 || risk == 1) return "ui green mini button"
+    if (risk == 2) return 'ui orange mini button'
+    if (risk == 3) return 'ui pink mini button'
+    if (risk == 4) return 'ui red mini button'
+}
+
 Util.getImagePath = function(type, imgSize) {
     return "/static/img/design/"+ type + "_" + imgSize +".png";
 };

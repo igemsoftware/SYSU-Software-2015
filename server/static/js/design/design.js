@@ -763,7 +763,8 @@ SideBarWorker.prototype.createPartView = function(part) {
     imgElem.attr("src", Util.getImagePath(partType, 60));
     titleSpan.text(partName);
     iconSpan.attr("data-content", "Read more about this part");
-    iconSpan.popup()
+    iconSpan.popup();
+    this.addReadPartInfoEvent(iconSpan);
     if (BBa != "") {
         BBaSpan.text("("+BBa+")");
     }
@@ -825,12 +826,27 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     return dataDiv
 }
 
-SideBarWorker.prototype.enableReadMorePartInfo = function(moreeElem) {
+SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
+    var that = this;
     moreElem.click(function() {
-
+        var partAttr = $(this).parent().find('.item').attr('part-attr');
+        var part = DataManager.getPartByAttr(partAttr);
+        that.writeInfoToModal(part);
+        $("#readPartInfoModal").modal('show');
     });
 }
 
+SideBarWorker.prototype.writeInfoToModal = function(part) {
+    var infoModal = $("#readPartInfoModal");
+    infoModal.find('.partName').text(part.name);
+    infoModal.find('.partBBa').text(part.BBa == '' ? 'None': part.BBa);
+    infoModal.find('.partImg').attr('src', '/static/img/design/'+part.type+'_70.png');
+    infoModal.find('.partRisk').text(Util.getRiskText(part.risk));
+    infoModal.find('.partRisk').addClass(Util.getRiskColor(part.risk));
+    infoModal.find('.partBact').text(part.bacterium);
+    infoModal.find('.partIntro').text(part.introduction);
+    infoModal.find('.partSource').text(part.source);
+}
 /**
  * @class LeftBar
  *

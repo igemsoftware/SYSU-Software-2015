@@ -777,3 +777,13 @@ input[type="range"]::-ms-thumb {
     font-size: 17px;
 }
 
+#readPartInfoModal .content .button {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#readPartInfoModal img {
+    text-align: center;
+    margin-right: auto;
+    margin-right: auto;
+}
