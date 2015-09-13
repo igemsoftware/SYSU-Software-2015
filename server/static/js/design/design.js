@@ -881,7 +881,6 @@ LeftBar.prototype.init = function() {
     this.enableSearchPartBox();
     this.enableSearchRelateBox();
     this.enableSearchDeviceInputBox();
-    $('.ui.styled.accordion').accordion({performance: true});
     $('.menu .item').tab();
 
     this.enableFilter();
@@ -1372,4 +1371,5 @@ $("#moveTo").click(function() {
 
 $(".modal").modal({transition: 'horizontal flip'});
 
-$('#readPartInfoModal').modal('show');
+// $('#readPartInfoModal').modal('show');
+$('.ui.accordion').accordion({performance:true});
