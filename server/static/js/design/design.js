@@ -42,12 +42,13 @@ CNode.prototype.createCNode = function(partElem) {
     this.view.find(".BBa").remove();
     var partType = partElem.attr('part-type');
 
-    if (partType == 'gene' || partType == 'promoter' 
-        || partType == 'RBS' || partType == 'terminator') {
+    // if (partType == 'gene' || partType == 'promoter' 
+    //     || partType == 'RBS' || partType == 'terminator') {
         var filterDiv = $("<div></div>");
         filterDiv.addClass("filterDiv");
+        filterDiv.css('display', 'none');
         filterDiv.appendTo(this.view);
-    }
+    // }
     var minusCircle = Util.createMinusCircleDiv();
     minusCircle.appendTo(this.view);
 
@@ -79,8 +80,9 @@ function Design() {
     this.drawArea = $("#drawArea");
     this.drawMenu = $("#drawArea-menu");
     // this._isProOrInhiLink = false;
-    this._isPromoteLink = false;
-    this._isInhibitLink = false;
+    this.isPromoteLink = false;
+    this.isInhibitLink = false;
+    this._isNormalLink = false;
     this.nodeElemList = [];
     this._partCount = 0;
     this.risk = 1;
@@ -118,8 +120,8 @@ Design.prototype.addProAndInhibitLine = function(partA) {
 Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
     var overlaysClass = this._getOverLaysClass(lineType);
     var strokeStyle = this._getStorkeStyle(lineType);
-    if (lineType == "promotion") this._isPromoteLink = true;
-    if (lineType == "inhibition") this._isInhibitLink = true;
+    if (lineType == "promotion") this.isPromoteLink = true;
+    if (lineType == "inhibition") this.isInhibitLink = true;
     // this._isProOrInhiLink = true;
     jsPlumb.connect({
         connector: ["Flowchart"],
@@ -230,18 +232,19 @@ Design.prototype._initJsPlumbOption = function() {
     });
 
     jsPlumb.bind("connection", function(CurrentConnection) {
+        console.log(CurrentConnection);
         var target = $(CurrentConnection.connection.target);
         var source = $(CurrentConnection.connection.source);
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
         if (target.hasClass("dotShape")) {
             CurrentConnection.connection.scope = "backbone";
-        } else if (that._isInhibitLink == true) {
+        } else if (that.isInhibitLink == true) {
             CurrentConnection.connection.scope = "inhibition";
-            that._isInhibitLink = false;
-        } else if (that._isPromoteLink == true) {
+            that.isInhibitLink = false;
+        } else if (that.isPromoteLink == true) {
             CurrentConnection.connection.scope = "promotion";
-            that._isPromoteLink = false;
+            that.isPromoteLink = false;
         } else {
             CurrentConnection.connection.scope = "normal";
             if (sourceNormalNum == 2) {
@@ -398,7 +401,9 @@ function DesignMenu() {
     this.downloadBtn = $("#download");
     this.openFileBtn = $("#openFile");
     this.clearBtn = $("#clear");
-    this.connPartBtn = $("#connect-part");
+    this.normalConnBtn = $("#normal-conn");
+    this.promotionConnBtn = $("#promotion-conn");
+    this.inhibitionConnBtn = $("#inhibition-conn");
     this.minusBtn = $("#minus");
     this.backboneBtn = $("#backbone");
     this.hideBtn = $("#hideNormal");
@@ -408,7 +413,7 @@ function DesignMenu() {
 
 
     this._isMinusBtnOpen = false;
-    this._isConnectPartBtnOpen = true;
+    // this._isConnectPartBtnOpen = true;
     this._isHideNormalLine = false;
 };
 
@@ -417,7 +422,9 @@ DesignMenu.prototype.init = function() {
     this.enableDownloadBtn();
     this.enableLoadDesignBtn();
     this.enableClearCircuitchartBtn();
-    this.enableConnectPartBtn();
+    this.enableNormalConnBtn();
+    this.enablePromotionConnBtn();
+    this.enableInhibitionConnBtn();
     this.enableRemovePartBtn();
     this.enableBackboneBtn();
     this.enableHideNormal();
@@ -451,7 +458,9 @@ DesignMenu.prototype.popUpAllButton = function() {
     this.downloadBtn.popup();
     this.openFileBtn.popup();
     this.clearBtn.popup();
-    this.connPartBtn.popup();
+    this.normalConnBtn.popup();
+    this.promotionConnBtn.popup();
+    this.inhibitionConnBtn.popup();
     this.minusBtn.popup();
     this.backboneBtn.popup();
     this.hideBtn.popup();
@@ -494,11 +503,13 @@ DesignMenu.prototype.enableRemovePartBtn = function() {
     var that = this;
     this.minusBtn.click(function() {
         if (that._isMinusBtnOpen == false) {
+            $(this).addClass("ired");
             that._isMinusBtnOpen = true;
             $(".minusCircle").each(function() {
                 $(this).css("display", "block");
             });
         } else {
+            $(this).removeClass("ired");
             that._isMinusBtnOpen = false;
             $(".minusCircle").each(function() {
                 $(this).css("display", "none");
@@ -507,22 +518,81 @@ DesignMenu.prototype.enableRemovePartBtn = function() {
     });
 }
 
-DesignMenu.prototype.enableConnectPartBtn = function() {
+DesignMenu.prototype.enableNormalConnBtn = function() {
     var that = this;
-    this.connPartBtn.click(function() {
-        if (that._isConnectPartBtnOpen == true) {
-            that._isConnectPartBtnOpen = false;
+    this.normalConnBtn.click(function() {
+        if ($(this).hasClass('ired')) {
+            $(this).removeClass("ired");
             $(".filterDiv").each(function() {
                 $(this).css("display", "none");
             });
         } else {
-            that._isConnectPartBtnOpen = true;
+            that.hightConnBtn($(this));
+            design._isNormalLink = true;
+            jsPlumb.importDefaults({
+                PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+                Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+            });
             $(".filterDiv").each(function() {
                 $(this).css("display", "block");
+                $(this).css('background-color', 'green');
             });
         }
     });
 };
+
+DesignMenu.prototype.enablePromotionConnBtn = function() {
+    var that = this;
+    this.promotionConnBtn.click(function() {
+        if ($(this).hasClass('ired')) {
+            $(this).removeClass("ired");
+            $(".filterDiv").each(function() {
+                $(this).css("display", "none");
+            });
+        } else {
+            that.hightConnBtn($(this));
+            design.isPromoteLink = true
+            jsPlumb.importDefaults({
+                PaintStyle : { strokeStyle: "blue", lineWidth: 2 },
+                Overlays: [['Arrow', {width:25, length: 15, location:1, foldback:0.3}]]
+            });
+            $(".filterDiv").each(function() {
+                $(this).css("display", "block");
+                $(this).css('background-color', 'blue');
+            });
+        }
+    });
+};
+
+DesignMenu.prototype.enableInhibitionConnBtn = function() {
+    var that = this;
+    this.inhibitionConnBtn.click(function() {
+        if ($(this).hasClass('ired')) {
+            $(this).removeClass("ired");
+            $(".filterDiv").each(function() {
+                $(this).css("display", "none");
+            });
+        } else {
+            that.hightConnBtn($(this));
+            design.isInhibitLink = true
+            jsPlumb.importDefaults({
+                PaintStyle : { strokeStyle: "red", lineWidth: 2 },
+                Overlays: [[ "Diamond", {width:25, length: 1, location:1, foldback:1}]]
+            });
+            $(".filterDiv").each(function() {
+                $(this).css("display", "block");
+                $(this).css('background-color', 'red');
+            });
+        }
+    });
+};
+
+DesignMenu.prototype.hightConnBtn = function(connBtn) {
+    this.normalConnBtn.removeClass('ired');
+    this.promotionConnBtn.removeClass('ired');
+    this.inhibitionConnBtn.removeClass('ired');
+    connBtn.addClass('ired');
+}
 
 DesignMenu.prototype.enableClearCircuitchartBtn = function() {
     var that = this;
