@@ -787,3 +787,15 @@ input[type="range"]::-ms-thumb {
     margin-right: auto;
     margin-right: auto;
 }
+
+#secureModal p {
+    font-size: 16px;
+}
+
+#secureModal .ired {
+    color: white;
+}
+
+#secureModal .check.icon {
+    color: #71e3d0
+}

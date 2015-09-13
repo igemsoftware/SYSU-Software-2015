@@ -541,7 +541,12 @@ DesignMenu.prototype.enableClearCircuitchartBtn = function() {
 DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
     var that = this;
     this.saveBtn.click(function() {
-        $("#saveModal").modal("show");
+        $("#secureModal").modal("show");
+    });
+
+    $('#continueToSave').click(function() {
+        $("#secureModal").modal("hide");
+        $('#saveModal').modal('show');
     });
 
     $("#saveCircuitBtn").click(function() {

@@ -240,7 +240,7 @@
 <!--   chooseModal modal -->
 <!--   save modal -->
     <div class="ui small modal" id="saveModal">
-      <div class="header">Save your curcuit</div>
+      <div class="header">Save your design.</div>
       <div class="content">
         <div class="ui form">
           <div class="inline fields">
@@ -256,11 +256,23 @@
         </div>
         <div class="fluid text-right">
           <div class="ui cancel button">Cancel</div>
-          <div class="ui submmit button" id="saveCircuitBtn">Save</div>
+          <div class="ui submmit button ired" id="saveCircuitBtn">Save</div>
         </div>
       </div>
     </div>
 <!--   save modal -->
+<!--   Secure modal -->
+    <div class="ui small basic modal" id="secureModal">
+      <div class="content">
+        <h3 class="text-center"><i class="ui large icon check circle"></i>You have finished your circuit, congratulations！</h3>
+        <p class="text-center">A control system, like a killer switch, may prevent biosafety problems and help your circuit work  better in real world application. Are you sure you want to save your work without a control system? </p>
+        <div class="fluid text-center" style="margin-top: 50px;">
+          <div class="ui cancel button"><i class="ui icon chevron left"></i>Back to Design</div>
+          <div class="ired ui move button" id="continueToSave">Continue to Save<i class='ui icon chevron right'></i></div>
+        </div>
+      </div>
+    </div>
+<!--   Secure modal -->
 <!--   saveSuccess modal -->
     <div class="ui small basic modal" id="saveSuccessModal">
       <div class="content">
