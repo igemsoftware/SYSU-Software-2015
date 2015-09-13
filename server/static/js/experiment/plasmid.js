@@ -117,25 +117,8 @@ Plasmid.prototype.formatCircuit = function(circuit, length, callback) {
 	var that = this;
 	var xmlDocs;
 	var postDataJson = JSON.stringify(circuit);
-	// $.post("/proxy", postDataJson, function(data) {
-	// 		var circuit = data['circuit'];
-	// 		var markers = [];
-	// 		for (var i in circuit) {
-	// 			markers.push(that.getMarkerByPart(circuit[i]));
-	// 		}
-	// 		var plasmidCir = {};
-	// 		that.circuitCount += 1;
-	// 		plasmidCir.name = "circuit" + String(that.circuitCount);
-	// 		plasmidCir.markers = markers;
-	// 		plasmidCir.length = that.getMarkersLength(markers);
-	// 		that.plasmidCirs.push(plasmidCir);
-	// 		if (that.circuitCount == length) {
-	// 			callback();
-	// 		}
-	// 	}
-	// );
-	console.log('Post Circuit:');
-	console.log(circuit);
+	// console.log('Post Circuit:');
+	// console.log(circuit);
 	$.ajax({
 		type: 'POST',
 		url: '/proxy',

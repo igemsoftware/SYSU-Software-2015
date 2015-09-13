@@ -547,7 +547,7 @@ DataManager.getNewId = function() {
 DataManager.getSysProtocolData = function(callback) {
 	var that = this;
     $.get("/protocol/setB", function(data, status) {
-    	console.log(data['protocols']);
+    	// console.log(data['protocols']);
         that.setBProtocols = data['protocols'];
         callback(that.setBProtocols);
     });
@@ -557,7 +557,7 @@ DataManager.getPerProtocolData = function(callback) {
 	this.newId = 0;
 	var that = this;
     $.get("/protocol/design/1", function(data, status) {
-    	console.log(data['protocols']);
+    	// console.log(data['protocols']);
         that.perProtocols = data['protocols'];
         callback(that.perProtocols);
     });
