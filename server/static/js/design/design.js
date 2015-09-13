@@ -1372,4 +1372,4 @@ $("#moveTo").click(function() {
 $(".modal").modal({transition: 'horizontal flip'});
 
 // $('#readPartInfoModal').modal('show');
-$('.ui.accordion').accordion({performance:true});
+$('.ui.accordion').accordion();
