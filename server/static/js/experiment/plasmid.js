@@ -173,6 +173,10 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
   		var design = data['content'];
   		plasmid = new Plasmid();
   		$scope.circuits = null;
+  		if (design['plasmids'] == []) {
+  			console.log('Plasmids is empty!!');
+  			return;
+  		}
   		plasmid.loadCircuits(design['plasmids'], function(scope) {
   			$scope.circuits = plasmid.plasmidCirs;
   			console.log("Circuits:");
