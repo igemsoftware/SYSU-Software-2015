@@ -1,0 +1,10 @@
+Biosensor-Fusaric Acid 2014Wageningen_UR
+This sensor can detect the Fusaric Acid.
+The expression of the pp1262 protein should repress transcription of the operon cluster in the absence of fusaric acid. On the other side, when fusaric acid is present, repression should be relieved.
+Biosensor,Fusaric Acid,pp1262 protein
+http://2014.igem.org/Team:Wageningen_UR/project/fungal_sensing
+http://2014.igem.org/Team:Wageningen_UR/notebook/protocols
+1
+Fusaric Acid_1
+FadP_1
+{"parts":[{"partID":"Fusaric Acid_1","partName":"Fusaric Acid","partAttr":"Fusaric Acid","positionX":212,"positionY":180},{"partID":"FadP_2","partName":"FadP","partAttr":"FadP","positionX":334,"positionY":180},{"partID":"fadP_3","partName":"fadP","partAttr":"fadP","positionX":334,"positionY":40},{"partID":"Promoter_4","partName":"Promoter","partAttr":"Promoter","positionX":107,"positionY":40},{"partID":"RBS_5","partName":"RBS","partAttr":"RBS","positionX":220,"positionY":40},{"partID":"Terminator_6","partName":"Terminator","partAttr":"Terminator","positionX":447,"positionY":40}],"name":"Biosensor-Fusaric Acid 2014Wageningen_UR","relationship":[{"start":"Fusaric Acid_1","end":"FadP_2","type":"inhibition"},{"start":"fadP_3","end":"FadP_2","type":"promotion"},{"start":"Promoter_4","end":"RBS_5","type":"normal"},{"start":"RBS_5","end":"fadP_3","type":"normal"},{"start":"fadP_3","end":"Terminator_6","type":"normal"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[46,107],"end":[495,107]}]}
