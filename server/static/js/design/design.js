@@ -308,21 +308,26 @@ Design.prototype._initJsPlumbOption = function() {
     });
 };
 
-Design.prototype.getNodeViewByPartId = function(partID) {
+Design.prototype.removeCNodeElem = function(partID) {
     for (var i in this.nodeElemList) {
         if (this.nodeElemList[i].attr('part-id') == partID) {
-            return this.nodeElemList[i];
+            var partAttr = this.nodeElemList[i].attr('part-attr');
+            this.nodeElemList.splice(i, 1);
+            if (!this.isPartInDrawArea(partAttr)) {
+                rightBar.removePartViewByAttr(partAttr);
+            }
+            break;
         }
     }
 }
 
-Design.prototype.removeCNodeElem = function(partID) {
+Design.prototype.isPartInDrawArea = function(partAttr) {
     for (var i in this.nodeElemList) {
-        if ($(this.nodeElemList[i]).attr('part-id') == partID) {
-            this.nodeElemList.splice(i, 1);
-            break;
+        if (this.nodeElemList[i].attr('part-attr') == partAttr) {
+            return true;
         }
     }
+    return false;
 }
 
 Design.prototype.addDraggable = function(elem) {
@@ -1366,15 +1371,19 @@ RightBar.prototype.updateAddedView = function(part) {
     }
 }
 
-// RightBar.prototype.removePartViewByAttr = function(partAttr) {
-//     for (var i in this.elemsPartList) {
-//         if (this.elemsPartList[i].attr())
-//     }
-// }
+RightBar.prototype.removePartViewByAttr = function(partAttr) {
+    for (var i in this.elemsPartList) {
+        if ($(this.elemsPartList[i].find('.item')).attr('part-attr') == partAttr) {
+            this.elemsPartList[i].splice(i, 1);
+            this.rightbarWorker.showView(this.elemsPartList, this.view.parts);
+            break;
+        }
+    }
+}
 
 RightBar.prototype.isPartAdded = function(part) {
     for (var i in this.elemsPartList) {
-        if ($(this.elemsPartList[i]).find(".partTitle").text() == part.name) {
+        if ($(this.elemsPartList[i].find('.item')).attr('part-attr') == part.attr) {
             return true;
         }
     }

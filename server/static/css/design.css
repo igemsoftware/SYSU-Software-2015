@@ -408,6 +408,11 @@ body {
     font-size: 12px;
 }
 
+#right-sidebar #addedParts .item .partTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
 #right-sidebar .data .leftBox {
     display: inline-block;
     width: 85%;
