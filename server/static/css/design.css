@@ -778,8 +778,8 @@ input[type="range"]::-ms-thumb {
 }
 
 #readPartInfoModal .content .button {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 #readPartInfoModal img {
