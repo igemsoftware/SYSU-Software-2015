@@ -17,6 +17,12 @@ var rubberband;
 var designMenu;
 var dfs;
 var test;
+var setDrawLineStyle = function() {
+    jsPlumb.importDefaults({
+        PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+        Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+    });
+}
 
 //==========================================================================================
 /**
@@ -37,7 +43,6 @@ CNode.prototype.createCNode = function(partElem) {
     this.view = partElem;
     this.view.attr('normal-connect-num', '0');
     this.view.attr("data-content", "Most link to two objects");
-    console.log(this.view);
     this.view.removeAttr("class");
     this.view.find(".BBa").remove();
     var partType = partElem.attr('part-type');
@@ -193,7 +198,11 @@ Design.prototype.addPartEvent = function(elem) {
 } 
 
 Design.prototype.putNewDevice = function(elem) {
-    var device = DataManager.getDeviceByTitle(elem.attr('device-name'));
+    jsPlumb.importDefaults({
+        PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+        Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+    });
+    var device = DataManager.getDeviceByName(elem.attr('device-name'));
     console.log('Put a device:');
     console.log(device);
     var parts = device.parts;
@@ -201,7 +210,7 @@ Design.prototype.putNewDevice = function(elem) {
     var nodeElems = Util._loadCircuitCNodes(parts);
     Util.loadCircuitLinks(connections, nodeElems);
     Util.loadBackbone(device.backbone);
-
+    setDrawLineStyle();
     rightBar.processDropedDevice(device);
     operationLog.addDevice(elem.attr("device-name"));
 }
@@ -232,7 +241,6 @@ Design.prototype._initJsPlumbOption = function() {
     });
 
     jsPlumb.bind("connection", function(CurrentConnection) {
-        console.log(CurrentConnection);
         var target = $(CurrentConnection.connection.target);
         var source = $(CurrentConnection.connection.source);
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
@@ -293,7 +301,6 @@ Design.prototype._initJsPlumbOption = function() {
     jsPlumb.on(that.drawArea, "click", ".minus", function() {
         that.isRemove = true;
         operationLog.removePart($(this.parentNode.parentNode).attr("part-name"));
-        console.log($(this.parentNode.parentNode).attr("part-id"));
         that.removeCNodeElem($(this.parentNode.parentNode).attr("part-id"));
         jsPlumb.remove(this.parentNode.parentNode);
         that.checkDesignRisk();
@@ -301,21 +308,26 @@ Design.prototype._initJsPlumbOption = function() {
     });
 };
 
-Design.prototype.getNodeViewByPartId = function(partID) {
+Design.prototype.removeCNodeElem = function(partID) {
     for (var i in this.nodeElemList) {
         if (this.nodeElemList[i].attr('part-id') == partID) {
-            return this.nodeElemList[i];
+            var partAttr = this.nodeElemList[i].attr('part-attr');
+            this.nodeElemList.splice(i, 1);
+            if (!this.isPartInDrawArea(partAttr)) {
+                rightBar.removePartViewByAttr(partAttr);
+            }
+            break;
         }
     }
 }
 
-Design.prototype.removeCNodeElem = function(partID) {
+Design.prototype.isPartInDrawArea = function(partAttr) {
     for (var i in this.nodeElemList) {
-        if ($(this.nodeElemList[i]).attr('part-id') == partID) {
-            this.nodeElemList.splice(i, 1);
-            break;
+        if (this.nodeElemList[i].attr('part-attr') == partAttr) {
+            return true;
         }
     }
+    return false;
 }
 
 Design.prototype.addDraggable = function(elem) {
@@ -529,10 +541,13 @@ DesignMenu.prototype.enableNormalConnBtn = function() {
         } else {
             that.hightConnBtn($(this));
             design._isNormalLink = true;
-            jsPlumb.importDefaults({
-                PaintStyle : { strokeStyle: "green", lineWidth: 2 },
-                Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
-            });
+            setDrawLineStyle = function() {
+                jsPlumb.importDefaults({
+                    PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+                    Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+                });
+            }
+            setDrawLineStyle();
             $(".filterDiv").each(function() {
                 $(this).css("display", "block");
                 $(this).css('background-color', 'green');
@@ -552,10 +567,13 @@ DesignMenu.prototype.enablePromotionConnBtn = function() {
         } else {
             that.hightConnBtn($(this));
             design.isPromoteLink = true
-            jsPlumb.importDefaults({
-                PaintStyle : { strokeStyle: "blue", lineWidth: 2 },
-                Overlays: [['Arrow', {width:25, length: 15, location:1, foldback:0.3}]]
-            });
+            setDrawLineStyle = function() {
+                jsPlumb.importDefaults({
+                    PaintStyle : { strokeStyle: "blue", lineWidth: 2 },
+                    Overlays: [['Arrow', {width:25, length: 15, location:1, foldback:0.3}]]
+                });
+            };
+            setDrawLineStyle();
             $(".filterDiv").each(function() {
                 $(this).css("display", "block");
                 $(this).css('background-color', 'blue');
@@ -574,11 +592,14 @@ DesignMenu.prototype.enableInhibitionConnBtn = function() {
             });
         } else {
             that.hightConnBtn($(this));
-            design.isInhibitLink = true
-            jsPlumb.importDefaults({
-                PaintStyle : { strokeStyle: "red", lineWidth: 2 },
-                Overlays: [[ "Diamond", {width:25, length: 1, location:1, foldback:1}]]
-            });
+            design.isInhibitLink = true;
+            setDrawLineStyle = function() {
+                jsPlumb.importDefaults({
+                    PaintStyle : { strokeStyle: "red", lineWidth: 2 },
+                    Overlays: [[ "Diamond", {width:25, length: 1, location:1, foldback:1}]]
+                });
+            }
+            setDrawLineStyle();
             $(".filterDiv").each(function() {
                 $(this).css("display", "block");
                 $(this).css('background-color', 'red');
@@ -909,6 +930,8 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     iconSpan.attr("data-content", "Read more about this device");
     iconSpan.popup();
 
+
+    this.addDevicePartInfoEvent(iconSpan);
     itemDiv.append(imgElem);
     dataDiv.append(itemDiv);
     dataDiv.append(titleSpan);
@@ -923,21 +946,46 @@ SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
     moreElem.click(function() {
         var partAttr = $(this).parent().find('.item').attr('part-attr');
         var part = DataManager.getPartByAttr(partAttr);
-        that.writeInfoToModal(part);
+        that.writePartInfoToModal(part);
         $("#readPartInfoModal").modal('show');
     });
 }
 
-SideBarWorker.prototype.writeInfoToModal = function(part) {
+SideBarWorker.prototype.writePartInfoToModal = function(part) {
     var infoModal = $("#readPartInfoModal");
     infoModal.find('.partName').text(part.name);
     infoModal.find('.partBBa').text(part.BBa == '' ? 'None': part.BBa);
     infoModal.find('.partImg').attr('src', '/static/img/design/'+part.type+'_70.png');
+    infoModal.find('.partType').text(part.type);
     infoModal.find('.partRisk').text(Util.getRiskText(part.risk));
+    infoModal.find('.partRisk').attr("class", "partRisk");
     infoModal.find('.partRisk').addClass(Util.getRiskColor(part.risk));
     infoModal.find('.partBact').text(part.bacterium);
     infoModal.find('.partIntro').text(part.introduction);
     infoModal.find('.partSource').text(part.source);
+}
+
+SideBarWorker.prototype.addDevicePartInfoEvent = function(moreElem) {
+    var that = this;
+    moreElem.click(function() {
+        var deviceName = $(this).parent().find('.item').attr('device-name');
+        var device = DataManager.getDeviceByName(deviceName);
+        that.writeDeviceInfoToModal(device);
+        $("#readDeviceInfoModal").modal('show');
+    });
+}
+
+SideBarWorker.prototype.writeDeviceInfoToModal = function(device) {
+    var infoModal = $("#readDeviceInfoModal");
+    infoModal.find('.deviceName').text(device.name);
+    infoModal.find('.deviceParts').text(Util.getDevicePartsString(device));
+    infoModal.find('.deviceImg').attr('src', '/static/img/design/Biosensor fine-turning.png');
+    infoModal.find('.deviceRisk').text(Util.getRiskText(device.risk));
+    infoModal.find('.deviceRisk').attr("class", "deviceRisk");
+    infoModal.find('.deviceRisk').addClass(Util.getRiskColor(device.risk));
+    infoModal.find('.deviceInterface').text(device.interfaceA+", "+device.interfaceB);
+    infoModal.find('.deviceSource').text(device.source);
+    infoModal.find('.deviceIntro').text(device.full_description);
 }
 /**
  * @class LeftBar
@@ -1229,8 +1277,8 @@ function RightBar() {
     this.view.devices = $("#addedDevices");
     this.view.systems = $("#addedSystems");
     this.view.customs = $("#addedCustoms");
-    this.view.searchAddBox = $("#searchAdd");
-
+    this.view.searchAddInput = $("#searchAddInput");
+    this.view.searchAddBox = $("#searchAddBox");
     this.rightbarWorker = new SideBarWorker();
     this._searchPartTitle = [];
     this._searchDeviceTitle = [];
@@ -1238,7 +1286,7 @@ function RightBar() {
 
 RightBar.prototype.init = function() {
     this._rightTriggerAnimation();
-    this.enableSearchAddBox();
+    this.enableSearchAddInput();
 }
 
 RightBar.prototype._rightTriggerAnimation = function() {
@@ -1323,9 +1371,19 @@ RightBar.prototype.updateAddedView = function(part) {
     }
 }
 
+RightBar.prototype.removePartViewByAttr = function(partAttr) {
+    for (var i in this.elemsPartList) {
+        if ($(this.elemsPartList[i].find('.item')).attr('part-attr') == partAttr) {
+            this.elemsPartList[i].splice(i, 1);
+            this.rightbarWorker.showView(this.elemsPartList, this.view.parts);
+            break;
+        }
+    }
+}
+
 RightBar.prototype.isPartAdded = function(part) {
     for (var i in this.elemsPartList) {
-        if ($(this.elemsPartList[i]).find(".partTitle").text() == part.name) {
+        if ($(this.elemsPartList[i].find('.item')).attr('part-attr') == part.attr) {
             return true;
         }
     }
@@ -1345,16 +1403,15 @@ RightBar.prototype.updateSearchBar = function() {
     this.view.searchAddBox.search({source: this._searchPartTitle});
 }
 
-RightBar.prototype.enableSearchAddBox = function() {
+RightBar.prototype.enableSearchAddInput = function() {
     var that = this;
-    this.view.searchAddBox.keyup(function() {
-        var val = that.view.searchAddBox.val().toLowerCase();
+    this.view.searchAddInput.keyup(function() {
+        var val = that.view.searchAddInput.val().toLowerCase();
         if (val != "") {
             var searchElemPartList = [];
             for (var i in that.elemsPartList) {
                 var partAttr = $(that.elemsPartList[i].find("div")[0]).attr("part-attr").toLowerCase();
-                if (partAttr.in0.
-                    dexOf(val) != -1) {
+                if (partAttr.indexOf(val) != -1) {
                     searchElemPartList.push(that.elemsPartList[i]);
                 }
             }
@@ -1481,3 +1538,5 @@ $(".modal").modal({transition: 'horizontal flip'});
 
 // $('#readPartInfoModal').modal('show');
 $('.ui.accordion').accordion();
+
+// $("#readDeviceInfoModal").modal('show');

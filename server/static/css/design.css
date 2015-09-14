@@ -2,6 +2,14 @@
 	color: red;
 }
 
+.float-right {
+    float: right;
+}
+
+.inline {
+    display: inline-block;
+}
+
 body {
     min-height: 100%;
     height: 100%;
@@ -400,6 +408,11 @@ body {
     font-size: 12px;
 }
 
+#right-sidebar #addedParts .item .partTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
 #right-sidebar .data .leftBox {
     display: inline-block;
     width: 85%;
@@ -773,14 +786,20 @@ input[type="range"]::-ms-thumb {
   background-image: linear-gradient(to bottom, #ec5a5b 0, #ec5a5b 100%); /* W3C */
 }
 
-#readPartInfoModal .content span {
+#readPartInfoModal .content label {
     font-size: 17px;
 }
 
 #readPartInfoModal .content .button {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
+
+#readPartInfoModal .partRisk {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
 
 #readPartInfoModal img {
     text-align: center;
@@ -798,4 +817,17 @@ input[type="range"]::-ms-thumb {
 
 #secureModal .check.icon {
     color: #71e3d0
+}
+
+#readDeviceInfoModal img {
+    width: 100%;
+    height: 60%;
+}
+
+#readDeviceInfoModal h3 {
+    margin-top: 5px;
+}
+
+#readDeviceInfoModal label {
+    font-size: 17px;
 }
