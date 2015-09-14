@@ -17,6 +17,12 @@ var rubberband;
 var designMenu;
 var dfs;
 var test;
+var setDrawLineStyle = function() {
+    jsPlumb.importDefaults({
+        PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+        Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+    });
+}
 
 //==========================================================================================
 /**
@@ -37,7 +43,6 @@ CNode.prototype.createCNode = function(partElem) {
     this.view = partElem;
     this.view.attr('normal-connect-num', '0');
     this.view.attr("data-content", "Most link to two objects");
-    console.log(this.view);
     this.view.removeAttr("class");
     this.view.find(".BBa").remove();
     var partType = partElem.attr('part-type');
@@ -193,6 +198,10 @@ Design.prototype.addPartEvent = function(elem) {
 } 
 
 Design.prototype.putNewDevice = function(elem) {
+    jsPlumb.importDefaults({
+        PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+        Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+    });
     var device = DataManager.getDeviceByName(elem.attr('device-name'));
     console.log('Put a device:');
     console.log(device);
@@ -201,7 +210,7 @@ Design.prototype.putNewDevice = function(elem) {
     var nodeElems = Util._loadCircuitCNodes(parts);
     Util.loadCircuitLinks(connections, nodeElems);
     Util.loadBackbone(device.backbone);
-
+    setDrawLineStyle();
     rightBar.processDropedDevice(device);
     operationLog.addDevice(elem.attr("device-name"));
 }
@@ -232,7 +241,6 @@ Design.prototype._initJsPlumbOption = function() {
     });
 
     jsPlumb.bind("connection", function(CurrentConnection) {
-        console.log(CurrentConnection);
         var target = $(CurrentConnection.connection.target);
         var source = $(CurrentConnection.connection.source);
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
@@ -293,7 +301,6 @@ Design.prototype._initJsPlumbOption = function() {
     jsPlumb.on(that.drawArea, "click", ".minus", function() {
         that.isRemove = true;
         operationLog.removePart($(this.parentNode.parentNode).attr("part-name"));
-        console.log($(this.parentNode.parentNode).attr("part-id"));
         that.removeCNodeElem($(this.parentNode.parentNode).attr("part-id"));
         jsPlumb.remove(this.parentNode.parentNode);
         that.checkDesignRisk();
@@ -529,10 +536,13 @@ DesignMenu.prototype.enableNormalConnBtn = function() {
         } else {
             that.hightConnBtn($(this));
             design._isNormalLink = true;
-            jsPlumb.importDefaults({
-                PaintStyle : { strokeStyle: "green", lineWidth: 2 },
-                Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
-            });
+            setDrawLineStyle = function() {
+                jsPlumb.importDefaults({
+                    PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+                    Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+                });
+            }
+            setDrawLineStyle();
             $(".filterDiv").each(function() {
                 $(this).css("display", "block");
                 $(this).css('background-color', 'green');
@@ -552,10 +562,13 @@ DesignMenu.prototype.enablePromotionConnBtn = function() {
         } else {
             that.hightConnBtn($(this));
             design.isPromoteLink = true
-            jsPlumb.importDefaults({
-                PaintStyle : { strokeStyle: "blue", lineWidth: 2 },
-                Overlays: [['Arrow', {width:25, length: 15, location:1, foldback:0.3}]]
-            });
+            setDrawLineStyle = function() {
+                jsPlumb.importDefaults({
+                    PaintStyle : { strokeStyle: "blue", lineWidth: 2 },
+                    Overlays: [['Arrow', {width:25, length: 15, location:1, foldback:0.3}]]
+                });
+            };
+            setDrawLineStyle();
             $(".filterDiv").each(function() {
                 $(this).css("display", "block");
                 $(this).css('background-color', 'blue');
@@ -574,11 +587,14 @@ DesignMenu.prototype.enableInhibitionConnBtn = function() {
             });
         } else {
             that.hightConnBtn($(this));
-            design.isInhibitLink = true
-            jsPlumb.importDefaults({
-                PaintStyle : { strokeStyle: "red", lineWidth: 2 },
-                Overlays: [[ "Diamond", {width:25, length: 1, location:1, foldback:1}]]
-            });
+            design.isInhibitLink = true;
+            setDrawLineStyle = function() {
+                jsPlumb.importDefaults({
+                    PaintStyle : { strokeStyle: "red", lineWidth: 2 },
+                    Overlays: [[ "Diamond", {width:25, length: 1, location:1, foldback:1}]]
+                });
+            }
+            setDrawLineStyle();
             $(".filterDiv").each(function() {
                 $(this).css("display", "block");
                 $(this).css('background-color', 'red');
@@ -956,7 +972,6 @@ SideBarWorker.prototype.addDevicePartInfoEvent = function(moreElem) {
 
 SideBarWorker.prototype.writeDeviceInfoToModal = function(device) {
     var infoModal = $("#readDeviceInfoModal");
-    console.log(device);
     infoModal.find('.deviceName').text(device.name);
     infoModal.find('.deviceParts').text(Util.getDevicePartsString(device));
     infoModal.find('.deviceImg').attr('src', '/static/img/design/Biosensor fine-turning.png');
@@ -1346,17 +1361,16 @@ RightBar.prototype.updateAddedView = function(part) {
     if (!this.isPartAdded(part)) {
         this.elemsPartList.push(partElem);
         this._searchPartTitle.push({title: part.name});
-        console.log('111');
         this.updateSearchBar();
         this.rightbarWorker.showView(this.elemsPartList, this.view.parts);
     }
 }
 
-RightBar.prototype.removePartViewByAttr = function(partAttr) {
-    for (var i in this.elemsPartList) {
-        if (this.elemsPartList[i].attr())
-    }
-}
+// RightBar.prototype.removePartViewByAttr = function(partAttr) {
+//     for (var i in this.elemsPartList) {
+//         if (this.elemsPartList[i].attr())
+//     }
+// }
 
 RightBar.prototype.isPartAdded = function(part) {
     for (var i in this.elemsPartList) {
@@ -1377,7 +1391,6 @@ RightBar.prototype.isDeviceAdded = function(device) {
 }
 
 RightBar.prototype.updateSearchBar = function() {
-    console.log(this._searchPartTitle);
     this.view.searchAddBox.search({source: this._searchPartTitle});
 }
 
