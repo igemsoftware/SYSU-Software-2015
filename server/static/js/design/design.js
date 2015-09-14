@@ -1256,8 +1256,8 @@ function RightBar() {
     this.view.devices = $("#addedDevices");
     this.view.systems = $("#addedSystems");
     this.view.customs = $("#addedCustoms");
-    this.view.searchAddBox = $("#searchAdd");
-
+    this.view.searchAddInput = $("#searchAddInput");
+    this.view.searchAddBox = $("#searchAddBox");
     this.rightbarWorker = new SideBarWorker();
     this._searchPartTitle = [];
     this._searchDeviceTitle = [];
@@ -1265,7 +1265,7 @@ function RightBar() {
 
 RightBar.prototype.init = function() {
     this._rightTriggerAnimation();
-    this.enableSearchAddBox();
+    this.enableSearchAddInput();
 }
 
 RightBar.prototype._rightTriggerAnimation = function() {
@@ -1345,6 +1345,7 @@ RightBar.prototype.updateAddedView = function(part) {
     if (!this.isPartAdded(part)) {
         this.elemsPartList.push(partElem);
         this._searchPartTitle.push({title: part.name});
+        console.log('111');
         this.updateSearchBar();
         this.rightbarWorker.showView(this.elemsPartList, this.view.parts);
     }
@@ -1369,19 +1370,19 @@ RightBar.prototype.isDeviceAdded = function(device) {
 }
 
 RightBar.prototype.updateSearchBar = function() {
+    console.log(this._searchPartTitle);
     this.view.searchAddBox.search({source: this._searchPartTitle});
 }
 
-RightBar.prototype.enableSearchAddBox = function() {
+RightBar.prototype.enableSearchAddInput = function() {
     var that = this;
-    this.view.searchAddBox.keyup(function() {
-        var val = that.view.searchAddBox.val().toLowerCase();
+    this.view.searchAddInput.keyup(function() {
+        var val = that.view.searchAddInput.val().toLowerCase();
         if (val != "") {
             var searchElemPartList = [];
             for (var i in that.elemsPartList) {
                 var partAttr = $(that.elemsPartList[i].find("div")[0]).attr("part-attr").toLowerCase();
-                if (partAttr.in0.
-                    dexOf(val) != -1) {
+                if (partAttr.indexOf(val) != -1) {
                     searchElemPartList.push(that.elemsPartList[i]);
                 }
             }
