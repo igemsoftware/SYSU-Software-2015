@@ -2,6 +2,14 @@
 	color: red;
 }
 
+.float-right {
+    float: right;
+}
+
+.inline {
+    display: inline-block;
+}
+
 body {
     min-height: 100%;
     height: 100%;
@@ -798,4 +806,17 @@ input[type="range"]::-ms-thumb {
 
 #secureModal .check.icon {
     color: #71e3d0
+}
+
+#readDeviceInfoModal img {
+    width: 100%;
+    height: 60%;
+}
+
+#readDeviceInfoModal h3 {
+    margin-top: 5px;
+}
+
+#readDeviceInfoModal label {
+    font-size: 17px;
 }

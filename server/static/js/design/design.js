@@ -193,7 +193,7 @@ Design.prototype.addPartEvent = function(elem) {
 } 
 
 Design.prototype.putNewDevice = function(elem) {
-    var device = DataManager.getDeviceByTitle(elem.attr('device-name'));
+    var device = DataManager.getDeviceByName(elem.attr('device-name'));
     console.log('Put a device:');
     console.log(device);
     var parts = device.parts;
@@ -909,6 +909,8 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     iconSpan.attr("data-content", "Read more about this device");
     iconSpan.popup();
 
+
+    this.addDevicePartInfoEvent(iconSpan);
     itemDiv.append(imgElem);
     dataDiv.append(itemDiv);
     dataDiv.append(titleSpan);
@@ -923,21 +925,46 @@ SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
     moreElem.click(function() {
         var partAttr = $(this).parent().find('.item').attr('part-attr');
         var part = DataManager.getPartByAttr(partAttr);
-        that.writeInfoToModal(part);
+        that.writePartInfoToModal(part);
         $("#readPartInfoModal").modal('show');
     });
 }
 
-SideBarWorker.prototype.writeInfoToModal = function(part) {
+SideBarWorker.prototype.writePartInfoToModal = function(part) {
     var infoModal = $("#readPartInfoModal");
     infoModal.find('.partName').text(part.name);
     infoModal.find('.partBBa').text(part.BBa == '' ? 'None': part.BBa);
     infoModal.find('.partImg').attr('src', '/static/img/design/'+part.type+'_70.png');
     infoModal.find('.partRisk').text(Util.getRiskText(part.risk));
+    infoModal.find('.partRisk').attr("class", "partRisk");
     infoModal.find('.partRisk').addClass(Util.getRiskColor(part.risk));
     infoModal.find('.partBact').text(part.bacterium);
     infoModal.find('.partIntro').text(part.introduction);
     infoModal.find('.partSource').text(part.source);
+}
+
+SideBarWorker.prototype.addDevicePartInfoEvent = function(moreElem) {
+    var that = this;
+    moreElem.click(function() {
+        var deviceName = $(this).parent().find('.item').attr('device-name');
+        var device = DataManager.getDeviceByName(deviceName);
+        that.writeDeviceInfoToModal(device);
+        $("#readDeviceInfoModal").modal('show');
+    });
+}
+
+SideBarWorker.prototype.writeDeviceInfoToModal = function(device) {
+    var infoModal = $("#readDeviceInfoModal");
+    console.log(device);
+    infoModal.find('.deviceName').text(device.name);
+    infoModal.find('.deviceParts').text(Util.getDevicePartsString(device));
+    infoModal.find('.deviceImg').attr('src', '/static/img/design/Biosensor fine-turning.png');
+    infoModal.find('.deviceRisk').text(Util.getRiskText(device.risk));
+    infoModal.find('.deviceRisk').attr("class", "deviceRisk");
+    infoModal.find('.deviceRisk').addClass(Util.getRiskColor(device.risk));
+    infoModal.find('.deviceInterface').text(device.interfaceA+", "+device.interfaceB);
+    infoModal.find('.deviceSource').text(device.source);
+    infoModal.find('.deviceIntro').text(device.full_description);
 }
 /**
  * @class LeftBar
@@ -1481,3 +1508,5 @@ $(".modal").modal({transition: 'horizontal flip'});
 
 // $('#readPartInfoModal').modal('show');
 $('.ui.accordion').accordion();
+
+// $("#readDeviceInfoModal").modal('show');

@@ -199,6 +199,16 @@ Util.loadCircuitLinks = function(connections, nodeElems) {
         // }
     }); 
 };
+
+Util.getDevicePartsString = function(device) {
+    var partString = "";
+    if (device.parts.length > 0)
+        partString += device.parts[0].partName;
+    for (var i = 1; i < device.parts.length; i++) {
+        partString += ", " + device.parts[i].partName;
+    }
+    return partString;
+}
 //========================================================================================
 /**
  * @class DataManager
@@ -280,7 +290,7 @@ DataManager.getPartByAttr = function(partAttr) {
     return null;
 }
 
-DataManager.getDeviceByTitle = function(deviceName) {
+DataManager.getDeviceByName = function(deviceName) {
     for (var i in this.deviceList) {
         if (this.deviceList[i].name == deviceName) return this.deviceList[i];
     }

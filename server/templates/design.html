@@ -349,6 +349,47 @@
       </div>
     </div>
 <!--   Part more modal -->
+
+<!--   Device more modal -->
+    <div class="ui modal" id="readDeviceInfoModal">
+      <div class="header">Device Information:</div>
+      <div class="content">
+        <div class="ui grid">
+          <div class="ten wide column">
+            <img class=".deviceImg" src='/static/img/design/Biosensor fine-turning.png'>
+          </div>
+          <div class="six wide column">
+            <form class="ui form">
+              <div class="field">
+                <label>Device Name:</label>
+                <span class="deviceName">Promoter</span>
+              </div>
+              <div class="field">
+                <label>Parts</label>
+                <span class="deviceParts">PcI, CI, terminator, gene</span>
+              </div>
+              <div class="field">
+                <label>Interface:</label>
+                <span class="deviceInterface"></span>
+              </div>
+              <div class="inline field">
+                <label>Risk ground:</label>
+                <span class="deviceRisk">Low risk(1)</span>
+              </div>
+            </form>
+          </div>
+        </div>
+        <h3 class="inline">Source:</h3>
+        <p class="inline deviceSource">"http://2012.igem.org/Team:ETH_Zurich</p>
+        <h3>Introduction:</h3>
+        <p class="deviceIntro">This senor can detect the present of sunlight.In the dark state, UVR8 forms a dimer, which monomerizes upon UV_B irradiation and induces transcriptional changes necessary for plant UV response. Here, UVR8 is fused with a DNA binding domain of tetracycline repressor protein (TetRDBD). TetRDBD does not contain dimerization domain required for efficient binding and repression of TetR responsive promoter Ptet. However, external dimerization would in principle restore TetRDBD ability to repress Ptet. Thus, our chimeric protein UVR8_TetRDBD acts as an light inducible transcription repressor 篓C at dark state. UVR8 dimer brings TetRDBD at close proximity to bind Ptet, whereas UVR8 monomerization upon UV_B light releases UVR8_TetRDBD from DNA, thus inducing transcription of the downstream genes. UVR8 (UV Resistance Locus 8) acts as a UVB photoreceptor in plants. It regulates the transcription factor COP and indirectly affects the expression of a myriad of genes. Sun light,UVb,sensor
+        </p>
+        <div class="fluid text-right">
+          <div class="ui cancel button">Cancel</div>
+        </div>
+      </div>
+    </div>
+<!--   Device more modal -->
 <!--   custom modal -->
     <div class="ui small modal" id="createCustomPartModal">
       <div class="header">Create a custom part</div>
