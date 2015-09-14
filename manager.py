@@ -8,7 +8,7 @@ from server.models import *
 from server.tools.preload import preload_parts, get_file_list
 from server.tools.random_text import random_text
 
-app = create_app('production')
+app = create_app('development')
 
 manager = Manager(app)
 def make_shell_context():
