@@ -935,6 +935,7 @@ SideBarWorker.prototype.writePartInfoToModal = function(part) {
     infoModal.find('.partName').text(part.name);
     infoModal.find('.partBBa').text(part.BBa == '' ? 'None': part.BBa);
     infoModal.find('.partImg').attr('src', '/static/img/design/'+part.type+'_70.png');
+    infoModal.find('.partType').text(part.type);
     infoModal.find('.partRisk').text(Util.getRiskText(part.risk));
     infoModal.find('.partRisk').attr("class", "partRisk");
     infoModal.find('.partRisk').addClass(Util.getRiskColor(part.risk));
@@ -1348,6 +1349,12 @@ RightBar.prototype.updateAddedView = function(part) {
         console.log('111');
         this.updateSearchBar();
         this.rightbarWorker.showView(this.elemsPartList, this.view.parts);
+    }
+}
+
+RightBar.prototype.removePartViewByAttr = function(partAttr) {
+    for (var i in this.elemsPartList) {
+        if (this.elemsPartList[i].attr())
     }
 }
 
