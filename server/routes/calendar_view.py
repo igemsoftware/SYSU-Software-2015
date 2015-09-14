@@ -122,8 +122,14 @@ def post_all():
         m.record = record
         current_user.memos.append(m)
         db.session.add(m)
+    db.session.commit()
+    current_user.check_memo()
+    print [ele['id'] for ele in events]
 
-    return 'Success'
+    l = Memo.query.filter_by(owner=current_user).all()
+    l = map(lambda x: x.calendar_jsonify(), l)
+    return jsonify(events=l)
+
 
 @calendar.route('/all', methods=["DELETE"]) 
 @login_required

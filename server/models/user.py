@@ -181,13 +181,16 @@ class User(UserMixin, db.Model):
             if (datetime.now()+td > m.plan_time):
                 # send via administrator
                 User.query.get(1).send_message_to(self, title='Notice: [%s]' % m.title, 
-                    content='Memo: [%s...] is about to happen.' % m.content[:20])
+                    content='Memo: [%s] is about to happen.' % m.title)
 
                 # send email if needed
                 if self.memo_email == True:
-                    self.send_email('Notice: [%s]' % m.title, 'email/memo', memo=m, user=self)
+                #    self.send_email('Notice: [%s]' % m.title, 'email/memo', memo=m, user=self)
+                    print m.id, m.title, 'sent email'
 
                 m.message_sent = True
+                db.session.add(m)
+        db.session.commit()
 
     def get_memos_during(self, start_time, end_time):
         """Get :class:`Memo` in a specific duration."""
