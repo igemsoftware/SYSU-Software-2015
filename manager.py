@@ -101,6 +101,10 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
                 for filename in get_file_list(dir):
                     device = Device().load_from_file(filename)
 
+#           for dir in app.config.get('INIT_PRELOAD_NEW_DEVICE_DIRS', []):
+#               for filename in get_file_list(dir):
+#                   device = Device().new_load_from_file(filename)
+
             # add testing equations 
             for dir in app.config.get('INIT_PRELOAD_EQUATION_DIRS', []):
                 for filename in get_file_list(dir):
@@ -109,8 +113,8 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
 
         
 
-            Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
-            Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
+#           Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
+#           Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
 
             # designs 
             c = Design(name='My first design', brief_description='First design', owner=u, is_shared=True)._copy_from_device(1)

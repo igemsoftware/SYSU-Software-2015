@@ -141,7 +141,7 @@ class Relationship(db.Model):
         self.equation = {'parameters':{}, 'content':''}
 
     def __repr__(self):
-        return '<Relationship: %s->%s>' % (self.start.attr, self.end.attr)
+        return '<Relationship: %s->%s %s>' % (self.start.attr, self.end.attr, self.type)
 
 
 class ComponentPrototype(db.Model):
@@ -378,7 +378,7 @@ class Device(db.Model, BioBase):
         BioBase.__init__(self)
 
     # load from file
-    def __load_prototype_and_instance(self, name, new_instance):
+    def __load_prototype_and_instance(self, name, new_instance=True, skip_instance=False):
         if len(name.split('_')) == 1:
             raise Exception('[%s] No underscore.' % name)
 
@@ -402,6 +402,8 @@ class Device(db.Model, BioBase):
             c = ComponentPrototype.query.filter_by(name=pname).first()
         if c==None: 
             raise Exception('No prototype [name=%s, BBa=%s].'%(pname, BBa))
+        if skip_instance:
+            return c
         BBa = c.BBa
 
 #           c = ComponentPrototype(name=pname, type=type)
@@ -440,7 +442,33 @@ class Device(db.Model, BioBase):
             self.risk = -1
         # self.type = f.readline().strip()
         self.interfaceA = f.readline().strip() 
-        self.interfaceB = f.readline().strip() #.split(',') 
+        self.interfaceB = f.readline().strip() #.split(',')
+
+        json_obj = json.loads(f.readline().strip())
+
+        d = Device()
+        d.commit_to_db()
+        d.update_from_db()
+
+        for ele in ['relationship', 'parts',
+                'name', 'interfaceA', 'interfaceB', 'backbone']:
+            d.__setattr__(ele, json_obj[ele])
+
+        d.commit_to_db()
+
+        for ele in json_obj['relationship']:
+#            if ele['type'] == 'normal': continue
+
+            start = self.__load_prototype_and_instance(ele['start'], skip_instance=True)
+            end = self.__load_prototype_and_instance(ele['end'], skip_instance=True)
+        
+            existed = Relationship.query.filter_by(start=start, end=end).first()
+            if not existed:
+                r = Relationship(start=start, end=end, type=ele['type'])
+                db.session.add(r)
+            elif existed.type == 'normal' and ele['type'] != 'normal':
+                existed.type = ele['type']
+                db.session.add(existed)
 
 
 
