@@ -189,6 +189,13 @@ class ComponentPrototype(db.Model):
                                cascade='all, delete-orphan')
     """What components points to it."""
 
+    def __init__(self, **kwargs):
+        kwargs['name'] = kwargs['name'].replace(' ', '_').replace('-','_')
+        super(ComponentPrototype, self).__init__(**kwargs)
+
+
+
+
     @property
     def attr(self):
         """Combine :attr:`BBa` with :attr:`name`, if :attr:`BBa` exists."""
@@ -458,6 +465,9 @@ class Device(db.Model, BioBase):
 
         for ele in json_obj['relationship']:
 #            if ele['type'] == 'normal': continue
+
+            ele['start'] = ele['start'].replace(' ', '_').replace('-','_')
+            ele['end'] = ele['end'].replace(' ', '_').replace('-','_')
 
             start = self.__load_prototype_and_instance(ele['start'], skip_instance=True)
             end = self.__load_prototype_and_instance(ele['end'], skip_instance=True)

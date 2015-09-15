@@ -15,6 +15,7 @@ safe_dict['abs'] = abs
 # protection end
 
 from equation import Equation
+import traceback
 
 __example_system = [
 ['UVB', [], [], 't'],
@@ -25,16 +26,20 @@ __example_system = [
 ['GFP', ['pci', 'YFP'], [('dna', 150.), ('a1', 20.), ('u4', 20.)], '1./(1+pci) *{{dna}}/(1+YFP ** {{a1}}) - {{u4}}*GFP'],
 ]
 
-def getModel(system): 
+def getModel(system, dependancy_check=False): 
     # check dependancy
     set_provided = set([equ[0] for equ in system]) 
     set_needed = set(reduce(lambda x, y: x+y, [equ[1] for equ in system])) 
+
 # dependancy checking is not needed.
-#   if not set_needed <= set_provided:
-#       print 'Needed value is not provided.'
-#       return None 
-#   else:
-#       print 'Dependancy test: pass.'
+    if dependancy_check:
+        if not set_needed <= set_provided:
+            print 'needed:', set_needed
+            print 'provided:', set_provided
+            print 'Needed value is not provided.'
+            return None, 'Needed value is not provided.'
+        else:
+            print 'Dependancy test: pass.'
 
     # check valid
     rendered = []
@@ -52,8 +57,10 @@ def getModel(system):
             rendered.append(e.render())
         except Exception, exp:
             print 'Test error:', e.render()
-            print '\t', exp
-            return None, None
+            msg = traceback.format_exc()
+            #print '\t', exp.message
+            print msg
+            return None, msg
     
     def ODEModel(t, y):
         calc_dict = dict(zip([ele[0].replace(':', '_') for ele in system], y))

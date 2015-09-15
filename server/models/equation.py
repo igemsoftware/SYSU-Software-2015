@@ -67,6 +67,7 @@ class Equation():
 
 
 from .. import db 
+from ..tools.simulation.release import getModel
 
 class EquationBase(db.Model):
     """EquationBase model in CORE.""" 
@@ -148,9 +149,10 @@ class EquationBase(db.Model):
     @staticmethod
     def preload_from_file(filename):
         print 'loading equation from %s ...' % filename
+        system = []
         with open(filename, 'r') as f:
             for line in f:
-                line = line.strip()
+                line = line.strip().split('#')[0]
                 if not line or line.startswith('#'): continue
 
                 ele = eval(line, {'__builtins__':None}, {})
@@ -160,5 +162,15 @@ class EquationBase(db.Model):
                 e.parameter = dict(ele[2])
                 e.formular = ele[3]
                 e.commit_to_db()
+
+                system.append(e.packed())
+
+        model, msg = getModel(system)
+        if model:
+            print 'Success'
+            return 'success'
+        else:
+            return msg
+
 
 
