@@ -216,7 +216,7 @@ def data_fetch_device():
     return jsonify(deviceList=devices)
 
 
-@design.route('/data', methods=['GET'])
+@design.route('/data/<int:id>', methods=['GET'])
 def get_design(id):
     """
         :Method: GET 
@@ -247,7 +247,7 @@ def get_design(id):
     return jsonify(content=content)
 
 @design.route('/data', methods=['POST'])
-def store_design(id):
+def store_design():
     """
         :Method: POST
         :Usage: Update a design. 
@@ -255,6 +255,8 @@ def store_design(id):
         :Input Example: The same as an item of the output of :http:get:`/design/data/fetch/device` .
     """
 
+    data = request.get_json()
+    id = data['id']
     if id < 0:
         c = Design()
         c.owner = current_user
@@ -262,8 +264,6 @@ def store_design(id):
     else:
         c = Design.query.get(id)
     c.owner = current_user
-    
-    data = request.get_json()
 
     c.update_from_db()
     for attr in ['parts', 'name', 'relationship',
