@@ -157,7 +157,7 @@ Plasmid.prototype.writePartInfoToModal = function(part) {
     var infoModal = $("#readPartInfoModal");
     infoModal.find('.partName').text(part.name);
     infoModal.find('.partBBa').text(part.BBa == '' ? 'None': part.BBa);
-    infoModal.find('.partImg').attr('src', '/static/img/design/'+part.type+'_70.png');
+    infoModal.find('.partImg').attr('src', '/static/img/design/parts/'+part.type+'_70.png');
     infoModal.find('.partType').text(part.type);
     infoModal.find('.partRisk').text(Util.getRiskText(part.risk));
     infoModal.find('.partRisk').attr("class", "partRisk");
@@ -181,7 +181,7 @@ Plasmid.prototype.writeDeviceInfoToModal = function(device) {
     var infoModal = $("#readDeviceInfoModal");
     infoModal.find('.deviceName').text(device.name);
     infoModal.find('.deviceParts').text(Util.getDevicePartsString(device));
-    infoModal.find('.deviceImg').attr('src', '/static/img/design/Biosensor fine-turning.png');
+    infoModal.find('.deviceImg').attr('src', '/static/img/design/devices/'+device.name+'.png');
     infoModal.find('.deviceRisk').text(Util.getRiskText(device.risk));
     infoModal.find('.deviceRisk').attr("class", "deviceRisk");
     infoModal.find('.deviceRisk').addClass(Util.getRiskColor(device.risk));
@@ -206,7 +206,7 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
   		// $scope.currentPlasmid = $scope.plasmids[0];
   	});
 
-  	$http.get("/design/1")
+  	$http.get("/design/data/1")
   	.success(function(data) {
   		console.log("Design:");
   		console.log(data['content']);
