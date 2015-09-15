@@ -22,7 +22,7 @@ Util.getRiskColor = function(risk) {
 }
 
 Util.getImagePath = function(type, imgSize) {
-    return "/static/img/design/"+ type + "_" + imgSize +".png";
+    return "/static/img/design/parts/"+ type + "_" + imgSize +".png";
 };
 
 Util.createImageDiv = function(partType) {
@@ -93,6 +93,7 @@ Util.renderEquation = function(e) {
 Util._loadCircuitCNodes = function(parts) {
     var nodeElems = [];
     var that = this;
+    var mostHeight = 0;
     $.each(parts, function(index, part ) {
         var node = that._createNewCNode(part);
         node.appendTo(design.drawArea);
@@ -102,6 +103,14 @@ Util._loadCircuitCNodes = function(parts) {
         nodeElems.push([partID, node]);
     });
 
+    for (var i in parts) {
+        if (parts[i].positionY > mostHeight) {
+            mostHeight = parts[i].positionY;
+        }
+    }
+    if (mostHeight > design.drawAreaHeight) {
+        design.setDrawAreaHeight(mostHeight+$("#drawArea").offset().top);
+    }
     return nodeElems;
 };
 
@@ -488,7 +497,7 @@ Rubberband.prototype._listenDrawAreaMouseDown = function() {
         if ($(event.target).attr("class") == "filterDiv") return;
         that._x = event.pageX;         
         that._y = event.pageY;
-        var offset = $("#drawArea").offset();
+        var offset = $("#drawArea").offset().top;
         var top = that._y-offset.top;
         var left = that._x-offset.left;
         that.view.css({top:top, left:left, height:1, width:1, position:'relative'});
