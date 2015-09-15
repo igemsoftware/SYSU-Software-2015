@@ -93,6 +93,8 @@ function Design() {
     this.risk = 1;
     this.isRemove = false;
     this.designID = -1;
+    this.drawAreaHeight = parseInt($("#drawArea").css("height"));
+    this.DRAWAREA_HEIGHT = 550;
 };
 
 Design.prototype.clear = function() {
@@ -107,6 +109,17 @@ Design.prototype.init = function() {
     operationLog.init();
     operationLog.openFile();
 };
+
+Design.prototype.setDrawAreaHeight = function(height) {
+    this.drawAreaHeight = height;
+    $("#drawArea").css("height", this.drawAreaHeight);
+    var temp = this.drawAreaHeight - this.DRAWAREA_HEIGHT;
+    var val = parseInt((parseFloat(temp*100))/this.DRAWAREA_HEIGHT);
+    console.log((parseFloat(temp*100)));
+    console.log(this.DRAWAREA_HEIGHT);
+    console.log(val);
+    $(".slider input").val(val);
+}
 
 Design.prototype.addProAndInhibitLine = function(partA) {
     var partAttrA = partA.attr('part-attr');
@@ -396,9 +409,9 @@ Design.prototype.updateRiskView = function(risk) {
     }
     $("#risk").removeClass("green orange pink red");
     $("#risk").addClass(color);
-    $("#risk").attr("data-content", popupStr);
-    $("#risk").popup("show");
-    setTimeout(function () {  $("#risk").popup("hide"); }, 3000);
+    $("#riskSpan").attr("data-content", popupStr);
+    $("#riskSpan").popup("show");
+    setTimeout(function () {  $("#riskSpan").popup("hide"); }, 3000);
 }
 
 //========================================================================================
@@ -479,12 +492,11 @@ DesignMenu.prototype.popUpAllButton = function() {
     this.hideBtn.popup();
 }
 
-DesignMenu.prototype.enableDesignSlider = function() {
-    design.drawAreaHeight = $("#drawArea").css("height"); 
+DesignMenu.prototype.enableDesignSlider = function() { 
     $(".slider input").val(0);
     $(".slider input").change(function() {
         var zoom = parseFloat($(this).val())/100;
-        var height = parseInt(design.drawAreaHeight);
+        var height = parseInt(design.DRAWAREA_HEIGHT);
         $("#drawArea").css("height", String(height*(zoom+1)+'px'));
     });
 }
@@ -651,7 +663,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
         curcuitChartData.risk = design.risk;
         curcuitChartData.plasmids = dfs.getCircuits();
         //test
-        curcuitChartData.id = -1;
+        curcuitChartData.id = design.designID;
 
         $("#saveModal").modal("hide");
         $("#saveSuccessModal").modal('show');
@@ -678,7 +690,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
                 $.ajax({
                     type: 'POST',
                     contentType: 'application/json',
-                    url: '/design/'+design.designID,
+                    url: '/design/data',
                     dataType : 'json',
                     data : postDataJson,
                 });
@@ -773,7 +785,7 @@ DesignMenu.prototype.enableLoadDesignBtn = function() {
                 var id = $(this).find('input').val();
                 design.designID = id;
                 var curcuitChart;
-                $.get("/design/"+String(id), function(data) {
+                $.get("/design/data/"+design.designID, function(data) {
                     console.log(data["content"]);
                     var curcuitChart = data["content"];
                     var parts = curcuitChart.parts;
@@ -927,7 +939,7 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     var titleSpan = $("<span class='deviceTitle'></span>");
     var iconSpan = $("<span class='more device-more'><i class='icon zoom'></i></span>");
     
-    imgElem.attr("src", "/static/img/design/device.png");
+    imgElem.attr("src", "/static/img/design/devices/"+device.name+'.png');
     titleSpan.text(device.name);
     itemDiv.attr('part-type', 'device');
     itemDiv.attr('device-name', device.name);
@@ -959,7 +971,7 @@ SideBarWorker.prototype.writePartInfoToModal = function(part) {
     var infoModal = $("#readPartInfoModal");
     infoModal.find('.partName').text(part.name);
     infoModal.find('.partBBa').text(part.BBa == '' ? 'None': part.BBa);
-    infoModal.find('.partImg').attr('src', '/static/img/design/'+part.type+'_70.png');
+    infoModal.find('.partImg').attr('src', '/static/img/design/parts'+part.type+'_70.png');
     infoModal.find('.partType').text(part.type);
     infoModal.find('.partRisk').text(Util.getRiskText(part.risk));
     infoModal.find('.partRisk').attr("class", "partRisk");
@@ -983,7 +995,7 @@ SideBarWorker.prototype.writeDeviceInfoToModal = function(device) {
     var infoModal = $("#readDeviceInfoModal");
     infoModal.find('.deviceName').text(device.name);
     infoModal.find('.deviceParts').text(Util.getDevicePartsString(device));
-    infoModal.find('.deviceImg').attr('src', '/static/img/design/Biosensor fine-turning.png');
+    infoModal.find('.deviceImg').attr('src', '/static/img/design/devices/'+device.name+'.png');
     infoModal.find('.deviceRisk').text(Util.getRiskText(device.risk));
     infoModal.find('.deviceRisk').attr("class", "deviceRisk");
     infoModal.find('.deviceRisk').addClass(Util.getRiskColor(device.risk));
@@ -1496,7 +1508,7 @@ $(".cancel").each(function() {
 
 $("#customPartType").change(function() {
     var partType = $(this).attr("value");
-    $("#customImg").attr("src", "/static/img/design/"+partType+"_70.png");
+    $("#customImg").attr("src", "/static/img/design/parts/"+partType+"_70.png");
 });
 
 $("#customCreate").click(function() {
