@@ -53,7 +53,7 @@
     <h1 class="ui header">{{task.answers.count()}} answers</h1>
     {% for answer in task.answers %}
     <v-answer answer-id="{{answer.id}}">
-      <img class="ui image" src="/static/img/avatar.jpg"></img>
+      <img class="ui image" src="{{answer.owner.avatar or '/static/img/avatar.jpg'}}"></img>
         <span class="author name">{{answer.owner.username}}</span>
         <span class="answer time">{{answer.timestamp.strftime('%H:%M')}}</span>
         <span class="answer date">{{answer.timestamp.strftime('%d %b, %Y')}}</span>
