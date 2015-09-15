@@ -978,8 +978,7 @@ SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
         var partAttr = $(this).parent().find('.item').attr('part-attr');
         var part = DataManager.getPartByAttr(partAttr);
         that.writePartInfoToModal(part);
-        $("#readPartInfoModal").modal({allowMultiple: true});
-        $("#readPartInfoModal").modal('show');
+        $("#readPartInfoModal").modal({transition: 'horizontal flip'}).modal('show');
     });
 }
 
@@ -1018,7 +1017,7 @@ SideBarWorker.prototype.writePartInfoToModal = function(part) {
             data : postDataJson,
             success: function(data) {
                 $("#cdsModal").find('.cdsContent').text(data['cds']);
-                $("#cdsModal").modal({transition: 'fade'}).modal('show');
+                $("#cdsModal").modal('show');
                 $(there).removeClass('loading');
                 $("#cdsModal").find('.back').click(function() {
                     $("#cdsModal").modal('hide');
