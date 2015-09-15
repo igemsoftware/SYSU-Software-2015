@@ -978,15 +978,16 @@ SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
         var partAttr = $(this).parent().find('.item').attr('part-attr');
         var part = DataManager.getPartByAttr(partAttr);
         that.writePartInfoToModal(part);
-        $("#readPartInfoModal").modal('show');
+        $("#readPartInfoModal").modal({transition: 'horizontal flip'}).modal('show');
     });
 }
 
 SideBarWorker.prototype.writePartInfoToModal = function(part) {
+    var that = this;
     var infoModal = $("#readPartInfoModal");
     infoModal.find('.partName').text(part.name);
     infoModal.find('.partBBa').text(part.BBa == '' ? 'None': part.BBa);
-    infoModal.find('.partImg').attr('src', '/static/img/design/parts'+part.type+'_70.png');
+    infoModal.find('.partImg').attr('src', '/static/img/design/parts/'+part.type+'_70.png');
     infoModal.find('.partType').text(part.type);
     infoModal.find('.partRisk').text(Util.getRiskText(part.risk));
     infoModal.find('.partRisk').attr("class", "partRisk");
@@ -994,6 +995,38 @@ SideBarWorker.prototype.writePartInfoToModal = function(part) {
     infoModal.find('.partBact').text(part.bacterium);
     infoModal.find('.partIntro').text(part.introduction);
     infoModal.find('.partSource').text(part.source);
+
+    this.ncbiUrl = "http://www.ncbi.nlm.nih.gov/gquery/?term=" + part.name;
+    this.fastaUrl = "http://parts.igem.org/fasta/parts/" + part.BBa;
+    this.part = part;
+    $("#ncbiBtn").click(function() {
+        window.open(that.ncbiUrl);
+    });
+    $("#fastaBtn").click(function() {
+        window.open(that.fastaUrl);
+    });
+    $("#searchCds").click(function() {
+        var there = this;
+        $(this).addClass('loading');
+        var postDataJson = JSON.stringify({BBa: that.part.BBa});
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: '/proxy/part/cds',
+            dataType : 'json',
+            data : postDataJson,
+            success: function(data) {
+                $("#cdsModal").find('.cdsContent').text(data['cds']);
+                $("#cdsModal").modal('show');
+                $(there).removeClass('loading');
+                $("#cdsModal").find('.back').click(function() {
+                    $("#cdsModal").modal('hide');
+                    $("#readPartInfoModal").modal('show');
+                });
+            }
+        });
+    });
+
 }
 
 SideBarWorker.prototype.addDevicePartInfoEvent = function(moreElem) {
@@ -1102,6 +1135,7 @@ LeftBar.prototype.addPartToBar = function(elem) {
     var partType = elem.attr("type");
     var elemClone = elem.clone();
     this.leftbarWorker._makeItJqueryDraggable(elemClone.find(".item"));
+    this.leftbarWorker.addReadPartInfoEvent(elemClone.find(".more"));
     elemClone.find(".more").popup();
     if (partType == 'promoter') {
         this.elemsPromoterList.push(elemClone);
@@ -1562,7 +1596,7 @@ $('#loadingData').dimmer('show');
 // $("#deleteModal").modal('show');
 
 $("#moveTo").click(function() {
-    window.location.href = "/modaling";
+    window.location.href = "/modeling";
 }); 
 
 $(".modal").modal({transition: 'horizontal flip'});

@@ -404,7 +404,6 @@ DataManager.getDeviceDataFromServer = function(callback) {
         console.log(data['deviceList']);
         that.initDeviceList(data['deviceList']);
         callback(data['deviceList']);
-        $('#loadingData').dimmer('hide');
     });
 }
 
@@ -414,6 +413,7 @@ DataManager.getPerDesignDataFromServer = function(callback) {
         console.log("Personal Designs:");
         console.log(data['designs']);
         callback(data['designs']);
+        $('#loadingData').dimmer('hide');
     });
 }
 

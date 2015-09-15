@@ -165,6 +165,38 @@ Plasmid.prototype.writePartInfoToModal = function(part) {
     infoModal.find('.partBact').text(part.bacterium);
     infoModal.find('.partIntro').text(part.introduction);
     infoModal.find('.partSource').text(part.source);
+
+    var that = this;
+    this.ncbiUrl = "http://www.ncbi.nlm.nih.gov/gquery/?term=" + part.name;
+    this.fastaUrl = "http://parts.igem.org/fasta/parts/" + part.BBa;
+    this.part = part;
+    $("#ncbiBtn").click(function() {
+        window.open(that.ncbiUrl);
+    });
+    $("#fastaBtn").click(function() {
+        window.open(that.fastaUrl);
+    });
+    $("#searchCds").click(function() {
+        var there = this;
+        $(this).addClass('loading');
+        var postDataJson = JSON.stringify({BBa: that.part.BBa});
+        $.ajax({
+            type: 'POST',
+            contentType: 'application/json',
+            url: '/proxy/part/cds',
+            dataType : 'json',
+            data : postDataJson,
+            success: function(data) {
+                $("#cdsModal").find('.cdsContent').text(data['cds']);
+                $("#cdsModal").modal('show');
+                $(there).removeClass('loading');
+                $("#cdsModal").find('.back').click(function() {
+                    $("#cdsModal").modal('hide');
+                    $("#readPartInfoModal").modal('show');
+                });
+            }
+        });
+    });
 }
 
 Plasmid.prototype.addDevicePartInfoEvent = function(moreElem) {
@@ -276,15 +308,4 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
 $(function() {
 	plasmid = new Plasmid();
 	plasmid.init();
-});
-
-$.ajax({
-	type: 'POST',
-	url: '/proxy/part/cds',
-	data: JSON.stringify({BBa: 'BBa_R0071'}),
-	dataType : 'json',
-	contentType: 'application/json',
-	success: function(data) {
-		console.log(data);
-	}
 });

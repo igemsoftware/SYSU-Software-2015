@@ -56,12 +56,20 @@
 	min-width: 80%;
 }
 
+#simulation .title {
+	text-align: center;
+}
+
 #simulation .title > button {
 	display: inline-block;
 }
 
 .float-right {
 	float: right;
+}
+
+.float-left {
+	float: left;
 }
 
 .iyellow {

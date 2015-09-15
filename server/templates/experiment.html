@@ -235,6 +235,7 @@
       	<div class="ui grid">
 	      	<div class="eight wide column" id="leftbox" ng-app="myApp" ng-controller="PlasmidCtrl">
             <div id="plasmid-box">
+              <!-- <div class='ui button icolor inline'>Choose a design</div> -->
               <h3 class='inline'>Choose a plasmid: </h3>
               <select class="ui dropdown" ng-model="curPlaIndex" ng-options="plasmids.indexOf(a) as a.name for a in plasmids">
                 <option value="">Choose a plasmid</option>
@@ -338,6 +339,15 @@
                   <label>Introduction</label>
                   <p class="partIntro"></p>
                 </div>
+                <div class="field">
+                  <label>Learn more information:</label>
+                  <span class="ui button icolor" id='ncbiBtn'>NCBI</span>
+                  <span class="ui button icolor" id='fastaBtn'>FASTA</span>
+                </div>
+                <div class="inline field">
+                  <label>Check the coding sequences: </label>
+                  <span class="ui button icolor white" id='searchCds'>Search</span>
+                </div>
                 <div class="fluid text-right">
                   <div class="ui cancel button">Cancel</div>
                 </div>
@@ -346,6 +356,18 @@
           </div>
       </div>
     </div>
+
+    <!--   cds modal -->
+    <div class="ui small modal" id="cdsModal">
+      <div class="header">This is the coding sequences.</div>
+      <div class="content">
+        <p class="cdsContent"></p>
+        <div class="fluid text-right">
+          <div class="ui back button">Back</div>
+        </div>
+      </div>
+    </div>
+    <!--   cds modal -->
 
     <script type="text/javascript" src="/static/js/lib/moment.js"></script>
     <script type="text/javascript" src="/static/js/lib/jquery-ui.min.js"></script>
