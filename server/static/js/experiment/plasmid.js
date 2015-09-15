@@ -1,17 +1,13 @@
 var plasmid;
+var currentPart;
 
 function Plasmid() {
 	this.plasmidCirs = [];
 	this.circuitCount = 0;
 }
 
-Plasmid.prototype.extendPartInfoByXml = function(xmlDoc) {
-	part.name = $(xmlDoc).find('part_short_name').text();
-	part.fullName = $(xmlDoc).find('part_short_desc').text();
-	part.cds = $(xmlDoc).find('seq_data').text();
-	console.log(part.cds);
-	console.log(part.cds.length);
-	part.length = part.cds.length;
+Plasmid.prototype.init = function() {
+	this.addReadPartInfoEvent($("#readPartInfo"));
 }
 
 Plasmid.prototype.getMarkerByPart = function(part) {
@@ -133,9 +129,10 @@ Plasmid.prototype.formatCircuit = function(circuit, length, callback) {
 			}
 			var plasmidCir = {};
 			that.circuitCount += 1;
-			plasmidCir.name = "circuit" + String(that.circuitCount);
+			plasmidCir.name = "Circuit" + String(that.circuitCount);
 			plasmidCir.markers = markers;
 			plasmidCir.length = that.getMarkersLength(markers);
+			plasmidCir.parts = circuit;
 			that.plasmidCirs.push(plasmidCir);
 			if (that.circuitCount == length) {
 				callback();
@@ -148,6 +145,49 @@ Plasmid.prototype.loadCircuits = function(circuits, callback) {
 	for (var i in circuits) {
 		this.formatCircuit(circuits[i], circuits.length, callback);
 	}
+}
+
+Plasmid.prototype.addReadPartInfoEvent = function(moreElem) {
+    moreElem.click(function() {
+        $("#readPartInfoModal").modal({transition: 'horizontal flip'}).modal('show');
+    });
+}
+
+Plasmid.prototype.writePartInfoToModal = function(part) {
+    var infoModal = $("#readPartInfoModal");
+    infoModal.find('.partName').text(part.name);
+    infoModal.find('.partBBa').text(part.BBa == '' ? 'None': part.BBa);
+    infoModal.find('.partImg').attr('src', '/static/img/design/'+part.type+'_70.png');
+    infoModal.find('.partType').text(part.type);
+    infoModal.find('.partRisk').text(Util.getRiskText(part.risk));
+    infoModal.find('.partRisk').attr("class", "partRisk");
+    infoModal.find('.partRisk').addClass(Util.getRiskColor(part.risk));
+    infoModal.find('.partBact').text(part.bacterium);
+    infoModal.find('.partIntro').text(part.introduction);
+    infoModal.find('.partSource').text(part.source);
+}
+
+Plasmid.prototype.addDevicePartInfoEvent = function(moreElem) {
+    var that = this;
+    moreElem.click(function() {
+        var deviceName = $(this).parent().find('.item').attr('device-name');
+        var device = DataManager.getDeviceByName(deviceName);
+        that.writeDeviceInfoToModal(device);
+        $("#readDeviceInfoModal").modal('show');
+    });
+}
+
+Plasmid.prototype.writeDeviceInfoToModal = function(device) {
+    var infoModal = $("#readDeviceInfoModal");
+    infoModal.find('.deviceName').text(device.name);
+    infoModal.find('.deviceParts').text(Util.getDevicePartsString(device));
+    infoModal.find('.deviceImg').attr('src', '/static/img/design/Biosensor fine-turning.png');
+    infoModal.find('.deviceRisk').text(Util.getRiskText(device.risk));
+    infoModal.find('.deviceRisk').attr("class", "deviceRisk");
+    infoModal.find('.deviceRisk').addClass(Util.getRiskColor(device.risk));
+    infoModal.find('.deviceInterface').text(device.interfaceA+", "+device.interfaceB);
+    infoModal.find('.deviceSource').text(device.source);
+    infoModal.find('.deviceIntro').text(device.full_description);
 }
 
 
@@ -171,7 +211,6 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
   		console.log("Design:");
   		console.log(data['content']);
   		var design = data['content'];
-  		plasmid = new Plasmid();
   		$scope.circuits = null;
   		if (design['plasmids'].length == 0) {
   			console.log('Plasmids is empty!!');
@@ -196,10 +235,17 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
 	$scope.$watch('curCirIndex', function(newValue,oldValue, scope) {
 		if (newValue !== undefined) {
 	  		$scope.currentCircuit = $scope.circuits[newValue];
-	  		console.log("currentCircuit:");
-	  		console.log($scope.currentCircuit);
+	  		$scope.parts = $scope.circuits[newValue].parts;
 		}
   	});
+
+  	$scope.$watch('curPartsIndex', function(newValue,oldValue, scope) {
+		if (newValue !== undefined) {
+	  		$scope.currentPart = $scope.parts[newValue];
+	  		plasmid.writePartInfoToModal($scope.currentPart);
+		}
+  	});
+
 
   	$scope.$watch('currentCircuit', function() {
   		if ($scope.currentCircuit !== undefined && $scope.currentPlasmid !== undefined) {
@@ -225,3 +271,20 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
 	  	}
   	})
 }]);
+
+
+$(function() {
+	plasmid = new Plasmid();
+	plasmid.init();
+});
+
+$.ajax({
+	type: 'POST',
+	url: '/proxy/part/cds',
+	data: JSON.stringify({BBa: 'BBa_R0071'}),
+	dataType : 'json',
+	contentType: 'application/json',
+	success: function(data) {
+		console.log(data);
+	}
+});

@@ -79,3 +79,15 @@ def proxy():
     gevent.joinall([gevent.spawn(fetch, part) for part in parts])
     return jsonify(circuit=parts)
 
+@main.route('/proxy/part/cds', methods=['POST'])
+def proxy_part():
+    data = request.get_json(force=True)
+    url = "http://parts.igem.org/cgi/xml/part.cgi?part="+data['BBa']
+    if not data['BBa'] == '':
+        req = urllib2.Request(url = url)
+        res = urllib2.urlopen(req)
+        dom = xml.dom.minidom.parseString(res.read())
+        root = dom.documentElement
+        cds = root.getElementsByTagName("seq_data")[0].childNodes[0].nodeValue.strip('\n')
+        return jsonify(cds=cds)
+    return 'No BBa'
