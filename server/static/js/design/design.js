@@ -695,8 +695,6 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
                 curcuitChartData.img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                 console.log("Post Data");
                 console.log(curcuitChartData);
-                console.log('Post design id:');
-                console.log(design.designID);
                 var postDataJson = JSON.stringify(curcuitChartData);
                 $.ajax({
                     type: 'POST',
@@ -704,6 +702,11 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
                     url: '/design/data',
                     dataType : 'json',
                     data : postDataJson,
+                    success: function(data) {
+                        DataManager.getPerDesignDataFromServer(function(designs) {
+                            designMenu.perDesignList = designs;
+                        })
+                    }
                 });
             }
         });
