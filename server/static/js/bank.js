@@ -50,7 +50,7 @@ $(document).ready(function() {
         var links = $(".number a");
         for (var i = 0; i < 5; ++i) {
             $(links[i]).html(i+1).removeClass("selected");
-            if (i*per_page <= totalNumber)
+            if (i*per_page < totalNumber)
                 $(links[i]).show();
             else
                 $(links[i]).hide();
@@ -70,20 +70,22 @@ $(document).ready(function() {
                 setTotalNumber(data["count"]);
             designs = data["designs"];
 
-
             for (var i = 0; i < 9; i++) {
                 for (var j = 0; j < 8; j++) {
                     var cellName = "#dataTable tr:gt(0):eq(" + i + ") td:eq("+ j +")";
                     if (designs[i]) {
                         var attrVal = designs[i][attrName[j]];
+                     // preprocess in backend
+                     // if (attrName[j] == 'name') {
+                     //     attrVal = "<a href='/bank/detail/"+designs[i]['id']+"' >"+designs[i]['name']+
+                     // }
                         if (j == per_page) {
                             // attrVal = attrVal.substring(0, 10);
                         };
-                        $(cellName).text(attrVal);
+                        $(cellName).html(attrVal);
                     } else {
                         $(cellName).text("");
                     }
-
                 };
             };
 
@@ -91,7 +93,27 @@ $(document).ready(function() {
         });
     }
 
-    $("#linkPublic").click();
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : sParameterName[1];
+            }
+        }
+    };
+
+    var mode = window.location.hash.substring(1);
+    if (mode == 'share')
+        $("#linkShare").click();
+    else
+        $("#linkPublic").click();
+
     // fillTable(1, "id", keyword, true);
     $(".number a").click(function(event) {
         console.log($(this).html());

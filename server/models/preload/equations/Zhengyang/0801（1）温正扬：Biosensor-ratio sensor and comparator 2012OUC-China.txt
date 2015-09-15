@@ -1,0 +1,13 @@
+['sRNA1',['sRNA2','ATC'],[('k_{s}',5),('beta_{s1}',0.2),('k_{1}',1),('alpha_{s10}',20),('n',2)],'{{alpha_{s10}}}*ATC**{{n}}/({{k_{1}}}**{{n}}+ATC**{{n}})-{{k_{s}}}*sRNA1*sRNA2-{{beta_{s1}}}*sRNA1']
+
+['sRNA1',['GFP_mRNA','ATC'],[('k_{m1}',6),('beta_{s1}',0.2),('k_{1}',1),('n',2),('alpha_{s10}',20)],'{{alpha_{s10}}}*ATC**{{n}}/({{k_{1}}}**{{n}}+ATC**{{n}})-{{k_{m1}}}*sRNA1*GFP_mRNA-{{beta_{s1}}}*sRNA1']
+
+['sRNA2',['GFP_mRNA','IPTG'],[('k_{m2}',8),('beta_{s2}',0.2),('alpha_{s20}',20),('n',2),('k_{2}',1)],'{{alpha_{s20}}}*IPTG**{{n}}/({{k_{2}}}**{{n}}+IPTG**{{n}})-{{k_{m2}}}*sRNA2*GFP_mRNA-{{beta_{s2}}}*sRNA2']
+
+['sRNA2',['sRNA1','IPTG'],[('k_{s}',5),('beta_{s2}',0.2),('alpha_{s20}',20),('n',2),('k_{2}',1)],'{{alpha_{s20}}}*IPTG**{{n}}/({{k_{2}}}**{{n}}+IPTG**{{n}})-{{k_{s}}}*sRNA2*sRNA1-{{beta_{s2}}}*sRNA2']
+
+['GFP_mRNA',['sRNA1'],[('alpha_{m}',30),('k_{m1}',6),('beta_{m}',0.05)],'{{alpha_{m}}}-{{k_{m1}}}*sRNA1*GFP_mRNA-{{beta_{m}}}*GFP_mRNA']
+
+['GFP_mRNA',['sRNA2'],[('alpha_{m}',30),('k_{m2}',8),('beta_{m}',0.05)],'{{alpha_{m}}}-{{k_{m2}}}*sRNA2*GFP_mRNA-{{beta_{m}}}*GFP_mRNA']
+
+['GFP',['GFP_mRNA'],[('alpha_{GFP}',0.06),('beta_{GFP}',0.05)],'{{alpha_{GFP}}}*GFP_mRNA-{{beta_{GFP}}}*GFP']

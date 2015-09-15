@@ -428,7 +428,8 @@ class Device(db.Model, BioBase):
                     break
         return c, instance
 
-    def new_load_from_file(self, filename):
+    @staticmethod
+    def new_load_from_file(filename):
         """Load from local files. Mostly called in preload stage."""
         print 'loading device from %s ...' % filename
         if filename.split('.')[-1] != 'txt': 
@@ -436,24 +437,24 @@ class Device(db.Model, BioBase):
             return  
         import codecs
         f = codecs.open(filename, 'r', 'gb2312')
-        self.name= f.readline().strip()
-        self.brief_description = f.readline().strip()
-        self.full_description = f.readline().strip()
-        self.keyword = f.readline().strip()
-        #self.introduction = f.readline().strip().decode('ISO-8859-1')
-        self.source = f.readline().strip()
-        self.protocol_reference = f.readline().strip()
+        d = Device()
+        d.name= f.readline().strip()
+        d.brief_description = f.readline().strip()
+        d.full_description = f.readline().strip()
+        d.keyword = f.readline().strip()
+        #d.introduction = f.readline().strip().decode('ISO-8859-1')
+        d.source = f.readline().strip()
+        d.protocol_reference = f.readline().strip()
         try:
-            self.risk = int(f.readline().strip())
+            d.risk = int(f.readline().strip())
         except:
-            self.risk = -1
+            d.risk = -1
         # self.type = f.readline().strip()
-        self.interfaceA = f.readline().strip() 
-        self.interfaceB = f.readline().strip() #.split(',')
+        d.interfaceA = f.readline().strip() 
+        d.interfaceB = f.readline().strip() #.split(',')
 
         json_obj = json.loads(f.readline().strip())
 
-        d = Device()
         d.commit_to_db()
         d.update_from_db()
 
@@ -469,8 +470,8 @@ class Device(db.Model, BioBase):
             ele['start'] = ele['start'].replace(' ', '_').replace('-','_')
             ele['end'] = ele['end'].replace(' ', '_').replace('-','_')
 
-            start = self.__load_prototype_and_instance(ele['start'], skip_instance=True)
-            end = self.__load_prototype_and_instance(ele['end'], skip_instance=True)
+            start = d.__load_prototype_and_instance(ele['start'], skip_instance=True)
+            end = d.__load_prototype_and_instance(ele['end'], skip_instance=True)
         
             existed = Relationship.query.filter_by(start=start, end=end).first()
             if not existed:
@@ -580,22 +581,24 @@ class Design(db.Model, BioBase):
 #    statistical chart
     references = db.Column(db.Text, default='')
     """References."""
-    rate = db.Column(db.Integer, default = 0)
+
+    rate = db.Column(db.Numeric, default = 0)
     """The integrated rate."""
-    eval_efficiency = db.Column(db.Integer, default = 0)
+    eval_efficiency = db.Column(db.Numeric, default = 0)
     """Evaluation of efficiency."""
-    eval_reliability = db.Column(db.Integer, default = 0)
+    eval_reliability = db.Column(db.Numeric, default = 0)
     """Evaluation of reliability."""
-    eval_accessibility = db.Column(db.Integer, default = 0)
+    eval_accessibility = db.Column(db.Numeric, default = 0)
     """Evaluation of accessibiliy."""
-    eval_compatibility = db.Column(db.Integer, default = 0)
+    eval_compatibility = db.Column(db.Numeric, default = 0)
     """Evaluation of compatibility."""
-    eval_demand = db.Column(db.Integer, default = 0)
+    eval_demand = db.Column(db.Numeric, default = 0)
     """Evaluation of demand."""
-    eval_safety = db.Column(db.Integer, default = 0)
+    eval_safety = db.Column(db.Numeric, default = 0)
     """Evaluation of safety."""
-    eval_completeness = db.Column(db.Integer, default = 0)
+    eval_completeness = db.Column(db.Numeric, default = 0)
     """Evaluation of completeness."""
+
     last_active = db.Column(db.DateTime, default=datetime.now)
     """Last active time."""
     comments = db.relationship('DesignComment', backref='design', lazy='dynamic')
@@ -661,7 +664,8 @@ class Design(db.Model, BioBase):
         if not d: raise Exception('No device #%d' % device_id) 
         d.update_from_db()
 
-        self.full_description = self.full_description+' (COPYED: '+d.brief_description+')'
+        self.brief_description = self.brief_description+' (COPYED: '+d.brief_description+')'
+        self.full_description = self.full_description+' (COPYED: '+d.full_description+')'
         self.parts = d.parts
         self.relationship = d.relationship
         self.interfaceA = d.interfaceA

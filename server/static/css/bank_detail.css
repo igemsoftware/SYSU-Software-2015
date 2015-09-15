@@ -1,0 +1,136 @@
+body {
+    background-color: #e4e4e4;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    overflow: scroll;
+}
+
+#topbar {
+    background-color: #858c92;
+}
+
+#topbar-bottom-line {
+    background: linear-gradient(to right, #6eb6ad, #74c1b7, #87e1d5);
+}
+
+#main {
+    width: 90%;
+    background-color: #f8f8f8;
+    margin: 0 auto;
+    padding: 8% 5%;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.6);
+    overflow: auto;
+}
+
+#main .links {
+    color: #858c92;
+    font-size: 26px;
+}
+
+#header {
+    margin: 20px;
+    font-size: 14px;
+}
+
+#header span {
+    margin-right: 10px;
+}
+
+i {
+    color: #858c92;
+}
+
+#content {
+    margin-left: 10%;
+    width: 60%;
+    float: left;
+}
+
+#content .imageWrapper {
+    width: 100%;
+    height: 200px;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+}
+
+#content .imageWrapper img {
+    height: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+#index {
+    position: fixed;
+    right: 5%;
+    top: 30%;
+    width: 20%;
+    float: right;
+}
+
+#index .list .item {
+    margin-bottom: 20px;
+    /*color: #858c92;*/
+    font-size: 18px;
+}
+
+#index .list .indexer {
+    border-color: white;
+    border-width: 10px;
+    background-color: #858c92;
+    width: 12px;
+    height: 12px;
+    margin-right: 10px;
+    display: inline-block;
+    z-index: 100;
+}
+
+#x-divider {
+    left: 6px;
+    width: 1px;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+    background-color: #858c92;
+}
+
+.anchor {
+    visibility: hidden;
+    height: 1px;
+}
+
+.description {
+    margin-left: 20px;
+}
+
+#main article {
+    margin-bottom: 20px;
+}
+
+#review {
+    margin-top: 30px;
+    padding: 10px;
+}
+
+#review .date {
+    margin-left: 20px;
+    color: #858c92;
+}
+
+#comment {
+    padding: 0 auto;
+}
+
+#comment textarea {
+    display: block;
+    border-color: #858c92 !important;
+    margin: 0 auto;
+    width: 80%;
+    height: 100px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+#comment button {
+    margin-top: 5px;
+    margin-right: 10%;
+    float: right;
+}

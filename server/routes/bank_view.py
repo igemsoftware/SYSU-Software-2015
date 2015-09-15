@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from . import bank
-from ..models import Design, User
+from ..models import Design, User, EquationBase, DesignComment
 from .. import login_manager, db
 
 from flask import render_template, jsonify, request, \
-        current_app, url_for, redirect
+        current_app, url_for, redirect, abort
 from flask.ext.login import login_required, current_user
 from sqlalchemy import or_
 from datetime import datetime
@@ -88,7 +88,7 @@ def get_list():
     l = []
     for d in pagination.items:
         l.append({'id': d.id,
-                  'name': d.name,
+                  'name': '<a href="%s">%s</a>' % (url_for('bank.get_detailed', id=d.id), d.name), 
                   'description': d.brief_description,
                   'contributor': d.owner.username,
                   'rate': d.rate,
@@ -186,18 +186,84 @@ def get_detailed(id):
     """
 
     d = Design.query.get(id)
-    if not d: return jsonify(error='This design doesn\'t exist')
+    if not d: abort(404)#return jsonify(error='This design doesn\'t exist')
 
-    design = {
-                'name': d.name,
-                'id': d.id,
-                'favoriter': len(d.favoriter),
-                'comments': d.comments.count(),
-                'owner': d.owner.username,
-                'release_time': d.release_time.strftime('%Y-%m-%d %H:%M:%S')
-              }
+    d.update_from_db()
+    system = []
+    try:
+        design_set = set([ele['partAttr'] for ele in d.parts])
+        system_set = set({})
+        for e in EquationBase.query.order_by(EquationBase.related_count.desc()).all():
+            e.update_from_db()
+            # Find the max match
+            if e.target in system_set: continue
+            # Filter
+            if e.target not in design_set: continue
+            # debug codes
+            print design_set
+            print e.all_related
+            print design_set >= e.all_related
+            if design_set >= e.all_related:
+                system.append(e.packed())
+                system_set.update([e.target])
+    except:
+        pass
+
+
+
+
+#   design = {
+#               'name': d.name,
+#               'id': d.id,
+#               'favoriter': len(d.favoriter),
+#               'comments': d.comments.count(),
+#               'owner': d.owner.username,
+#               'release_time': d.release_time.strftime('%Y-%m-%d %H:%M:%S')
+#             }
+#   
+    return render_template('bank_detail.html', design=d, system=system)
+
+
+@bank.route('/datail/comment/<int:id>', methods=["POST"])
+@login_required
+def comment_detail(id): 
+    """
+        :Note: Login required
+        :Usage: Comment on a design 
+        
+        :Output Example: 
+
+        .. code-block:: json
+
+            {
+              "content": "Good design!"
+            }
+    """
+
+    d = Design.query.get(id)
+    if not d: 
+        abort(404) #return jsonify(error='This design doesn\'t exist')
     
-    return jsonify(design=design)
+    db.session.add(
+            DesignComment(
+                content = request.form.get('content', ''),
+                owner = current_user,
+                design = d
+                )
+            )
+    db.session.commit()
+
+
+#   design = {
+#               'name': d.name,
+#               'id': d.id,
+#               'favoriter': len(d.favoriter),
+#               'comments': d.comments.count(),
+#               'owner': d.owner.username,
+#               'release_time': d.release_time.strftime('%Y-%m-%d %H:%M:%S')
+#             }
+#   
+    return redirect(url_for('bank.get_detailed', id=id, _anchor='UserReviews'))
 
 
 

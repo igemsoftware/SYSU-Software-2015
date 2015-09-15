@@ -149,6 +149,9 @@ class EquationBase(db.Model):
     @staticmethod
     def preload_from_file(filename):
         print 'loading equation from %s ...' % filename
+        if filename.split('.')[-1] not in ['txt', 'py']: 
+            print '\tSkip', filename
+            return  
         system = []
         with open(filename, 'r') as f:
             for line in f:
