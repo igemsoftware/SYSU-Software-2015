@@ -1562,7 +1562,7 @@ $('#loadingData').dimmer('show');
 // $("#deleteModal").modal('show');
 
 $("#moveTo").click(function() {
-    window.location.href = "/modaling";
+    window.location.href = "/modeling";
 }); 
 
 $(".modal").modal({transition: 'horizontal flip'});
