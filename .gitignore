@@ -76,3 +76,6 @@ cheatsheet.rst
 # js libs :)
 !server/static/js/lib/
 
+
+# word
+*.docx
