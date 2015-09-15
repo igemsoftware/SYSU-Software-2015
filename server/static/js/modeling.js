@@ -77,8 +77,6 @@ Modeling.prototype.loadData = function() {
         console.log(data);
         that.variables = data.variables;
         that.xAxis = data.x_axis;
-        console.log(that.variables);
-        console.log(that.xAxis);
         $("#simulation .title span").text(data.name);
 		that.drawChart($("#chart"), that.xAxis, that.variables);
         that.drawChart($("#myChart"));
@@ -126,7 +124,6 @@ Modeling.prototype.addItem = function(name) {
 Modeling.prototype.enableGetPlot = function() {
     var that = this;
     $('#getPlot').click(function() {
-        console.log('getPot function');
         var name = $("#protein").val();
         var yArray = [];
         var xArray = [];
@@ -217,6 +214,6 @@ $('.ui.dropdown')
 ;
 
 $.get("/modeling/design/all", function(data) {
-	console.log(data);
+	// console.log(data);
 	modeling.initChooseModal(data['designs']);
 });

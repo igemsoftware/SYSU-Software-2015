@@ -99,14 +99,9 @@ RightBar.prototype.enableAddEvent = function() {
 }
 
 RightBar.prototype.syncEvents = function() {
-	console.log('sync event:');
 	var events = calendar.fullCalendar('clientEvents');
 	var eventsArr = [];
-	console.log("Events length: ");
-	console.log(events.length);
 	for (var i in events) {
-		console.log('Event end time:');
-		console.log(events[i].end);
 		eventsArr.push({
 			id: events[i].id,
 			start: events[i].start.format('YYYY/MM/DD HH:mm'),
@@ -127,8 +122,6 @@ RightBar.prototype.syncEvents = function() {
 	    data : postDataJson,
         success: function(data) {
             calendar.fullCalendar( 'removeEvents' );
-            console.log('Get Event Data:');
-            console.log(data['events']);
 	        calendar.fullCalendar( 'addEventSource', data["events"]);
         }
 	});
@@ -186,7 +179,6 @@ $(function() {
 	        rightBar.openRightBar("edit");
 	    },
 	    eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {
-	    	console.log('Event Resize');
 	    	rightBar.syncEvents();
 	    },
 	    eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
@@ -226,7 +218,6 @@ $("#saveEvent").click(function() {
 	clickedEvent.error = $("#eventError").val();
 
 	$('#calendar').fullCalendar('updateEvent', clickedEvent);
-	console.log('save event:');
 	rightBar.syncEvents();
 	rightBar.closeRightBar();
 	rightBar.clearBar();

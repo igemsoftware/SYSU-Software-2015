@@ -309,14 +309,3 @@ $(function() {
 	plasmid = new Plasmid();
 	plasmid.init();
 });
-
-$.ajax({
-	type: 'POST',
-	url: '/proxy/part/cds',
-	data: JSON.stringify({BBa: 'BBa_R0071'}),
-	dataType : 'json',
-	contentType: 'application/json',
-	success: function(data) {
-		console.log(data);
-	}
-});
