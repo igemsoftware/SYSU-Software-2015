@@ -35,7 +35,6 @@
 #leftbox {
 	height: 100%;
 	z-index: 100;
-	text-align: center;
 }
 
 #rightbox {
@@ -181,7 +180,8 @@
 
 #left-sidebar-top h2 {
 	margin-bottom: 10px;
-	color: #EDEDEF;
+	/*color: #EDEDEF;*/
+	color: rgb(114, 211, 227);;
 }
 
 #left-sidebar-top .input {
@@ -346,6 +346,10 @@
     border:none;
 }
 
+#right-sidebar .header {
+	color: rgb(114, 211, 227);
+}
+
 #right-sidebar label {
 	font-size: 20px;
 	color: #EDEDEF;
@@ -412,9 +416,19 @@
 #plasmid-box {
 	width: 100%;
 	height: 90%;
+	text-align: center;
 }
 
-#myDropdown > select{
+.myDropdown .button {
+	background-color: rgb(114, 211, 227);
+}
+
+.myDropdown .title {
+	width: 25%;
+	margin-left: 15%;
+}
+
+.inline {
 	display: inline-block;
 }
 
@@ -432,3 +446,7 @@
  	height: 2em; 
  	font-size: 20px !important;
  }
+
+.icolor {
+	background-color: rgb(114, 211, 227) !important;
+}

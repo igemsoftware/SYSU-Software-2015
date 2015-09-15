@@ -144,7 +144,7 @@
       </div>
       <div class="actions">
         <div class="ui button cancel">Cancel</div>
-        <div class="ui button" id="createProBtn">Create</div>
+        <div class="ui button icolor" id="createProBtn">Create</div>
       </div>
     </div>
 <!--createProtocol modal -->
@@ -190,8 +190,8 @@
         <div class="fluid text-right">
           <div class="ui button" id="deleteEvent">Delete</div>
           <div class="ui cancel button" id="cancelEvent">Cancel</div>
-          <div class="ui button" id="createEvent">Create</div>
-          <div class="ui button" id="saveEvent">Save</div>
+          <div class="ui button icolor" id="createEvent">Create</div>
+          <div class="ui button icolor" id="saveEvent">Save</div>
         </div>
         <div class="ui inverted divider"></div>
       </form>
@@ -234,20 +234,15 @@
       <div class="ui bottom attached tab segment" data-tab="PlaPro" id="PlaPro">
       	<div class="ui grid">
 	      	<div class="eight wide column" id="leftbox" ng-app="myApp" ng-controller="PlasmidCtrl">
-            <h3>Please choose a plasmid</h3>
-            <div id="myDropdown">
+            <div id="plasmid-box">
+              <h3 class='inline'>Choose a plasmid: </h3>
               <select class="ui dropdown" ng-model="curPlaIndex" ng-options="plasmids.indexOf(a) as a.name for a in plasmids">
                 <option value="">Choose a plasmid</option>
               </select>
-                <select class="ui dropdown" ng-model="curCirIndex" ng-options="circuits.indexOf(a) as a.name for a in circuits">
-                <option value="">Choose a circuit</option>
-              </select>
-            </div>
-            <div id="plasmid-box">
               <plasmidapi name="api"></plasmidapi>
-              <plasmid id="pdemo" sequencelength="{[currentPlasmid.length+currentCircuit.length]}" plasmidheight="450" plasmidwidth="500">
-                  <plasmidtrack trackstyle="fill:#ccc" width="5" radius="120"></plasmidtrack>
-                  <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" radius="110">
+              <plasmid id="pdemo" sequencelength="{[currentPlasmid.length+currentCircuit.length]}" plasmidheight="420" plasmidwidth="500">
+                  <plasmidtrack trackstyle="fill:#ccc" width="5" radius="110"></plasmidtrack>
+                  <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" radius="100">
                       <tracklabel text="{[currentPlasmid.name]}" labelstyle='font-size:20px;font-weight:400'></tracklabel>
                       <tracklabel text="{[api.plasmid('pdemo').sequencelength]} bp" labelstyle='font-size:10px' vadjust="20"></tracklabel>
 
@@ -271,6 +266,19 @@
                   </plasmidtrack>
               </plasmid>
             </div>
+            <div class="myDropdown">
+              <h3 class='title inline'>Choose a circuit: </h3>
+              <select class="ui dropdown" ng-model="curCirIndex" ng-options="circuits.indexOf(a) as a.name for a in circuits">
+                <option value="">Choose a circuit</option>
+              </select>
+            </div>
+            <div class="myDropdown">
+              <h3 class='title inline'>Choose a part: </h3>
+              <select class="ui dropdown" ng-model="curPartsIndex" ng-options="parts.indexOf(a) as a.name+' ('+a.BBa+')' for a in parts">
+                <option value="">Choose a part</option>
+              </select>
+              <div class="ui button inline" id='readPartInfo'><i class="zoom icon"></i>Read</div>
+            </div>
           </div>
   	    	<div class="eight wide column" id="rightbox">
   	    		<div id="protocol">
@@ -287,12 +295,65 @@
       </div>
     </div>
 
+    <div class="ui small modal" id="readPartInfoModal">
+      <div class="header">Part Information:</div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="three wide column text-center">
+              <img class="partImg ui tiny">
+            </div>
+            <div class="thirteen wide column">
+              <form class="ui form">
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Part Name:</label>
+                    <span class="partName">Promoter</span>
+                  </div>
+                  <div class="inline field">
+                    <label>BBa Name:</label>
+                    <span class="partBBa">BBa_02333</span>
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Part type:</label>
+                    <span class="partType">Promoter</span>
+                  </div>
+                  <div class="inline field">
+                    <label>Risk ground:</label>
+                    <span class="partRisk">Low risk(1)</span>
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Bacterium:</label>
+                    <span class="partBact"></span>
+                  </div>
+                  <div class="inline field">
+                    <label>Source:</label>
+                    <span class="partSource">Come from no where.</span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Introduction</label>
+                  <p class="partIntro">No introduction yet.</p>
+                </div>
+                <div class="fluid text-right">
+                  <div class="ui cancel button">Cancel</div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+
     <script type="text/javascript" src="/static/js/lib/moment.js"></script>
     <script type="text/javascript" src="/static/js/lib/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/static/js/lib/fullcalendar.min.js"></script>
     <script type="text/javascript" src="/static/js/lib/jquery.datetimepicker.js"></script>
     <script type="text/javascript" src="/static/js/lib/angular.min.js"></script>
     <script type="text/javascript" src="/static/js/lib/angularplasmid.min.js"></script>
+    <script type="text/javascript" src="/static/js/design/util.js"></script>
     <script type="text/javascript" src="/static/js/experiment/experiment.js"></script>
     <script type="text/javascript" src="/static/js/experiment/calendar.js"></script>
     <script type="text/javascript" src="/static/js/experiment/plasmid.js"></script>

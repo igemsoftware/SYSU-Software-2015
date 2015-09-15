@@ -62,6 +62,15 @@ RightBar.prototype.enableTimePicker = function() {
 	$('#endTime').datetimepicker({theme:'dark', step: 30});
 }
 
+RightBar.prototype.clearBar = function() {
+	$("#eventTitle").val("");
+	$("#startTime").val("");
+	$("#endTime").val("");
+	$("#eventProtocol").val("");
+	$("#eventRecord").val("");
+	$("#eventError").val("");
+}
+
 RightBar.prototype.enableAddEvent = function() {
 	var that = this;
 	$("#createEvent").click(function() {
@@ -71,14 +80,6 @@ RightBar.prototype.enableAddEvent = function() {
 		var protocol = $("#eventProtocol").val();
 		var record = $("#eventRecord").val();
 		var error = $("#eventError").val();
-
-		$("#eventTitle").val("");
-		$("#startTime").val("");
-		$("#endTime").val("");
-		$("#eventProtocol").val("");
-		$("#eventRecord").val("");
-		$("#eventError").val("");
-
 		var newEvent = {
 			id: -1,
 			title: title,
@@ -90,13 +91,14 @@ RightBar.prototype.enableAddEvent = function() {
 		}
 
 		calendar.fullCalendar('renderEvent', newEvent, true);
-
 		that.syncEvents();
 		that.closeRightBar();
+		that.clearBar();
 	})
 }
 
 RightBar.prototype.syncEvents = function() {
+	console.log('sync event:');
 	var events = calendar.fullCalendar('clientEvents');
 	var eventsArr = [];
 	for (var i in events) {
@@ -178,6 +180,7 @@ $(function() {
 				    data : "id="+event._id,
 				});
 				rightBar.closeRightBar();
+				that.clearBar();
 			});
 
 			$("#saveEvent").click(function() {
@@ -189,8 +192,10 @@ $(function() {
 				event.error = $("#eventError").val();
 
 				$('#calendar').fullCalendar('updateEvent', event);
+				console.log('save event:');
 				rightBar.syncEvents();
 				rightBar.closeRightBar();
+				rightBar.clearBar();
 			});
 
 	        rightBar.openRightBar("edit");
