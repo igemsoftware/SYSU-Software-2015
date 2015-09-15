@@ -619,12 +619,18 @@ class Design(db.Model, BioBase):
     #experiment = db.Column(db.Text, default='')
 
     # in public database
-    public_create_time = db.Column(db.DateTime)
+    release_time = db.Column(db.DateTime, default=datetime.now)
+    public_create_time = db.Column(db.DateTime, default=datetime.now)
     """When this design is in CORE Bank."""
     likes = db.Column(db.Integer, default=0)
     """How many likes it get."""
     favoriter = db.relationship('User', secondary=Favorite_design, backref=db.backref('fav_design', lazy='dynamic')) 
     """Who mark it as favorite."""
+
+    def check_public(self):
+        if self.is_shared:
+            self.is_public = True
+            self.public_create_time = datetime.now()
 
 
 ##  recommended_protocol = db.relationship('ProtocolRecommend',

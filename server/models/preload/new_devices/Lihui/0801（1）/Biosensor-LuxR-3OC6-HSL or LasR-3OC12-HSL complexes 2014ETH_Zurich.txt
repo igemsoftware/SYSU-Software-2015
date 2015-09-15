@@ -1,0 +1,14 @@
+Biosensor-LuxR-3OC6-HSL or LasR-3OC12-HSL complexes 2014ETH_Zurich
+This device responds to LuxR protein and produce Bxb protein afterwards.
+The LuxR-3OC6-HSL or LasR-3OC12-HSL complexes bind to the corresponding promoters Plux and Plas on the second plasmid and induce the expression of two integrases Bxb1 or ¦µC31, respectively.
+Biosensor,LuxR-3OC6-HSL or LasR-3OC12-HSL complexes
+http://2014.igem.org/Team:ETH_Zurich/project/overview
+http://2014.igem.org/Team:ETH_Zurich/lab/protocols
+1
+lux-AHL 3OC6HSL_1,LuxR_1
+Bxb1_1
+{"parts":[{"partID":"lux-AHL 3OC6HSL_1","partName":"lux-AHL 3OC6HSL","partAttr":"lux-AHL 3OC6HSL","positionX":80,"positionY":160},{"partID":"LuxR_2","partName":"LuxR","partAttr":"LuxR","positionX":100,"positionY":80},{"partID":"LuxR-lux-AHL_3","partName":"LuxR-lux-AHL","partAttr":"LuxR-lux-AHL","positionX":186,"positionY":120},{"partID":"Plux_4","partName":"Plux","partAttr":"Plux","positionX":320,"positionY":120},{"partID":"Bxb1_6","partName":"Bxb1","partAttr":"Bxb1","positionX":540,"positionY":260},{"partID":"RBS_7","partName":"RBS","partAttr":"RBS","positionX":428,"positionY":120},{"partID":"Terminator_8","partName":"Terminator","partAttr":"Terminator","positionX":646,"positionY":120},{"partID":"bxb1_9","partName":"bxb1","partAttr":"bxb1","positionX":540,"positionY":120}],"name":"Biosensor-LuxR-3OC6-HSL or LasR-3OC12-HSL complexes 2014ETH_Zurich","relationship":[{"start":"lux-AHL 3OC6HSL_1","end":"LuxR_2","type":"normal"},{"start":"LuxR-lux-AHL_3","end":"Plux_4","type":"promotion"},{"start":"bxb1_9","end":"Bxb1_6","type":"promotion"},{"start":"Plux_4","end":"RBS_7","type":"normal"},{"start":"RBS_7","end":"bxb1_9","type":"normal"},{"start":"bxb1_9","end":"Terminator_8","type":"normal"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[270,187],"end":[695,190]}]}
+
+
+
+

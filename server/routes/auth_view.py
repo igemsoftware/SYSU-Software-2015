@@ -49,6 +49,7 @@ def login():
             form.password.errors = ['Error password.']
             return render_template('auth/login.html', form=form)
         login_user(user)
+        user.check_memo()
         user.ping()
         return redirect(request.args.get('next') or url_for('person.index'))
     print form.errors

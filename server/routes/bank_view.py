@@ -122,10 +122,12 @@ def share_design():
     if not d or d.owner != current_user: 
         return redirect(url_for('bank.index'))#jsonify(msg='false')
 
-    d.is_shared = d.is_public = True
+    d.is_shared = True
+    d.release_time = datetime.now()
     d.full_description = request.form.get('full_description', '')
     d.brief_description = request.form.get('brief_description', '')
     d.last_active = datetime.now()
+    d.check_public()
     db.session.add(d)
     db.session.commit()
 
@@ -158,5 +160,44 @@ def get_finished_list():
     for d in current_user.designs.filter_by(is_shared=False).filter_by(is_finished=True).all():
         l.append({'id':d.id, 'name': d.name})
     return jsonify(finishedList = l)
+
+
+@bank.route('/detail/<int:id>')
+@login_required
+def get_detailed(id): 
+    """
+        :Note: Login required
+        :Usage: Get details of a :class:`design`
+        
+        :Output Example: 
+
+        .. code-block:: json
+
+            {
+              "design": {
+                "comments": 0,
+                "favoriter": 0,
+                "id": 1,
+                "name": "My first design",
+                "owner": "test",
+                "release_time": "2015-09-15 00:44:27"
+              }
+            }
+    """
+
+    d = Design.query.get(id)
+    if not d: return jsonify(error='This design doesn\'t exist')
+
+    design = {
+                'name': d.name,
+                'id': d.id,
+                'favoriter': len(d.favoriter),
+                'comments': d.comments.count(),
+                'owner': d.owner.username,
+                'release_time': d.release_time.strftime('%Y-%m-%d %H:%M:%S')
+              }
+    
+    return jsonify(design=design)
+
 
 

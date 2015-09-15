@@ -120,6 +120,10 @@ RightBar.prototype.syncEvents = function() {
 	    url: '/calendar/all',
 	    dataType : 'json',
 	    data : postDataJson,
+            success: function(data) {
+                calendar.fullCalendar( 'removeEvents' );
+ 	        calendar.fullCalendar( 'addEventSource', data["events"]);
+            }
 	});
 
 }

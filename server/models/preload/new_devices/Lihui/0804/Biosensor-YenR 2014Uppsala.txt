@@ -1,0 +1,14 @@
+Biosensor-YenR 2014Uppsala
+This device is a quorum sensing system of the gut pathogen Yersinia enterocolitica.
+This system contains two parts. A recognition region, the yenbox, fused together with a promoter and an activator, YenR, that can recognise and interact with the yenbox. When YenR binds to the yenbox it induces the expression level of the promoter fused to the yenbox. Later, in the presence of Y. enterocolitica, its signaling molecules, 3-oxo-hexanoyl homoserine lactone (OHHL), will start flowing into our system, interacting with YenR. When binding occurs between OHHL and YenR, YenR will lose its active shape and thereby its ability to interact with the yenbox. The induction will then be lost and the expression level will return to its base level.
+Biosensor,YenRquorum sensing,3-oxo-hexanoyl homoserine lactone (OHHL)
+http://2014.igem.org/Team:Uppsala/Project_Sensing
+http://2014.igem.org/Team:Uppsala/Project_Notebook
+1
+OHHL_1
+YenR_1
+{"parts":[{"partID":"Promoter:BBa_K1381000_1","partName":"Promoter","partAttr":"Promoter:BBa_K1381000","positionX":310,"positionY":340},{"partID":"RBS:BBa_B0032_2","partName":"RBS","partAttr":"RBS:BBa_B0032","positionX":430,"positionY":340},{"partID":"gfp_3","partName":"gfp","partAttr":"gfp","positionX":550,"positionY":340},{"partID":"OHHL_4","partName":"OHHL","partAttr":"OHHL","positionX":440,"positionY":187},{"partID":"YenR_5","partName":"YenR","partAttr":"YenR","positionX":310,"positionY":187},{"partID":"Promoter:BBa_J23100_6","partName":"Promoter","partAttr":"Promoter:BBa_J23100","positionX":73,"positionY":40},{"partID":"RBS:BBa_B0034_7","partName":"RBS","partAttr":"RBS:BBa_B0034","positionX":191,"positionY":40},{"partID":"yenR_8","partName":"yenR","partAttr":"yenR","positionX":310,"positionY":40},{"partID":"Terminator_9","partName":"Terminator","partAttr":"Terminator","positionX":420,"positionY":40},{"partID":"Terminator_10","partName":"Terminator","partAttr":"Terminator","positionX":670,"positionY":340}],"relationship":[{"start":"Promoter:BBa_K1381000_1","end":"RBS:BBa_B0032_2","type":"normal"},{"start":"RBS:BBa_B0032_2","end":"gfp_3","type":"normal"},{"start":"OHHL_4","end":"YenR_5","type":"inhibition"},{"start":"Promoter:BBa_J23100_6","end":"RBS:BBa_B0034_7","type":"normal"},{"start":"RBS:BBa_B0034_7","end":"yenR_8","type":"normal"},{"start":"yenR_8","end":"YenR_5","type":"promotion"},{"start":"YenR_5","end":"Promoter:BBa_K1381000_1","type":"promotion"},{"start":"yenR_8","end":"Terminator_9","type":"normal"},{"start":"gfp_3","end":"Terminator_10","type":"normal"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[23,108],"end":[477,108]},{"start":[250,407],"end":[734,409]}],"name":"Biosensor-YenR 2014Uppsala"}
+
+
+
+
