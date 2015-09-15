@@ -96,14 +96,14 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
                 for filename in get_file_list(dir):
                     preload_parts(filename)
 
-            # add testing component prototype
-            for dir in app.config.get('INIT_PRELOAD_DEVICE_DIRS', []):
-                for filename in get_file_list(dir):
-                    device = Device().load_from_file(filename)
-
-#           for dir in app.config.get('INIT_PRELOAD_NEW_DEVICE_DIRS', []):
+#           # add testing component prototype
+#           for dir in app.config.get('INIT_PRELOAD_DEVICE_DIRS', []):
 #               for filename in get_file_list(dir):
-#                   device = Device().new_load_from_file(filename)
+#                   device = Device().load_from_file(filename)
+
+            for dir in app.config.get('INIT_PRELOAD_NEW_DEVICE_DIRS', []):
+                for filename in get_file_list(dir):
+                    device = Device().new_load_from_file(filename)
 
             # add testing equations 
             for dir in app.config.get('INIT_PRELOAD_EQUATION_DIRS', []):

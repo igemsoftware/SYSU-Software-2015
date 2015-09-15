@@ -216,7 +216,7 @@ def data_fetch_device():
     return jsonify(deviceList=devices)
 
 
-@design.route('/<int:id>', methods=['GET'])
+@design.route('/data', methods=['GET'])
 def get_design(id):
     """
         :Method: GET 
@@ -246,7 +246,7 @@ def get_design(id):
     }
     return jsonify(content=content)
 
-@design.route('/<int:id>', methods=['POST'])
+@design.route('/data', methods=['POST'])
 def store_design(id):
     """
         :Method: POST
