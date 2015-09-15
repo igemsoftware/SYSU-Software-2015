@@ -1,0 +1,103 @@
+{% extends "core_common.html" %}
+{% block title %} Core - Bank {% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/css/bank_detail.css">
+{% endblock %}
+
+{% block body %}
+    {{ super() }}
+    <v-topbar>
+        <div class="right menu">
+            <div class="item">
+                <a class="ui button highlight" id="linkPublic">Public</a>
+            </div>
+            <div class="item">
+                <a class="ui button" id="linkShare">Share</a>
+            </div>
+        </div>
+    </v-topbar>
+    <div id="main">
+        <a class="anchor" name="Descriptions"></a>
+        <a href="#" class="links"><i class="angle left icon"></i>Back</a>
+        <div id="header">
+            <span id="name">GFP/YFP sunlight (#lemonie 180815)</span>
+            <span id="totalUsers"><i class="users icon"></i>123 users</span>
+            <span id="modified"><i class="edit icon"></i>34 modified</span>
+            <span id="author"><i class="user icon"></i>SYSU-Software</span>
+            <span id="time"><i class="wait icon"></i>2015/08/18</span>
+        </div>
+        <div id="content">
+            <article>
+                <h3 class="title"><i class="info circle icon"></i>Descriptions</h3>
+                <div class="ui divider"></div>
+                <p>short description</p>
+                <div class="imageWrapper">
+                    <img src="" alt="通路图">
+                </div>
+                <a class="anchor" name="Modeling"></a>
+                <p>Full Description</p>
+                <p class="description">description content</p>
+            </article>
+            <article>
+                <h3 class="title"><i class="line chart icon"></i>Modeling</h3>
+                <div class="ui divider"></div>
+                <p>Equations</p>
+                <div>
+                    <img src="" alt="equation1">
+                </div>
+                <a class="anchor" name="Experiments"></a>
+                <div>
+                    <img src="" alt="equation2">
+                </div>
+            </article>
+            <article>
+                <a class="anchor" name="References"></a>
+                <h3 class="title"><i class="lab icon"></i>Experiments</h3>
+                <div class="ui divider"></div>
+            </article>
+            <article>
+                <h3 class="title"><i class="book icon"></i>References</h3>
+                <div class="ui divider"></div>
+                <p>http://google.com</p>
+                <p>http://baidu.com</p>
+                <p>http://bing.com</p>
+            </article>
+            <article>
+                <a class="anchor" name="UserReviews"></a>
+                <h3 class="title"><i class="comment icon"></i>User reviews</h3>
+                <div class="ui divider"></div>
+                <div id="review">
+                    <p>matt: Acts as a tumor suppressor in many tumor types.<span class="date">18:05 19/08/2015</span></p>
+                    <div class="ui divider"></div>
+                    <p>john: Acts as a tumor suppressor in many tumor types.Acts as a tumor suppressor in many tumor types.<span class="date">18:05 19/08/2015</span></p>
+                    <div class="ui divider"></div>
+                    <div id="comment">
+                        <h5>Add your comment</h5>
+                        <textarea name="comment" id="comment"></textarea>
+                        <button class="ui button">Submit</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+        <div id="index">
+            <div id="x-divider"></div>
+            <div class="ui link list">
+                <div class="item">
+                    <div class="indexer"></div>
+                    <a href="#Descriptions" class="item"><i class="info circle icon"></i>Descriptions</a>
+                </div>
+                <div class="item">
+                    <div class="indexer"></div>
+                    <a href="#Modeling" class="item"><i class="line chart icon"></i>Modeling</a></div>
+                <div class="item"><div class="indexer"></div><a href="#Experiments" class="item"><i class="lab icon"></i>Experiments</a></div>
+                <div class="item"><div class="indexer"></div><a href="#References" class="item"><i class="book icon"></i>References</a></div>
+                <div class="item"><div class="indexer"></div><a href="#UserReviews" class="item"><i class="comment icon"></i>User reviews</a></div>
+            </div>
+        </div>
+    </div>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/semantic.min.js"></script>
+    <script src="/static/js/bank_detail.js"></script>
+{% endblock %}
