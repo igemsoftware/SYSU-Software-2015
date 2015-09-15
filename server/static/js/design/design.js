@@ -95,6 +95,7 @@ function Design() {
     this.designID = -1;
     this.drawAreaHeight = parseInt($("#drawArea").css("height"));
     this.DRAWAREA_HEIGHT = 550;
+    this.designName = "New design";
 };
 
 Design.prototype.clear = function() {
@@ -108,6 +109,7 @@ Design.prototype.init = function() {
     this._makeDrawAreaDroppabble();
     operationLog.init();
     operationLog.openFile();
+    this.setDesignName(this.designName);
 };
 
 Design.prototype.setDrawAreaHeight = function(height) {
@@ -417,6 +419,11 @@ Design.prototype.updateRiskView = function(risk) {
     setTimeout(function () {  $("#riskSpan").popup("hide"); }, 3000);
 }
 
+Design.prototype.setDesignName = function(designName) {
+    $("#designName").text(designName);
+    this.designName = designName;
+}
+
 //========================================================================================
 /**
  * @class DesignMenu
@@ -670,6 +677,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
 
         $("#saveModal").modal("hide");
         $("#saveSuccessModal").modal('show');
+        design.setDesignName(curcuitChartData.name);
         var el = $("#drawArea").get(0);
         html2canvas(el, {
             onrendered: function(canvas) {
@@ -797,6 +805,7 @@ DesignMenu.prototype.enableLoadDesignBtn = function() {
                     var nodeElems = Util._loadCircuitCNodes(parts);
                     Util.loadBackbone(backbones);
                     Util.loadCircuitLinks(connections, nodeElems);
+                    design.setDesignName(curcuitChart.name);
                 });
             }
         });
