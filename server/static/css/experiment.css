@@ -450,3 +450,7 @@
 .icolor {
 	background-color: rgb(114, 211, 227) !important;
 }
+
+#readPartInfoModal .content label {
+    font-size: 17px;
+}
