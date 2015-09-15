@@ -226,6 +226,9 @@ Design.prototype.putNewDevice = function(elem) {
     Util.loadBackbone(device.backbone);
     setDrawLineStyle();
     rightBar.processDropedDevice(device);
+    if (designMenu.isHideNormalLine == false) {
+        designMenu.hideBtn.click();
+    }
     operationLog.addDevice(elem.attr("device-name"));
 }
 
@@ -350,7 +353,7 @@ Design.prototype.addDraggable = function(elem) {
         // scroll: true,
         grid: [30, 30],
         drag:function(e){
-            if (designMenu._isHideNormalLine == true) {
+            if (designMenu.isHideNormalLine == true) {
                 $("svg").each(function() {
                     if ($(this).find('path').attr('stroke') == 'green') {
                         $(this).css('display', 'none');
@@ -359,7 +362,7 @@ Design.prototype.addDraggable = function(elem) {
             }        
         },
         stop: function(e){
-            if (designMenu._isHideNormalLine == true) {
+            if (designMenu.isHideNormalLine == true) {
                 $("svg").each(function() {
                     if ($(this).find('path').attr('stroke') == 'green') {
                         $(this).css('display', 'none');
@@ -440,7 +443,7 @@ function DesignMenu() {
 
     this._isMinusBtnOpen = false;
     // this._isConnectPartBtnOpen = true;
-    this._isHideNormalLine = false;
+    this.isHideNormalLine = false;
 };
 
 DesignMenu.prototype.init = function() {
@@ -504,9 +507,9 @@ DesignMenu.prototype.enableDesignSlider = function() {
 DesignMenu.prototype.enableHideNormal = function() {
     var that = this;
     this.hideBtn.click(function() {
-        if (that._isHideNormalLine == false) {
+        if (that.isHideNormalLine == false) {
             $(this).addClass("ired");
-            that._isHideNormalLine = true;
+            that.isHideNormalLine = true;
             $("svg").each(function() {
                 if ($(this).find('path').attr('stroke') == 'green') {
                     $(this).css('display', 'none');
@@ -514,7 +517,7 @@ DesignMenu.prototype.enableHideNormal = function() {
             });
         } else {
             $(this).removeClass("ired");
-            that._isHideNormalLine = false;
+            that.isHideNormalLine = false;
             $("svg").each(function() {
                 if ($(this).find('path').attr('stroke') == 'green') {
                     $(this).css('display', 'block');
