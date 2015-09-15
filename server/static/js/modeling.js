@@ -79,7 +79,7 @@ Modeling.prototype.loadData = function() {
         that.xAxis = data.x_axis;
         console.log(that.variables);
         console.log(that.xAxis);
-        $("#simulation .title span").text(data.title);
+        $("#simulation .title span").text(data.name);
 		that.drawChart($("#chart"), that.xAxis, that.variables);
         that.drawChart($("#myChart"));
         that.initMenu();
