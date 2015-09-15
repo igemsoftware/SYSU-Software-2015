@@ -581,22 +581,24 @@ class Design(db.Model, BioBase):
 #    statistical chart
     references = db.Column(db.Text, default='')
     """References."""
-    rate = db.Column(db.Integer, default = 0)
+
+    rate = db.Column(db.Numeric, default = 0)
     """The integrated rate."""
-    eval_efficiency = db.Column(db.Integer, default = 0)
+    eval_efficiency = db.Column(db.Numeric, default = 0)
     """Evaluation of efficiency."""
-    eval_reliability = db.Column(db.Integer, default = 0)
+    eval_reliability = db.Column(db.Numeric, default = 0)
     """Evaluation of reliability."""
-    eval_accessibility = db.Column(db.Integer, default = 0)
+    eval_accessibility = db.Column(db.Numeric, default = 0)
     """Evaluation of accessibiliy."""
-    eval_compatibility = db.Column(db.Integer, default = 0)
+    eval_compatibility = db.Column(db.Numeric, default = 0)
     """Evaluation of compatibility."""
-    eval_demand = db.Column(db.Integer, default = 0)
+    eval_demand = db.Column(db.Numeric, default = 0)
     """Evaluation of demand."""
-    eval_safety = db.Column(db.Integer, default = 0)
+    eval_safety = db.Column(db.Numeric, default = 0)
     """Evaluation of safety."""
-    eval_completeness = db.Column(db.Integer, default = 0)
+    eval_completeness = db.Column(db.Numeric, default = 0)
     """Evaluation of completeness."""
+
     last_active = db.Column(db.DateTime, default=datetime.now)
     """Last active time."""
     comments = db.relationship('DesignComment', backref='design', lazy='dynamic')
