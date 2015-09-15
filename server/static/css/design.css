@@ -2,23 +2,55 @@
 	color: red;
 }
 
-#main-contain {
+.float-right {
+    float: right;
+}
+
+.inline {
+    display: inline-block;
+}
+
+body {
+    min-height: 100%;
+    height: 100%;
+/*    position: relative;
+    overflow: auto;*/
+}
+
+/*#main-contain {
     width: 100%;
-    position: absolute;
+    height: 85%;
+    position: relative;
     padding-top: 1%;
     padding-left: 3%;
     padding-right: 3%;
+    /*padding-bottom: 3%;*/
+/*    overflow: auto;
 }
+*/
 
 
 #drawArea {
-	width: 100%;
-	height: 600px;
+	width: 92%;
+	height: 78%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: 2%;
 	position: relative;
     margin-top: 10px;
 	border: solid 1px #C5C5C5;
 	z-index: 0;
     background-color: white;
+/*    overflow: auto;*/
+}
+
+#drawArea .node {
+    cursor: pointer;
+}
+
+#drawArea #rubberband {
+    border:1px solid green;
+    display:none;
 }
 
 #left-sidebar {
@@ -283,7 +315,7 @@
     z-index: 900;
     transition: right 0.5s;
     -webkit-transition: left 0.5s;   /* Safari 和 Chrome */
-    background-color: rgba(228, 228, 228, 0.46);
+    background-color: rgba(228, 228, 228, 0.8);
     -moz-box-shadow: -5px 2px 10px #989898;/*firefox  
     -webkit-box-shadow: -5px 2px 10px #989898;/*webkit*/  
     box-shadow: -5px 2px 10px #989898;/*opera或ie9*/  
@@ -376,6 +408,11 @@
     font-size: 12px;
 }
 
+#right-sidebar #addedParts .item .partTitle{
+    cursor: pointer;
+    width: 70%;
+}
+
 #right-sidebar .data .leftBox {
     display: inline-block;
     width: 85%;
@@ -386,11 +423,9 @@
 }
 
 #right-sidebar .data .item {
-    /*width: 85%;*/
     display: inline;
 }
 
-/*right-bar device style*/
 #right-sidebar #addedDevices {
     height: 65%;
     overflow: auto;
@@ -427,7 +462,7 @@
     margin-top: 2px;
 }
 /*=====================================================*/
-::-webkit-scrollbar-track {
+::-webkit-scrollbar-track:horizontal {
     border-radius: 5px;
     height: 8px;
 }
@@ -452,6 +487,13 @@
 
 
 /*======================================================*/
+#drawArea-menu {
+    margin-left: 4%;
+    margin-top: 2%;
+    position: relative;
+}
+
+
 #drawArea-menu  .buttons button {
     background-color: rgba(250, 250, 250, 1) !important;
 }
@@ -471,6 +513,21 @@
 #drawArea-menu #riskSpan .button {
     padding-top: 0;
     margin-left: 5px;
+}
+
+#drawArea-menu span {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+#drawArea-menu .title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+#drawArea-menu #designName {
+    font-size: 14px;
+    font-weight: lighter;
 }
 
 .selected {
@@ -535,18 +592,10 @@
     vertical-align:middle !important;
 }
 
-/*#equation {
-    width: 98%;
-}*/
-
 #equation .selection {
     min-width: 11em;
     width: 100%;
 }
-
-/*#risk {
-    float: right;
-}*/
 
 #saveModal textarea {
     margin-bottom: 1em;
@@ -601,4 +650,194 @@
     margin-left: 20px;
     background-color: #ec5a5b;
     color: white;
+}
+
+
+.dotShape {
+    position: absolute;
+    height:10px; 
+    width: 80px;
+    z-index:2;
+    opacity:0.7;
+    filter:alpha(opacity=70);
+    position:absolute;
+    cursor:pointer;
+    color:#333;
+    border-radius: 5px; /* 所有角都使用半径为5px的圆角，此属性为CSS3标准属性 */ 
+    -moz-border-radius: 5px; /* Mozilla浏览器的私有属性 */ 
+    -webkit-border-radius: 5px; /* Webkit浏览器的私有属性 */ 
+    border-radius: 5px 4px 3px 2px; /* 四个半径值分别是左上角、右上角、右下角和左下角 */ 
+}
+
+#chooseModal {
+    margin-left: 30%;
+    width: 40%;
+    left: 0;
+    padding-bottom: 20px;
+    height: 70%;
+}
+
+#chooseModal .content {
+    height: 100%;
+}
+
+#chooseModal .content .button {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#chooseModal #designList {
+    height: 90%;
+    overflow: auto; 
+}
+
+#chooseModal #designList .title {
+    cursor: pointer;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+#chooseModal .divider {
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#chooseModal div{
+    /*height: 1em;*/
+    font-size: 17px;
+}
+
+.float-right {
+    float: right;
+}
+
+.ired {
+    background-color: #ec5a5b !important;
+}
+
+#drawArea-menu .buttons .ired {
+    background-color: #ec5a5b !important;
+}
+
+/*============================================*/
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.slider {
+  width: 80px;
+  display: inline-block;
+  vertical-align: middle;
+
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  width: 100%;
+  height: 20px;
+  margin: 0;
+  border: none;
+  padding: 1px 2px;
+  border-radius: 14px;
+  background: rgba(250, 250, 250, 1);
+  box-shadow: inset 0 1px 0 0 #0d0e0f, inset 0 -1px 0 0 #3a3d42;
+  -webkit-box-shadow: inset 0 1px 0 0 #AFB3B6, inset 0 -1px 0 0 #AEAEAE;
+  outline: none; /* no focus outline */
+}
+
+input[type="range"]::-moz-range-track {
+  border: inherit;
+  background: transparent;
+}
+
+input[type="range"]::-ms-track {
+  border: inherit;
+  color: transparent; /* don't drawn vertical reference line */
+  background: transparent;
+}
+
+input[type="range"]::-ms-fill-lower,
+input[type="range"]::-ms-fill-upper {
+  background: transparent;
+}
+
+input[type="range"]::-ms-tooltip {
+  display: none;
+}
+
+/* thumb */
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 30px;
+  height: 18px;
+  border: none;
+  border-radius: 12px;
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #529de1), color-stop(100%, #245e8f)); /* android <= 2.2 */
+  background-image: -webkit-linear-gradient(top , #ec5a5b#ec5a5b 0, #ec5a5b 100%); /* older mobile safari and android > 2.2 */;
+  background-image: linear-gradient(to bottom, #ec5a5b 0, #ec5a5b 100%); /* W3C */
+}
+input[type="range"]::-moz-range-thumb {
+  width: 40px;
+  height: 18px;
+  border: none;
+  border-radius: 12px;
+  background-image: linear-gradient(to bottom, #ec5a5b 0, #ec5a5b 100%); /* W3C */
+}
+
+input[type="range"]::-ms-thumb {
+  width: 40px;
+  height: 18px;
+  border-radius: 12px;
+  border: 0;
+  background-image: linear-gradient(to bottom, #ec5a5b 0, #ec5a5b 100%); /* W3C */
+}
+
+#readPartInfoModal .content label {
+    font-size: 17px;
+}
+
+#readPartInfoModal .content .button {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#readPartInfoModal .partRisk {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+
+#readPartInfoModal img {
+    text-align: center;
+    margin-right: auto;
+    margin-right: auto;
+}
+
+#secureModal p {
+    font-size: 16px;
+}
+
+#secureModal .ired {
+    color: white;
+}
+
+#secureModal .check.icon {
+    color: #71e3d0
+}
+
+#readDeviceInfoModal img {
+    width: 100%;
+    height: 60%;
+}
+
+#readDeviceInfoModal h3 {
+    margin-top: 5px;
+}
+
+#readDeviceInfoModal label {
+    font-size: 17px;
 }

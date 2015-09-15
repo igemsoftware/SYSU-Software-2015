@@ -38,17 +38,23 @@ class Task(db.Model):
     """How many votes it got."""
 
     def jsonify(self):
-        return {'title':self.title,
-                'content':self.content,
+        from ..tools.parser import htmltotext
+        return {
+                'id':self.id,
+                'title':self.title,
+                'content':htmltotext(self.content),
                 'timestamp': (self.timestamp - datetime.utcfromtimestamp(0)).total_seconds(),
+                'views' : self.views,
+                'votes' : self.votes,
+                'answers':self.answers.count(),
                         #.strftime('%H:%M %d %b, %Y'),
                 'author': { 
                         'name': self.owner.username,
-                        'avatar': self.owner.avatar,
+                        'avatar': self.owner.avatar or '/static/img/avatar.jpg',
                         'question': self.owner.tasks.count(),
-                        'answer': self.answers.count(),
+                        'answer': self.owner.answers.count(),
                         'shared': self.owner.designs.filter_by(is_shared=True).count(),
-                        'tracks': len(self.owner.tracks)
+                        'tracks': [x.name for x in self.owner.tracks]
                     } 
                }
 

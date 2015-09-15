@@ -1,0 +1,12 @@
+Part C 2014XMU-China
+When there is no L-arabinose involved in, promoter PBAD has leakage expression, so that this device will produce repressor LacI. Therefore, this device can inhibit to chemotaxis.  
+Without any exogenous stimulus, E. coli will produce background amount of AraC to repress PBAD at limit degree. That means even no L-arabinose involved in, promoter PBAD has leakage expression, so that this device will produce repressor LacI which can bind to the operon of promoter Plac and thus repress its transcription. Because L-arabinose could induce PBAD, within certain concentration range, the more L-arabinose involved in, the more repressor LacI this device could produce resulting the inhibition to chemotaxis. Because of its ability to constrain chemotaxis, this part is named C.
+production of lacI,Inhibition to chemotaxis
+http://2014.igem.org/Team:XMU-China/Project_ConicCurve
+http://2014.igem.org/Team:XMU-China/Notebook_Protocol
+1
+AraC_1,L-arabinose_1
+LacI_1
+{"parts":[{"partID":"AraC_1","partName":"AraC","partAttr":"AraC","positionX":140,"positionY":292},{"partID":"PBAD_2","partName":"PBAD","partAttr":"PBAD","positionX":140,"positionY":147},{"partID":"L-arabinose_3","partName":"L-arabinose","partAttr":"L-arabinose","positionX":140,"positionY":0},{"partID":"RBS:BBa_B0034_4","partName":"RBS","partAttr":"RBS:BBa_B0034","positionX":260,"positionY":147},{"partID":"lacI_5","partName":"lacI","partAttr":"lacI","positionX":380,"positionY":147},{"partID":"LacI_6","partName":"LacI","partAttr":"LacI","positionX":380,"positionY":291},{"partID":"Terminator:BBa_B0010_7","partName":"Terminator","partAttr":"Terminator:BBa_B0010","positionX":500,"positionY":147},{"partID":"Terminator:BBa_B0012_8","partName":"Terminator","partAttr":"Terminator:BBa_B0012","positionX":620,"positionY":147}],"relationship":[{"start":"AraC_1","end":"PBAD_2","type":"inhibition"},{"start":"L-arabinose_3","end":"PBAD_2","type":"promotion"},{"start":"PBAD_2","end":"RBS:BBa_B0034_4","type":"normal"},{"start":"RBS:BBa_B0034_4","end":"lacI_5","type":"normal"},{"start":"lacI_5","end":"LacI_6","type":"promotion"},{"start":"lacI_5","end":"Terminator:BBa_B0010_7","type":"normal"},{"start":"Terminator:BBa_B0010_7","end":"Terminator:BBa_B0012_8","type":"normal"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[91,214],"end":[676,216]}],"name":"Part C 2014XMU-China"}
+
+

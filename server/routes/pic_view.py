@@ -16,22 +16,30 @@ def allowed_file(filename):
 
 @pic.route('/upload', methods=['POST', 'GET'])
 def upload():
+    """
+        :Method: GET 
+        :Usage: A simple form to upload file. Use in development.
+
+        :Method: POST 
+        :Usage: The entrance of uploading file. 
+    """
     if request.method == 'POST':
         file = request.files['file']
         if not file:
-            return jsonify(error='Please select a file')
+            return jsonify(uploaded=0, error={message: 'Please select a file'})
         elif not allowed_file(file.filename):
-            return jsonify(error='The file extension format is not allowed')
+            return jsonify(uploaded=0,
+                error={message: 'The file extension format is not allowed'})
         else:
             filename = file.filename
             extension = '.'+filename.rsplit('.', 1)[1]
-            
+
             # avoid filename collision
             filename = hashlib.md5( filename.encode('utf-8')+datetime.now().strftime('%y-%m-%d %H-%M-%S') ).hexdigest() + extension
             fileadr = os.path.join(current_app.config['UPLOAD_FOLDER_FULL'], filename)
             file.save(fileadr)
 
-            # pic compress and crop 
+            # pic compress and crop
             from PIL import Image
             img = Image.open(fileadr)
             l = min(*img.size)
@@ -42,12 +50,17 @@ def upload():
                             img.size[0]/2+l/2, img.size[1]/2+l/2))
             img.save(fileadr)
 
-            return jsonify(url=url_for('pic.fetch', filename=filename, _external=True))
+            return jsonify(uploaded=1,
+                    url=url_for('pic.fetch', filename=filename, _external=True),
+                    filename=filename)
     else:
         return render_template('test/upload_picture.html')
 
 @pic.route('/fetch/<path:filename>')
 def fetch(filename):
+    """
+        :Usage: Get a file named ``filename`` in the picture server. 
+    """
     filename = filename.strip()
     if '..' in filename or filename.startswith('/'):
         return 'not found'

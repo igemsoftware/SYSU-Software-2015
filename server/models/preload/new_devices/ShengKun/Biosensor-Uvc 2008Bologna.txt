@@ -1,0 +1,10 @@
+Biosensor-Uvc 2008Bologna
+This is a reporter of Uvc using Lex A protein as its detector.
+Uvc radiation, inactivating Lex A repressor through the SOS response can cause LacI transcription.
+Biosensor,Uvc,LacI
+http://2008.igem.org/Team:Bologna
+http://2008.igem.org/Team:Bologna/Notebook
+1
+Uvc_1
+LacI_1
+{"parts":[{"partID":"lex A_28","partName":"lex A","partAttr":"lex A","positionX":368,"positionY":18},{"partID":"Lex A_29","partName":"Lex A","partAttr":"Lex A","positionX":259,"positionY":171},{"partID":"PLex_30","partName":"PLex","partAttr":"PLex","positionX":164,"positionY":310},{"partID":"Uvc_31","partName":"Uvc","partAttr":"Uvc","positionX":83,"positionY":19},{"partID":"lacI_32","partName":"lacI","partAttr":"lacI","positionX":367,"positionY":310},{"partID":"LacI_33","partName":"LacI","partAttr":"LacI","positionX":367,"positionY":159},{"partID":"Promoter_34","partName":"Promoter","partAttr":"Promoter","positionX":180,"positionY":18},{"partID":"RBS_35","partName":"RBS","partAttr":"RBS","positionX":275,"positionY":18},{"partID":"RBS_36","partName":"RBS","partAttr":"RBS","positionX":262,"positionY":310},{"partID":"Terminator_37","partName":"Terminator","partAttr":"Terminator","positionX":462,"positionY":18},{"partID":"Terminator_38","partName":"Terminator","partAttr":"Terminator","positionX":470,"positionY":310}],"name":"Biosensor_UVc 2008Bologna","relationship":[{"start":"lex A_28","end":"Lex A_29","type":"promotion"},{"start":"Lex A_29","end":"PLex_30","type":"inhibition"},{"start":"Uvc_31","end":"Lex A_29","type":"inhibition"},{"start":"lacI_32","end":"LacI_33","type":"promotion"},{"start":"RBS_35","end":"lex A_28","type":"normal"},{"start":"Promoter_34","end":"RBS_35","type":"normal"},{"start":"Terminator_37","end":"lex A_28","type":"normal"},{"start":"RBS_36","end":"PLex_30","type":"normal"},{"start":"RBS_36","end":"lacI_32","type":"normal"},{"start":"lacI_32","end":"Terminator_38","type":"normal"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[136,87],"end":[508,87]},{"start":[130,378],"end":[504,378]}]}

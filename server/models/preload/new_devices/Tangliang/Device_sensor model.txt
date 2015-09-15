@@ -1,0 +1,10 @@
+Biosensor-Fe-FUR 2013EvryTerminator
+This device is a sensor of Fe-FUR. It can also determine enterobactin production rate of the E.coli. In absence of iron mRNA can be transcribed. In presence of iron, Fur binds the DNA, on the Fur binding site and mRNA expression is inhibited.
+Fur acts as an active repressor in presence of ferrous ion (Fe2+), its co-repressor. Then, Fe2+ binds to the Fur protein (one ferrous ion per subunit of Fur). This interaction leads to a structural modification and induces the dimerization of Fur and Fe2+. Then the homodimeric Fur-Fe2+ complex binds to the DNA on a Fur binding site and inhibits the mRNA transcription. In absence of Fe2+, a disinhibiting effect occurs and mRNA can be transcribed.
+Fe2+,Fur
+http://2013.igem.org/Team:Evry
+http://2013.igem.org/Team:Evry/Protocols
+1
+Promoter_1,Fe-FUR_1
+Terminator_1
+{"parts":[{"partID":"Fur Binding Site_82","partName":"Fur Binding Site","partAttr":"Fur Binding Site","positionX":431,"positionY":264},{"partID":"RBS:BBa_B0034_83","partName":"RBS","partAttr":"RBS:BBa_B0034","positionX":529,"positionY":264},{"partID":"Fe-FUR_84","partName":"Fe-FUR","partAttr":"Fe-FUR","positionX":439,"positionY":92},{"partID":"Terminator:BBa_B0010_86","partName":"Terminator","partAttr":"Terminator:BBa_B0010","positionX":703,"positionY":263},{"partID":"sfgfp_87","partName":"sfgfp","partAttr":"sfgfp","positionX":618,"positionY":263},{"partID":"RBS_88","partName":"RBS","partAttr":"RBS","positionX":337,"positionY":265},{"partID":"Promoter_89","partName":"Promoter","partAttr":"Promoter","positionX":250,"positionY":265}],"name":"Biosenser Fe-FUR","relationship":[{"start":"Fur Binding Site_82","end":"RBS:BBa_B0034_83","type":"normal"},{"start":"Fe-FUR_84","end":"Fur Binding Site_82","type":"inhibition"},{"start":"RBS:BBa_B0034_83","end":"sfgfp_87","type":"normal"},{"start":"sfgfp_87","end":"Terminator:BBa_B0010_86","type":"normal"},{"start":"RBS_88","end":"Fur Binding Site_82","type":"normal"},{"start":"Promoter_89","end":"RBS_88","type":"normal"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[209,339],"end":[751,336]}]}

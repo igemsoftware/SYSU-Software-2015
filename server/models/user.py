@@ -92,7 +92,7 @@ class User(UserMixin, db.Model):
 
     def send_message_to(self, user, **kwargs):
         """Send a :class:`Message` to another user.""" 
-        msg = Message(isread=False, receiver_id=user.id, source='User', **kwargs) #sender_id=self.id,
+        msg = Message(isread=False, receiver=user, source='User', **kwargs) #sender_id=self.id,
         db.session.add(msg)
         db.session.commit()
         return msg
@@ -124,6 +124,7 @@ class User(UserMixin, db.Model):
     # comment
     answers = db.relationship('Answer', backref='owner', lazy='dynamic')
     comments = db.relationship('Comment', backref='owner', lazy='dynamic')
+    designComments = db.relationship('DesignComment', backref='owner', lazy='dynamic')
     def answer_a_task(self, task, content):
         """Give an :class:`Answer` about a :class:`Task`.""" 
         a = Answer(content=content)
@@ -180,13 +181,16 @@ class User(UserMixin, db.Model):
             if (datetime.now()+td > m.plan_time):
                 # send via administrator
                 User.query.get(1).send_message_to(self, title='Notice: [%s]' % m.title, 
-                    content='Memo: [%s...] is about to happen.' % m.content[:20])
+                    content='Memo: [%s] is about to happen.' % m.title)
 
                 # send email if needed
                 if self.memo_email == True:
-                    self.send_email('Notice: [%s]' % m.title, 'email/memo', memo=m, user=self)
+                #    self.send_email('Notice: [%s]' % m.title, 'email/memo', memo=m, user=self)
+                    print m.id, m.title, 'sent email'
 
                 m.message_sent = True
+                db.session.add(m)
+        db.session.commit()
 
     def get_memos_during(self, start_time, end_time):
         """Get :class:`Memo` in a specific duration."""

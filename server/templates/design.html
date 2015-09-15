@@ -1,70 +1,20 @@
-<!doctype html>
-<html lang="">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title></title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends 'person/person.html' %}
 
-    <link rel="stylesheet" href="/static/css/semantic.min.css">
-    <link rel="stylesheet" href="/static/css/main_common.css">
-    <link rel="stylesheet" href="/static/css/design.css">
-    <script type="text/x-mathjax-config">
+{% block title %}Design{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/design.css">
+  <script type="text/x-mathjax-config">
       MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-    </script>
-    <script type="text/javascript"
-      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-    </script>
-    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+  </script>
+  <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+{% endblock %}
 
-  </head>
-  <body>
-<!-- Top bar -->
-  <div class="ui circular image" id="topbar-avatar" data-content="Dashboard"><a href=""><img src="/static/img/avatar.jpg" alt="avatar"></a></div>
-  <script>$(function() {$("#topbar-avatar").popup();});</script>
-
-  <div class="ui page dimmer" id="main-switcher">
-    <div class="content">
-      <div class="center">
-        <div class="ui inverted blue circular icon button"><i class="massive idea icon"></i></div>
-        <div class="ui inverted red circular icon button"><i class="massive database icon"></i></div>
-        <div class="ui inverted green circular icon button"><i class="massive checkmark icon"></i></div>
-      </div>
-    </div>
-  </div>
-  <script>$(function() {$('#topbar-menu').click(function() {$('#main-switcher').dimmer('show');});});</script>
-
-
-    <div class="ui secondary menu" id="topbar">
-      <div class="item" id="topbar-index">
-        <div class="ui button" id="topbar-btn-index"></div>
-      </div>
-      <div class="item" id="topbar-menu">
-        <div class="ui icon button" id="topbar-btn-menu"><i class="sidebar icon"></i></div>
-      </div>
-      <div class="item" id="topbar-undo">
-        <div class="ui button" id="topbar-btn-undo">Undo</div>
-      </div>
-      <div class="item" id="topbar-save">
-        <div class="ui button" id="topbar-btn-save">Save</div>
-      </div>
-      <div class="item" id="topbar-help">
-        <div class="ui button" id="topbar-btn-help">Help</div>
-      </div>
-      <div class="right menu">
-        <div class="item" id="topbar-design">
-          <div class="ui button" id="topbar-btn-design">Design</div>
-        </div>
-        <div class="item" id="topbar-modeling">
-          <div class="ui button" id="topbar-btn-modeling">Modeling</div>
-        </div>
-        <div class="item" id="topbar-experiment">
-          <div class="ui button" id="topbar-btn-experiment">Experiment</div>
-        </div>
-      </div>
-      <div id="topbar-bottom-line"></div>
-    </div>
+{% block body %}
+  {{ super() }}
 <!--   leftbar -->
     <div id="left-sidebar">
       <div class="ui button trigger-left">
@@ -96,30 +46,42 @@
               <div class="item" data-value="all">
                 <img class="ui mini avatar image">
                 All
-              </div>  
+              </div>
               <div class="item" data-value="promoter">
-                <img class="ui mini avatar image" src="/static/img/design/promoter_60.png">
+                <img class="ui mini avatar image" src="/static/img/design/parts/promoter_70.png">
                 Promoter
               </div>
               <div class="item" data-value="RBS">
-                <img class="ui mini avatar image" src="/static/img/design/RBS_60.png">
+                <img class="ui mini avatar image" src="/static/img/design/parts/RBS_70.png">
                 RBS
               </div>
               <div class="item" data-value="gene">
-                <img class="ui mini avatar image" src="/static/img/design/gene_60.png">
+                <img class="ui mini avatar image" src="/static/img/design/parts/gene_70.png">
                 Gene
               </div>
               <div class="item" data-value="terminator">
-                <img class="ui mini avatar image" src="/static/img/design/terminator_60.png">
+                <img class="ui mini avatar image" src="/static/img/design/parts/terminator_70.png">
                 Terminator
               </div>
               <div class="item" data-value="protein">
-                <img class="ui mini avatar image" src="/static/img/design/protein_60.png">
+                <img class="ui mini avatar image" src="/static/img/design/parts/protein_70.png">
                 Protein
               </div>
               <div class="item" data-value="chemical">
-                <img class="ui mini avatar image" src="/static/img/design/chemical_60.png">
+                <img class="ui mini avatar image" src="/static/img/design/parts/chemical_70.png">
                 Chemical
+              </div>
+              <div class="item" data-value="RNA">
+                <img class="ui mini avatar image" src="/static/img/design/parts/RNA_70.png">
+                RNA
+              </div>
+              <div class="item" data-value="material">
+                <img class="ui mini avatar image" src="/static/img/design/parts/material_70.png">
+                Material
+              </div>
+              <div class="item" data-value="unknown">
+                <img class="ui mini avatar image" src="/static/img/design/parts/unknown_70.png">
+                Unknown
               </div>
             </div>
           </div>
@@ -161,7 +123,11 @@
         <div id="customs">
           <button id="createCustomPart" class="ui fluid labeled icon button">Create a part<i class="add icon"></i></button>
           <div class="ui inverted divider"></div>
-          <button class="ui fluid labeled icon button">Import a chart<i class="add icon"></i></button>
+          <button class="ui fluid labeled icon button" id="importPerBtn">Import a personal design<i class="add icon"></i></button>
+          <div class="ui inverted divider"></div>
+          <button class="ui fluid labeled icon button" id="importForBtn">Import a favorite design<i class="add icon"></i></button>
+          <div class="ui inverted divider"></div>
+          <button class="ui fluid labeled icon button" id="importPubBtn">Import a public design<i class="add icon"></i></button>
           <div class="ui inverted divider"></div>
         </div>
       </div>
@@ -191,10 +157,10 @@
         <a class="item" data-tab="history">history</a>
       </div>
 
-      <div class="ui bottom attached tab segment active" data-tab="added"> 
-        <div class="ui fluid category search">
+      <div class="ui bottom attached tab segment active" data-tab="added">
+        <div class="ui fluid category search" id="searchAddBox">
           <div class="ui fluid icon input">
-            <input id="searchAdd" class="prompt" placeholder="Search added parts..." type="text">
+            <input id="searchAddInput" class="prompt" placeholder="Search added parts..." type="text">
             <i class="search icon"></i>
           </div>
           <div class="results"></div>
@@ -244,7 +210,7 @@
 <!--   download modal -->
     <div class="ui small modal" id="downloadModal">
       <div class="header">Download a custom part</div>
-      <div class="content"> 
+      <div class="content">
         <div class="ui form">
           <div class="inline fields">
             <div class="field">
@@ -260,9 +226,21 @@
       </div>
     </div>
 <!--   download modal -->
+<!--   chooseModal modal -->
+    <div class="ui small modal" id="chooseModal">
+      <div class="header"><h2>Choose A design</h2></div>
+      <div class="content">
+        <div id="designList"></div>
+        <div class="fluid float-right">
+          <div class="ui tiny cancel button">Cancel</div>
+          <div class="ui tiny button ired" id="choose">Confirm</div>
+        </div>
+      </div>
+    </div>
+<!--   chooseModal modal -->
 <!--   save modal -->
     <div class="ui small modal" id="saveModal">
-      <div class="header">Save your curcuit</div>
+      <div class="header">Save your design.</div>
       <div class="content">
         <div class="ui form">
           <div class="inline fields">
@@ -278,11 +256,23 @@
         </div>
         <div class="fluid text-right">
           <div class="ui cancel button">Cancel</div>
-          <div class="ui submmit button" id="saveCircuitBtn">Save</div>
+          <div class="ui submmit button ired" id="saveCircuitBtn">Save</div>
         </div>
       </div>
     </div>
 <!--   save modal -->
+<!--   Secure modal -->
+    <div class="ui small basic modal" id="secureModal">
+      <div class="content">
+        <h3 class="text-center"><i class="ui large icon check circle"></i>You have finished your circuit, congratulations！</h3>
+        <p class="text-center">A control system, like a killer switch, may prevent biosafety problems and help your circuit work  better in real world application. Are you sure you want to save your work without a control system? </p>
+        <div class="fluid text-center" style="margin-top: 50px;">
+          <div class="ui cancel button"><i class="ui icon chevron left"></i>Back to Design</div>
+          <div class="ired ui move button" id="continueToSave">Continue to Save<i class='ui icon chevron right'></i></div>
+        </div>
+      </div>
+    </div>
+<!--   Secure modal -->
 <!--   saveSuccess modal -->
     <div class="ui small basic modal" id="saveSuccessModal">
       <div class="content">
@@ -306,13 +296,107 @@
     </div>
 <!--   deleteModal modal -->
 
+<!--   Part more modal -->
+    <div class="ui small modal" id="readPartInfoModal">
+      <div class="header">Part Information:</div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="three wide column text-center">
+              <img class="partImg ui tiny">
+            </div>
+            <div class="thirteen wide column">
+              <form class="ui form">
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Part Name:</label>
+                    <span class="partName">Promoter</span>
+                  </div>
+                  <div class="inline field">
+                    <label>BBa Name:</label>
+                    <span class="partBBa">BBa_02333</span>
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Part type:</label>
+                    <span class="partType">Promoter</span>
+                  </div>
+                  <div class="inline field">
+                    <label>Risk ground:</label>
+                    <span class="partRisk">Low risk(1)</span>
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Bacterium:</label>
+                    <span class="partBact"></span>
+                  </div>
+                  <div class="inline field">
+                    <label>Source:</label>
+                    <span class="partSource">Come from no where.</span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Introduction</label>
+                  <p class="partIntro">No introduction yet.</p>
+                </div>
+                <div class="fluid text-right">
+                  <div class="ui cancel button">Cancel</div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+<!--   Part more modal -->
+
+<!--   Device more modal -->
+    <div class="ui modal" id="readDeviceInfoModal">
+      <div class="header">Device Information:</div>
+      <div class="content">
+        <div class="ui grid">
+          <div class="ten wide column">
+            <img class=".deviceImg">
+          </div>
+          <div class="six wide column">
+            <form class="ui form">
+              <div class="field">
+                <label>Device Name:</label>
+                <span class="deviceName">Promoter</span>
+              </div>
+              <div class="field">
+                <label>Parts</label>
+                <span class="deviceParts">PcI, CI, terminator, gene</span>
+              </div>
+              <div class="field">
+                <label>Interface:</label>
+                <span class="deviceInterface"></span>
+              </div>
+              <div class="inline field">
+                <label>Risk ground:</label>
+                <span class="deviceRisk">Low risk(1)</span>
+              </div>
+            </form>
+          </div>
+        </div>
+        <h3 class="inline">Source:</h3>
+        <p class="inline deviceSource">"http://2012.igem.org/Team:ETH_Zurich</p>
+        <h3>Introduction:</h3>
+        <p class="deviceIntro">This senor can detect the present of sunlight.In the dark state, UVR8 forms a dimer, which monomerizes upon UV_B irradiation and induces transcriptional changes necessary for plant UV response. Here, UVR8 is fused with a DNA binding domain of tetracycline repressor protein (TetRDBD). TetRDBD does not contain dimerization domain required for efficient binding and repression of TetR responsive promoter Ptet. However, external dimerization would in principle restore TetRDBD ability to repress Ptet. Thus, our chimeric protein UVR8_TetRDBD acts as an light inducible transcription repressor 篓C at dark state. UVR8 dimer brings TetRDBD at close proximity to bind Ptet, whereas UVR8 monomerization upon UV_B light releases UVR8_TetRDBD from DNA, thus inducing transcription of the downstream genes. UVR8 (UV Resistance Locus 8) acts as a UVB photoreceptor in plants. It regulates the transcription factor COP and indirectly affects the expression of a myriad of genes. Sun light,UVb,sensor
+        </p>
+        <div class="fluid text-right">
+          <div class="ui cancel button">Cancel</div>
+        </div>
+      </div>
+    </div>
+<!--   Device more modal -->
 <!--   custom modal -->
     <div class="ui small modal" id="createCustomPartModal">
       <div class="header">Create a custom part</div>
         <div class="content">
           <div class="ui grid">
             <div class="three wide column">
-              <img id="customImg" class="ui tiny image" src="/static/img/design/promoter_70.png">
+              <img id="customImg" class="ui tiny image" src="/static/img/design/parts/promoter_70.png">
             </div>
             <div class="thirteen wide column">
               <form class="ui form">
@@ -325,28 +409,40 @@
                       <div class="default text">Select a type</div>
                       <div class="menu">
                         <div class="item" data-value="promoter">
-                          <img class="ui mini avatar image" src="/static/img/design/promoter_70.png">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/promoter_70.png">
                           Promoter
                         </div>
                         <div class="item" data-value="RBS">
-                          <img class="ui mini avatar image" src="/static/img/design/RBS_70.png">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/RBS_70.png">
                           RBS
                         </div>
                         <div class="item" data-value="gene">
-                          <img class="ui mini avatar image" src="/static/img/design/gene_70.png">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/gene_70.png">
                           Gene
                         </div>
                         <div class="item" data-value="terminator">
-                          <img class="ui mini avatar image" src="/static/img/design/terminator_70.png">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/terminator_70.png">
                           Terminator
                         </div>
                         <div class="item" data-value="protein">
-                          <img class="ui mini avatar image" src="/static/img/design/protein_70.png">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/protein_70.png">
                           Protein
                         </div>
                         <div class="item" data-value="chemical">
-                          <img class="ui mini avatar image" src="/static/img/design/chemical_70.png">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/chemical_70.png">
                           Chemical
+                        </div>
+                        <div class="item" data-value="RNA">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/RNA_70.png">
+                          RNA
+                        </div>
+                        <div class="item" data-value="material">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/material_70.png">
+                          Material
+                        </div>
+                        <div class="item" data-value="unknown">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/unknown_70.png">
+                          Unknown
                         </div>
                       </div>
                     </div>
@@ -401,7 +497,7 @@
           </div>
       </div>
     </div>
-<!--   custom modal -->
+<!--   Part more modal -->
 <div class="ui segment" id="loadingData">
   <div class="ui active page inverted dimmer">
     <div class="ui text loader">Loading...</div>
@@ -409,31 +505,41 @@
 </div>
 
 <!-- main-contain -->
-    <div id="main-contain">
+    <!-- <div id="main-contain"> -->
       <div id="drawArea-menu">
         <div class="ui large icon buttons">
           <button class="ui grey button" id="openFile" data-content="Open an circuit"><i class="folder open icon"></i></button>
           <button class="ui grey button" id="save" data-content="Save your circuit"><i class="save icon"></i></button>
           <button class="ui grey button" id="clear" data-content="Clear all parts"><i class="trash outline icon"></i></button>
-          <button class="ui grey button" id="connect-part" data-content="Connect two parts" ><i class="compress icon"></i></button>
-          <button class="ui grey button" id="minus" data-content="Delete a part"><i class="minus icon"></i></button>
+          <button class="ui grey button" id="normal-conn" data-content="Connect two parts" ><i class="compress icon"></i></button>
+          <button class="ui grey button" id="promotion-conn" data-content="Add activation relationship" ><i class="external icon"></i></button>
+          <button class="ui grey button" id="inhibition-conn" data-content="Add repression relationship"><i class="minus icon"></i></button>
+          <button class="ui grey button" id="minus" data-content="Delete a part"><i class="remove icon"></i></button>
+          <button class="ui grey button" id="backbone" data-content="Add a DNA Backbone" ><i class="write icon"></i></button>
+          <button class="ui grey button" id="hideNormal" data-content="Hide normal line" ><i class="hide icon"></i></button>
           <button class="ui grey button" id="download" data-content="Download this image" ><i class="download icon"></i></button>
         </div>
-        <span id="riskSpan">Risk: <span class="vertical-middle ui green button" id="risk" data-content="Low risk(1)"></span></span>
+        <span class="title">Canvas size:</span>
+        <div class="slider">
+            <input type="range">
+        </div>
+        <span id="riskSpan" data-content="Low risk(1)" class="title">Risk: <span class="vertical-middle ui green button" id="risk"></span></span>
+        <span class="title">Current design: <span id='designName'></span></span>
       </div>
       <div class="" id="drawArea">
-          <div id="rubberband" style="border:1px solid green;display:none;"></div>
+          <!-- <div id="test">hello</div> -->
+          <div id="rubberband"></div>
       </div>
-    </div>
-    <script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="/static/js/design/dom.jsPlumb-1.7.6-min.js"></script>
-    <script type="text/javascript" src="/static/js/semantic.min.js"></script>
-    <script type="text/javascript" src="/static/js/design/rgbcolor.js"></script> 
-    <script type="text/javascript" src="/static/js/design/StackBlur.js"></script>
-    <script type="text/javascript" src="/static/js/design/canvg.js"></script>
-    <script type="text/javascript" src="/static/js/design/html2canvas.js"></script>
-    <script type="text/javascript" src="/static/js/design/timeago.js"></script>
+    <!-- </div> -->
+    <script type="text/javascript" src="/static/js/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/js/lib/dom.jsPlumb-1.7.6-min.js"></script>
+    <script type="text/javascript" src="/static/js/lib/rgbcolor.js"></script>
+    <script type="text/javascript" src="/static/js/lib/StackBlur.js"></script>
+    <script type="text/javascript" src="/static/js/lib/canvg.js"></script>
+    <script type="text/javascript" src="/static/js/lib/html2canvas.js"></script>
+    <script type="text/javascript" src="/static/js/lib/timeago.js"></script>
+    <script type="text/javascript" src="/static/js/lib/semantic.min.js"></script>
     <script type="text/javascript" src="/static/js/design/util.js"></script>
     <script type="text/javascript" src="/static/js/design/design.js"></script>
-  </body>
-</html>
+    <script>var vueBody = new coreBody({el: 'body'});</script>
+{% endblock %}

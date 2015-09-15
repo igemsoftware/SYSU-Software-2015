@@ -1,5 +1,7 @@
 Demo2_Toggle switch 2008Bologna
+The molecular circuit can switch between two different stable states (CI_ON and TetR_ON).
 The molecular circuit can switch between two different stable states (CI_ON and TetR_ON), driven by the external stimuli. Toggle switch,CI,TetR
+toggle switch
 http://2008.igem.org/Team:Bologna
 http://2008.igem.org/Team:Bologna/Notebook
 1

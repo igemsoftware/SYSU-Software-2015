@@ -26,14 +26,14 @@
       <div class="ui blue ok basic inverted button"><i class="checkmark icon"></i>Okay</div>
     </div>
   </div>
-  <script>$(function() { $('#error-modal').modal('show'); })</script>
   {% endif %}
 
+  {% set avatar_url = form.avatar.data or url_for('static', filename='img/avatar.jpg', _external=True) %}
   <div class="ui modal" id="avatar-modal">
     <div class="header">Change Avatar</div>
     <div class="image content">
       <div class="ui medium image">
-        <img class="avatar-image" src="/static/img/avatar.jpg" alt="">
+        <img class="avatar-image" src="{{avatar_url}}" alt="">
       </div>
       <div class="description">
         <p>We've prepared a default avatar for you, but it's highly recommended to upload your own:</p>
@@ -64,7 +64,6 @@
           <form action="{{url_for('auth.register')}}" class="ui form" id="form" method="POST">
             {{ form.csrf_token }}
 
-            {% set avatar_url = form.avatar.data or '/static/img/avatar.jpg' %}
             <div class="ui blurring dimmable circular image" id="avatar">
               <div class="ui dimmer transition">
                 <div class="content">
@@ -73,9 +72,9 @@
                   </div>
                 </div>
               </div>
-              <img class="avatar-image" src="{{form.avatar.data or '/static/img/avatar.jpg'}}" alt="Avatar">
+              <img class="avatar-image" src="{{avatar_url}}" alt="Avatar">
             </div>
-            {{ form.avatar(id="avatar-url-input", style="display: none;") }}
+            {{ form.avatar(id="avatar-url-input", style="display: none;", value=avatar_url) }}
 
             <div class="ui padded right aligned grid" id="form-inner-grid">
 
@@ -150,10 +149,13 @@
   </div>
 
 
-  <script src="/static/js/jquery.min.js"></script>
-  <script src="/static/js/jquery.form.min.js"></script>
-  <script src="/static/js/semantic.min.js"></script>
+  <script src="/static/js/lib/jquery.min.js"></script>
+  <script src="/static/js/lib/jquery.form.min.js"></script>
+  <script src="/static/js/lib/semantic.min.js"></script>
   <script src="/static/js/register.js"></script>
+  {% if form.errors %}
+  <script>$(function() { $('#error-modal').modal('show'); })</script>
+  {% endif %}
 
 </body>
 </html>

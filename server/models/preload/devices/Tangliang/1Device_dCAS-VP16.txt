@@ -9,7 +9,8 @@ Pconst_1,Pconst_2
 Terminator_1,Terminator_2,Terminator_3
 Pconst_1	cas9-VP16_1	normal
 cas9-VP16_1	Terminator_1	normal
-cas9-VP16_1	cas9-VP16_1	promotion
+cas9-VP16_1	Cas9-VP16_1	promotion
+Cas9-VP16_1	Pmin_1	inhibition
 Pconst_2	tracr/crRNA_1	normal
 tracr/crRNA_1	Terminator_2	normal
 tracr/crRNA_1	Tracr/crRNA_1	promotion

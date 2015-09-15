@@ -24,13 +24,3 @@ CheZ_1	Cell motility_1	promotion
 as-FtsZ mRNA_1	FtsZ_1	inhibition
 FtsZ_1	Cell division_1	promotion
 AHL receiver_1	cheZ_1	inhibition
-
-cI_2	CI_2	promotion
-CI_2	PcI_1	inhibition
-cI_2	AHL generator_1	normal
-AHL generator_1	AHL enzyme_1	promotion
-AHL enzyme_1	AHL_1	promotion
-AHL_1	AHL receiver_1	promotion
-AHL receiver_1	as-FtsZ mRNA_1	promotion
-as-FtsZ mRNA_1	FtsZ_1	inhibition
-FtsZ_1	Cell division_1	promotion

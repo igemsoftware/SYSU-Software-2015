@@ -9,7 +9,7 @@
     .. autoattribute:: id
     .. autoattribute:: owner_id
     .. autoattribute:: name
-    .. autoattribute:: short_description
+    .. autoattribute:: brief_description
     .. autoattribute:: full_description
     .. autoattribute:: references
     .. autoattribute:: rate

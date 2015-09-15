@@ -69,8 +69,9 @@ class Protocol(db.Model):
         _introduction = []
         _component = []
         _procedure = []
-        with open(filename, 'r') as f:
-            self.name = f.readline().strip().decode('ISO-8859-1')
+        import codecs
+        with codecs.open(filename, 'r', 'ISO-8859-1') as f:
+            self.name = f.readline().strip()
             if self.name[0] == 'B': self.setB = True;
 #            self.recommend = f.readline().strip() == 'True'
             self.recommend = True
@@ -83,7 +84,7 @@ class Protocol(db.Model):
                 elif line == 'Procedure' or line.startswith('Procedure'):
                     ptr = _procedure
                 else:
-                    ptr.append(line.strip().decode('ISO-8859-1'))
+                    ptr.append(line.strip())
 
         self.introduction = '\n'.join(_introduction)
         self.component = '\n'.join(_component)
@@ -140,7 +141,7 @@ class Relationship(db.Model):
         self.equation = {'parameters':{}, 'content':''}
 
     def __repr__(self):
-        return '<Relationship: %s->%s>' % (self.start.attr, self.end.attr)
+        return '<Relationship: %s->%s %s>' % (self.start.attr, self.end.attr, self.type)
 
 
 class ComponentPrototype(db.Model):
@@ -211,12 +212,18 @@ class ComponentInstance():
     """The position on X-axis."""
     positionY = 0.
     """The position on Y-axis."""
-    def __init__(self, partName, partID=None, partAttr=None, positionX=300., positionY=300.):
+    def __init__(self, partName, partID=None, partAttr=None, BBa=None, positionX=300., positionY=300.):
         """Initialization constructor, can use :attr:`ComponentPrototype.name` 
         or :attr:`ComponentPrototype.attr` to find the prototype."""
-        c = ComponentPrototype.query.filter_by(name=partName).first()
+#        print "New instance: BBa: %s, pname: %s" % (BBa, partName)
+        if partName in ['Promoter', 'RBS', 'Terminator'] and not BBa:
+            BBa = ''
+        if BBa != None:
+            c = ComponentPrototype.query.filter_by(name=partName, BBa=BBa).first()
+        else:
+            c = ComponentPrototype.query.filter_by(name=partName).first()
         if c is None:
-            print 'No prototype named %s' % partName 
+            raise Exception ('No prototype named %s BBa %s' % (partName, BBa) )
             partID = partName = 'None'
             c = ComponentPrototype.query.filter_by(name=partName).first()
 
@@ -323,6 +330,13 @@ class BioBase():
         self.parts.append(c)
         return c
 
+    def add_component_by_name_and_BBa(self, component_name, BBa, **kwargs):
+        c = ComponentInstance(partName=component_name, BBa=BBa, **kwargs)
+        self.parts.append(c)
+        return c
+
+
+
     def add_connection(self, x, y, r):
         self.relationship.append({'start':x, 'end':y, 'type':r})
 
@@ -334,11 +348,16 @@ class Device(db.Model, BioBase):
     id = db.Column(db.Integer, primary_key=True)
     """ID is an unique number to identify each :class:`Device`."""
 
-    title = db.Column(db.String(32))
-    """Its title."""
+    name = db.Column(db.String(32))
+    """Its name."""
 
-    introduction = db.Column(db.Text, default="No introduction yet.")
-    """Its introduction."""
+    brief_description = db.Column(db.Text, default="")
+    """Brief description."""
+    full_description = db.Column(db.Text, default="")
+    """Full description."""
+    keyword = db.Column(db.Text, default="")
+    """Keyword"""
+
     source = db.Column(db.Text, default="Come from no where.")
     """Its source."""
     protocol_reference = db.Column(db.Text, default="No reference.")
@@ -359,7 +378,7 @@ class Device(db.Model, BioBase):
         BioBase.__init__(self)
 
     # load from file
-    def __load_prototype_and_instance(self, name, new_instance):
+    def __load_prototype_and_instance(self, name, new_instance=True, skip_instance=False):
         if len(name.split('_')) == 1:
             raise Exception('[%s] No underscore.' % name)
 
@@ -373,14 +392,19 @@ class Device(db.Model, BioBase):
             except:
                 pname = ':'.join([pname,BBa])
                 BBa = None
+        if not BBa:
+            BBa = ''
 
         # add Prototype if not exist
-        if not BBa:
-            c = ComponentPrototype.query.filter_by(name=pname).first()
-            if c==None: raise Exception('No prototype [name=%s].'%pname)
-        else:
+        if pname in ['Promoter', 'RBS', 'Terminator']:
             c = ComponentPrototype.query.filter_by(name=pname, BBa=BBa).first()
-            if c==None: raise Exception('No prototype [name=%s, BBa=%s].'%(pname, BBa))
+        else:
+            c = ComponentPrototype.query.filter_by(name=pname).first()
+        if c==None: 
+            raise Exception('No prototype [name=%s, BBa=%s].'%(pname, BBa))
+        if skip_instance:
+            return c
+        BBa = c.BBa
 
 #           c = ComponentPrototype(name=pname, type=type)
 #       db.session.add(c)
@@ -388,36 +412,101 @@ class Device(db.Model, BioBase):
 
         # add component if not exist
         if new_instance:
-            instance = self.add_component_by_name(pname, partID=name)
+            instance = self.add_component_by_name_and_BBa(pname, BBa, partID=name)
         else:
+#            print map(lambda x: x.partAttr, self.parts)
             for ins in self.parts:
                 if ins.partID==name:
                     instance = ins
                     break
-
         return c, instance
+
+    def new_load_from_file(self, filename):
+        """Load from local files. Mostly called in preload stage."""
+        print 'loading device from %s ...' % filename
+        if filename.split('.')[-1] != 'txt': 
+            print '\tSkip', filename
+            return  
+        import codecs
+        f = codecs.open(filename, 'r', 'gb2312')
+        self.name= f.readline().strip()
+        self.brief_description = f.readline().strip()
+        self.full_description = f.readline().strip()
+        self.keyword = f.readline().strip()
+        #self.introduction = f.readline().strip().decode('ISO-8859-1')
+        self.source = f.readline().strip()
+        self.protocol_reference = f.readline().strip()
+        try:
+            self.risk = int(f.readline().strip())
+        except:
+            self.risk = -1
+        # self.type = f.readline().strip()
+        self.interfaceA = f.readline().strip() 
+        self.interfaceB = f.readline().strip() #.split(',')
+
+        json_obj = json.loads(f.readline().strip())
+
+        d = Device()
+        d.commit_to_db()
+        d.update_from_db()
+
+        for ele in ['relationship', 'parts',
+                'name', 'interfaceA', 'interfaceB', 'backbone']:
+            d.__setattr__(ele, json_obj[ele])
+
+        d.commit_to_db()
+
+        for ele in json_obj['relationship']:
+#            if ele['type'] == 'normal': continue
+
+            start = self.__load_prototype_and_instance(ele['start'], skip_instance=True)
+            end = self.__load_prototype_and_instance(ele['end'], skip_instance=True)
+        
+            existed = Relationship.query.filter_by(start=start, end=end).first()
+            if not existed:
+                r = Relationship(start=start, end=end, type=ele['type'])
+                db.session.add(r)
+            elif existed.type == 'normal' and ele['type'] != 'normal':
+                existed.type = ele['type']
+                db.session.add(existed)
+
+
+
+
+
 
     def load_from_file(self, filename):
         """Load from local files. Mostly called in preload stage."""
         print 'loading device from %s ...' % filename
-        f = open(filename, 'r')
-        self.title = f.readline().strip().decode('ISO-8859-1')
-        self.introduction = f.readline().strip().decode('ISO-8859-1')
-        self.source = f.readline().strip().decode('ISO-8859-1')
-        self.protocol_reference = f.readline().strip().decode('ISO-8859-1')
-        self.saferank = f.readline().strip()
+        if filename.split('.')[-1] != 'txt': 
+            print '\tSkip', filename
+            return  
+        import codecs
+        f = codecs.open(filename, 'r', 'gb2312')
+        self.name= f.readline().strip()
+        self.brief_description = f.readline().strip()
+        self.full_description = f.readline().strip()
+        self.keyword = f.readline().strip()
+        #self.introduction = f.readline().strip().decode('ISO-8859-1')
+        self.source = f.readline().strip()
+        self.protocol_reference = f.readline().strip()
+        try:
+            self.risk = int(f.readline().strip())
+        except:
+            self.risk = -1
         # self.type = f.readline().strip()
         self.interfaceA = f.readline().strip() 
         self.interfaceB = f.readline().strip() #.split(',') 
 
         rec = set() 
         for line in f:
-            line = line.decode('ISO-8859-1')
+            line = line
             if len(line.strip(' \n\r').split('\t')) != 3:
                 #raise Exception('Format error (No extra empty line after the table).')
 #                print('Warning: Format error. Skip line [%s].'%line.strip(' \n'))
                 continue
 #            print '[%s]' % line
+            print line.strip()
             A_name, B_name, R_type = line.strip(' \n\r').split('\t')
 
             #print line
@@ -455,7 +544,7 @@ class Device(db.Model, BioBase):
 
 from datetime import datetime
 
-Favorite_design = db.Table('Favorite_design',
+Favorite_design = db.Table('favorite_design',
     db.Column('design_id', db.Integer, db.ForeignKey('design.id')),
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
 )
@@ -470,10 +559,10 @@ class Design(db.Model, BioBase):
     """The :attr:`User.id` of owner."""
 
     name = db.Column(db.Text, default='')
-    """Its title, which will be shown in calendar"""
+    """Its name, which will be shown in calendar"""
     # as well as `name` here
 
-    short_description = db.Column(db.Text, default='')
+    brief_description = db.Column(db.Text, default='')
     """Brief description."""
     full_description = db.Column(db.Text, default='')
     """Full description."""
@@ -508,6 +597,8 @@ class Design(db.Model, BioBase):
     """Whether the design is shared."""
     is_public = db.Column(db.Boolean, default=False)
     """Whether the design is public."""
+    used = db.Column(db.Integer, default=0)
+    """Used times."""
     # task_related = db.Column(db.Integer, default=-1)
 
     create_time = db.Column(db.DateTime, index=True, default=datetime.now)
@@ -528,12 +619,18 @@ class Design(db.Model, BioBase):
     #experiment = db.Column(db.Text, default='')
 
     # in public database
-    public_create_time = db.Column(db.DateTime)
+    release_time = db.Column(db.DateTime, default=datetime.now)
+    public_create_time = db.Column(db.DateTime, default=datetime.now)
     """When this design is in CORE Bank."""
     likes = db.Column(db.Integer, default=0)
     """How many likes it get."""
     favoriter = db.relationship('User', secondary=Favorite_design, backref=db.backref('fav_design', lazy='dynamic')) 
     """Who mark it as favorite."""
+
+    def check_public(self):
+        if self.is_shared:
+            self.is_public = True
+            self.public_create_time = datetime.now()
 
 
 ##  recommended_protocol = db.relationship('ProtocolRecommend',
@@ -554,7 +651,7 @@ class Design(db.Model, BioBase):
         if not d: raise Exception('No device #%d' % device_id) 
         d.update_from_db()
 
-        self.full_description = self.full_description+' (COPYED: '+d.introduction+')'
+        self.full_description = self.full_description+' (COPYED: '+d.brief_description+')'
         self.parts = d.parts
         self.relationship = d.relationship
         self.interfaceA = d.interfaceA
@@ -573,8 +670,8 @@ class Design(db.Model, BioBase):
             'id': self.id,
             'tags': tags,
             'progress': self.progress,
-            'title': self.name,
-            'description': self.introduction,
+            'name': self.name,
+            'description': self.full_description,
         }
 
 

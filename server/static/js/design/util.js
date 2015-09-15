@@ -7,8 +7,22 @@
  */
 function Util() {};
 
+Util.getRiskText = function(risk) {
+    if (risk == -1 || risk == 1) return "Low risk(1)"
+    if (risk == 2) return 'Moderate risk(2)'
+    if (risk == 3) return 'High risk(3)'
+    if (risk == 4) return 'Extreme risk(4)'
+}
+
+Util.getRiskColor = function(risk) {
+    if (risk == -1 || risk == 1) return "ui green mini button"
+    if (risk == 2) return 'ui orange mini button'
+    if (risk == 3) return 'ui pink mini button'
+    if (risk == 4) return 'ui red mini button'
+}
+
 Util.getImagePath = function(type, imgSize) {
-    return "/static/img/design/"+ type + "_" + imgSize +".png";
+    return "/static/img/design/parts/"+ type + "_" + imgSize +".png";
 };
 
 Util.createImageDiv = function(partType) {
@@ -79,15 +93,24 @@ Util.renderEquation = function(e) {
 Util._loadCircuitCNodes = function(parts) {
     var nodeElems = [];
     var that = this;
+    var mostHeight = 0;
     $.each(parts, function(index, part ) {
         var node = that._createNewCNode(part);
         node.appendTo(design.drawArea);
         design.addPartEvent(node);
-
+        // design.addProAndInhibitLine(node);
         var partID = part.partID;
         nodeElems.push([partID, node]);
     });
 
+    for (var i in parts) {
+        if (parts[i].positionY > mostHeight) {
+            mostHeight = parts[i].positionY;
+        }
+    }
+    if (mostHeight > design.drawAreaHeight) {
+        design.setDrawAreaHeight(mostHeight+$("#drawArea").offset().top);
+    }
     return nodeElems;
 };
 
@@ -95,18 +118,17 @@ Util._createNewCNode = function(part) {
     var node = $("<div></div>");
     var left = part.positionX;
     var top = part.positionY;
+    var partType = DataManager.getPartType(part.partName);
     node.css({left: left, top: top});
     node.css({position: "absolute"});
     node.attr("part-name", part.partName);
-    //need recover
+    node.attr("part-type", partType);
     node.attr("part-attr", part.partAttr);
-    // node.attr("part-attr", part.partName);
-    //need recover
+    node.attr("data-content", "Most link to two objects");
     node.attr("normal-connect-num", 0);
     node.addClass("node");
     node.css("text-align", "center");
 
-    var partType = DataManager.getPartType(part.partName)
     var img = this.createImageDiv(partType);
     img.appendTo(node);
 
@@ -126,7 +148,52 @@ Util._createNewCNode = function(part) {
     return node;
 };
 
-Util._loadCircuitLinks = function(connections, nodeElems) {
+Util.loadBackbone = function(backbones) {
+    var that = this;
+    $.each(backbones, function(index, elem) {
+        var dotStart = that.createEndpoint();
+        var dotEnd = that.createEndpoint();
+        dotStart.css({left: elem.start[0], top: elem.start[1]});
+        dotEnd.css({left:elem.end[0], top:elem.end[1]});
+        var minusCircle = that.createMinusCircleDiv();
+        minusCircle.appendTo(dotEnd);
+        dotStart.appendTo($("#drawArea"));
+        dotEnd.appendTo($("#drawArea"));
+
+        that.connectBackbone(dotStart, dotEnd);
+    })
+}
+
+Util.connectBackbone = function(dotStart, dotEnd) {
+    jsPlumb.importDefaults({
+        PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+        Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+    });
+
+    jsPlumb.connect({
+        source: dotStart,
+        target: dotEnd,
+        endpoint:"Blank",
+        overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]],
+        paintStyle: { strokeStyle: "#123456", lineWidth: 6},
+        connector: ["Straight"],
+        Container: "drawArea"
+    });
+    
+    jsPlumb.draggable(dotStart, {
+        containment: 'parent',
+    });
+    jsPlumb.draggable(dotEnd, {
+        containment: 'parent',
+    });
+    setDrawLineStyle();
+}
+
+Util.createEndpoint = function () {
+    return $("<div class='dotShape'></div>");
+}
+
+Util.loadCircuitLinks = function(connections, nodeElems) {
     $.each(connections, function(index, elem) {
         // if (elem.type == "promotion" || elem.type == "inhibition") return;
         var startElem;
@@ -135,17 +202,29 @@ Util._loadCircuitLinks = function(connections, nodeElems) {
             if (nodeElems[index][0] == elem.start) startElem = nodeElems[index][1];
             if (nodeElems[index][0] == elem.end) endElem = nodeElems[index][1];
         }
-        if (elem.type == 'normal') {
-            var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
-            var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
-            startNormalNum += 1;
-            endNormalNum += 1;
-            $(startElem).attr("normal-connect-num", startNormalNum);
-            $(endElem).attr("normal-connect-num", endNormalNum);
+        // if (elem.type == 'normal') {
+            // var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
+            // var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
+            // if (elem.type == 'normal') {
+            //     startNormalNum += 1;
+            //     endNormalNum += 1;
+            //     $(startElem).attr("normal-connect-num", startNormalNum);
+            //     $(endElem).attr("normal-connect-num", endNormalNum);
+            // }
             design.drawLine(startElem, endElem, elem.type);
-        }
+        // }
     }); 
 };
+
+Util.getDevicePartsString = function(device) {
+    var partString = "";
+    if (device.parts.length > 0)
+        partString += device.parts[0].partName;
+    for (var i = 1; i < device.parts.length; i++) {
+        partString += ", " + device.parts[i].partName;
+    }
+    return partString;
+}
 //========================================================================================
 /**
  * @class DataManager
@@ -227,9 +306,9 @@ DataManager.getPartByAttr = function(partAttr) {
     return null;
 }
 
-DataManager.getDeviceByTitle = function(deviceTitle) {
+DataManager.getDeviceByName = function(deviceName) {
     for (var i in this.deviceList) {
-        if (this.deviceList[i].title == deviceTitle) return this.deviceList[i];
+        if (this.deviceList[i].name == deviceName) return this.deviceList[i];
     }
     return null;
 }
@@ -329,6 +408,33 @@ DataManager.getDeviceDataFromServer = function(callback) {
     });
 }
 
+DataManager.getPerDesignDataFromServer = function(callback) {
+    var that = this;
+    $.get("/design/all", function(data, status) {
+        console.log("Personal Designs:");
+        console.log(data['designs']);
+        callback(data['designs']);
+    });
+}
+
+DataManager.getForDesignDataFromServer = function(callback) {
+    var that = this;
+    $.get("/design/favorite", function(data, status) {
+        console.log("Favorite Designs:");
+        console.log(data['designs']);
+        callback(data['designs']);
+    });
+}
+
+DataManager.getPubDesignDataFromServer = function(callback) {
+    var that = this;
+    $.get("/design/public", function(data, status) {
+        console.log("Public Designs:");
+        console.log(data['designs']);
+        callback(data['designs']);
+    });
+}
+
 //========================================================================================
 /**
  * @class Rubberband
@@ -338,13 +444,18 @@ DataManager.getDeviceDataFromServer = function(callback) {
  */
 
 function Rubberband() {
-    this.view = $("#rubberband");
     this.drawArea = $("#drawArea");
     this._x = null;
     this._y = null;
 };
 
+Rubberband.prototype.createView = function() {
+    this.view = $('<div id="rubberband"></div>');
+    this.view.appendTo(this.drawArea);
+}
+
 Rubberband.prototype.init = function() {
+    this.createView();
     this._listenDrawAreaMouseMove();
     this._listenDrawAreaMouseDown();
     this._listenDrawAreaMouseup();
@@ -355,7 +466,7 @@ Rubberband.prototype._listenDrawAreaMouseMove = function() {
     var that = this;
     this.drawArea.mousemove(function(event) {
         if(that.view.is(":visible") !== true) { return; }
-             
+        var offset = $("#drawArea").offset();
         // Get the top- and left values
         var t = (event.pageY > that._y) ? that._y : event.pageY;
         var l = (event.pageX >= that._x) ? that._x : event.pageX;
@@ -368,13 +479,7 @@ Rubberband.prototype._listenDrawAreaMouseMove = function() {
         var hcalc = event.pageY - that._y;
         var h = (event.pageY > that._y) ? hcalc : (hcalc * -1); 
      
-        // Update the rubberband with the new values
-        if (leftBar.isOpenLeftBar == true) {
-            l -= leftBar.view.width();
-        }
-        // t -= drawArea_menu.height();
-
-        that.view.css({top:t, left:l, height:h, width:w, position:'relative'});
+        that.view.css({top:t-offset.top, left:l-offset.left, height:h, width:w, position:'relative'});
     });
 };
 
@@ -392,8 +497,10 @@ Rubberband.prototype._listenDrawAreaMouseDown = function() {
         if ($(event.target).attr("class") == "filterDiv") return;
         that._x = event.pageX;         
         that._y = event.pageY;
-                 
-        that.view.css({top:that._y, left:that._x, height:1, width:1, position:'relative'});
+        var offset = $("#drawArea").offset().top;
+        var top = that._y-offset.top;
+        var left = that._x-offset.left;
+        that.view.css({top:top, left:left, height:1, width:1, position:'relative'});
         that.view.show();
     });
 };
@@ -515,3 +622,119 @@ OperationLog.prototype._writeToRightBar = function(EventElem) {
     $(".ui .feed").prepend(EventElem);
     $("time.timeago").timeago();
 };
+
+//==================================================================
+function DFS() {
+    this.map = [];
+}
+
+DFS.prototype.addEdge = function(nodeElemA, nodeElemB) {
+    var flagA = false;
+    var flagB = false;
+    nodeElemA.attr('dirty', '0');
+    nodeElemB.attr('dirty','0');
+    for (var i in this.map) {
+        if (this.map[i][0].attr('part-id') == nodeElemA.attr('part-id')) {
+            this.map[i].push(nodeElemB);
+            flagA = true;
+        }
+        if (this.map[i][0].attr('part-id') == nodeElemB.attr('part-id')) {
+            this.map[i].push(nodeElemA);
+            flagB = true;
+        }
+    }
+    if (flagA == false) {
+        var list = [];
+        list.push(nodeElemA);
+        list.push(nodeElemB);
+        this.map.push(list);
+    }
+
+    if (flagB == false) {
+        var list = [];
+        list.push(nodeElemB);
+        list.push(nodeElemA);
+        this.map.push(list);
+    }
+};
+
+DFS.prototype.createMap = function() {
+    this.map = [];
+    var connections = jsPlumb.getAllConnections();
+    for (var i in connections) {
+        if (connections[i].scope == "normal") {
+            this.addEdge($(connections[i].source), $(connections[i].target));
+        }
+    }
+};
+
+DFS.prototype.searchCircuit = function() {
+    var circuits = [];
+    var queue = [];
+    var circuit = [];
+    for (var i in this.map) {
+        if (this.map[i][0].attr('part-type') == "promoter" &&
+            this.map[i][0].attr('normal-connect-num') == "1") {
+            queue.push(this.map[i]);
+        }
+    }
+    // console.log("Queue:");
+    // console.log(queue);
+    for (var i in queue) {
+        circuit = [];
+        var head = queue[i];
+        if (head[0].dirty == true) continue;
+        circuit.push(head[0]);
+        head[0].attr('dirty', '1');
+        while ((head.length == 2 && head[1].attr('dirty') == '0') || head.length == 3) {
+            if (head.length == 2) {
+                circuit.push(head[1]);
+                head[1].attr('dirty', '1');
+                for (var j in this.map) {
+                    if (this.map[j][0].attr('part-id') == head[1].attr('part-id')) {
+                        head = this.map[j];
+                        break;
+                    }
+                }
+            } else {
+                var index;
+                if (head[1].attr('dirty') == '1') index = 2;
+                if (head[2].attr('dirty') == '1') index = 1;
+                if (head[1].attr('dirty') == '1' && head[2].attr('dirty') == '1') {
+                    console.log("Error !!!");
+                    break;
+                }
+                circuit.push(head[index]);
+                head[index].attr('dirty', '1');
+                for (var j in this.map) {
+                    if (this.map[j][0].attr('part-id') == head[index].attr('part-id')) {
+                        head = this.map[j];
+                        break;
+                    }
+                }
+            }
+        }
+        circuits.push(circuit.slice(0, circuit.length));
+    }
+    console.log("Found circuit:");
+    console.log(circuits);
+    return circuits;
+};
+
+DFS.prototype.getCircuits = function() {
+    this.createMap();
+    console.log("Map:");
+    console.log(this.map);
+    var circuitsElems = this.searchCircuit();
+    var circuits = [];
+    var circuit = [];
+    for (var i in circuitsElems) {
+        circuit = [];
+        for (var j in circuitsElems[i]) {
+            var part = DataManager.getPartByAttr(circuitsElems[i][j].attr('part-attr'));
+            circuit.push(part);
+        }
+        circuits.push(circuit);
+    }
+    return circuits;
+}

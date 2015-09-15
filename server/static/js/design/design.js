@@ -17,6 +17,12 @@ var rubberband;
 var designMenu;
 var dfs;
 var test;
+var setDrawLineStyle = function() {
+    jsPlumb.importDefaults({
+        PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+        Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+    });
+}
 
 //==========================================================================================
 /**
@@ -36,16 +42,18 @@ function CNode() {
 CNode.prototype.createCNode = function(partElem) {
     this.view = partElem;
     this.view.attr('normal-connect-num', '0');
+    this.view.attr("data-content", "Most link to two objects");
     this.view.removeAttr("class");
     this.view.find(".BBa").remove();
     var partType = partElem.attr('part-type');
 
-    if (partType == 'gene' || partType == 'promoter' 
-        || partType == 'RBS' || partType == 'terminator') {
+    // if (partType == 'gene' || partType == 'promoter' 
+    //     || partType == 'RBS' || partType == 'terminator') {
         var filterDiv = $("<div></div>");
         filterDiv.addClass("filterDiv");
+        filterDiv.css('display', 'none');
         filterDiv.appendTo(this.view);
-    }
+    // }
     var minusCircle = Util.createMinusCircleDiv();
     minusCircle.appendTo(this.view);
 
@@ -64,117 +72,6 @@ CNode.prototype.setCNodeId = function(id) {
 }
 
 //-===================================================
-function DFS() {
-    this.map = [];
-}
-
-DFS.prototype.addEdge = function(nodeElemA, nodeElemB) {
-    var flagA = false;
-    var flagB = false;
-    nodeElemA.attr('dirty', '0');
-    nodeElemB.attr('dirty','0');
-    for (var i in this.map) {
-        if (this.map[i][0].attr('part-id') == nodeElemA.attr('part-id')) {
-            this.map[i].push(nodeElemB);
-            flagA = true;
-        }
-        if (this.map[i][0].attr('part-id') == nodeElemB.attr('part-id')) {
-            this.map[i].push(nodeElemA);
-            flagB = true;
-        }
-    }
-    if (flagA == false) {
-        var list = [];
-        list.push(nodeElemA);
-        list.push(nodeElemB);
-        this.map.push(list);
-    }
-
-    if (flagB == false) {
-        var list = [];
-        list.push(nodeElemB);
-        list.push(nodeElemA);
-        this.map.push(list);
-    }
-};
-
-DFS.prototype.createMap = function() {
-    this.map = [];
-    var connections = jsPlumb.getAllConnections();
-    for (var i in connections) {
-        if (connections[i].scope == "normal") {
-            this.addEdge($(connections[i].source), $(connections[i].target));
-        }
-    }
-};
-
-DFS.prototype.searchCircuit = function() {
-    var circuits = [];
-    var queue = [];
-    var circuit = [];
-    for (var i in this.map) {
-        if (this.map[i][0].attr('part-type') == "promoter" &&
-            this.map[i][0].attr('normal-connect-num') == "1") {
-            queue.push(this.map[i]);
-        }
-    }
-    
-    for (var i in queue) {
-        circuit = [];
-        var head = queue[i];
-        if (head[0].dirty == true) continue;
-        circuit.push(head[0]);
-        head[0].attr('dirty', '1');
-        while ((head.length == 2 && head[1].attr('dirty') == '0') || head.length == 3) {
-            if (head.length == 2) {
-                circuit.push(head[1]);
-                head[1].attr('dirty', '1');
-                for (var j in this.map) {
-                    if (this.map[j][0].attr('part-id') == head[1].attr('part-id')) {
-                        head = this.map[j];
-                        break;
-                    }
-                }
-            } else {
-                var index;
-                if (head[1].attr('dirty') == '1') index = 2;
-                if (head[2].attr('dirty') == '1') index = 1;
-                if (head[1].attr('dirty') == '1' && head[2].attr('dirty') == '1') {
-                    console.log("Error !!!");
-                    break;
-                }
-                circuit.push(head[index]);
-                head[index].attr('dirty', '1');
-                for (var j in this.map) {
-                    if (this.map[j][0].attr('part-id') == head[index].attr('part-id')) {
-                        head = this.map[j];
-                        break;
-                    }
-                }
-            }
-        }
-        circuits.push(circuit.slice(0, circuit.length));
-    }
-    console.log(circuits);
-    return circuits;
-};
-
-DFS.prototype.getCircuits = function() {
-    this.createMap();
-    var circuitsElems = this.searchCircuit();
-    var circuits = [];
-    var circuit = [];
-    for (var i in circuitsElems) {
-        circuit = [];
-        for (var j in circuitsElems[i]) {
-            var part = DataManager.getPartByAttr(circuitsElems[i][j].attr('part-attr'));
-            circuit.push(part);
-        }
-        circuits.push(circuit);
-    }
-    return circuits;
-}
-
 //==========================================================================================
 /**
  * @class Design
@@ -188,15 +85,23 @@ function Design() {
     this.drawArea = $("#drawArea");
     this.drawMenu = $("#drawArea-menu");
     // this._isProOrInhiLink = false;
-    this._isPromoteLink = false;
-    this._isInhibitLink = false;
+    this.isPromoteLink = false;
+    this.isInhibitLink = false;
+    this._isNormalLink = false;
     this.nodeElemList = [];
     this._partCount = 0;
     this.risk = 1;
+    this.isRemove = false;
+    this.designID = -1;
+    this.drawAreaHeight = parseInt($("#drawArea").css("height"));
+    this.DRAWAREA_HEIGHT = 550;
+    this.designName = "New design";
 };
 
 Design.prototype.clear = function() {
     this.nodeElemList = [];
+    this.risk = 1;
+    this.updateRiskView(1);
 }
 
 Design.prototype.init = function() {
@@ -204,7 +109,19 @@ Design.prototype.init = function() {
     this._makeDrawAreaDroppabble();
     operationLog.init();
     operationLog.openFile();
+    this.setDesignName(this.designName);
 };
+
+Design.prototype.setDrawAreaHeight = function(height) {
+    this.drawAreaHeight = height;
+    $("#drawArea").css("height", this.drawAreaHeight);
+    var temp = this.drawAreaHeight - this.DRAWAREA_HEIGHT;
+    var val = parseInt((parseFloat(temp*100))/this.DRAWAREA_HEIGHT);
+    console.log((parseFloat(temp*100)));
+    console.log(this.DRAWAREA_HEIGHT);
+    console.log(val);
+    $(".slider input").val(val);
+}
 
 Design.prototype.addProAndInhibitLine = function(partA) {
     var partAttrA = partA.attr('part-attr');
@@ -224,8 +141,8 @@ Design.prototype.addProAndInhibitLine = function(partA) {
 Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
     var overlaysClass = this._getOverLaysClass(lineType);
     var strokeStyle = this._getStorkeStyle(lineType);
-    if (lineType == "promotion") this._isPromoteLink = true;
-    if (lineType == "inhibition") this._isInhibitLink = true;
+    if (lineType == "promotion") this.isPromoteLink = true;
+    if (lineType == "inhibition") this.isInhibitLink = true;
     // this._isProOrInhiLink = true;
     jsPlumb.connect({
         connector: ["Flowchart"],
@@ -268,12 +185,15 @@ Design.prototype._makeDrawAreaDroppabble = function() {
             }
             var node = new CNode();
             node.createCNode($(dropedElement));
+            node.view.css({left: e.pageX, top: e.pageY});
             $("#drawArea").append(node.view);
-            var left = node.view.position().left - leftBar.view.width();
-            var top  = node.view.position().top - that.drawMenu.height();
+            var offset = $("#drawArea").offset();
+            var left = node.view.position().left - offset.left- 30;
+            var top  = node.view.position().top - offset.top - 50;
             node.view.css({left:left, top:top});
 
             that.addPartEvent(node.view);
+            that.addProAndInhibitLine(node.view);
             //write log
             operationLog.addPart(dropedElement.attr("part-attr"));
         }
@@ -282,7 +202,7 @@ Design.prototype._makeDrawAreaDroppabble = function() {
 
 Design.prototype.addPartEvent = function(elem) {
     this.addDraggable(elem);
-    this.addProAndInhibitLine(elem);
+    // this.addProAndInhibitLine(elem);
     this.makeSourceAndTarget(elem);
     this.nodeElemList.push(elem);
     this._partCount += 1;
@@ -294,13 +214,23 @@ Design.prototype.addPartEvent = function(elem) {
 } 
 
 Design.prototype.putNewDevice = function(elem) {
-    var device = DataManager.getDeviceByTitle(elem.attr('device-name'));
+    jsPlumb.importDefaults({
+        PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+        Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+    });
+    var device = DataManager.getDeviceByName(elem.attr('device-name'));
+    console.log('Put a device:');
+    console.log(device);
     var parts = device.parts;
     var connections = device.relationship;
     var nodeElems = Util._loadCircuitCNodes(parts);
-    Util._loadCircuitLinks(connections, nodeElems);
-
+    Util.loadCircuitLinks(connections, nodeElems);
+    Util.loadBackbone(device.backbone);
+    setDrawLineStyle();
     rightBar.processDropedDevice(device);
+    if (designMenu.isHideNormalLine == false) {
+        designMenu.hideBtn.click();
+    }
     operationLog.addDevice(elem.attr("device-name"));
 }
 
@@ -334,25 +264,27 @@ Design.prototype._initJsPlumbOption = function() {
         var source = $(CurrentConnection.connection.source);
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
-        if (that._isInhibitLink == true) {
+        if (target.hasClass("dotShape")) {
+            CurrentConnection.connection.scope = "backbone";
+        } else if (that.isInhibitLink == true) {
             CurrentConnection.connection.scope = "inhibition";
-            that._isInhibitLink = false;
-        } else if (that._isPromoteLink == true) {
+            that.isInhibitLink = false;
+        } else if (that.isPromoteLink == true) {
             CurrentConnection.connection.scope = "promotion";
-            that._isPromoteLink = false;
+            that.isPromoteLink = false;
         } else {
             CurrentConnection.connection.scope = "normal";
-            if (sourceNormalNum === 2) {
-                source.attr("data-content", "Most link to two objects");
+            if (sourceNormalNum == 2) {
+                // source.attr("data-content", "Most link to two objects");
                 source.popup('show');
-                source.removeAttr("data-content");
+                // source.removeAttr("data-content");
                 jsPlumb.detach(CurrentConnection.connection);
                 return;
             }
-            if (targetNormalNum === 2){
-                target.attr("data-content", "Most link to two objects");
+            if (targetNormalNum == 2){
+                // target.attr("data-content", "Most link to two objects");
                 target.popup('show');
-                target.removeAttr("data-content");
+                // target.removeAttr("data-content");
                 jsPlumb.detach(CurrentConnection.connection);
                 return;
             }
@@ -372,9 +304,12 @@ Design.prototype._initJsPlumbOption = function() {
     jsPlumb.bind('connectionDetached', function(info, originalEvent) {
         var target = $(info.connection.target);
         var source = $(info.connection.source);
+        if (target.hasClass("dotShape")) {
+            source.remove();
+        }
         var targetNormalNum = parseInt(target.attr("normal-connect-num"));
         var sourceNormalNum = parseInt(source.attr("normal-connect-num"));
-        if (info.connection.scope == "normal") {
+        if (that.isRemove == true && info.connection.scope == "normal") {
             targetNormalNum -= 1;
             sourceNormalNum -= 1;
             source.attr("normal-connect-num", sourceNormalNum);
@@ -383,34 +318,78 @@ Design.prototype._initJsPlumbOption = function() {
     })
 
     jsPlumb.on(that.drawArea, "click", ".minus", function() {
+        that.isRemove = true;
         operationLog.removePart($(this.parentNode.parentNode).attr("part-name"));
         that.removeCNodeElem($(this.parentNode.parentNode).attr("part-id"));
         jsPlumb.remove(this.parentNode.parentNode);
+        that.checkDesignRisk();
+        that.isRemove = false;
     });
 };
 
-Design.prototype.getNodeViewByPartId = function(partID) {
+Design.prototype.removeCNodeElem = function(partID) {
     for (var i in this.nodeElemList) {
         if (this.nodeElemList[i].attr('part-id') == partID) {
-            return this.nodeElemList[i];
+            var partAttr = this.nodeElemList[i].attr('part-attr');
+            this.nodeElemList.splice(i, 1);
+            if (!this.isPartInDrawArea(partAttr)) {
+                rightBar.removePartViewByAttr(partAttr);
+            }
+            break;
         }
     }
 }
 
-Design.prototype.removeCNodeElem = function(elem) {
-    var index2 = this.nodeElemList.indexOf(elem);
-    this.nodeElemList.splice(index2, 1);
+Design.prototype.isPartInDrawArea = function(partAttr) {
+    for (var i in this.nodeElemList) {
+        if (this.nodeElemList[i].attr('part-attr') == partAttr) {
+            return true;
+        }
+    }
+    return false;
 }
 
 Design.prototype.addDraggable = function(elem) {
     jsPlumb.draggable(elem, {
-        containment: 'parent',
+        containment: 'parent', //设置后会导致无法scrollable
+        // scroll: true,
+        grid: [30, 30],
+        drag:function(e){
+            if (designMenu.isHideNormalLine == true) {
+                $("svg").each(function() {
+                    if ($(this).find('path').attr('stroke') == 'green') {
+                        $(this).css('display', 'none');
+                    }
+                });
+            }        
+        },
+        stop: function(e){
+            if (designMenu.isHideNormalLine == true) {
+                $("svg").each(function() {
+                    if ($(this).find('path').attr('stroke') == 'green') {
+                        $(this).css('display', 'none');
+                    }
+                });
+            }        
+        },
     })
 };
 
 Design.prototype.updateRisk = function(part) {
     if (this.risk < part.risk) {
         this.updateRiskView(part.risk);
+    }
+}
+
+Design.prototype.checkDesignRisk = function() {
+    var risk = 1;
+    for (var i in this.nodeElemList) {
+        if (this.nodeElemList[i].attr('risk') > risk) {
+            risk = this.nodeElemList[i].attr('risk');
+        }
+    }
+    if (risk < this.risk) {
+        this.updateRiskView(risk);
     }
 }
 
@@ -435,8 +414,14 @@ Design.prototype.updateRiskView = function(risk) {
     }
     $("#risk").removeClass("green orange pink red");
     $("#risk").addClass(color);
-    $("#risk").attr("data-content", popupStr);
-    $("#risk").popup("show");
+    $("#riskSpan").attr("data-content", popupStr);
+    $("#riskSpan").popup("show");
+    setTimeout(function () {  $("#riskSpan").popup("hide"); }, 3000);
+}
+
+Design.prototype.setDesignName = function(designName) {
+    $("#designName").text(designName);
+    this.designName = designName;
 }
 
 //========================================================================================
@@ -452,43 +437,114 @@ function DesignMenu() {
     this.downloadBtn = $("#download");
     this.openFileBtn = $("#openFile");
     this.clearBtn = $("#clear");
-    this.connPartBtn = $("#connect-part");
+    this.normalConnBtn = $("#normal-conn");
+    this.promotionConnBtn = $("#promotion-conn");
+    this.inhibitionConnBtn = $("#inhibition-conn");
     this.minusBtn = $("#minus");
+    this.backboneBtn = $("#backbone");
+    this.hideBtn = $("#hideNormal");
+    this.importPerBtn = $("#importPerBtn");
+    this.importForBtn = $("#importForBtn");
+    this.importPubBtn = $("#importPubBtn");
+
 
     this._isMinusBtnOpen = false;
-    this._isConnectPartBtnOpen = true;
+    // this._isConnectPartBtnOpen = true;
+    this.isHideNormalLine = false;
 };
 
 DesignMenu.prototype.init = function() {
     this.enableSaveCircuitchartBtn();
     this.enableDownloadBtn();
-    this.enableLoadCircuitchartBtn();
+    this.enableLoadDesignBtn();
     this.enableClearCircuitchartBtn();
-    this.enableConnectPartBtn();
+    this.enableNormalConnBtn();
+    this.enablePromotionConnBtn();
+    this.enableInhibitionConnBtn();
     this.enableRemovePartBtn();
+    this.enableBackboneBtn();
+    this.enableHideNormal();
+    this.enableDesignSlider();
     this.popUpAllButton();
 
     $("#risk").popup();
 }
+
+DesignMenu.prototype.enableBackboneBtn = function() {
+    this.backboneBtn.click(function() {
+        var dotStart = Util.createEndpoint();
+        var dotEnd = Util.createEndpoint();
+        var offSet = $("#drawArea").offset();
+        if (leftBar.isOpenLeftBar == true) {
+            offSet.left -= leftBar.view.width();
+        }
+        dotStart.css({left:offSet.left+100, top: '10px'});
+        dotEnd.css({left:offSet.left+300, top:'10px'});
+        dotStart.appendTo($("#drawArea"));
+        dotEnd.appendTo($("#drawArea"));
+        var minusCircle = Util.createMinusCircleDiv();
+        minusCircle.appendTo(dotEnd);
+
+        Util.connectBackbone(dotStart, dotEnd);
+    });
+};
 
 DesignMenu.prototype.popUpAllButton = function() {
     this.saveBtn.popup();
     this.downloadBtn.popup();
     this.openFileBtn.popup();
     this.clearBtn.popup();
-    this.connPartBtn.popup();
+    this.normalConnBtn.popup();
+    this.promotionConnBtn.popup();
+    this.inhibitionConnBtn.popup();
     this.minusBtn.popup();
+    this.backboneBtn.popup();
+    this.hideBtn.popup();
+}
+
+DesignMenu.prototype.enableDesignSlider = function() { 
+    $(".slider input").val(0);
+    $(".slider input").change(function() {
+        var zoom = parseFloat($(this).val())/100;
+        var height = parseInt(design.DRAWAREA_HEIGHT);
+        $("#drawArea").css("height", String(height*(zoom+1)+'px'));
+    });
+}
+
+DesignMenu.prototype.enableHideNormal = function() {
+    var that = this;
+    this.hideBtn.click(function() {
+        if (that.isHideNormalLine == false) {
+            $(this).addClass("ired");
+            that.isHideNormalLine = true;
+            $("svg").each(function() {
+                if ($(this).find('path').attr('stroke') == 'green') {
+                    $(this).css('display', 'none');
+                }
+            });
+        } else {
+            $(this).removeClass("ired");
+            that.isHideNormalLine = false;
+            $("svg").each(function() {
+                if ($(this).find('path').attr('stroke') == 'green') {
+                    $(this).css('display', 'block');
+                }
+            });
+        }
+    });
 }
 
 DesignMenu.prototype.enableRemovePartBtn = function() {
     var that = this;
     this.minusBtn.click(function() {
         if (that._isMinusBtnOpen == false) {
+            $(this).addClass("ired");
             that._isMinusBtnOpen = true;
             $(".minusCircle").each(function() {
                 $(this).css("display", "block");
             });
         } else {
+            $(this).removeClass("ired");
             that._isMinusBtnOpen = false;
             $(".minusCircle").each(function() {
                 $(this).css("display", "none");
@@ -497,29 +553,100 @@ DesignMenu.prototype.enableRemovePartBtn = function() {
     });
 }
 
-DesignMenu.prototype.enableConnectPartBtn = function() {
+DesignMenu.prototype.enableNormalConnBtn = function() {
     var that = this;
-    this.connPartBtn.click(function() {
-        if (that._isConnectPartBtnOpen == true) {
-            that._isConnectPartBtnOpen = false;
+    this.normalConnBtn.click(function() {
+        if ($(this).hasClass('ired')) {
+            $(this).removeClass("ired");
             $(".filterDiv").each(function() {
                 $(this).css("display", "none");
             });
         } else {
-            that._isConnectPartBtnOpen = true;
+            that.hightConnBtn($(this));
+            design._isNormalLink = true;
+            setDrawLineStyle = function() {
+                jsPlumb.importDefaults({
+                    PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+                    Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+                });
+            }
+            setDrawLineStyle();
             $(".filterDiv").each(function() {
                 $(this).css("display", "block");
+                $(this).css('background-color', 'green');
             });
         }
     });
 };
 
+DesignMenu.prototype.enablePromotionConnBtn = function() {
+    var that = this;
+    this.promotionConnBtn.click(function() {
+        if ($(this).hasClass('ired')) {
+            $(this).removeClass("ired");
+            $(".filterDiv").each(function() {
+                $(this).css("display", "none");
+            });
+        } else {
+            that.hightConnBtn($(this));
+            design.isPromoteLink = true
+            setDrawLineStyle = function() {
+                jsPlumb.importDefaults({
+                    PaintStyle : { strokeStyle: "blue", lineWidth: 2 },
+                    Overlays: [['Arrow', {width:25, length: 15, location:1, foldback:0.3}]]
+                });
+            };
+            setDrawLineStyle();
+            $(".filterDiv").each(function() {
+                $(this).css("display", "block");
+                $(this).css('background-color', 'blue');
+            });
+        }
+    });
+};
+
+DesignMenu.prototype.enableInhibitionConnBtn = function() {
+    var that = this;
+    this.inhibitionConnBtn.click(function() {
+        if ($(this).hasClass('ired')) {
+            $(this).removeClass("ired");
+            $(".filterDiv").each(function() {
+                $(this).css("display", "none");
+            });
+        } else {
+            that.hightConnBtn($(this));
+            design.isInhibitLink = true;
+            setDrawLineStyle = function() {
+                jsPlumb.importDefaults({
+                    PaintStyle : { strokeStyle: "red", lineWidth: 2 },
+                    Overlays: [[ "Diamond", {width:25, length: 1, location:1, foldback:1}]]
+                });
+            }
+            setDrawLineStyle();
+            $(".filterDiv").each(function() {
+                $(this).css("display", "block");
+                $(this).css('background-color', 'red');
+            });
+        }
+    });
+};
+
+DesignMenu.prototype.hightConnBtn = function(connBtn) {
+    this.normalConnBtn.removeClass('ired');
+    this.promotionConnBtn.removeClass('ired');
+    this.inhibitionConnBtn.removeClass('ired');
+    connBtn.addClass('ired');
+}
+
 DesignMenu.prototype.enableClearCircuitchartBtn = function() {
+    var that = this;
     this.clearBtn.click(function() {
-        $("#deleteModal").modal('show');
+        $("#deleteModal").modal({transition: 'bounce'}).modal('show');
         $("#deleteBtn").click(function() {
             jsPlumb.empty("drawArea");
             design.clear();
+            var rubberband = new Rubberband();
+            rubberband.init();
             $("#deleteModal").modal('hide');
         });
     });
@@ -528,24 +655,29 @@ DesignMenu.prototype.enableClearCircuitchartBtn = function() {
 DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
     var that = this;
     this.saveBtn.click(function() {
-        $("#saveModal").modal("show");
+        $("#secureModal").modal("show");
+    });
+
+    $('#continueToSave').click(function() {
+        $("#secureModal").modal("hide");
+        $('#saveModal').modal('show');
     });
 
     $("#saveCircuitBtn").click(function() {
         var there = this;
         var img;
         var curcuitChartData = that.getDesignChartData();
-        curcuitChartData.title = $("#curcuitName").val();
-        curcuitChartData.introduction = $("#designIntro").val();
+        curcuitChartData.name = $("#curcuitName").val();
+        curcuitChartData.full_description = $("#designIntro").val();
         curcuitChartData.source = "hello world";
         curcuitChartData.risk = design.risk;
         curcuitChartData.plasmids = dfs.getCircuits();
-
         //test
-        curcuitChartData.id = -1;
+        curcuitChartData.id = design.designID;
 
         $("#saveModal").modal("hide");
         $("#saveSuccessModal").modal('show');
+        design.setDesignName(curcuitChartData.name);
         var el = $("#drawArea").get(0);
         html2canvas(el, {
             onrendered: function(canvas) {
@@ -561,13 +693,20 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
                 });
 
                 curcuitChartData.img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+                console.log("Post Data");
+                console.log(curcuitChartData);
                 var postDataJson = JSON.stringify(curcuitChartData);
                 $.ajax({
                     type: 'POST',
                     contentType: 'application/json',
-                    url: '/design/circuit/1',
+                    url: '/design/data',
                     dataType : 'json',
                     data : postDataJson,
+                    success: function(data) {
+                        DataManager.getPerDesignDataFromServer(function(designs) {
+                            designMenu.perDesignList = designs;
+                        })
+                    }
                 });
             }
         });
@@ -576,26 +715,39 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
 
 DesignMenu.prototype.getDesignChartData = function() {
     var parts = this.getDesignParts();
-    var connections = this.getDesignConns();
+    var data = this.getDesignConns();
     var curcuitChart = {};
     curcuitChart.parts = parts;
-    curcuitChart.title = "deviceName";
-    curcuitChart.relationship = connections;
+    curcuitChart.relationship = data.connections;
     curcuitChart.interfaceA = "interfaceB-partName";
     curcuitChart.interfaceB = "interfaceA-partName";
+    curcuitChart.backbone = data.backbones;
     return curcuitChart;
 }
 
 DesignMenu.prototype.getDesignConns = function() {
     var connections = [];
+    var backbones = [];
     $.each(jsPlumb.getAllConnections(), function (idx, CurrentConnection) {
+        if (CurrentConnection.scope == 'backbone') {
+            backbones.push({
+                start: [parseInt($(CurrentConnection.source).css('left'), 10), 
+                        parseInt($(CurrentConnection.source).css('top'), 10)],
+                end: [parseInt($(CurrentConnection.target).css('left'), 10), 
+                    parseInt($(CurrentConnection.target).css('top'), 10)]
+            });
+            return ;
+        }
         connections.push({
             start: $(CurrentConnection.source).attr("part-id"),
             end: $(CurrentConnection.target).attr("part-id"),
             type: CurrentConnection.scope
         });
     });
-    return connections;
+    var data = {};
+    data.connections = connections;
+    data.backbones = backbones;
+    return data;
 }
 
 DesignMenu.prototype.getDesignParts = function() {
@@ -613,19 +765,78 @@ DesignMenu.prototype.getDesignParts = function() {
     return parts;
 }
 
-DesignMenu.prototype.enableLoadCircuitchartBtn = function(curcuitChart) {
+DesignMenu.prototype.enableLoadDesignBtn = function() {
     var that = this;
+    var isOpen = false;
     this.openFileBtn.click(function() {
-        var curcuitChart;
-        $.get("/design/circuit/1", function(data) {
-            var curcuitChart = data["content"];
-            var parts = curcuitChart.parts;
-            var connections = curcuitChart.relationship;
-            var nodeElems = Util._loadCircuitCNodes(parts);
-            Util._loadCircuitLinks(connections, nodeElems);
+        $("#chooseModal").modal('show');
+        isOpen = true;
+        that.initOpenList(that.perDesignList);
+    });
+    this.importPerBtn.click(function() {
+        $("#chooseModal").modal('show');
+        isOpen = false;
+        that.initOpenList(that.perDesignList);
+    });
+    this.importForBtn.click(function() {
+        $("#chooseModal").modal('show');
+        isOpen = false;
+        that.initOpenList(that.forDesignList);
+    });
+    this.importPubBtn.click(function() {
+        $("#chooseModal").modal('show');
+        isOpen = false;
+        that.initOpenList(that.pubDesignList);
+    });
+
+    $("#choose").click(function() {
+        if (isOpen == true) {
+            jsPlumb.empty("drawArea");
+            design.clear();
+        }
+        $("#designList div").each(function() {
+            if($(this).hasClass('ired')) {
+                var id = $(this).find('input').val();
+                design.designID = id;
+                var curcuitChart;
+                $.get("/design/data/"+design.designID, function(data) {
+                    console.log(data["content"]);
+                    var curcuitChart = data["content"];
+                    var parts = curcuitChart.parts;
+                    var connections = curcuitChart.relationship;
+                    var backbones = curcuitChart.backbone;
+                    var nodeElems = Util._loadCircuitCNodes(parts);
+                    Util.loadBackbone(backbones);
+                    Util.loadCircuitLinks(connections, nodeElems);
+                    design.setDesignName(curcuitChart.name);
+                });
+            }
         });
+        $("#chooseModal").modal('hide');
     });
 };
+
+DesignMenu.prototype.initOpenList = function(designs) {
+    $("#designList").empty();
+    for (var i in designs) {
+        var div = $("<div></div>");
+        div.text(designs[i].name);
+        var idElem = $("<input type='text'></input>");
+        idElem.css("display", "none");
+        idElem.val(designs[i].id);
+        var divider = $("<div class='ui divider'></div>");
+        div.append(idElem);
+        div.addClass('title')
+        div.click(function() {
+            $("#designList div").each(function() {
+                $(this).removeClass("ired");
+            })
+            $(this).addClass("ired");
+        });
+        $("#designList").append(div);
+        $("#designList").append(divider);
+    }
+}
 
 DesignMenu.prototype.enableDownloadBtn =function() {
     var that = this;
@@ -637,7 +848,7 @@ DesignMenu.prototype.enableDownloadBtn =function() {
         $('#downloadModal').modal("hide");
         var curcuitChartData = that.getDesignChartData();
         var curcuitName = $("#curcuitDownName").val();
-        curcuitChartData.title = curcuitName;
+        curcuitChartData.name = curcuitName;
         Util.downloadFile(curcuitName+".txt", JSON.stringify(curcuitChartData));
         that.downloadChartAsImage(curcuitName);
     });
@@ -674,27 +885,30 @@ function SideBarWorker() {
 SideBarWorker.prototype.createPartView = function(part) {
     var partName = part.name;
     var partType = part.type;
-    var partIntro = part.introduction;
+    var partIntro = part.full_description;
     var BBa = part.BBa;
     var attr = part.attr;
+    var risk = part.risk;
 
     var dataDiv = $("<div class='data'></div>");
     var itemDiv = $("<div class='item'></div>");
     var imgElem = $("<img class='ui mini avatar image'/>");
     var titleSpan = $("<span class='partTitle'></span>");
-    var iconSpan = $('<span class="more"><i class="zoom icon"></i></span>');
+    var iconSpan = $('<span class="more part-more"><i class="zoom icon"></i></span>');
     var BBaSpan = $("<span class='BBa'></span>");
     var leftSpan = $("<span class='leftBox'></span>");
 
     dataDiv.attr("type", partType);
     itemDiv.attr('id', partName);
+    itemDiv.attr('risk', risk);
     itemDiv.attr('part-type', partType);
     itemDiv.attr('part-name', partName);
     itemDiv.attr('part-attr', attr);
     imgElem.attr("src", Util.getImagePath(partType, 60));
     titleSpan.text(partName);
     iconSpan.attr("data-content", "Read more about this part");
-    iconSpan.popup()
+    iconSpan.popup();
+    this.addReadPartInfoEvent(iconSpan);
     if (BBa != "") {
         BBaSpan.text("("+BBa+")");
     }
@@ -738,15 +952,17 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     var itemDiv = $("<div class='item'></div>");
     var imgElem = $("<img/>");
     var titleSpan = $("<span class='deviceTitle'></span>");
-    var iconSpan = $("<span class='more'><i class='icon zoom'></i></span>");
+    var iconSpan = $("<span class='more device-more'><i class='icon zoom'></i></span>");
     
-    imgElem.attr("src", "/static/img/design/device.png");
-    titleSpan.text(device.title);
+    imgElem.attr("src", "/static/img/design/devices/"+device.name+'.png');
+    titleSpan.text(device.name);
     itemDiv.attr('part-type', 'device');
-    itemDiv.attr('device-name', device.title);
-    iconSpan.attr("data-content", "Read more about this part");
+    itemDiv.attr('device-name', device.name);
+    iconSpan.attr("data-content", "Read more about this device");
     iconSpan.popup();
 
+
+    this.addDevicePartInfoEvent(iconSpan);
     itemDiv.append(imgElem);
     dataDiv.append(itemDiv);
     dataDiv.append(titleSpan);
@@ -756,6 +972,52 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     return dataDiv
 }
 
+SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
+    var that = this;
+    moreElem.click(function() {
+        var partAttr = $(this).parent().find('.item').attr('part-attr');
+        var part = DataManager.getPartByAttr(partAttr);
+        that.writePartInfoToModal(part);
+        $("#readPartInfoModal").modal('show');
+    });
+}
+
+SideBarWorker.prototype.writePartInfoToModal = function(part) {
+    var infoModal = $("#readPartInfoModal");
+    infoModal.find('.partName').text(part.name);
+    infoModal.find('.partBBa').text(part.BBa == '' ? 'None': part.BBa);
+    infoModal.find('.partImg').attr('src', '/static/img/design/parts'+part.type+'_70.png');
+    infoModal.find('.partType').text(part.type);
+    infoModal.find('.partRisk').text(Util.getRiskText(part.risk));
+    infoModal.find('.partRisk').attr("class", "partRisk");
+    infoModal.find('.partRisk').addClass(Util.getRiskColor(part.risk));
+    infoModal.find('.partBact').text(part.bacterium);
+    infoModal.find('.partIntro').text(part.introduction);
+    infoModal.find('.partSource').text(part.source);
+}
+
+SideBarWorker.prototype.addDevicePartInfoEvent = function(moreElem) {
+    var that = this;
+    moreElem.click(function() {
+        var deviceName = $(this).parent().find('.item').attr('device-name');
+        var device = DataManager.getDeviceByName(deviceName);
+        that.writeDeviceInfoToModal(device);
+        $("#readDeviceInfoModal").modal('show');
+    });
+}
+
+SideBarWorker.prototype.writeDeviceInfoToModal = function(device) {
+    var infoModal = $("#readDeviceInfoModal");
+    infoModal.find('.deviceName').text(device.name);
+    infoModal.find('.deviceParts').text(Util.getDevicePartsString(device));
+    infoModal.find('.deviceImg').attr('src', '/static/img/design/devices/'+device.name+'.png');
+    infoModal.find('.deviceRisk').text(Util.getRiskText(device.risk));
+    infoModal.find('.deviceRisk').attr("class", "deviceRisk");
+    infoModal.find('.deviceRisk').addClass(Util.getRiskColor(device.risk));
+    infoModal.find('.deviceInterface').text(device.interfaceA+", "+device.interfaceB);
+    infoModal.find('.deviceSource').text(device.source);
+    infoModal.find('.deviceIntro').text(device.full_description);
+}
 /**
  * @class LeftBar
  *
@@ -790,6 +1052,9 @@ function LeftBar() {
     this.elemsGeneList = [];
     this.elemsTermiList = [];
     this.elemsChemList = [];
+    this.elemsRNAList = [];
+    this.elemsMatList = [];
+    this.elemsUnkList = [];
 
     this.view.searchRelateInputBox = $("#searchRelate");
     this.view.searchPartInput = $("#searchNew");
@@ -803,7 +1068,6 @@ LeftBar.prototype.init = function() {
     this.enableSearchPartBox();
     this.enableSearchRelateBox();
     this.enableSearchDeviceInputBox();
-    $('.ui.styled.accordion').accordion({performance: true});
     $('.menu .item').tab();
 
     this.enableFilter();
@@ -825,7 +1089,7 @@ LeftBar.prototype.initDevice = function(deviceList) {
         var dataDiv = this.leftbarWorker.createDeviceView(deviceList[i]);
         this.elemsDeviceList.push(dataDiv);
         this.addDeviceToBar(dataDiv);
-        this._searchDeviceTitle.push({title: deviceList[i].title});
+        this._searchDeviceTitle.push({title: deviceList[i].name});
     }
     this.updateSearchBar();
 }
@@ -854,9 +1118,18 @@ LeftBar.prototype.addPartToBar = function(elem) {
     if (partType == 'terminator') {
         this.elemsTermiList.push(elemClone);
     }
-    if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
+    if (partType == 'chemical') {
         this.elemsChemList.push(elemClone);
     }
+    if (partType == 'RNA') {
+        this.elemsRNAList.push(elemClone);
+    }
+    if (partType == 'material') {
+        this.elemsMatList.push(elemClone);
+    }
+    if (partType == 'unknown') {
+        this.elemsUnkList.push(elemClone);
+    } 
 
     this.leftbarWorker.addElemToView(elem, this.view.parts);
 }
@@ -880,8 +1153,17 @@ LeftBar.prototype.enableFilter = function() {
         if (partType == 'terminator') {
             that.leftbarWorker.showView(that.elemsTermiList, that.view.parts);
         }
-        if (partType == 'chemical' || partType == 'material' || partType == 'unknown' || partType == 'RNA') {
+        if (partType == 'chemical') {
             that.leftbarWorker.showView(that.elemsChemList, that.view.parts);
+        }
+        if (partType == 'material') {
+            that.leftbarWorker.showView(that.elemsMatList, that.view.parts);
+        }
+        if (partType == 'unknown') {
+            that.leftbarWorker.showView(that.elemsUnkList, that.view.parts);
+        }
+        if (partType == 'RNA') {
+            that.leftbarWorker.showView(that.elemsRNAList, that.view.parts);
         }
         if (partType == 'all') {
             that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
@@ -914,7 +1196,13 @@ LeftBar.prototype._leftTriggerAnimation = function() {
                 left: '-' + that._leftBarWidth + 'px'
             }, 500);
 
-            $("#main-contain").animate({
+            // $("#main-contain").animate({
+            //     left: '0px'
+            // }, 500);
+            $("#drawArea").animate({
+                left: '0px'
+            }, 500);
+            $("#drawArea-menu").animate({
                 left: '0px'
             }, 500);
             that.leftTrigger.find("i").removeClass("left").addClass("right");
@@ -925,10 +1213,16 @@ LeftBar.prototype._leftTriggerAnimation = function() {
                 left: '0px'
             }, 500);
 
-            $("#main-contain").animate({
+            // $("#main-contain").animate({
+            //     left: that._leftBarWidth + 'px'
+            // }, 500);
+
+            $("#drawArea").animate({
                 left: that._leftBarWidth + 'px'
             }, 500);
-
+            $("#drawArea-menu").animate({
+                left: that._leftBarWidth + 'px'
+            }, 500);
             that.leftTrigger.find("i").removeClass("right").addClass("left");
         }
     });
@@ -1014,8 +1308,8 @@ function RightBar() {
     this.view.devices = $("#addedDevices");
     this.view.systems = $("#addedSystems");
     this.view.customs = $("#addedCustoms");
-    this.view.searchAddBox = $("#searchAdd");
-
+    this.view.searchAddInput = $("#searchAddInput");
+    this.view.searchAddBox = $("#searchAddBox");
     this.rightbarWorker = new SideBarWorker();
     this._searchPartTitle = [];
     this._searchDeviceTitle = [];
@@ -1023,7 +1317,7 @@ function RightBar() {
 
 RightBar.prototype.init = function() {
     this._rightTriggerAnimation();
-    this.enableSearchAddBox();
+    this.enableSearchAddInput();
 }
 
 RightBar.prototype._rightTriggerAnimation = function() {
@@ -1059,7 +1353,7 @@ RightBar.prototype.processDropedDevice = function(device) {
     var deviceElem = this.rightbarWorker.createDeviceView(device);
     if (!this.isDeviceAdded(device)) {
         this.elemsDeviceList.push(deviceElem);
-        this._searchDeviceTitle.push({title: device.title});
+        this._searchDeviceTitle.push({title: device.name});
         this.updateSearchBar();
         this.rightbarWorker.showView(this.elemsDeviceList, this.view.devices);
     }
@@ -1108,9 +1402,19 @@ RightBar.prototype.updateAddedView = function(part) {
     }
 }
 
+RightBar.prototype.removePartViewByAttr = function(partAttr) {
+    for (var i in this.elemsPartList) {
+        if ($(this.elemsPartList[i].find('.item')).attr('part-attr') == partAttr) {
+            this.elemsPartList[i].splice(i, 1);
+            this.rightbarWorker.showView(this.elemsPartList, this.view.parts);
+            break;
+        }
+    }
+}
+
 RightBar.prototype.isPartAdded = function(part) {
     for (var i in this.elemsPartList) {
-        if ($(this.elemsPartList[i]).find(".partTitle").text() == part.name) {
+        if ($(this.elemsPartList[i].find('.item')).attr('part-attr') == part.attr) {
             return true;
         }
     }
@@ -1130,10 +1434,10 @@ RightBar.prototype.updateSearchBar = function() {
     this.view.searchAddBox.search({source: this._searchPartTitle});
 }
 
-RightBar.prototype.enableSearchAddBox = function() {
+RightBar.prototype.enableSearchAddInput = function() {
     var that = this;
-    this.view.searchAddBox.keyup(function() {
-        var val = that.view.searchAddBox.val().toLowerCase();
+    this.view.searchAddInput.keyup(function() {
+        var val = that.view.searchAddInput.val().toLowerCase();
         if (val != "") {
             var searchElemPartList = [];
             for (var i in that.elemsPartList) {
@@ -1184,6 +1488,15 @@ $(function() {
     DataManager.getDeviceDataFromServer(function(deviceList) {
         leftBar.initDevice(deviceList);
     });
+    DataManager.getPerDesignDataFromServer(function(designs) {
+        designMenu.perDesignList = designs;
+    })
+    DataManager.getForDesignDataFromServer(function(designs) {
+        designMenu.forDesignList = designs;
+    })
+    DataManager.getPubDesignDataFromServer(function(designs) {
+        designMenu.pubDesignList = designs;
+    })
     DataManager.getRelationAdjDataFromServer();
     DataManager.getRelationShipDataFromServer();
 
@@ -1210,7 +1523,7 @@ $(".cancel").each(function() {
 
 $("#customPartType").change(function() {
     var partType = $(this).attr("value");
-    $("#customImg").attr("src", "/static/img/design/"+partType+"_70.png");
+    $("#customImg").attr("src", "/static/img/design/parts/"+partType+"_70.png");
 });
 
 $("#customCreate").click(function() {
@@ -1219,7 +1532,7 @@ $("#customCreate").click(function() {
     part.name = $("#customPartName").val();
     part.BBa = $("#customBBaName").val();
     part.type = $("#customPartType").val();
-    part.introduction = $("#customIntro").val();
+    part.full_description = $("#customIntro").val();
     DataManager.addPart(part);
     leftBar.addCustomPart(part);
 
@@ -1249,5 +1562,12 @@ $('#loadingData').dimmer('show');
 // $("#deleteModal").modal('show');
 
 $("#moveTo").click(function() {
-    window.location.href = "/modal";
+    window.location.href = "/modaling";
 }); 
+
+$(".modal").modal({transition: 'horizontal flip'});
+
+// $('#readPartInfoModal').modal('show');
+$('.ui.accordion').accordion();
+
+// $("#readDeviceInfoModal").modal('show');

@@ -14,12 +14,12 @@ class TestTask(TestCase):
         db.session.add(j)
         db.session.commit()
 
-        t = i.create_task('I want to test', 'a test', 'I want to test the test part.') 
+        t = i.create_task(title='I want to test', abstract='a test', content='I want to test the test part.') 
 #        db.session.add(t)
 #        db.session.commit()
         assert len(i.watched_tasks) == 1
         assert len(t.watcher.all()) == 1
-        j.watch_task(t.id)
+        j.watch_task(t)
         assert len(i.watched_tasks) == 1
         assert len(t.watcher.all()) == 2
         assert j in t.watcher.all()

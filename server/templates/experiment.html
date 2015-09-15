@@ -1,1 +1,361 @@
-<!--experiment page -->
+{% extends 'person/person.html' %}
+
+{% block title %}Core - Experiment{% endblock %}
+
+{% block head %}
+  {{ super() }}
+    <link rel="stylesheet" href="/static/css/experiment.css">
+    <link rel="stylesheet" href="/static/css/fullcalendar.min.css">
+    <link rel="stylesheet" href="/static/css/jquery.datetimepicker.css">
+{% endblock %}
+
+{% block body %}
+  {{ super() }}
+<!-- 	left-bar -->
+    <div id="left-sidebar">
+    	<div class="ui button trigger-left">
+        <i class="chevron right big icon"></i>
+      </div>
+   		<div id="left-sidebar-top">
+	    	<div>
+	    		<h2>Laboratorial material manual</h2>
+	    	</div>
+<!-- 				<div class="ui search">
+				  <div class="ui icon input">
+				    <input class="prompt" type="text" placeholder="Search for a protocol..." id="searchPro">
+				    <i class="search icon"></i>
+				  </div>
+				  <div class="results"></div>
+					<button class="ui button">All</button>
+				</div> -->
+			</div>
+			<div id="left-sidebar-body">
+			</div>
+    </div>
+
+<!--moreInfor modal -->
+    <div class="ui modal moreInfor" id="moreIndorModal">
+      <div class="header">
+      	<div class="ui grid">
+      		<div class="sixteen column row">
+	      		<div class="fourteen wide column">
+	      			<h2 class="pro-title"></h2>
+	      		</div>
+	      		<div class="two wide column">
+	      			<i class="remove big icon close"></i>
+	      		</div>
+	      	</div>
+	      	<div class="sixteen column row detail">
+	  				<div class="eight wide column">
+	  					<div><i class="empty star icon"></i></div>
+	  					<div>Key word PCR</div>
+	  				</div>
+	  				<div class="eight wide column">
+	  					<p class="totalTime">Total time: <span></span></p>
+	  				</div>
+  				</div>
+      	</div>
+      </div>
+      <div class="content">
+      	<h3>Introduction</h3>
+      	<div class="introduction">
+      	</div>
+      	<h3>Component</h3>
+      	<div class="component">
+      		<ul>
+      		</ul>
+      	</div>
+  <!--     	<h3>Procedure</h3> -->
+    	  <h3>
+    	  	Procedure
+      		<span class="icon-set">
+	      		<span id="save-edit"><i class="edit icon"></i>Edit</span>
+	      		<span id="addCalendar"><i class="plus icon"></i>Calendar</span>
+	      	</span>
+    		</h3>
+        <table class="ui celled striped table procedures">
+          <thead>
+            <tr>
+              <th>Procedure</th>
+              <th>Time</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+<!--More modal -->
+
+<!--  Error modal -->
+    <div class="ui basic modal" id="errorModal">
+      <div class="header text-center">Your design is empty !</div>
+    </div>
+<!--   Error modal -->
+
+<!--createProtocol modal -->
+    <div class="ui modal" id="createProtocol">
+      <div class="header">
+        <h2>Create a new protocol.<span class="float-right"><i class="remove large icon close"></i></span></h2>
+      </div>
+      <div class="content">
+        <div class="ui small form">
+          <div class="field">
+            <label>Title</label>
+            <input type="text" class="c-title">
+          </div>
+          <div class="field">
+            <label>Introduction</label>
+            <textarea rows='3'></textarea>
+          </div>
+          <div class="field">
+            <label>Component</label>
+            <ul>
+              <li><input type="text"></li>
+            </ul>
+            <button class="ui icon button" id="plusLi">
+              <i class="plus icon"></i>
+            </button>
+          </div>
+          <div class="field">
+            <label>Procedure</label>
+            <table class="ui celled striped table">
+              <thead>
+                <tr>
+                  <th>Procedure</th>
+                  <th>Time</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="text" class="procedure"></td>
+                  <td><input type="text" class="time"></td>
+                  <td><input type="text" class="annotation"></td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="ui icon button" id="plusTableRow">
+              <i class="plus icon"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui button cancel">Cancel</div>
+        <div class="ui button icolor" id="createProBtn">Create</div>
+      </div>
+    </div>
+<!--createProtocol modal -->
+
+<!-- right-bar -->
+    <div id="right-sidebar">
+      <div class="ui button trigger-right">
+        <i class="chevron left big icon"></i>
+      </div>
+      <form class="ui small form">
+        <h2 class="ui inverted dividing header" id="eventOpTitle">Add a new event.</h2>
+        <div class="two fields">
+          <div class="field">
+            <label>Start time</label>
+            <input class="ui input" id="startTime" type="text">
+          </div>
+          <div class="ui inverted divider"></div>
+          <div class="field">
+            <label>End time</label>
+            <input class="ui input" id="endTime" type="text">
+          </div>
+        </div>
+ <!--        <div class="ui inverted divider"></div> -->
+        <div class="field">
+          <label>Title</label>
+          <input type="text" id="eventTitle">
+        </div>
+        <div class="field">
+          <label>Protocol</label>
+          <select class="ui dropdown" id="eventProtocol">
+          </select>
+        </div>
+     <!--    <div class="ui inverted divider"></div> -->
+        <div class="field">
+          <label>Record</label>
+          <textarea name="" id="eventRecord" rows="5"></textarea>
+        </div>
+  <!--       <div class="ui inverted divider"></div> -->
+        <div class="field">
+          <label>Error corrections</label>
+          <textarea name="" id="eventError" rows="4"></textarea>
+        </div>
+        <div class="fluid text-right">
+          <div class="ui button" id="deleteEvent">Delete</div>
+          <div class="ui cancel button" id="cancelEvent">Cancel</div>
+          <div class="ui button icolor" id="createEvent">Create</div>
+          <div class="ui button icolor" id="saveEvent">Save</div>
+        </div>
+        <div class="ui inverted divider"></div>
+      </form>
+    </div>
+<!-- right-bar -->
+
+<!-- Delete modal -->
+    <div class="ui small modal" id="deleteModal">
+      <div class="header">
+        Delete a protocol
+      </div>
+      <div class="image content">
+        <div class="description">
+          <i class="large trash icon"></i>Do you really want to delete this protocol?
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui button cancel">Cancel</div>
+        <div class="ui button" id="deleteBtn">Delete</div>
+      </div>
+    </div>
+<!-- Delete modal -->
+
+<div class="ui segment" id="loadingData">
+  <div class="ui active page inverted dimmer">
+    <div class="ui text loader">Loading data...</div>
+  </div>
+</div>
+
+
+<!-- 	main_container -->
+    <div class="main_container">
+			<div class="ui attached tabular menu">
+        <a id="calendar-menu" class="item active" data-tab="Calendar">Calendar</a>
+        <a id="protocol-menu" class="item" data-tab="PlaPro">Plasmid|Protocols</a>
+      </div>
+      <div class="ui bottom attached tab segment active" data-tab="Calendar" id="calendar-box">
+        <div id="calendar"></div>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="PlaPro" id="PlaPro">
+      	<div class="ui grid">
+	      	<div class="eight wide column" id="leftbox" ng-app="myApp" ng-controller="PlasmidCtrl">
+            <div id="plasmid-box">
+              <h3 class='inline'>Choose a plasmid: </h3>
+              <select class="ui dropdown" ng-model="curPlaIndex" ng-options="plasmids.indexOf(a) as a.name for a in plasmids">
+                <option value="">Choose a plasmid</option>
+              </select>
+              <plasmidapi name="api"></plasmidapi>
+              <plasmid id="pdemo" sequencelength="{[currentPlasmid.length+currentCircuit.length]}" plasmidheight="420" plasmidwidth="500">
+                  <plasmidtrack trackstyle="fill:#ccc" width="5" radius="110"></plasmidtrack>
+                  <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" radius="100">
+                      <tracklabel text="{[currentPlasmid.name]}" labelstyle='font-size:20px;font-weight:400'></tracklabel>
+                      <tracklabel text="{[api.plasmid('pdemo').sequencelength]} bp" labelstyle='font-size:10px' vadjust="20"></tracklabel>
+
+                      <!-- draw the plasmid bone markers and labels -->
+                      <trackmarker ng-repeat="m in currentPlasmid.marker" start="{[m.start]}" end="{[m.end]}" arrowendlength="4" arrowstartlength="-4" markerstyle="{[m.markerStyleIn]}">
+                          <markerlabel type="path" class="mdlabel" text="{[m.name]}" vadjust='{[m.vadjust]}' valign="{[m.valign]}" showline="{[m.showline]}" linevadjust="-5" lineclass="labelline" style='font-size:17px'></markerlabel>
+                      </trackmarker>
+
+                      <trackmarker ng-repeat="m in currentCircuit.markers" start="{[m.start]}" end="{[m.end]}" arrowendlength="4" arrowstartlength="-4" markerstyle="{[m.markerStyleIn]}">
+                          <markerlabel type="path" class="mdlabel" text="{[m.part_short_name]}" vadjust='{[m.vadjust]}' valign="{[m.valign]}" showline="{[m.showline]}" linevadjust="-5" lineclass="labelline" style='font-size:17px' ></markerlabel>
+                      </trackmarker>
+
+                      <!-- draw the marker regions -->
+                      <trackmarker ng-repeat="m in currentPlasmid.marker" start="{[m.start]}" end="{[m.end]}" markerstyle="{[m.markerStyleOut]}" wadjust="-5" vadjust="25"></trackmarker>
+                      <trackmarker ng-repeat="m in currentCircuit.marker" start="{[m.start]}" end="{[m.end]}" markerstyle="{[m.markerStyleOut]}" wadjust="-5" vadjust="25"></trackmarker>
+
+                      <!-- draw the scales -->
+                <!--       <trackscale interval="100" style='stroke:#999' direction="in" ticksize="3"></trackscale> -->
+                      <trackscale interval="100" style='stroke:#999' ticksize="3"></trackscale>
+                      <trackscale interval="200" style="stroke:#f00" direction="in" showlabels="1" labelstyle="fill:#999;stroke:none;text-anchor:middle;alignment-baseline:middle;font-size:10px"></trackscale>
+                  </plasmidtrack>
+              </plasmid>
+            </div>
+            <div class="myDropdown">
+              <h3 class='title inline'>Choose a circuit: </h3>
+              <select class="ui dropdown" ng-model="curCirIndex" ng-options="circuits.indexOf(a) as a.name for a in circuits">
+                <option value="">Choose a circuit</option>
+              </select>
+            </div>
+            <div class="myDropdown">
+              <h3 class='title inline'>Choose a part: </h3>
+              <select class="ui dropdown" ng-model="curPartsIndex" ng-options="parts.indexOf(a) as a.name+' ('+a.BBa+')' for a in parts">
+                <option value="">Choose a part</option>
+              </select>
+              <div class="ui button inline" id='readPartInfo'><i class="zoom icon"></i>Read</div>
+            </div>
+          </div>
+  	    	<div class="eight wide column" id="rightbox">
+  	    		<div id="protocol">
+  	    			<div id="protocol-list">
+	  	    			<div id="list-title">
+	  	    				<h2><span>Relevant Protocol List</span><span class="icon-set"><i class="add square icon" id="add-protocol"></i><i id="edit-protocol" class="trash icon"></i></span></h2>
+	  	    			</div>
+		  	    		<div id="list-body">
+		  	    		</div>
+	  	    		</div>
+  	    		</div>
+  	    	</div>
+    		</div>
+      </div>
+    </div>
+
+    <div class="ui small modal" id="readPartInfoModal">
+      <div class="header">Part Information:</div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="three wide column text-center">
+              <img class="partImg ui tiny">
+            </div>
+            <div class="thirteen wide column">
+              <form class="ui form">
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Part Name:</label>
+                    <span class="partName"></span>
+                  </div>
+                  <div class="inline field">
+                    <label>BBa Name:</label>
+                    <span class="partBBa"></span>
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Part type:</label>
+                    <span class="partType"></span>
+                  </div>
+                  <div class="inline field">
+                    <label>Risk ground:</label>
+                    <span class="partRisk"></span>
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Bacterium:</label>
+                    <span class="partBact"></span>
+                  </div>
+                  <div class="inline field">
+                    <label>Source:</label>
+                    <span class="partSource"></span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Introduction</label>
+                  <p class="partIntro"></p>
+                </div>
+                <div class="fluid text-right">
+                  <div class="ui cancel button">Cancel</div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+
+    <script type="text/javascript" src="/static/js/lib/moment.js"></script>
+    <script type="text/javascript" src="/static/js/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/js/lib/fullcalendar.min.js"></script>
+    <script type="text/javascript" src="/static/js/lib/jquery.datetimepicker.js"></script>
+    <script type="text/javascript" src="/static/js/lib/angular.min.js"></script>
+    <script type="text/javascript" src="/static/js/lib/angularplasmid.min.js"></script>
+    <script type="text/javascript" src="/static/js/design/util.js"></script>
+    <script type="text/javascript" src="/static/js/experiment/experiment.js"></script>
+    <script type="text/javascript" src="/static/js/experiment/calendar.js"></script>
+    <script type="text/javascript" src="/static/js/experiment/plasmid.js"></script>
+    <script>var vueBody = new coreBody({el: 'body'});</script>
+{% endblock %}
