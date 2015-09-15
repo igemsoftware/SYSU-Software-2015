@@ -273,9 +273,9 @@ def plot_design(id):
             # Filter
             if e.target not in design_set: continue
             # debug codes
-    #       print design_set
-    #       print e.all_related
-    #       print design_set >= e.all_related
+       #    print design_set
+       #    print e.all_related
+       #    print design_set >= e.all_related
             if design_set >= e.all_related:
                 system.append(e.packed())
                 system_set.update([e.target])
