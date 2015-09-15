@@ -101,7 +101,11 @@ RightBar.prototype.syncEvents = function() {
 	console.log('sync event:');
 	var events = calendar.fullCalendar('clientEvents');
 	var eventsArr = [];
+	console.log("Events length: ");
+	console.log(events.length);
 	for (var i in events) {
+		console.log('Event end time:');
+		console.log(events[i].end);
 		eventsArr.push({
 			id: events[i].id,
 			start: events[i].start.format('YYYY/MM/DD HH:mm'),
@@ -120,10 +124,12 @@ RightBar.prototype.syncEvents = function() {
 	    url: '/calendar/all',
 	    dataType : 'json',
 	    data : postDataJson,
-            success: function(data) {
-                calendar.fullCalendar( 'removeEvents' );
- 	        calendar.fullCalendar( 'addEventSource', data["events"]);
-            }
+        success: function(data) {
+            calendar.fullCalendar( 'removeEvents' );
+            console.log('Get Event Data:');
+            console.log(data['events']);
+	        calendar.fullCalendar( 'addEventSource', data["events"]);
+        }
 	});
 
 }
@@ -176,35 +182,10 @@ $(function() {
 
 	        $("#eventOpTitle").text("Edit event");
 
-			$("#deleteEvent").click(function() {
-				calendar.fullCalendar('removeEvents', event._id);
-				$.ajax({
-				    type: 'DELETE',
-				    url: '/calendar/all',
-				    data : "id="+event._id,
-				});
-				rightBar.closeRightBar();
-				that.clearBar();
-			});
-
-			$("#saveEvent").click(function() {
-				event.title = $("#eventTitle").val();
-				event.start = $("#startTime").val();
-				event.end = $("#endTime").val();
-				event.protocol = $("#eventProtocol").val();
-				event.record = $("#eventRecord").val();
-				event.error = $("#eventError").val();
-
-				$('#calendar').fullCalendar('updateEvent', event);
-				console.log('save event:');
-				rightBar.syncEvents();
-				rightBar.closeRightBar();
-				rightBar.clearBar();
-			});
-
 	        rightBar.openRightBar("edit");
 	    },
 	    eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {
+	    	console.log('Event Resize');
 	    	rightBar.syncEvents();
 	    },
 	    eventDrop: function(event, dayDelta, minuteDelta, allDay, revertFunc, jsEvent, ui, view){
@@ -219,6 +200,33 @@ $(function() {
 })
 
 $.get("/calendar/all", function(data, status) {
+	console.log('Get data for initing:');
  	console.log(data);
  	calendar.fullCalendar( 'addEventSource', data["events"]);
+});
+
+$("#deleteEvent").click(function() {
+	calendar.fullCalendar('removeEvents', event._id);
+	$.ajax({
+	    type: 'DELETE',
+	    url: '/calendar/all',
+	    data : "id="+event._id,
+	});
+	rightBar.closeRightBar();
+	that.clearBar();
+});
+
+$("#saveEvent").click(function() {
+	event.title = $("#eventTitle").val();
+	event.start = $("#startTime").val();
+	event.end = $("#endTime").val();
+	event.protocol = $("#eventProtocol").val();
+	event.record = $("#eventRecord").val();
+	event.error = $("#eventError").val();
+
+	$('#calendar').fullCalendar('updateEvent', event);
+	console.log('save event:');
+	rightBar.syncEvents();
+	rightBar.closeRightBar();
+	rightBar.clearBar();
 });

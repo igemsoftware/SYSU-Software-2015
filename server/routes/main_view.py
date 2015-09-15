@@ -82,7 +82,6 @@ def proxy():
 @main.route('/proxy/part/cds', methods=['POST'])
 def proxy_part():
     data = request.get_json(force=True)
-    print data['BBa']
     url = "http://parts.igem.org/cgi/xml/part.cgi?part="+data['BBa']
     if not data['BBa'] == '':
         req = urllib2.Request(url = url)
