@@ -1,5 +1,6 @@
 var rightBar;
 var calendar = $("#calendar");
+var clickedEvent;
 
 function RightBar() {
     this.isOpenLeftBar = false;
@@ -181,7 +182,7 @@ $(function() {
 	        $("#eventError").val(event.error);
 
 	        $("#eventOpTitle").text("Edit event");
-
+	        clickedEvent = event;
 	        rightBar.openRightBar("edit");
 	    },
 	    eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {
@@ -217,14 +218,14 @@ $("#deleteEvent").click(function() {
 });
 
 $("#saveEvent").click(function() {
-	event.title = $("#eventTitle").val();
-	event.start = $("#startTime").val();
-	event.end = $("#endTime").val();
-	event.protocol = $("#eventProtocol").val();
-	event.record = $("#eventRecord").val();
-	event.error = $("#eventError").val();
+	clickedEvent.title = $("#eventTitle").val();
+	clickedEvent.start = $("#startTime").val();
+	clickedEvent.end = $("#endTime").val();
+	clickedEvent.protocol = $("#eventProtocol").val();
+	clickedEvent.record = $("#eventRecord").val();
+	clickedEvent.error = $("#eventError").val();
 
-	$('#calendar').fullCalendar('updateEvent', event);
+	$('#calendar').fullCalendar('updateEvent', clickedEvent);
 	console.log('save event:');
 	rightBar.syncEvents();
 	rightBar.closeRightBar();
