@@ -90,4 +90,4 @@ def proxy_part():
         root = dom.documentElement
         cds = root.getElementsByTagName("seq_data")[0].childNodes[0].nodeValue.strip('\n')
         return jsonify(cds=cds)
-    return 'No BBa'
+    return "This part don't have BBa"

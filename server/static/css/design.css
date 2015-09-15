@@ -10,6 +10,10 @@
     display: inline-block;
 }
 
+.white {
+    color: white !important;
+}
+
 body {
     min-height: 100%;
     height: 100%;
