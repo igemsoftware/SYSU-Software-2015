@@ -1535,7 +1535,7 @@ $('#loadingData').dimmer('show');
 // $("#deleteModal").modal('show');
 
 $("#moveTo").click(function() {
-    window.location.href = "/modal";
+    window.location.href = "/modaling";
 }); 
 
 $(".modal").modal({transition: 'horizontal flip'});
