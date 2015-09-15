@@ -92,6 +92,7 @@ function Design() {
     this._partCount = 0;
     this.risk = 1;
     this.isRemove = false;
+    this.designID = -1;
 };
 
 Design.prototype.clear = function() {
@@ -671,11 +672,13 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
                 curcuitChartData.img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                 console.log("Post Data");
                 console.log(curcuitChartData);
+                console.log('Post design id:');
+                console.log(design.designID);
                 var postDataJson = JSON.stringify(curcuitChartData);
                 $.ajax({
                     type: 'POST',
                     contentType: 'application/json',
-                    url: '/design/1',
+                    url: '/design/'+design.designID,
                     dataType : 'json',
                     data : postDataJson,
                 });
@@ -768,6 +771,7 @@ DesignMenu.prototype.enableLoadDesignBtn = function() {
         $("#designList div").each(function() {
             if($(this).hasClass('ired')) {
                 var id = $(this).find('input').val();
+                design.designID = id;
                 var curcuitChart;
                 $.get("/design/"+String(id), function(data) {
                     console.log(data["content"]);
