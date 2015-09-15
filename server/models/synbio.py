@@ -428,7 +428,8 @@ class Device(db.Model, BioBase):
                     break
         return c, instance
 
-    def new_load_from_file(self, filename):
+    @staticmethod
+    def new_load_from_file(filename):
         """Load from local files. Mostly called in preload stage."""
         print 'loading device from %s ...' % filename
         if filename.split('.')[-1] != 'txt': 
@@ -436,24 +437,24 @@ class Device(db.Model, BioBase):
             return  
         import codecs
         f = codecs.open(filename, 'r', 'gb2312')
-        self.name= f.readline().strip()
-        self.brief_description = f.readline().strip()
-        self.full_description = f.readline().strip()
-        self.keyword = f.readline().strip()
-        #self.introduction = f.readline().strip().decode('ISO-8859-1')
-        self.source = f.readline().strip()
-        self.protocol_reference = f.readline().strip()
+        d = Device()
+        d.name= f.readline().strip()
+        d.brief_description = f.readline().strip()
+        d.full_description = f.readline().strip()
+        d.keyword = f.readline().strip()
+        #d.introduction = f.readline().strip().decode('ISO-8859-1')
+        d.source = f.readline().strip()
+        d.protocol_reference = f.readline().strip()
         try:
-            self.risk = int(f.readline().strip())
+            d.risk = int(f.readline().strip())
         except:
-            self.risk = -1
+            d.risk = -1
         # self.type = f.readline().strip()
-        self.interfaceA = f.readline().strip() 
-        self.interfaceB = f.readline().strip() #.split(',')
+        d.interfaceA = f.readline().strip() 
+        d.interfaceB = f.readline().strip() #.split(',')
 
         json_obj = json.loads(f.readline().strip())
 
-        d = Device()
         d.commit_to_db()
         d.update_from_db()
 
@@ -469,8 +470,8 @@ class Device(db.Model, BioBase):
             ele['start'] = ele['start'].replace(' ', '_').replace('-','_')
             ele['end'] = ele['end'].replace(' ', '_').replace('-','_')
 
-            start = self.__load_prototype_and_instance(ele['start'], skip_instance=True)
-            end = self.__load_prototype_and_instance(ele['end'], skip_instance=True)
+            start = d.__load_prototype_and_instance(ele['start'], skip_instance=True)
+            end = d.__load_prototype_and_instance(ele['end'], skip_instance=True)
         
             existed = Relationship.query.filter_by(start=start, end=end).first()
             if not existed:
@@ -661,7 +662,8 @@ class Design(db.Model, BioBase):
         if not d: raise Exception('No device #%d' % device_id) 
         d.update_from_db()
 
-        self.full_description = self.full_description+' (COPYED: '+d.brief_description+')'
+        self.brief_description = self.brief_description+' (COPYED: '+d.brief_description+')'
+        self.full_description = self.full_description+' (COPYED: '+d.full_description+')'
         self.parts = d.parts
         self.relationship = d.relationship
         self.interfaceA = d.interfaceA
