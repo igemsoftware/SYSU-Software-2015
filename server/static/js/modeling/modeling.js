@@ -79,7 +79,7 @@ Modeling.prototype.loadData = function() {
         that.xAxis = data.x_axis;
         console.log(that.variables);
         console.log(that.xAxis);
-        $("#simulation .title span").text(data.title);
+        $("#simulation .title span").text(data.name);
 		that.drawChart($("#chart"), that.xAxis, that.variables);
         that.drawChart($("#myChart"));
         that.initMenu();
@@ -157,7 +157,7 @@ Modeling.prototype.initChooseModal = function(designs) {
 	var that = this;
 	for (var i in designs) {
 		var div	= $("<div></div>");
-		div.text(designs[i].title);
+		div.text(designs[i].name);
 		var idElem = $("<input type='text'></input>");
 		idElem.css("display", "none");
 		idElem.val(designs[i].id);
