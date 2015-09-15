@@ -156,10 +156,16 @@ Util.loadBackbone = function(backbones) {
 }
 
 Util.connectBackbone = function(dotStart, dotEnd) {
+    jsPlumb.importDefaults({
+        PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+        Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+    });
+
     jsPlumb.connect({
         source: dotStart,
         target: dotEnd,
         endpoint:"Blank",
+        overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]],
         paintStyle: { strokeStyle: "#123456", lineWidth: 6},
         connector: ["Straight"],
         Container: "drawArea"
@@ -171,6 +177,7 @@ Util.connectBackbone = function(dotStart, dotEnd) {
     jsPlumb.draggable(dotEnd, {
         containment: 'parent',
     });
+    setDrawLineStyle();
 }
 
 Util.createEndpoint = function () {
