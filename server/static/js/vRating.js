@@ -11,7 +11,7 @@ var vRatingComp = Vue.component('v-rating', {
         ratingCriteria: ['Compatibility', 'Safety', 'Demand', 'Completeness', 'Efficiency', 'Reliability', 'Accessibility'],
         oriRating: [0, 0, 0, 0, 0, 0, 0],
         curRating: [3, 3, 3, 3, 3, 3, 3],
-        rated: false,
+        rated: 0,
         canvasWidth: 230,
         canvasHeight: 230,
     }},
@@ -71,6 +71,7 @@ var vRatingComp = Vue.component('v-rating', {
     },
     methods: {
         rate : function() {
+            this.rated = 1;
             console.log(this.curRating);
             var store = this;
             $.ajax({
@@ -79,7 +80,11 @@ var vRatingComp = Vue.component('v-rating', {
                 data        : JSON.stringify(this.curRating),
                 dataType    : 'json',
                 contentType : 'application/json',
-                success     : function(data) { store.oriRating = data.eval; store.rated = true; }
+                success     : function(data) {
+                    store.oriRating = data.eval;
+                    $('#rating-wrapper > .rating.container > .rating').rating('disable');
+                    store.rated = 2;
+                }
             });
         },
     }

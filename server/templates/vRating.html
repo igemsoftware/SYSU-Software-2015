@@ -5,7 +5,8 @@
       <div class="description">[[criterion]]</div>
       <div class="ui star rating" data-rating="3" data-max-rating="5" data-criterion-index="[[$index]]"></div>
     </div>
-    <button class="ui blue rating submit button" v-on="click: rate()" v-show="!rated">Rate!</button>
-    <button class="ui blue disabled rating submit button" v-show="rated">Rated:-)</button>
+    <button class="ui blue rating submit button" v-on="click: rate()" v-show="rated === 0">Rate!</button>
+    <button class="ui blue disabled rating submit button" v-show="rated === 1">Rating...</button>
+    <button class="ui blue disabled rating submit button" v-show="rated === 2">Rated:-)</button>
   </div>
 </template>
