@@ -605,6 +605,9 @@ class Design(db.Model, BioBase):
     """Evaluation of safety."""
     eval_completeness = db.Column(db.Numeric, default = 0)
     """Evaluation of completeness."""
+    eval_count = db.Column(db.Integer, default=0)
+    """Number of evaluations."""
+
 
     last_active = db.Column(db.DateTime, default=datetime.now)
     """Last active time."""

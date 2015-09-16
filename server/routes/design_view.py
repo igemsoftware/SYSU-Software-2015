@@ -360,13 +360,15 @@ def mark_design(id):
 
     data = request.get_json()
 
-    d.eval_compatibility = data[0]
-    d.eval_safety        = data[1]
-    d.eval_demand        = data[2] 
-    d.eval_completeness  = data[3]
-    d.eval_efficiency    = data[4]
-    d.eval_reliability   = data[5]
-    d.eval_accessibility = data[6]
+    count = float(d.eval_count)
+    d.eval_compatibility = ((d.eval_compatibility*count)+data[0])/(count+1)
+    d.eval_safety        = ((d.eval_safety       *count)+data[1])/(count+1)
+    d.eval_demand        = ((d.eval_demand       *count)+data[2])/(count+1)
+    d.eval_completeness  = ((d.eval_completeness *count)+data[3])/(count+1)
+    d.eval_efficiency    = ((d.eval_efficiency   *count)+data[4])/(count+1)
+    d.eval_reliability   = ((d.eval_reliability  *count)+data[5])/(count+1)
+    d.eval_accessibility = ((d.eval_accessibility*count)+data[6])/(count+1)
+    d.count += 1 
 
     return 'success'
 
