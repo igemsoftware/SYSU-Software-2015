@@ -1112,7 +1112,7 @@ LeftBar.prototype.initPart = function(partList) {
         var dataDiv = this.leftbarWorker.createPartView(partList[i]);
         this.elemsPartList.push(dataDiv);
         this.addPartToBar(dataDiv);
-        this._searchPartTitle.push({title: partList[i].name});
+        this._searchPartTitle.push({title: partList[i].attr});
     }
     this.updateSearchBar();
 }
@@ -1286,12 +1286,14 @@ LeftBar.prototype.enableSearchPartBox = function() {
 LeftBar.prototype.enableSearchRelateBox = function() {
     var that = this;
     this.view.searchRelateInputBox.keyup(function() {
-        var val = that.view.searchRelateInputBox.val().toLowerCase();
+        var val = that.view.searchRelateInputBox.val();
         if (val != "") {
             var searchElemPartList = [];
             for (var i in that.elemsPartList) {
-                var partAttr = $(that.elemsPartList[i].find("div")[0]).attr("part-attr").toLowerCase();
+                var partAttr = $(that.elemsPartList[i].find("div")[0]).attr("part-attr");
                 if (DataManager.isRelate(val, partAttr)) {
+                    console.log(val);
+                    console.log(partAttr);
                     searchElemPartList.push(that.elemsPartList[i]);
                 }
             }
@@ -1430,7 +1432,7 @@ RightBar.prototype.updateAddedView = function(part) {
     var partElem = this.rightbarWorker.createPartView(part);
     if (!this.isPartAdded(part)) {
         this.elemsPartList.push(partElem);
-        this._searchPartTitle.push({title: part.name});
+        this._searchPartTitle.push({title: part.attr});
         this.updateSearchBar();
         this.rightbarWorker.showView(this.elemsPartList, this.view.parts);
     }

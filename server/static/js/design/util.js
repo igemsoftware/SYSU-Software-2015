@@ -332,10 +332,10 @@ DataManager.getLineType = function(fromPartA, toPartB) {
 
 DataManager.isRelate = function(partAttrA, partAttrB) {
     for (var i in this.relationShipList) {
-        var start = this.relationShipList[i].start.toLowerCase();
-        var end = this.relationShipList[i].end.toLowerCase();
-        if ((start === partAttrA.toLowerCase() && end === partAttrB.toLowerCase()) ||
-            (start === partAttrB.toLowerCase() && end === partAttrA.toLowerCase())) {
+        var start = this.relationShipList[i].start;
+        var end = this.relationShipList[i].end;
+        if ((start === partAttrA && end === partAttrB) ||
+            (start === partAttrB && end === partAttrA)) {
             return true;
         }
     }
