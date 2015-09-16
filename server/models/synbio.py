@@ -13,6 +13,10 @@ import json
 #       def __repr__(self):
 #           return '<ProtocolRecommend: %s->%s>' % (self.prototype.name, self.device.name)
 
+def name_handler(string):
+    return string.replace(' ', '_').replace('-','_').replace(')','').replace('(','__')
+
+
 class Protocol(db.Model):
     """Protocol model in CORE."""
 
@@ -190,7 +194,7 @@ class ComponentPrototype(db.Model):
     """What components points to it."""
 
     def __init__(self, **kwargs):
-        kwargs['name'] = kwargs['name'].replace(' ', '_').replace('-','_')
+        kwargs['name'] = name_handler(kwargs['name'])
         super(ComponentPrototype, self).__init__(**kwargs)
 
 
@@ -223,7 +227,7 @@ class ComponentInstance():
         """Initialization constructor, can use :attr:`ComponentPrototype.name` 
         or :attr:`ComponentPrototype.attr` to find the prototype."""
 #        print "New instance: BBa: %s, pname: %s" % (BBa, partName)
-        partName = partName.replace('-','_').replace(' ','_')
+        partName = name_handler(partName)
         if partName in ['Promoter', 'RBS', 'Terminator'] and not BBa:
             BBa = ''
         if BBa != None:
@@ -468,8 +472,8 @@ class Device(db.Model, BioBase):
         for ele in json_obj['relationship']:
 #            if ele['type'] == 'normal': continue
 
-            ele['start'] = ele['start'].replace(' ', '_').replace('-','_')
-            ele['end'] = ele['end'].replace(' ', '_').replace('-','_')
+            ele['start'] = name_handler(ele['start'])
+            ele['end'] = name_handler(ele['end'])
 
             start = d.__load_prototype_and_instance(ele['start'], skip_instance=True)
             end = d.__load_prototype_and_instance(ele['end'], skip_instance=True)
