@@ -52,9 +52,7 @@
 
     </div>
     <div class="right">
-      <v-rating completeness="{{design.completeness}}" compatibility="{{design.compatibility}}"
-                safety="{{design.eval_safety}}" demand="{{design.eval_demand}}" efficiency="{{design.eval_efficiency}}"
-                reliability="{{design.eval_reliability}}" accessibility="{{design.accessibility}}"></v-rating>
+      <v-rating design-id={{design.id}}></v-rating>
     </div>
   </div>
 

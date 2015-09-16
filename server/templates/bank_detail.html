@@ -123,10 +123,7 @@
             </div>
             <h3 class="title"><i class="star icon"></i>Rating</h3>
             <div class="ui divider"></div>
-            <v-rating completeness="{{design.completeness}}" compatibility="{{design.compatibility}}"
-                      safety="{{design.eval_safety}}" demand="{{design.eval_demand}}" efficiency="{{design.eval_efficiency}}"
-                      reliability="{{design.eval_reliability}}" accessibility="{{design.accessibility}}"
-                      canvas-width=230 canvas-height=170></v-rating>
+            <v-rating design-id={{design.id}} canvas-width=230 canvas-height=170></v-rating>
             </div>
         </div>
 
