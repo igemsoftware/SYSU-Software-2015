@@ -2,7 +2,7 @@
 
 from . import modeling 
 from flask import render_template, jsonify
-from ..tools.simulation.release import getModel, simulate, __example_system
+from ..tools.simulation.release import getModel, simulate, __example_system, name_handler
 from ..models import EquationBase, Design 
 
 # /modeling/
@@ -262,7 +262,13 @@ def plot_design(id):
     try:
         d = Design.query.get(id)
         d.update_from_db()
-        design_set = set([ele['partAttr'] for ele in d.parts])
+        vars = [ele['partAttr'] for ele in d.parts]
+        newvars = map(lambda x: name_handler(x), vars) 
+        var_mapper = {}
+        for var, newvar in zip(vars, newvars):
+            if var != newvar:
+                var_mapper.update({newvar:var})
+        design_set = set(newvars)
 
         system = []
         system_set = set({})
@@ -287,8 +293,13 @@ def plot_design(id):
             return jsonify(x_axis=[], variables=[], name=d.name)
         t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
 
+        for ind, ele in enumerate(result):
+            if ele['name'] in var_mapper:
+                result[ind]['name'] = var_mapper[ele['name']]
+
         return jsonify(x_axis=t, variables=result, name=d.name)
-    except:
+    except Exception, e:
+        print e
         return jsonify(x_axis=[], variables=[], name=d.name)
 
     # example data 

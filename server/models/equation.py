@@ -67,7 +67,7 @@ class Equation():
 
 
 from .. import db 
-from ..tools.simulation.release import getModel
+from ..tools.simulation.release import getModel, name_handler
 
 class EquationBase(db.Model):
     """EquationBase model in CORE.""" 
@@ -95,10 +95,12 @@ class EquationBase(db.Model):
         self._content = json.dumps(self.content)
         self.related_count = len(self.content.get('related', [])) + 1
         db.session.add(self)
+        return self
 
     def update_from_db(self):
         """Decode things from :attr:`_content` ."""
         self.content = json.loads(self._content)
+        return self
 
     @property
     def target(self):
@@ -160,10 +162,18 @@ class EquationBase(db.Model):
 
                 ele = eval(line, {'__builtins__':None}, {})
                 e = EquationBase()
-                e.target = ele[0]
-                e.related = ele[1]
+                e.target = name_handler(ele[0])
+                e.related = map(lambda x: name_handler(x), ele[1])
                 e.parameter = dict(ele[2])
                 e.formular = ele[3]
+
+                # name handler
+                para = [ele[0]]+ele[1]
+                para.sort(key=len, reverse=True)
+                for var in para:
+                    newvar = name_handler(var)
+                    e.formular = e.formular.replace(var, newvar)
+
                 e.commit_to_db()
 
                 system.append(e.packed())

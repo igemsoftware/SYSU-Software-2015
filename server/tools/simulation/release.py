@@ -17,6 +17,10 @@ safe_dict['abs'] = abs
 from equation import Equation
 import traceback
 
+def name_handler(string):
+    return string.replace(':', '_').replace('/','_').replace(' ', '_').replace('-','_').replace(')','_').replace('(','_')
+
+
 __example_system = [
 ['UVB', [], [], 't'],
 ['puvr8', ['UVB'], [('a',80.), ('dna', 150.), ('k', 50.), ('u1', 20.)], '{{a}}*{{dna}}/(1+UVB ** {{k}}) - {{u1}}*puvr8'],
