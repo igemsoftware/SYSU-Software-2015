@@ -27,10 +27,10 @@ class Equation():
     content = '' 
     """The raw text of json object"""
 
-    def __init__(self, jsonstr=None):
+    def __init__(self, parameters={}, content='', jsonstr=''):
         """Create with empty equation or start with a dumpped json string."""
-        self.parameters = {} 
-        self.content = ''
+        self.parameters = parameters 
+        self.content = content
 
         if jsonstr:
             jsonobj = json.loads(jsonstr)
@@ -67,6 +67,7 @@ class Equation():
 
 
 from .. import db 
+import traceback
 from ..tools.simulation.release import getModel, name_handler
 
 class EquationBase(db.Model):
@@ -148,6 +149,29 @@ class EquationBase(db.Model):
     def formular(self, value):
         self.content['formular'] = value
 
+
+    @staticmethod
+    def preload_from_str(line):
+        ele = eval(line, {'__builtins__':None}, {})
+        e = EquationBase()
+        e.target = name_handler(ele[0])
+        e.related = map(lambda x: name_handler(x), ele[1])
+        e.parameter = dict(ele[2])
+        for coe, value in e.parameter.iteritems():
+            e.parameter[coe] = float(value)
+        e.formular = ele[3]
+
+        # name handler
+        para = [ele[0]]+ele[1]
+        para.sort(key=len, reverse=True)
+        for var in para:
+            newvar = name_handler(var)
+            e.formular = e.formular.replace(var, newvar)
+
+        e.commit_to_db()
+
+        return e
+
     @staticmethod
     def preload_from_file(filename):
         print 'loading equation from %s ...' % filename
@@ -160,21 +184,13 @@ class EquationBase(db.Model):
                 line = line.strip().split('#')[0]
                 if not line or line.startswith('#'): continue
 
-                ele = eval(line, {'__builtins__':None}, {})
-                e = EquationBase()
-                e.target = name_handler(ele[0])
-                e.related = map(lambda x: name_handler(x), ele[1])
-                e.parameter = dict(ele[2])
-                e.formular = ele[3]
-
-                # name handler
-                para = [ele[0]]+ele[1]
-                para.sort(key=len, reverse=True)
-                for var in para:
-                    newvar = name_handler(var)
-                    e.formular = e.formular.replace(var, newvar)
-
-                e.commit_to_db()
+                try:
+                    e = EquationBase.preload_from_str(line)
+                except Exception, exp:
+                    msg = traceback.format_exc()
+                    print msg
+                    raise Exception
+                    return msg
 
                 system.append(e.packed())
 

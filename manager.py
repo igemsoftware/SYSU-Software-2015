@@ -133,11 +133,12 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
             from numpy import random
             for i in range(50):
                 print 'Faking %d th design ...\r', i,
+                device_num = random.randint(1, Device.query.count()+1)
                 is_finished = random.randint(2) == 1
                 is_shared = is_finished and random.randint(2) == 1
                 is_public = is_shared and random.randint(2) == 1
                 used = random.randint(100) if is_public else 0
-                c = Design(name=random_text(2).capitalize()+'design', 
+                c = Design(name=random_text(2).capitalize()+' design(auto)', 
                         brief_description = random_text(4),
                         full_description = random_text(100),
                         references = random_text(4),
@@ -159,7 +160,7 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
                         is_public = is_public,
                         used = used,
 
-                        owner=u)._copy_from_device(1)
+                        owner=u)._copy_from_device(device_num)
 
                 comment_count = random.randint(1, 3)
                 for i in xrange(comment_count):

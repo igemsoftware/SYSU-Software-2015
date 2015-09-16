@@ -285,8 +285,8 @@ def plot_design(id):
             if design_set >= e.all_related:
                 system.append(e.packed())
                 system_set.update([e.target])
-    #   from pprint import pprint
-    #   pprint(system)
+        from pprint import pprint
+        pprint(system)
 
         ODEModel, names = getModel(system)
         if ODEModel == None:

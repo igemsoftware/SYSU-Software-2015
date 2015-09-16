@@ -18,7 +18,7 @@ from equation import Equation
 import traceback
 
 def name_handler(string):
-    return string.replace(':', '_').replace('/','_').replace(' ', '_').replace('-','_').replace(')','_').replace('(','_')
+    return string.replace(':', '_').replace('/','_').replace(' ', '_').replace('-','_').replace(')','').replace('(','_')
 
 
 __example_system = [
