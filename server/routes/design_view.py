@@ -346,3 +346,47 @@ def get_favorite_designs():
         })
     return jsonify(designs=l)
 
+
+@design.route('/mark/<int:id>', methods=['POST'])
+@login_required
+def mark_design(id):
+    """
+        :Note: Login required
+        :Content-type: application/json
+        :Usage: Mark design with 7 numbers 
+    """
+    d = Design.query.get(id)
+    if not d: abort(404)
+
+    data = request.get_json()
+
+    d.eval_compatibility = data[0]
+    d.eval_safety        = data[1]
+    d.eval_demand        = data[2] 
+    d.eval_completeness  = data[3]
+    d.eval_efficiency    = data[4]
+    d.eval_reliability   = data[5]
+    d.eval_accessibility = data[6]
+
+    return 'success'
+
+@design.route('/mark/<int:id>', methods=['GET'])
+def get_design_mark(id):
+    """
+        :Usage: Get the mark of a design 
+    """
+    d = Design.query.get(id)
+    if not d: return jsonify(eval=[0]*7) 
+
+    data = [0] * 7
+    data[0] = d.eval_compatibility 
+    data[1] = d.eval_safety        
+    data[2] = d.eval_demand         
+    data[3] = d.eval_completeness  
+    data[4] = d.eval_efficiency    
+    data[5] = d.eval_reliability   
+    data[6] = d.eval_accessibility 
+
+    return jsonify(eval=data) 
+
+ 
