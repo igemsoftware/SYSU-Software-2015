@@ -1,55 +1,62 @@
 Vue.config.delimiters = ['[[', ']]'];
+
 var vBody = new Vue({
     el: "body",
     data: {
         selectedTab: 0,
-        ratingCriteria: ['Compatibility', 'Safety', 'Demand', 'Completeness', 'Efficiency', 'Reliability', 'Accessibility'],
-        oriRating: [1, 1, 1, 1, 3, 3, 3],
-        curRating: [3, 3, 3, 3, 3, 3, 3],
-        rated: false,
     },
     ready: function() {
-        var ctx = document.getElementById("embedded-rating-radar").getContext("2d");
-        radar = new Chart(ctx).Radar({
-            labels: this.ratingCriteria,
-            datasets: [
-            {
-                label: "Original Rating",
-                fillColor: "rgba(220,220,220,0.2)",
-                strokeColor: "rgba(220,220,220,1)",
-                pointColor: "rgba(220,220,220,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(220,220,220,1)",
-                data: this.oriRating,
-            },
-            {
-                label: "Your Rating",
-                fillColor: "rgba(151,187,205,0.2)",
-                strokeColor: "rgba(151,187,205,1)",
-                pointColor: "rgba(151,187,205,1)",
-                pointStrokeColor: "#fff",
-                pointHighlightFill: "#fff",
-                pointHighlightStroke: "rgba(151,187,205,1)",
-                data: [3, 3, 3, 3, 3, 3, 3]
-            },
-            ]
-        });
-
-        var store = this;
-        $('#embedded-rating > .rating.container > .rating').rating({
-            onRate: function(value) {
-                var criterionIndex = $(this).data('criterion-index');
-                radar.datasets[1].points[criterionIndex].value = value;
-                radar.update();
-                store.curRating[criterionIndex] = value;
-            },
-        });
-        this.$watch('oriRating', function() {
-            for (var i = this.ratingCriteria.length - 1; i >= 0; i--) {
-                radar.datasets[0].points[i].value = this.oriRating[i];
-            };
-            radar.update();
-        });
     },
+    methods: {
+        drawChart : function(view, xArray, series) {
+            var that = this;
+            view.highcharts({
+                plotOptions: {
+                    series: { marker: { enabled: false } }
+                },
+                chart: { type: 'spline', backgroundColor: 'transparent' },
+                title: {
+                    text: 'Dynamic Performance',
+                    x: -20,
+                    style: {
+                        fontSize: "20px"
+                    }
+                },
+                subtitle: {
+                    text: 'The equations describing the change of concentration of protein over time',
+                    x: -20
+                },
+                marker: {
+                    enabled: false
+                },
+                xAxis: {
+                    categories: xArray,
+                    labels: {
+                        formatter: function() {
+                            return this.value.toFixed(2);//这里是两位小数，你要几位小数就改成几
+                        },
+                    },
+                },
+                yAxis: {
+                    title: {
+                        text: 'Output (concn [a.u.])',
+                        style: {
+                            fontSize: "17px"
+                        }
+                    },
+                    minorTickInterval: 'auto',
+                },
+                tooltip: {
+                    valueSuffix: '[a.u.]'
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle',
+                    borderWidth: 0
+                },
+                series: series
+            });
+        },
+    }
 });

@@ -41,7 +41,9 @@
         <div class="ui tab basic segment" v-class="active: selectedTab === 2">
 
         </div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 3"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 3">
+          <div id="chart"></div>
+        </div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 4">
           {{design.references}}
         </div>
@@ -49,15 +51,7 @@
 
     </div>
     <div class="right">
-      <div id="embedded-rating">
-        <canvas id="embedded-rating-radar" width="230" height="230"></canvas>
-        <div class="rating container" v-repeat="criterion in ratingCriteria">
-          <div class="description">[[criterion]]</div>
-          <div class="ui star rating" data-rating="3" data-max-rating="5" data-criterion-index="[[$index]]"></div>
-        </div>
-        <button class="ui blue rating submit button" v-on="click: rated = true" v-show="!rated">Rate!</button>
-        <button class="ui blue disabled rating submit button" v-show="rated">Rated:-)</button>
-      </div>
+      {% include 'vRating.html' %}
     </div>
   </div>
 
@@ -65,14 +59,20 @@
   <script src="/static/js/lib/semantic.min.js"></script>
   <script src="/static/js/lib/vue.js"></script>
   <script src="/static/js/lib/Chart.min.js"></script>
+  <script src="/static/js/lib/highcharts.js"></script>
+  <script src="/static/js/vRating.js"></script>
   <script src="/static/js/embedded.js"></script>
   <script src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   <script>
-    vBody.oriRating = [
+    vRating.oriRating = [
       {{design.eval_compatibility}}, {{design.eval_safety}}, {{design.eval_demand}},
       {{design.eval_completeness}}, {{design.eval_efficiency}}, {{design.eval_reliability}}, {{design.eval_accessibility}}
     ];
-  </script>
+    $.get("/modeling/design/{{design.id}}", function(data) {
+      console.log(data);
+      vBody.drawChart($("#chart"), data.xAxis, data.variables);
+    });
+    </script>
 
 </body>
 </html>

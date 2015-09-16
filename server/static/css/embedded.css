@@ -49,11 +49,11 @@ body {
   width: 100%;
   background-color: #458ac6; }
 
-#embedded-rating {
+#rating-wrapper {
   padding-top: 10px;
   text-align: center; }
 
-#embedded-rating > .rating.container {
+#rating-wrapper > .rating.container {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-flexbox;
@@ -63,7 +63,7 @@ body {
   padding-left: 20px;
   padding-right: 20px; }
 
-#embedded-rating > .rating.container > .description {
+#rating-wrapper > .rating.container > .description {
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   width: 20%;
@@ -71,10 +71,10 @@ body {
   -ms-flex: 1;
   flex: 1; }
 
-#embedded-rating > .rating.container > .rating {
+#rating-wrapper > .rating.container > .rating {
   width: 100px; }
 
-#embedded-rating > .rating.submit.button {
+#rating-wrapper > .rating.submit.button {
   border-radius: 0;
   margin-top: 20px; }
 
