@@ -8,11 +8,11 @@ $(document).ready(function() {
 
     $(window).scroll(function() {
         var x = w.scrollTop()+w.height()*0.25 ;
-  
+
         titles.each(function(ind, ele) {
-            if ($(ele).position().top < x) 
-                $(indices[ind]).addClass('active').siblings().removeClass('active')
-                                
+            if ($(ele).position().top < x)
+                $(indices[ind]).addClass('active').siblings().removeClass('active');
+
         });
     });
 
@@ -21,4 +21,6 @@ $(document).ready(function() {
             $('html, body').stop().animate({scrollTop: $(titles[ind]).position().top-w.height()*0.24}, 300, 'swing');
         });
     });
+
+    $("#right-column > .ui.sticky").sticky({offset: 60, context: "#content"});
 });
