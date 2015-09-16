@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import traceback
 from . import modeling 
-from flask import render_template, jsonify
+from flask import render_template, jsonify, request
 from ..tools.simulation.release import getModel, simulate, __example_system, name_handler
 from ..models import EquationBase, Design 
 
@@ -46,8 +47,40 @@ def design_all():
     return jsonify(designs=l)
 
  
+def get_system_from_design(id):
+    try:
+        d = Design.query.get(id)
+        d.update_from_db()
+        vars = [ele['partAttr'] for ele in d.parts]
+        newvars = map(lambda x: name_handler(x), vars) 
+        var_mapper = {}
+        for var, newvar in zip(vars, newvars):
+            if var != newvar:
+                var_mapper.update({newvar:var})
+        design_set = set(newvars)
 
-@modeling.route('/design/<int:id>')
+        system = []
+        system_set = set({})
+        for e in EquationBase.query.order_by(EquationBase.related_count.desc()).all():
+            e.update_from_db()
+            # Find the max match
+            if e.target in system_set: continue
+            # Filter
+            if e.target not in design_set: continue
+            # debug codes
+       #    print design_set
+       #    print e.all_related
+       #    print design_set >= e.all_related
+            if design_set >= e.all_related:
+                system.append(e.packed())
+                system_set.update([e.target])
+       #from pprint import pprint
+       #pprint(system)
+        return system, var_mapper
+    except:
+        return None, None
+
+@modeling.route('/design/<int:id>', methods=["GET"])
 def plot_design(id):
     """
         :Method: GET
@@ -261,36 +294,12 @@ def plot_design(id):
     """
     try:
         d = Design.query.get(id)
-        d.update_from_db()
-        vars = [ele['partAttr'] for ele in d.parts]
-        newvars = map(lambda x: name_handler(x), vars) 
-        var_mapper = {}
-        for var, newvar in zip(vars, newvars):
-            if var != newvar:
-                var_mapper.update({newvar:var})
-        design_set = set(newvars)
-
-        system = []
-        system_set = set({})
-        for e in EquationBase.query.order_by(EquationBase.related_count.desc()).all():
-            e.update_from_db()
-            # Find the max match
-            if e.target in system_set: continue
-            # Filter
-            if e.target not in design_set: continue
-            # debug codes
-       #    print design_set
-       #    print e.all_related
-       #    print design_set >= e.all_related
-            if design_set >= e.all_related:
-                system.append(e.packed())
-                system_set.update([e.target])
-        from pprint import pprint
-        pprint(system)
+        system, var_mapper = get_system_from_design(id)
+        if not system: raise Exception("Cannot find the system.")
 
         ODEModel, names = getModel(system)
-        if ODEModel == None:
-            return jsonify(x_axis=[], variables=[], name=d.name)
+        if not ODEModel: raise Exception("Build ODE system error.")
+
         t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
 
         for ind, ele in enumerate(result):
@@ -306,4 +315,46 @@ def plot_design(id):
     #   d = Design.query.get(id)
     #   ODEModel, names = getModel(__example_system)
     #   t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
+
+
+
+@modeling.route('/design/<int:id>', methods=["POST"])
+def replot_design(id):
+    """
+        :Method: POST 
+        :Usage: Get the modeling result of a design with parameters.
+        :Output: A list of modeling result.
+        :Example Output: The same as the output of :http:get:`/modeling/design/<int:id>` .
+    """
+
+
+    try:
+        d = Design.query.get(id)
+        system, var_mapper = get_system_from_design(id)
+        if not system: raise Exception("Cannot find the system.")
+
+        ODEModel, names = getModel(system)
+        if not ODEModel: raise Exception("Build ODE system error.")
+
+        data = request.get_json()
+        maximum = float(data.get('maximum-time', 3.0))
+        interval = float(data.get('interval', 0.05))
+
+        initval = [0.] * len(names)
+        for ind, ele in enumerate(names):
+            if ele in var_mapper:
+                ele = var_mapper[ele]
+            initval[ind] = float(data.get(ele, 0.0))
+        print initval
+
+        t, result = simulate(ODEModel, names, 0, maximum, interval, initval)
+
+        for ind, ele in enumerate(result):
+            if ele['name'] in var_mapper:
+                result[ind]['name'] = var_mapper[ele['name']]
+
+        return jsonify(x_axis=t, variables=result, name=d.name)
+    except Exception, msg:
+        print traceback.format_exc()
+        return jsonify(x_axis=[], variables=[], name=d.name)
 

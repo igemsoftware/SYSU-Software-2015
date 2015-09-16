@@ -144,6 +144,13 @@
 	float: right;
 }
 
+#parameters {
+    overflow-y: auto;
+    height: 360px;
+    padding-right: 10px;
+    margin-bottom: 10px;
+}
+
 /*=====================================================*/
 ::-webkit-scrollbar-track {
     border-radius: 5px;
