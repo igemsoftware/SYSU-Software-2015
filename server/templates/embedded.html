@@ -13,7 +13,7 @@
        v-class="active: selectedTab === $index"
        v-on="click: selectedTab = $index">[[i]]</a>
     <div class="right menu">
-      <a class="item" id="embedded-edit-in-core" href=""><i class="edit icon"></i>Edit In CORE</a>
+      <a class="item" id="embedded-edit-in-core" href=""><i class="edit icon"></i>View In CORE</a>
     </div>
     <div id="embedded-topbar-bottom-line"></div>
   </div>
@@ -21,25 +21,37 @@
   <div id="embedded-container">
     <div class="left">
       <div id="embedded-tabs">
-        <div class="ui tab basic segment" v-class="active: selectedTab === 0" id="details-description-tab">{{circuit.introduction}}</div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 1"></div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 2"></div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 3"></div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 4"></div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 5"></div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 6"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 0" id="details-description-tab">
+          {% if design.img %}
+          <div class="ui header">Image:</div>
+          <img src="data:image/jpeg;base64,{{design.img}}" alt="" class="ui fluid image">
+          {% endif %}
+          <div class="ui header">Brief Description:</div>
+          <div class="brief">
+            {{design.brief_description}}
+          </div>
+          <div class="ui divider"></div>
+          <div class="ui header">Full Description:</div>
+          <div class="full">
+            {{design.full_description}}
+          </div>
+        </div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 1">
+        </div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 2">
+
+        </div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 3">
+          <div id="chart"></div>
+        </div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 4">
+          {{design.references}}
+        </div>
       </div>
 
     </div>
     <div class="right">
-      <div id="embedded-rating">
-        <canvas id="embedded-rating-radar" width="230" height="230"></canvas>
-        <div class="rating container" v-repeat="criterion in ratingCriteria">
-          <div class="description">[[criterion]]</div>
-          <div class="ui star rating" data-rating="3" data-max-rating="5" data-criterion-index="[[$index]]"></div>
-        </div>
-        <button class="ui blue rating submit button">Rate!</button>
-      </div>
+      {% include 'vRating.html' %}
     </div>
   </div>
 
@@ -47,8 +59,20 @@
   <script src="/static/js/lib/semantic.min.js"></script>
   <script src="/static/js/lib/vue.js"></script>
   <script src="/static/js/lib/Chart.min.js"></script>
+  <script src="/static/js/lib/highcharts.js"></script>
+  <script src="/static/js/vRating.js"></script>
   <script src="/static/js/embedded.js"></script>
   <script src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  <script>
+    vRating.oriRating = [
+      {{design.eval_compatibility}}, {{design.eval_safety}}, {{design.eval_demand}},
+      {{design.eval_completeness}}, {{design.eval_efficiency}}, {{design.eval_reliability}}, {{design.eval_accessibility}}
+    ];
+    $.get("/modeling/design/{{design.id}}", function(data) {
+      console.log(data);
+      vBody.drawChart($("#chart"), data.xAxis, data.variables);
+    });
+    </script>
 
 </body>
 </html>

@@ -46,8 +46,8 @@ def embedded(id):
     """
         :Usage: Get a design.
     """
-    c = Design.query.get(id)
-    return render_template('embedded.html', circuit=c)
+    d = Design.query.get_or_404(id)
+    return render_template('embedded.html', design=d)
 
 @main.route('/proxy', methods=['POST'])
 def proxy():
