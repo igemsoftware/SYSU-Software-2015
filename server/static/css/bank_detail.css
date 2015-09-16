@@ -68,9 +68,15 @@ i {
 
 #index .list .item {
     margin-bottom: 20px;
-    /*color: #858c92;*/
+   // color: #858c92;
     font-size: 18px;
 }
+
+#index .list .item .textactive {
+    color: #000000;
+}
+
+
 
 #index .list .indexer {
     border-color: white;
@@ -134,3 +140,4 @@ i {
     margin-right: 10%;
     float: right;
 }
+
