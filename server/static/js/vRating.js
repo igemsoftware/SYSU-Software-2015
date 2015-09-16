@@ -1,13 +1,16 @@
 var vueDelimitersSave = Vue.config.delimiters;
 Vue.config.delimiters = ['[[', ']]'];
-var vRating = new Vue({
-    el: "#rating-wrapper",
-    data: {
+
+var vRatingComp = Vue.component('v-rating', {
+    //el: "#rating-wrapper",
+    template: "#rating-template",
+    props : ['compatibility', 'safety', 'demand', 'completeness', 'efficiency', 'reliability', 'accessibility'],
+    data: function() { return {
         ratingCriteria: ['Compatibility', 'Safety', 'Demand', 'Completeness', 'Efficiency', 'Reliability', 'Accessibility'],
-        oriRating: [1, 1, 1, 1, 3, 3, 3],
+        oriRating: [this.compatibility, this.safety, this.demand, this.completeness, this.efficiency, this.reliability, this.accessibility],
         curRating: [3, 3, 3, 3, 3, 3, 3],
         rated: false,
-    },
+    }},
     ready: function() {
         var ctx = document.getElementById("rating-radar").getContext("2d");
         var radar = new Chart(ctx).Radar({
@@ -31,7 +34,7 @@ var vRating = new Vue({
                 pointStrokeColor: "#fff",
                 pointHighlightFill: "#fff",
                 pointHighlightStroke: "rgba(151,187,205,1)",
-                data: [3, 3, 3, 3, 3, 3, 3]
+                data: this.curRating
             },
             ]}, {
                 scaleOverride: true,
@@ -39,7 +42,6 @@ var vRating = new Vue({
                 scaleStepWidth: 1,
                 scaleStartValue: 0
         });
-
         var store = this;
         $('#rating-wrapper > .rating.container > .rating').rating({
             onRate: function(value) {
@@ -48,12 +50,6 @@ var vRating = new Vue({
                 radar.update();
                 store.curRating[criterionIndex] = value;
             },
-        });
-        this.$watch('oriRating', function() {
-            for (var i = this.ratingCriteria.length - 1; i >= 0; i--) {
-                radar.datasets[0].points[i].value = this.oriRating[i];
-            };
-            radar.update();
         });
     },
     methods: {
