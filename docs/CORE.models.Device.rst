@@ -7,8 +7,10 @@
 .. autoclass:: Device
 
     .. autoattribute:: id
-    .. autoattribute:: title
-    .. autoattribute:: introduction
+    .. autoattribute:: name 
+    .. autoattribute:: brief_description 
+    .. autoattribute:: full_description 
+    .. autoattribute:: keyword 
     .. autoattribute:: source
     .. autoattribute:: protocol_reference
     .. autoattribute:: risk

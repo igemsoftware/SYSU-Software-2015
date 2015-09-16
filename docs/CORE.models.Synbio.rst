@@ -13,6 +13,6 @@ Synthetic biology models in CORE contains:
     CORE.models.ComponentInstance
     CORE.models.BioBase
     CORE.models.Device
-    CORE.models.Circuit 
+    CORE.models.Design
 
 

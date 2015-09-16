@@ -1,47 +1,18 @@
-var vNotificationsComponent = Vue.component('dashboard-notifications', {
-    template: "#notifications-template",
+var vNotifications = new Vue({
+    el : 'body',
     data: function() { return {
         notifications: [
-            {
-                source  : "experiment remind",
-                content : "Experiment unread.",
-                read    : false,
-            },
-            {
-                source  : "database",
-                content : "Database read.",
-                read    : true,
-            },
-            {
-                source  : "taskhall",
-                content : "taskhall unread.",
-                read    : false,
-            },
-            {
-                source  : "database",
-                content : "database unread.",
-                read    : false,
-            },
-            {
-                source  : "experiment remind",
-                content : "Experiment hahaha.",
-                read    : true,
-            },
-            {
-                source  : "experiment record",
-                content : "Experiment hahaha.",
-                read    : true,
-            },
         ],
         selectedTag: '',
         selectedTab: 'unread',
         tags       : ['experiment remind', 'experiment record', 'database', 'taskhall'],
     }},
     ready: function() {
+        this.$eval('updateData()');
     },
     computed: {
         unreadOnly: function() {
-            return this.selectedTab === 'unread' ? true : undefined;
+            return this.selectedTab === 'unread' ? false : undefined;
         },
         selectedTag: function() {
             return (this.selectedTab === 'unread' || this.selectedTab === 'all') ? '' : this.selectedTab;
@@ -50,7 +21,31 @@ var vNotificationsComponent = Vue.component('dashboard-notifications', {
             return this.$eval('notifications | filterBy unreadOnly read | filterBy selectedTag source')
         },
         unreadNotifications: function() {
-            return this.$eval('notifications | filterBy true read');
+            return this.$eval('notifications | filterBy false read');
         }
     },
+    methods : {
+        updateData : function() {
+            var store = this;
+            $.get('/person/notifications', function(data) {
+                store.notifications = data.notifications;
+            });
+        },
+        markAsRead : function(id) {
+            var store = this;
+            $.post('/person/notifications/' + id, function() {
+                store.$eval('updateData()');
+            });
+        },
+        deleteNotif : function(id) {
+            var store = this;
+            $.ajax({
+                url: '/person/notifications/' + id,
+                success : function() {
+                    store.$eval('updateData()');
+                },
+                method  : 'DELETE'
+            });
+        },
+    }
 });

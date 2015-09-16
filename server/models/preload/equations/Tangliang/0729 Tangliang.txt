@@ -1,0 +1,66 @@
+#Dcas_VP16
+#Cas9_VP16 and cas9_VP16
+['Cas9_VP16',['Pconst','cas9_VP16'],[('k_{1}',8.78E+02),('D_{Cas9-VP16}',2.15)],'{{k_{1}}}*cas9_VP16-{{D_{Cas9_VP16}}}*Cas9_VP16']
+#全方程
+['Cas9_VP16',['Pconst','cas9_VP16'],[('k_{1}',8.78E+02),('D_{Cas9_VP16}',2.15)],'-{{D_{Cas9_VP16}}}*Cas9_VP16']
+#当启动子不存在
+
+
+#Tracr/crRNA and tracr/crRNA
+['Tracr/crRNA',['Pconst','tracr/crRNA'],[('k_{3}',0.73),('D_{Tracr/crRNA}',1.21E+2.41)],'{{k_{3}}}*tracr/crRNA1-{{D_{Tracr/crRNA}}}*Tracr/crRNA']
+#全方程
+['Tracr/crRNA',['Pconst','tracr/crRNA'],[('k_{3}',0.73),('D_{Tracr/crRNA}',1.21E+2.41)],'-{{D_{Tracr/crRNA}}}*Tracr/crRNA']
+#当启动子不存在
+
+
+#SEAP and seap
+['SEAP',['Pmin','seap','Tracr/crRNA'] ,[('k_{7}',4.05E-05),('k_{8}',1.86E+08),('k_{9}',1.06),('D_{deg}',1.5E+0.8)],'{{k_{7}}}*Seap*{{k_8}}}/({{k_{9}}}+Tracr/crRNA)-{{D_{deg}}}*SEAP']
+#全方程
+['SEAP',['Pmin','seap','Tracr/crRNA'],[('k_{7}',4.05E-05),('k_{8}',1.86E+08),('k_{9}',1.06),('D_{deg}',1.5E+0.8)],'-{{D_{deg}}}*SEAP']
+#当启动子不存在
+
+
+#Dcas_KRAB
+TetR_VP16 and tetR_VP16
+['TetR_VP16',['Pconst','tetR_VP16'],[('k_{3}',0.73),('D_{TetR_VP16}}',1.21E+0.8)],'{{k_{3}}}*tetR_VP16-{{D_{TetR_VP16}}}*TetR_VP16']
+#全方程
+
+
+
+#Cas9_KRAB and cas9_KRAB
+['Cas9_KRAB',['Pconst','cas9_KRAB'],[('k_{1}',8.78E+02),('D_{Cas9_KRAB}',1.5E+0.8)],'{{k_{1}}}*cas9_KRAB-{{D_{Cas9_KRAB}}}*Cas9_KRAB']
+#全方程
+['Cas9_KRAB',['Pconst','cas9_KRAB'],[('k_{1}',8.78E+02),('D_{Cas9_KRAB}',1.5E+0.8)],'-{{D_{Cas9_KRAB}}}*Cas9_KRAB']
+#当启动子不存在
+
+
+#Cas9_KRAB and Pmin
+['Cas9_KRAB',['Pmin','tetO','TetR_VP16'],[('k_{6}',8.59E-26),('k_{7}',4.05E-05),('k_{8}',1.86E+08),('D_{Cas9_KRAB}',1.5E+0.8)],'-{{k_{6}}}*({{k_{8}}}/({{k_{8}}}+TetR_VP16))*Cas9_KRAB/(1+{{k_{7}}}*Cas9_KRAB)-{{D_{Cas9_KRAB}}}*Cas9_KRAB']#全方程
+['Cas9_KRAB',['Pmin','tetO','TetR_VP16'],[('k_{6}',8.59E-26),('k_{7}',4.05E-05),('k_{8}',1.86E+08),('D_{Cas9_KRAB}',1.5E+0.8)],'-{{k_{6}}}*Cas9_KRAB/(1+{{k_{7}}}*Cas9_KRAB)-{{D_{Cas9_KRAB}}}*Cas9_KRAB']#启动子存在，tetO不存在
+['Cas9_KRAB',['Pmin','tetO','TetR_VP16'],[('k_{6}',8.59E-26),('k_{7}',4.05E-05),('k_{8}',1.86E+08),('D_{Cas9_KRAB}',1.5E+0.8)],'-{{D_{Cas9_KRAB}}}*Cas9_KRAB']#当启动子不存在
+
+
+#SEAP and seap
+['SEAP',['Pmin','seap'],[('k_{7}',4.05E-05),('D_{deg}',1.5E+0.8)],'{{k_{7}}}*seap-{{D_{deg}}}*SEAP']#全方程
+['SEAP',['Pmin','seap'],[('k_{7}',4.05E-05),('D_{deg}',1.5E+0.8)],'-{{D_{deg}}}*SEAP']#当启动子不存在
+
+
+#这个device用于数据模拟的方程
+['TetR_VP16',['Pconst','tetR_VP16'],[('k_{3}',0.73),('D_{TetR_VP16}',1.21E+0.8)],'{{k_{3}}}*tetR_VP16-{{D_{TetR_VP16}}}*TetR_VP16']#全方程
+['TetR_VP16',['Pconst','tetR_VP16'],[('k_{3}',0.73),('D_{TetR_VP16}',1.21E+0.8)],'-{{D_{TetR_VP16}}}*TetR_VP16']#当启动子不存在
+
+
+
+
+['Cas9_KRAB',['Pconst','cas9_KRAB','TetR_VP16'],[('k_{1}',8.78E+02),('k_{6}',8.59E-26),('k_{7}',4.05E-05),('k_{8}',1.86E+08),('D_{Cas9_KRAB}',1.5E+0.8)],'{{k_{1}}}*cas9_KRAB-{{k_{6}}}*({{k_{8}}}/({{k_{8}}}+TetR_VP16))*Cas9_KRAB/(1+{{k_{7}}}*Cas9_KRAB)-{{D_{Cas9_KRAB}}}*Cas9_KRAB']#全方程
+['Cas9_KRAB',['Pconst','cas9_KRAB'],[('k_{1}',8.78E+02),('k_{6}',8.59E-26),('k_{7}',4.05E-05),('D_{Cas9_KRAB}',1.5E+0.8)],'{{k_{1}}}*cas9_KRAB-{{k_{6}}}*Cas9_KRAB/(1+{{k_{7}}}*Cas9_KRAB)-{{D_{Cas9_KRAB}}}*Cas9_KRAB']#Pconst存在，Pmin存在，tetO不存在
+['Cas9_KRAB',['Pconst','cas9_KRAB','TetR_VP16'],[('k_{1}',8.78E+02),('k_{6}',8.59E-26),('k_{7}',4.05E-05),('k_{8}',1.86E+08),('D_{Cas9_KRAB}',1.5E+0.8)],'{{k_{1}}}*cas9_KRAB-{{D_{Cas9_KRAB}}}*Cas9_KRAB']#Pconst存在，Pmin不存在
+['Cas9_KRAB',['Pconst','cas9_KRAB','TetR_VP16'],[('k_{1}',8.78E+02),('k_{6}',8.59E-26),('k_{7}',4.05E-05),('k_{8}',1.86E+08),('D_{Cas9_KRAB}',1.5E+0.8)],'-{{k_{6}}}*({{k_{8}}}/({{k_{8}}}+TetR_VP16))*Cas9_KRAB/(1+{{k_{7}}}*Cas9_KRAB)-{{D_{Cas9_KRAB}}}*Cas9_KRAB']#Pconst不存在，Pmin存在，tetO存在
+['Cas9_KRAB',['Pconst','cas9_KRAB','TetR_VP16'],[('k_{1}',8.78E+02),('k_{6}',8.59E-26),('k_{7}',4.05E-05),('k_{8}',1.86E+08),('D_{Cas9_KRAB}',1.5E+0.8)],'-{{k_{6}}}*Cas9_KRAB/(1+{{k_{7}}}*Cas9_KRAB)-{{D_{Cas9_KRAB}}}*Cas9_KRAB']#Pconst不存在，Pmin存在，tetO不存在
+['Cas9_KRAB',['Pconst','cas9_KRAB','TetR_VP16'],[('k_{1}',8.78E+02),('k_{6}',8.59E-26),('k_{7}',4.05E-05),('k_{8}',1.86E+08),('D_{Cas9_KRAB}',1.5E+0.8)],'-{{D_{Cas9_KRAB}}}*Cas9_KRAB']#Pconst不存在，Pmin不存在
+
+['SEAP',['Pmin','seap'],[('k_{7}',4.05E-05),('D_{deg}',1.5E+0.8)],'{{k_{7}}}*seap-{{D_{deg}}}*SEAP']#全方程
+['SEAP',['Pmin','seap'],[('k_{7}',4.05E-05),('D_{deg}',1.5E+0.8)],'-{{D_{deg}}}*SEAP']#当启动子不存在
+
+
+

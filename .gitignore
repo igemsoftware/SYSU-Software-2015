@@ -66,3 +66,16 @@ env/
 *.db
 server/files/
 gfp_yfp.png
+
+# OSX noise
+.DS_Store
+
+# docs cheatsheet
+cheatsheet.rst
+
+# js libs :)
+!server/static/js/lib/
+
+
+# word
+*.docx

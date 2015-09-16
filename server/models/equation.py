@@ -27,10 +27,10 @@ class Equation():
     content = '' 
     """The raw text of json object"""
 
-    def __init__(self, jsonstr=None):
+    def __init__(self, parameters={}, content='', jsonstr=''):
         """Create with empty equation or start with a dumpped json string."""
-        self.parameters = {} 
-        self.content = ''
+        self.parameters = parameters 
+        self.content = content
 
         if jsonstr:
             jsonobj = json.loads(jsonstr)
@@ -67,52 +67,69 @@ class Equation():
 
 
 from .. import db 
+import traceback
+from ..tools.simulation.release import getModel, name_handler
 
 class EquationBase(db.Model):
-    """Equation in Database""" 
+    """EquationBase model in CORE.""" 
    
 #   target = db.Column(db.Text)
 #   related = db.Column(db.Text, default='[]')
 #   parameter = db.Column(db.Text, default='[]')
 
     id = db.Column(db.Integer, primary_key=True)
+    """ID is an unique number to identify each :class:`Memo`."""
     related_count = db.Column(db.Integer, default=0, index=True)
+    """How many components related to it."""
     _content = db.Column(db.Text, default = '{}') 
+    """Raw content in database."""
     printable = db.Column(db.Text, default = '')
+    """Printable formular in Tex."""
     content = {}
+    """Its content object."""
 
     def __repr__(self):
         return '<EquationBase[%d] #%d: %s>' % (self.id, self.related_count, self.formular)
 
     def commit_to_db(self):
+        """Encode things into :attr:`_content` ."""
         self._content = json.dumps(self.content)
         self.related_count = len(self.content.get('related', [])) + 1
         db.session.add(self)
+        return self
 
     def update_from_db(self):
+        """Decode things from :attr:`_content` ."""
         self.content = json.loads(self._content)
+        return self
 
     @property
     def target(self):
+        """The target variable in differential equation."""
         return self.content.get('target', '')
 
     @property
     def related(self):
+        """Other related variables in differential equation."""
         return self.content.get('related', [])
 
     @property
     def all_related(self):
+        """All related variables in differential equation."""
         return set([self.target]+self.related)
 
     @property
     def parameter(self):
+        """The parameters in differential equation."""
         return self.content.get('parameter', {})
 
     @property
     def formular(self):
+        """The differential equation itself."""
         return self.content.get('formular', '')
 
     def packed(self):
+        """Pack things together."""
         self.update_from_db()
         return [self.target, self.related, self.parameter, self.formular]
 
@@ -132,20 +149,57 @@ class EquationBase(db.Model):
     def formular(self, value):
         self.content['formular'] = value
 
+
+    @staticmethod
+    def preload_from_str(line):
+        ele = eval(line, {'__builtins__':None}, {})
+        e = EquationBase()
+        e.target = name_handler(ele[0])
+        e.related = map(lambda x: name_handler(x), ele[1])
+        e.parameter = dict(ele[2])
+        for coe, value in e.parameter.iteritems():
+            e.parameter[coe] = float(value)
+        e.formular = ele[3]
+
+        # name handler
+        para = [ele[0]]+ele[1]
+        para.sort(key=len, reverse=True)
+        for var in para:
+            newvar = name_handler(var)
+            e.formular = e.formular.replace(var, newvar)
+
+        e.commit_to_db()
+
+        return e
+
     @staticmethod
     def preload_from_file(filename):
         print 'loading equation from %s ...' % filename
+        if filename.split('.')[-1] not in ['txt', 'py']: 
+            print '\tSkip', filename
+            return  
+        system = []
         with open(filename, 'r') as f:
             for line in f:
-                line = line.strip()
-                if not line: continue
+                line = line.strip().split('#')[0]
+                if not line or line.startswith('#'): continue
 
-                ele = eval(line, {'__builtins__':None}, {})
-                e = EquationBase()
-                e.target = ele[0]
-                e.related = ele[1]
-                e.parameter = dict(ele[2])
-                e.formular = ele[3]
-                e.commit_to_db()
+                try:
+                    e = EquationBase.preload_from_str(line)
+                except Exception, exp:
+                    msg = traceback.format_exc()
+                    print msg
+                    raise Exception
+                    return msg
+
+                system.append(e.packed())
+
+        model, msg = getModel(system)
+        if model:
+            print 'Success'
+            return 'success'
+        else:
+            return msg
+
 
 

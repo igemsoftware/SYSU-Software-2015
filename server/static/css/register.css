@@ -20,10 +20,10 @@
 #form-column {
     overflow-y: auto;
     margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
+    /*margin-bottom: 0.5rem;*/
     padding-left: 0;
-    padding-bottom: 0.5rem;
-    /*height: 100%;*/
+    /*padding-bottom: 0.5rem;*/
+    height: 95%;
     width: 71.1%;
 }
 
@@ -108,6 +108,7 @@ p {
 
 #submit {
     margin-top: 2rem;
+    margin-bottom: 0.5rem;
     border-radius: 0;
     background-color: #3b3f42;
     color: #ffffff;

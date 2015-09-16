@@ -20,7 +20,10 @@ class TestUser(TestCase):
 
         from sqlalchemy.exc import IntegrityError
         u = User(username='testing', email='bar@example.com', password='123')
-        self.assertRaises(IntegrityError , db.session.add(u))
+        def register_duplicated_name():
+            db.session.add(u)
+            db.session.commit()
+        self.assertRaises(IntegrityError , register_duplicated_name)
 
     def test_name_length(self):
         u = User(username='i'*300, email='foo@example.com', password='123')

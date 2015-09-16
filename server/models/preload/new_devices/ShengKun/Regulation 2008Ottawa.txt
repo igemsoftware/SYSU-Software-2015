@@ -1,0 +1,10 @@
+Regulation 2008Ottawa
+In the presence of galactose, pGal 1 is activated and AtIPT4 expresses, producing IP.
+In the presence of galactose, this device express the enzyme IPT4 to synthesize the inducer molecule IP.
+PGal1,AtIPT4,IP
+http://2008.igem.org/Team:University_of_Ottawa
+http://2008.igem.org/Team:University_of_Ottawa/Notebook
+1
+Galactose_1
+IP_1
+{"parts":[{"partID":"Galactose_27","partName":"Galactose","partAttr":"Galactose","positionX":227,"positionY":73},{"partID":"PGal1_28","partName":"PGal1","partAttr":"PGal1","positionX":227,"positionY":220},{"partID":"IP_30","partName":"IP","partAttr":"IP","positionX":447,"positionY":360},{"partID":"AtIPT4_31","partName":"AtIPT4","partAttr":"AtIPT4","positionX":447,"positionY":220},{"partID":"RBS_32","partName":"RBS","partAttr":"RBS","positionX":340,"positionY":220},{"partID":"Terminator_33","partName":"Terminator","partAttr":"Terminator","positionX":551,"positionY":220}],"name":"Regulation 2008Ottawa","relationship":[{"start":"Galactose_27","end":"PGal1_28","type":"promotion"},{"start":"AtIPT4_31","end":"IP_30","type":"promotion"},{"start":"RBS_32","end":"AtIPT4_31","type":"normal"},{"start":"RBS_32","end":"PGal1_28","type":"normal"},{"start":"AtIPT4_31","end":"Terminator_33","type":"normal"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[189,289],"end":[585,289]}]}

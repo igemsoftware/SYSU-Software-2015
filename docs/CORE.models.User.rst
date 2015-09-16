@@ -26,7 +26,6 @@
     .. autoattribute:: watched_tasks
     .. automethod:: create_task 
     .. automethod:: watch_task
-    .. automethod:: make_comment
 
     .. automethod:: send_email 
 
@@ -39,8 +38,8 @@
 
     .. autoattribute:: tracks
 
-    .. autoattribute:: favorite_circuits 
-    .. autoattribute:: circuits 
+    .. autoattribute:: favorite_designs
+    .. autoattribute:: designs 
 
 .. automodule:: server.models.user
 .. autoclass:: AnonymousUser

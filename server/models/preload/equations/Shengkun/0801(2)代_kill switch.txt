@@ -1,0 +1,16 @@
+['AraC',['L_arabinose'],[('alpha_{AraC}',0.0527),('K_{d}',1),('n',2.26),('k_{deg}',0.0013833333)],'{{alpha_{AraC}}}*L_arabinose**{{n}}/({{K_{d}}}+L_arabinose**{{n}})-{{k_{deg}}}*AraC']
+#共方程
+['AraC',[],[('k_{deg}',0.0013833333)],'-{{k_{deg}}}*AraC']
+#L_arabinose不存在
+
+['Protegrin',['PBAD','AraC'],[('alpha_{Protegrin}',0.474),('K_{d}',1),('n',2.26),('k_{deg}',0.0013833333),('NPG1',150)],'{{alpha_{Protegrin}}}*({{NPG1}}*AraC**{{n}}/({{K_{d}}}+AraC**{{n}}))**{{n}}/({{K_{d}}}+({{NPG1}}*AraC**{{n}}/({{K_{d}}}+AraC**{{n}}))**{{n}})-{{k_{deg}}}*Protegrin']
+#PBAD存在，AraC存在
+['Protegrin',['PBAD'],[('k_{deg}',0.0013833333)],'-{{k_{deg}}}*Protegrin']
+#PBAD存在，AraC不存在
+['Protegrin',['AraC'],[('alpha_{Protegrin}',0.474),('NPG1',150),('k_{deg}',0.0013833333),('n',2.26),('K_{d}',1)],'{{alpha_{Protegrin}}}*{{NPG1}}**{{n}}/({{K_{d}}}+{{NPG1}}**{{n}})-{{k_{deg}}}*Protegrin']
+#PBAD不存在，AraC存在
+['Protegrin',[],[('k_{deg}',0.0013833333)],'-{{k_{deg}}}*Protegrin']
+#PBAD不存在，AraC不存在
+
+
+

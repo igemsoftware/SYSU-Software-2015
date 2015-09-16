@@ -1,3 +1,10 @@
+{% extends 'person/person.html' %}
+
+{% block title %}Personal Center - Notifications{% endblock %}
+
+{% block body %}
+  {{ super() }}
+
 <div id="view-notifications" class="main-container" v-cloak>
 
   <div class="ui container" id="notifications-main">
@@ -25,10 +32,19 @@
     <div id="notifications-list">
       <div class="notification items">
         <div v-repeat="i in displayingList" class="notification item">
-          [[i.content]]
+          <div class="text">
+            [[i.content]]
+          </div>
+          <div class="toolbar">
+            <a v-on="click: markAsRead(i.id)"><i class="checkmark icon"></i></a>
+            <a v-on="click: deleteNotif(i.id)"><i class="delete icon"></i></a>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
 </div>
+
+  <script src="/static/js/personal_center/dashboard_notifications.js"></script>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'person/person.html' %}
+
+{% block title %}Core - Modeling{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/modeling.css">
+{% endblock %}
+
+{% block body %}
+  {{ super() }}
+<!--   chooseModal modal -->
+    <div class="ui small modal" id="chooseModal">
+      <div class="header"><h2>Choose A design</h2></div>
+      <div class="content">
+        <div id="designList"></div>
+        <div class="fluid float-right">
+          <div class="ui tiny cancel button">Cancel</div>
+          <div class="ui tiny button" id="choose">Confirm</div>
+        </div>
+      </div>
+    </div>
+<!--   chooseModal modal -->
+<!--  main_container -->
+    <div class="main_container">
+      <div class="ui attached tabular menu">
+        <a id="simulation-menu" class="item active" data-tab="simulation">Simulation</a>
+        <a id="experiment-menu" class="item" data-tab="experiment">Experiment Data</a>
+      </div>
+      <div class="ui bottom attached tab segment active" data-tab="simulation" id="simulation-box">
+        <div id="simulation">
+          <h1 class='title'>Current design:  <span>Circuit title</span><button class="ui button iyellow float-left" id="chooseDesignBtn">Choose a design</button><button class="ui button iyellow float-right" id="moveToExper">Move to experiment<i class="chevron right icon"></i></button></h1>
+          <div class="ui divider"></div>
+          <div class="ui grid">
+              <div class="left-box four wide column">
+                  <!--simulation panel-->
+
+                  <form class="ui form">
+                      <div id="parameters">
+                          <h4 class="ui dividing header">Simutation Time</h4>
+                          <div class="field">
+                              <div class="ui labeled input">
+                                  <div class="ui label ">Maximum time</div>
+                                  <input type="number" min=0.05 placeholder="Default is 3.0"  name="maximum-time">
+                              </div>
+                          </div>
+                          <div class="field">
+                              <div class="ui labeled input">
+                                  <div class="ui label ">Simulation interval</div>
+                                  <input type="number" min=0.01 placeholder="Default is 0.05" name="interval">
+                              </div>
+                          </div>
+
+
+                          <h4 class="ui dividing header">Initial Quantity</h4>
+                          <div class="field" id="parameters-quantity">
+                              <!--<div class="field">
+                                  <div class="ui labeled input">
+                                      <div class="ui label">YFP</div>
+                                      <input type="number" min=0.00 placeholder="Default is 0.0" name="YFP">
+                                  </div>
+                              </div>-->
+                          </div>
+                      </div>
+                      <button id="replot" class="ui button iyellow" type="button">Re-Plot</button>
+                  </form>
+
+              </div>
+
+              <div class="right-box twelve wide column">
+                  <div id="chart"></div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="experiment" id="experiment-box">
+        <div class="ui grid">
+          <div class="left-box four wide column">
+            <h3 class="inline lineTitle">Protein: </h3>
+            <div class="ui selection dropdown">
+              <input type="hidden" name="title" id="protein">
+              <i class="dropdown icon"></i>
+              <div class="default text">Protein</div>
+              <div class="menu" id="myMenu">
+              </div>
+            </div>
+            <table class="ui celled striped table">
+              <thead>
+                <tr><th></th>
+                <th>X</th>
+                <th>Y</th>
+              </tr></thead>
+              <tbody id='dataTable'>
+
+              </tbody>
+            </table>
+            <div class="ui button" id="addLine">Add a line</div>
+            <div class="ui button" id="getPlot">Get plot</div>
+          </div>
+          <div class="right-box twelve wide column">
+            <div id="myChart"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript" src="/static/js/lib/highcharts.js"></script>
+    <script type="text/javascript" src="/static/js/modeling.js"></script>
+    <script>var vueBody = new coreBody({el: 'body'});</script>
+{% endblock %}

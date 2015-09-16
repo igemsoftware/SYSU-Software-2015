@@ -9,7 +9,7 @@
     .. autoattribute:: id 
     .. autoattribute:: content
     .. autoattribute:: timestamp
-    .. autoattribute:: task_id 
+    .. autoattribute:: answer_id 
     .. autoattribute:: sender_id 
 
 

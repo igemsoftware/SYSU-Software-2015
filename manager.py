@@ -8,7 +8,7 @@ from server.models import *
 from server.tools.preload import preload_parts, get_file_list
 from server.tools.random_text import random_text
 
-app = create_app('default')
+app = create_app('development')
 
 manager = Manager(app)
 def make_shell_context():
@@ -96,27 +96,35 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
                 for filename in get_file_list(dir):
                     preload_parts(filename)
 
-            # add testing component prototype
-            for dir in app.config.get('INIT_PRELOAD_DEVICE_DIRS', []):
+#           # add testing component prototype
+#           for dir in app.config.get('INIT_PRELOAD_DEVICE_DIRS', []):
+#               for filename in get_file_list(dir):
+#                   device = Device().load_from_file(filename)
+
+            for dir in app.config.get('INIT_PRELOAD_NEW_DEVICE_DIRS', []):
                 for filename in get_file_list(dir):
-                    device = Device().load_from_file(filename)
+                    device = Device.new_load_from_file(filename)
 
             # add testing equations 
             for dir in app.config.get('INIT_PRELOAD_EQUATION_DIRS', []):
                 for filename in get_file_list(dir):
-                    EquationBase.preload_from_file(filename)
+                    try:
+                        EquationBase.preload_from_file(filename)
+                    except:
+                        print 'error occurs when loading', filename
+                        pass
             if quickcheck: return
-
         
 
-            Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
-            Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
+#           Relationship.query.all()[0].equation = u'{"content": "\\\\frac{ {{a}}+[APTX4869] }{ {{b}}+[IQ] }=c", "parameters": {"a": 0.1, "b": "asdf"}}' 
+#           Relationship.query.all()[1].equation = u'{"content": "\\\\frac{ d([Pcl]) }{ dt } = {{alpha}} * [Pcl] + {{beta}}", "parameters": {"alpha": 0.1, "beta": "K_1"}}'
 
             # designs 
-            c = Design(name='My first design', short_description='First design', owner=u, is_shared=True)._copy_from_device(1)
-            c = Design(name='My second design', short_description='Second design', owner=u, is_public=True)._copy_from_device(1)
-            c = Design(name='My third design', short_description='3rd design', owner=u)._copy_from_device(2)
-            c = Design(name='My third design', short_description='3rd design', owner=u)._copy_from_device(2)
+            admin = User.query.first()
+            c = Design(name='My first design', brief_description='First design', owner=u, is_shared=True)._copy_from_device(1)
+            c = Design(name='My second design', brief_description='Second design', owner=u, is_public=True)._copy_from_device(1)
+            c = Design(name='My third design', brief_description='3rd design', owner=u)._copy_from_device(1)
+            c = Design(name='My third design', brief_description='3rd design', owner=u)._copy_from_device(1)
             d = DesignComment(content='good design')
             d.owner = u
             d.design = c
@@ -124,28 +132,44 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
             
             from numpy import random
             for i in range(50):
-                c = Design(name=random_text(2).capitalize()+'design', 
-                        short_description = random_text(4),
+                print 'Faking %d th design ...\r', i,
+                device_num = random.randint(1, Device.query.count()+1)
+                is_finished = random.randint(2) == 1
+                is_shared = is_finished and random.randint(2) == 1
+                is_public = is_shared and random.randint(2) == 1
+                used = random.randint(100) if is_public else 0
+                c = Design(name=random_text(2).capitalize()+' design(auto)', 
+                        brief_description = random_text(4),
                         full_description = random_text(100),
                         references = random_text(4),
 
                         rate = random.randint(1, 100),
-                        eval_efficiency = random.randint(1, 100),
-                        eval_reliability = random.randint(1, 100),
-                        eval_accessibility = random.randint(1, 100),
-                        eval_compatibility = random.randint(1, 100),
-                        eval_demand = random.randint(1, 100),
-                        eval_safety = random.randint(1, 100),
-                        eval_completeness = random.randint(1, 100),
+                        eval_efficiency = random.randint(1, 5),
+                        eval_reliability = random.randint(1, 5),
+                        eval_accessibility = random.randint(1, 5),
+                        eval_compatibility = random.randint(1, 5),
+                        eval_demand = random.randint(1, 5),
+                        eval_safety = random.randint(1, 5),
+                        eval_completeness = random.randint(1, 5),
 
                         progress = random.randint(1, 100),
                         likes = random.randint(1, 100),
 
-                        owner=u)._copy_from_device(1)
+                        is_finished = is_finished,
+                        is_shared = is_shared,
+                        is_public = is_public,
+                        used = used,
 
-            admin = User.query.first()
-            c = Design(name='My first design', short_description='First design', owner=admin)._copy_from_device(1)
+                        owner=u)._copy_from_device(device_num)
+
+                comment_count = random.randint(1, 3)
+                for i in xrange(comment_count):
+                    db.session.add(DesignComment(content=random_text(10), owner=admin, design=c) )
+                db.session.commit()
+
+            c = Design(name='My first design', brief_description='First design', owner=admin, is_public=True)._copy_from_device(1)
             u.favorite_designs.append(c)
+
 
         # memo
         u = User.query.filter_by(username='test').first()

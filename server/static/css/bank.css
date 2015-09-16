@@ -1,0 +1,127 @@
+body {
+    background-color: #e4e4e4;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+}
+
+#topbar-bottom-line {
+    background: linear-gradient(to right, #6eb6ad, #74c1b7, #87e1d5);
+}
+
+#main {
+    width: 90%;
+    height: 100%;
+    background-color: #f8f8f8;
+    margin: 0 auto;
+    padding: 8% 5%;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.6);
+    overflow: auto;
+}
+
+#main .header {
+    display: block;
+}
+
+#main .header p {
+    display: block;
+    float:left;
+}
+
+#search #totalNumber {
+    float:left;
+}
+
+#totalNumber {
+    margin-left: 20px;
+    align-items: baseline !important;
+}
+
+#main .header #btnShare {
+    float: right;
+    margin-top: 10px;
+    margin-right: 30px;
+    background-color: #74c1b7;
+    color: #f8f8f8;
+}
+
+#main .header select {
+    display: block;
+    float: right;
+    background-color: #88e3d7;
+    border: 0px;
+    margin-top: 10px;
+}
+
+#main #dataTable {
+    border: 0px !important;
+}
+
+#main #dataTable tr {
+    text-align: center;
+}
+
+#main #dataTable tr th {
+    border: 0px !important;
+    background-color: #6f7978;
+    color: #ffffff;
+    border-radius: 0px !important;
+}
+
+#main #dataTable tr td {
+    border: 0px !important;
+}
+
+#main #dataTable tr {
+    height: 30px;
+}
+
+.ui.striped.table tbody tr:nth-child(2n), .ui.striped.table>tr:nth-child(2n) {
+    background-color: #def3f0 !important;
+}
+
+#pager {
+    margin-top: 30px;
+}
+
+#pager .selected {
+    color: #858c92 !important;
+}
+
+#pager a {
+    cursor: pointer;
+    font-size: 18px;
+    color: #000000;
+    margin-right: 5px;
+}
+
+#pager i {
+    cursor: pointer;
+}
+
+#pager .number {
+    display: inline;
+}
+
+.ui.modal {
+    background-color: #f8f8f8;
+}
+
+.ui.modal .header {
+    font-size: 10px;
+    background-color: #858c92;
+    color: #fcfcfc;
+}
+
+.ui.modal .header i {
+    float: right;
+    cursor: pointer;
+}
+
+.ui.modal #addCircuits i {
+    cursor: pointer;
+    color: #74c1b7;
+    font-size: 40px;
+}
+
+.ui.modal #confirm {
+    margin-top: 20px;
+}

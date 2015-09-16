@@ -1,0 +1,24 @@
+cfp	gene	BBa_E0020		
+CFP	protein			
+T0	terminator	BBa_K864600		
+lux_pL	promoter	BBa_R0063	1	Vibrio fischeri
+eyfp	gene	BBa_E0030		
+eYFP	protein			
+HSL	chemical			
+T7ptag	gene	BBa_K228000		
+T7PAM	protein			
+SupD-tRNA	RNA	BBa_K228001		
+SupD	protein			
+pT7	promoter	BBa_I712074		
+hrpR	gene	BBa_K1014001		
+HrpR	protein			
+hrpS	gene	BBa_K1014000		
+HrpS	protein			
+pHrpL	promoter	BBa_K1014002		
+trpR	gene	BBa_K588000	1	Escherichia coli
+TRPR	protein			
+ptrp	promoter	BBa_K588001		
+Mercuty ions	chemical			
+merR	gene	BBa_K346001		
+MerR	protein			
+pmerT	promoter	BBa_K346002		

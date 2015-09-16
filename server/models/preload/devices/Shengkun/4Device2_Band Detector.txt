@@ -1,9 +1,9 @@
-Band-Pass Filter 2011ETH_Zurich
+Band_Pass Filter 2011ETH_Zurich
 High input level result in high cytoplasmic levels of CI and of LacIM1. LacIM1 represses the expression of GFP. Low input level results in low LacIM1 and CI concentrations. GFP is transcriptional repressed by LacI, which is expressed at low CI concentrations. Only intermediate signals results in a moderate level of CI and LacIM1.
 High input level result in high cytoplasmic levels of CI and of LacIM1. LacIM1 represses the expression of GFP. Low input level results in low LacIM1 and CI concentrations. GFP is transcriptional repressed by LacI, which is expressed at low CI concentrations. Only intermediate signals results in a moderate level of CI and LacIM1.
-Filter,tetR,cI,lacI
-http://2011.igem.org/Team:ETH_Zurich
-http://2011.igem.org/Team:ETH_Zurich/Biology/Cloning
+None
+http2011.igem.orgTeamETH_Zurich
+no.
 -1
 ALCR_1
 GFP_1

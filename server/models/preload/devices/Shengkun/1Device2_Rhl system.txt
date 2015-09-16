@@ -1,7 +1,7 @@
-Biosensor- RhlR 2011Northwestern
+Biosensor_ RhlR 2011Northwestern
 A sensor of RhlR The inducible promoters drive the expression of reporter proteins to report the presence of P. aeruginosa autoinducer molecules.
 A sensor of RhlR The inducible promoters drive the expression of reporter proteins to report the presence of P. aeruginosa autoinducer molecules.
-Biosensor,RhlR
+RhlR
 http://2011.igem.org/Team:Northwestern
 http://2011.igem.org/Team:Northwestern/Notebook/Protocols
 2
@@ -15,3 +15,4 @@ RhlR_1	Promoter:BBa_R0071_1	promotion
 Promoter:BBa_R0071_1	RBS:BBa_B0034_2	normal
 RBS:BBa_B0034_2	gfp_1	normal
 gfp_1	GFP_1	promotion
+

@@ -1,1 +1,566 @@
-<!--design page -->
+{% extends 'person/person.html' %}
+
+{% block title %}Design{% endblock %}
+
+{% block head %}
+  {{ super() }}
+  <link rel="stylesheet" href="/static/css/design.css">
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+  </script>
+  <script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+{% endblock %}
+
+{% block body %}
+  {{ super() }}
+<!--   leftbar -->
+    <div id="left-sidebar">
+      <div class="ui button trigger-left">
+        <i class="chevron right big icon"></i>
+      </div>
+      <div class="ui attached tabular menu">
+        <a class="item active" data-tab="parts">Part</a>
+        <a class="item" data-tab="devices">Device</a>
+        <a class="item" data-tab="systems">System</a>
+        <a class="item" data-tab="customs">Custom</a>
+        <a class="item" data-tab="relate">Relate</a>
+      </div>
+
+      <div class="ui bottom attached tab segment active" data-tab="parts">
+        <div class="left-sidebar-top">
+          <div class="ui fluid category search" id="searchPartBox">
+            <div class="ui fluid icon input">
+              <input id="searchNew" class="prompt" placeholder="Search parts..." type="text">
+              <i class="search icon"></i>
+            </div>
+            <div class="results"></div>
+          </div>
+          <div class="filterTitle"><span>Filter</span></div>
+          <div class="ui selection dropdown filterDrowdown">
+            <input id="filterParts" name="type" type="hidden">
+            <i class="dropdown icon"></i>
+            <div class="default text">Select a type</div>
+            <div class="menu">
+              <div class="item" data-value="all">
+                <img class="ui mini avatar image">
+                All
+              </div>
+              <div class="item" data-value="promoter">
+                <img class="ui mini avatar image" src="/static/img/design/parts/promoter_70.png">
+                Promoter
+              </div>
+              <div class="item" data-value="RBS">
+                <img class="ui mini avatar image" src="/static/img/design/parts/RBS_70.png">
+                RBS
+              </div>
+              <div class="item" data-value="gene">
+                <img class="ui mini avatar image" src="/static/img/design/parts/gene_70.png">
+                Gene
+              </div>
+              <div class="item" data-value="terminator">
+                <img class="ui mini avatar image" src="/static/img/design/parts/terminator_70.png">
+                Terminator
+              </div>
+              <div class="item" data-value="protein">
+                <img class="ui mini avatar image" src="/static/img/design/parts/protein_70.png">
+                Protein
+              </div>
+              <div class="item" data-value="chemical">
+                <img class="ui mini avatar image" src="/static/img/design/parts/chemical_70.png">
+                Chemical
+              </div>
+              <div class="item" data-value="RNA">
+                <img class="ui mini avatar image" src="/static/img/design/parts/RNA_70.png">
+                RNA
+              </div>
+              <div class="item" data-value="material">
+                <img class="ui mini avatar image" src="/static/img/design/parts/material_70.png">
+                Material
+              </div>
+              <div class="item" data-value="unknown">
+                <img class="ui mini avatar image" src="/static/img/design/parts/unknown_70.png">
+                Unknown
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="left-sidebar-body" id="parts">
+        </div>
+      </div>
+
+      <div class="ui bottom attached tab segment" data-tab="devices">
+        <div class="ui fluid category search" id="searchDeviceBox">
+          <div class="ui fluid icon input">
+            <input id="searchDevice" class="prompt" placeholder="Search devices..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="devices"></div>
+        </div>
+        <div class="left-sidebar-body" id="devices">
+        </div>
+      </div>
+
+      <div class="ui bottom attached tab segment" data-tab="systems">
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input class="prompt" placeholder="Search system..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="systems"></div>
+        </div>
+      </div>
+
+      <div class="ui bottom attached tab segment" data-tab="customs">
+        <div class="ui fluid category search">
+          <div class="ui fluid icon input">
+            <input class="prompt" placeholder="Search customs..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+        <div id="customs">
+          <button id="createCustomPart" class="ui fluid labeled icon button">Create a part<i class="add icon"></i></button>
+          <div class="ui inverted divider"></div>
+          <button class="ui fluid labeled icon button" id="importPerBtn">Import a personal design<i class="add icon"></i></button>
+          <div class="ui inverted divider"></div>
+          <button class="ui fluid labeled icon button" id="importForBtn">Import a favorite design<i class="add icon"></i></button>
+          <div class="ui inverted divider"></div>
+          <button class="ui fluid labeled icon button" id="importPubBtn">Import a public design<i class="add icon"></i></button>
+          <div class="ui inverted divider"></div>
+        </div>
+      </div>
+
+      <div class="ui bottom attached tab segment" data-tab="relate">
+        <div class="ui fluid category search" id="searchRelateBox">
+          <div class="ui fluid icon input">
+            <input id="searchRelate" class="prompt" placeholder="Search relative parts..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+        <div id="relates">
+        </div>
+      </div>
+    </div>
+<!--   leftbar -->
+<!--   rightbar -->
+    <div id="right-sidebar">
+      <div class="ui button trigger-right">
+        <i class="chevron left big icon"></i>
+      </div>
+
+      <div class="ui attached tabular menu">
+        <a class="item active" data-tab="added">Added</a>
+        <a class="item" data-tab="equation">Equation</a>
+        <a class="item" data-tab="history">history</a>
+      </div>
+
+      <div class="ui bottom attached tab segment active" data-tab="added">
+        <div class="ui fluid category search" id="searchAddBox">
+          <div class="ui fluid icon input">
+            <input id="searchAddInput" class="prompt" placeholder="Search added parts..." type="text">
+            <i class="search icon"></i>
+          </div>
+          <div class="results"></div>
+        </div>
+
+        <div class="ui styled accordion">
+          <div class="title"><i class="dropdown icon"></i>Part</div>
+          <div class="content" id="addedParts"></div>
+          <div class="title"><i class="dropdown icon"></i>Device</div>
+          <div class="content" id="addedDevices"></div>
+          <div class="title"><i class="dropdown icon"></i>System</div>
+          <div class="content" id="addedSystems"></div>
+          <div class="title"><i class="dropdown icon"></i>Custom</div>
+          <div class="content" id="addedCustoms"></div>
+        </div>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="equation">
+        <div class="ui grid" id="equation">
+          <div class="eight wide column">
+            <div class="ui fluid selection dropdown" id="equationDropdownA">
+              <input id="equationPartA" name="type" type="hidden" value="">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select a part</div>
+              <div class="menu">
+              </div>
+            </div>
+          </div>
+          <div class="eight wide column">
+            <div class="ui fluid selection dropdown" id="equationDropdownB">
+              <input id="equationPartB" name="type" type="hidden" value="">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select a part</div>
+              <div class="menu">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="showEquation">
+        </div>
+      </div>
+      <div class="ui bottom attached tab segment" data-tab="history" id="history">
+        <div class="ui feed">
+        </div>
+      </div>
+    </div>
+<!--   rightbar -->
+<!--   download modal -->
+    <div class="ui small modal" id="downloadModal">
+      <div class="header">Download a custom part</div>
+      <div class="content">
+        <div class="ui form">
+          <div class="inline fields">
+            <div class="field">
+              <label>Curcuit Name</label>
+              <input id="curcuitDownName" type="text" placeholder="Enter Curcuit Name">
+            </div>
+          </div>
+        </div>
+        <div class="fluid text-right">
+          <div class="ui cancel button">Cancel</div>
+          <div class="ui button" id="downloadsubmit">Download</div>
+        </div>
+      </div>
+    </div>
+<!--   download modal -->
+<!--   chooseModal modal -->
+    <div class="ui small modal" id="chooseModal">
+      <div class="header"><h2>Choose A design</h2></div>
+      <div class="content">
+        <div id="designList"></div>
+        <div class="fluid float-right">
+          <div class="ui tiny cancel button">Cancel</div>
+          <div class="ui tiny button ired" id="choose">Confirm</div>
+        </div>
+      </div>
+    </div>
+<!--   chooseModal modal -->
+<!--   save modal -->
+    <div class="ui small modal" id="saveModal">
+      <div class="header">Save your design.</div>
+      <div class="content">
+        <div class="ui form">
+          <div class="inline fields">
+            <div class="field">
+              <label>Curcuit Name</label>
+              <input id="curcuitName" type="text" placeholder="Enter Curcuit Name">
+            </div>
+          </div>
+          <div class="field">
+            <label>Introduction</label>
+            <textarea rows="6" id="designIntro"></textarea>
+          </div>
+        </div>
+        <div class="fluid text-right">
+          <div class="ui cancel button">Cancel</div>
+          <div class="ui submmit button ired" id="saveCircuitBtn">Save</div>
+        </div>
+      </div>
+    </div>
+<!--   save modal -->
+<!--   Secure modal -->
+    <div class="ui small basic modal" id="secureModal">
+      <div class="content">
+        <h3 class="text-center"><i class="ui large icon check circle"></i>You have finished your circuit, congratulations！</h3>
+        <p class="text-center">A control system, like a killer switch, may prevent biosafety problems and help your circuit work  better in real world application. Are you sure you want to save your work without a control system? </p>
+        <div class="fluid text-center" style="margin-top: 50px;">
+          <div class="ui cancel button"><i class="ui icon chevron left"></i>Back to Design</div>
+          <div class="ired ui move button" id="continueToSave">Continue to Save<i class='ui icon chevron right'></i></div>
+        </div>
+      </div>
+    </div>
+<!--   Secure modal -->
+<!--   saveSuccess modal -->
+    <div class="ui small basic modal" id="saveSuccessModal">
+      <div class="content">
+        <h3 class="text-center"><i class="ui large icon check circle"></i>Saved successfully</h3>
+        <div class="fluid text-center" style="margin-top: 50px;">
+          <div class="ui cancel button"><i class="ui icon chevron left"></i>Stay in Design</div>
+          <div class="ui move button" id="moveTo">Move to Modeling<i class='ui icon chevron right'></i></div>
+        </div>
+      </div>
+    </div>
+<!--   saveSuccess modal -->
+<!--  deleteModal modal -->
+    <div class="ui small basic modal" id="deleteModal">
+      <div class="content">
+        <h3 class="text-center"><i class="ui large icon trash"></i>Do you really want to clear your design?</h3>
+        <div class="fluid text-center" style="margin-top: 50px;">
+          <div class="ui cancel button">Cancel</div>
+          <div class="ui move button" id="deleteBtn">Delete</div>
+        </div>
+      </div>
+    </div>
+<!--   deleteModal modal -->
+
+<!--   Part more modal -->
+    <div class="ui small modal" id="readPartInfoModal">
+      <div class="header">Part Information:</div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="three wide column text-center">
+              <img class="partImg ui tiny">
+            </div>
+            <div class="thirteen wide column">
+              <form class="ui form">
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Part Name:</label>
+                    <span class="partName">Promoter</span>
+                  </div>
+                  <div class="inline field">
+                    <label>BBa Name:</label>
+                    <span class="partBBa">BBa_02333</span>
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Part type:</label>
+                    <span class="partType">Promoter</span>
+                  </div>
+                  <div class="inline field">
+                    <label>Risk ground:</label>
+                    <span class="partRisk">Low risk(1)</span>
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="inline field">
+                    <label>Bacterium:</label>
+                    <span class="partBact"></span>
+                  </div>
+                  <div class="inline field">
+                    <label>Source:</label>
+                    <span class="partSource">Come from no where.</span>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Introduction</label>
+                  <p class="partIntro">No introduction yet.</p>
+                </div>
+                <div class="field">
+                  <label>Learn more information:</label>
+                  <span class="ui button ired white" id='ncbiBtn'>NCBI</span>
+                  <span class="ui button ired white" id='fastaBtn'>FASTA</span>
+                </div>
+                <div class="inline field">
+                  <label>Check the coding sequences: </label>
+                  <span class="ui button ired white" id='searchCds'>Search</span>
+                </div>
+                <div class="fluid text-right">
+                  <div class="ui button cancel">Cancel</div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+<!--   Part more modal -->
+
+<!--   cds modal -->
+    <div class="ui small modal" id="cdsModal">
+      <div class="header">This is the coding sequences.</div>
+      <div class="content">
+        <p class="cdsContent"></p>
+        <div class="fluid text-right">
+          <div class="ui back button">Back</div>
+        </div>
+      </div>
+    </div>
+<!--   cds modal -->
+
+<!--   Device more modal -->
+    <div class="ui modal" id="readDeviceInfoModal">
+      <div class="header">Device Information:</div>
+      <div class="content">
+        <div class="ui grid">
+          <div class="ten wide column">
+            <img class="deviceImg">
+          </div>
+          <div class="six wide column">
+            <form class="ui form">
+              <div class="field">
+                <label>Device Name:</label>
+                <span class="deviceName"></span>
+              </div>
+              <div class="field">
+                <label>Parts</label>
+                <span class="deviceParts"></span>
+              </div>
+              <div class="field">
+                <label>Interface:</label>
+                <span class="deviceInterface"></span>
+              </div>
+              <div class="inline field">
+                <label>Risk ground:</label>
+                <span class="deviceRisk"></span>
+              </div>
+            </form>
+          </div>
+        </div>
+        <h3 class="inline">Source:</h3>
+        <p class="inline deviceSource"></p>
+        <h3>Introduction:</h3>
+        <p class="deviceIntro">
+        </p>
+        <div class="fluid text-right">
+          <div class="ui cancel button">Cancel</div>
+        </div>
+      </div>
+    </div>
+<!--   Device more modal -->
+<!--   custom modal -->
+    <div class="ui small modal" id="createCustomPartModal">
+      <div class="header">Create a custom part</div>
+        <div class="content">
+          <div class="ui grid">
+            <div class="three wide column">
+              <img id="customImg" class="ui tiny image" src="/static/img/design/parts/promoter_70.png">
+            </div>
+            <div class="thirteen wide column">
+              <form class="ui form">
+                <div class="two fields">
+                  <div class="field">
+                    <label>Part Type</label>
+                    <div class="ui fluid selection dropdown">
+                      <input id="customPartType" name="type" type="hidden">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Select a type</div>
+                      <div class="menu">
+                        <div class="item" data-value="promoter">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/promoter_70.png">
+                          Promoter
+                        </div>
+                        <div class="item" data-value="RBS">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/RBS_70.png">
+                          RBS
+                        </div>
+                        <div class="item" data-value="gene">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/gene_70.png">
+                          Gene
+                        </div>
+                        <div class="item" data-value="terminator">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/terminator_70.png">
+                          Terminator
+                        </div>
+                        <div class="item" data-value="protein">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/protein_70.png">
+                          Protein
+                        </div>
+                        <div class="item" data-value="chemical">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/chemical_70.png">
+                          Chemical
+                        </div>
+                        <div class="item" data-value="RNA">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/RNA_70.png">
+                          RNA
+                        </div>
+                        <div class="item" data-value="material">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/material_70.png">
+                          Material
+                        </div>
+                        <div class="item" data-value="unknown">
+                          <img class="ui mini avatar image" src="/static/img/design/parts/unknown_70.png">
+                          Unknown
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="field">
+                    <label>Part Name</label>
+                    <input type="text" placeholder="Enter Part Name" name="name" id="customPartName">
+                  </div>
+                </div>
+                <div class="two fields">
+                  <div class="field">
+                    <label>BBa Name</label>
+                    <input type="text" placeholder="Enter BBa Name" name="BBa" id="customBBaName">
+                  </div>
+                  <div class="field">
+                    <label>Risk ground</label>
+                    <div class="ui fluid selection dropdown">
+                      <input name="risk" type="hidden" id="customRisk">
+                      <i class="dropdown icon"></i>
+                      <div class="default text">Risk ground</div>
+                      <div class="menu">
+                        <div class="item" data-value="1">
+                          <div class="ui fluid green mini button">
+                          Low risk(1)</div>
+                        </div>
+                        <div class="item" data-value="2">
+                          <div class="ui fluid orange mini button">
+                          Moderate risk(2)</div>
+                        </div>
+                        <div class="item" data-value="3">
+                          <div class="ui fluid pink mini button">
+                          High risk(3)</div>
+                        </div>
+                        <div class="item" data-value="4">
+                          <div class="ui fluid red mini button">
+                          Extreme risk(4)</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Introduction</label>
+                  <textarea rows="4" id="customIntro" name="introduction"></textarea>
+                </div>
+                <div class="fluid text-right">
+                  <div class="ui cancel button">Cancel</div>
+                  <div class="ui submit button" id="customCreate">Create</div>
+                </div>
+              </form>
+            </div>
+          </div>
+      </div>
+    </div>
+<!--   Part more modal -->
+<div class="ui segment" id="loadingData">
+  <div class="ui active page inverted dimmer">
+    <div class="ui text loader">Loading...</div>
+  </div>
+</div>
+
+<!-- main-contain -->
+    <!-- <div id="main-contain"> -->
+      <div id="drawArea-menu">
+        <div class="ui large icon buttons">
+          <button class="ui grey button" id="openFile" data-content="Open an circuit"><i class="folder open icon"></i></button>
+          <button class="ui grey button" id="save" data-content="Save your circuit"><i class="save icon"></i></button>
+          <button class="ui grey button" id="clear" data-content="Clear all parts"><i class="trash outline icon"></i></button>
+          <button class="ui grey button" id="normal-conn" data-content="Connect two parts" ><i class="compress icon"></i></button>
+          <button class="ui grey button" id="promotion-conn" data-content="Add activation relationship" ><i class="external icon"></i></button>
+          <button class="ui grey button" id="inhibition-conn" data-content="Add repression relationship"><i class="minus icon"></i></button>
+          <button class="ui grey button" id="minus" data-content="Delete a part"><i class="remove icon"></i></button>
+          <button class="ui grey button" id="backbone" data-content="Add a DNA Backbone" ><i class="write icon"></i></button>
+          <button class="ui grey button" id="hideNormal" data-content="Hide normal line" ><i class="hide icon"></i></button>
+          <button class="ui grey button" id="download" data-content="Download this image" ><i class="download icon"></i></button>
+        </div>
+        <span class="title">Canvas size:</span>
+        <div class="slider">
+            <input type="range">
+        </div>
+        <span id="riskSpan" data-content="Low risk(1)" class="title">Risk: <span class="vertical-middle ui green button" id="risk"></span></span>
+        <span class="title">Current design: <span id='designName'></span></span>
+      </div>
+      <div class="" id="drawArea">
+          <!-- <div id="test">hello</div> -->
+          <div id="rubberband"></div>
+      </div>
+    <!-- </div> -->
+    <script type="text/javascript" src="/static/js/lib/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/static/js/lib/dom.jsPlumb-1.7.6-min.js"></script>
+    <script type="text/javascript" src="/static/js/lib/rgbcolor.js"></script>
+    <script type="text/javascript" src="/static/js/lib/StackBlur.js"></script>
+    <script type="text/javascript" src="/static/js/lib/canvg.js"></script>
+    <script type="text/javascript" src="/static/js/lib/html2canvas.js"></script>
+    <script type="text/javascript" src="/static/js/lib/timeago.js"></script>
+    <script type="text/javascript" src="/static/js/lib/semantic.min.js"></script>
+    <script type="text/javascript" src="/static/js/design/util.js"></script>
+    <script type="text/javascript" src="/static/js/design/design.js"></script>
+    <script>var vueBody = new coreBody({el: 'body'});</script>
+{% endblock %}

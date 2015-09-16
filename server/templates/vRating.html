@@ -1,0 +1,19 @@
+<template id="rating-template">
+  <div id="rating-wrapper">
+    <canvas id="rating-radar" v-attr="width: canvasWidth, height: canvasHeight"></canvas>
+    <div class="rating container" v-repeat="criterion in ratingCriteria">
+      <div class="description">[[criterion]]</div>
+      <div class="ui star rating" data-rating="3" data-max-rating="5" data-criterion-index="[[$index]]"></div>
+    </div>
+    {% if current_user.is_anonymous() %}
+        <br/>
+        <a href="{{url_for('auth.login', next=request.url)}}">
+            <button class="ui blue login button">Login to rate</button>
+        </a>
+    {% else %}
+        <button class="ui blue rating submit button" v-on="click: rate()" v-show="rated === 0">Rate!</button>
+        <button class="ui blue disabled rating submit button" v-show="rated === 1">Rating...</button>
+        <button class="ui blue disabled rating submit button" v-show="rated === 2">Rated:-)</button>
+    {% endif %}
+  </div>
+</template>

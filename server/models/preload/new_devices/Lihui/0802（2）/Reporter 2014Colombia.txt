@@ -1,0 +1,12 @@
+Reporter 2014Colombia
+This reporter produce AmilCP, a blue chromoprotein, when the present of Phosphorylated LuxO.
+This reporter produce AmilCP, a blue chromoprotein, when the present of Phosphorylated LuxO.
+Phosphorylated LuxO,AmilCP
+http://2014.igem.org/Team:Colombia/Project
+http://2014.igem.org/Team:Colombia/Protocols
+2
+LuxOp_1
+AmilCP_1
+{"parts":[{"partID":"LuxOp_1","partName":"LuxOp","partAttr":"LuxOp","positionX":320,"positionY":240},{"partID":"tetR_3","partName":"tetR","partAttr":"tetR","positionX":660,"positionY":240},{"partID":"TetR_4","partName":"TetR","partAttr":"TetR","positionX":660,"positionY":400},{"partID":"Ptet_5","partName":"Ptet","partAttr":"Ptet","positionX":467,"positionY":540},{"partID":"AmilCP_7","partName":"AmilCP","partAttr":"AmilCP","positionX":760,"positionY":452},{"partID":"tetA_8","partName":"tetA","partAttr":"tetA","positionX":800,"positionY":540},{"partID":"TetA_9","partName":"TetA","partAttr":"TetA","positionX":800,"positionY":0},{"partID":"RBS_10","partName":"RBS","partAttr":"RBS","positionX":568,"positionY":540},{"partID":"RBS_11","partName":"RBS","partAttr":"RBS","positionX":560,"positionY":240},{"partID":"Terminator_12","partName":"Terminator","partAttr":"Terminator","positionX":900,"positionY":540},{"partID":"Terminator_13","partName":"Terminator","partAttr":"Terminator","positionX":760,"positionY":240},{"partID":"Pqrr4_15","partName":"Pqrr4","partAttr":"Pqrr4","positionX":469,"positionY":240},{"partID":"amilCP_16","partName":"amilCP","partAttr":"amilCP","positionX":680,"positionY":540}],"relationship":[{"start":"tetR_3","end":"TetR_4","type":"promotion"},{"start":"TetR_4","end":"Ptet_5","type":"inhibition"},{"start":"tetA_8","end":"TetA_9","type":"promotion"},{"start":"LuxOp_1","end":"Pqrr4_15","type":"promotion"},{"start":"TetA_9","end":"Pqrr4_15","type":"promotion"},{"start":"Pqrr4_15","end":"RBS_11","type":"normal"},{"start":"RBS_11","end":"tetR_3","type":"normal"},{"start":"tetR_3","end":"Terminator_13","type":"normal"},{"start":"amilCP_16","end":"AmilCP_7","type":"promotion"},{"start":"Ptet_5","end":"RBS_10","type":"normal"},{"start":"RBS_10","end":"amilCP_16","type":"normal"},{"start":"amilCP_16","end":"tetA_8","type":"normal"},{"start":"tetA_8","end":"Terminator_12","type":"normal"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[418,307],"end":[793,308]},{"start":[416,607],"end":[947,608]}],"name":"Reporter 2014Colombia"}
+
+

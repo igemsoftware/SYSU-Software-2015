@@ -1,0 +1,171 @@
+body {
+    background-color: #e4e4e4;
+    font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+    overflow: scroll;
+}
+
+#topbar-bottom-line {
+    background: linear-gradient(to right, #6eb6ad, #74c1b7, #87e1d5);
+}
+
+#main {
+    width: 90%;
+    background-color: #f8f8f8;
+    margin: 0 auto;
+    padding: 70px 5% 10px 5%;
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.6);
+    overflow: auto;
+}
+
+#main .links {
+    color: #858c92;
+    font-size: 26px;
+}
+
+#header {
+    margin: 20px;
+    font-size: 14px;
+}
+
+#header span {
+    margin-right: 10px;
+}
+
+i {
+    color: #858c92;
+}
+
+#content-wrapper {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
+#content {
+    margin-left: 20px;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    width: 20%;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    margin-bottom: 100px;
+    margin-right: 50px;
+}
+
+#content .imageWrapper {
+    width: 100%;
+    height: 200px;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+}
+
+#content .imageWrapper img {
+    height: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+#right-column {
+    width: 250px;
+}
+
+#right-column #rating-wrapper {
+    padding-top: 0;
+}
+
+/*
+#index {
+    position: fixed;
+    right: 5%;
+    top: 30%;
+    width: 20%;
+    float: right;
+}
+*/
+
+#index .list .item {
+    margin-bottom: 10px;
+    color: #858c92;
+    font-size: 18px;
+}
+
+#index .list .active.item > a  {
+    color: #74c1b7;
+}
+
+#index .list .active.item > a > .icon {
+    color: #74c1b7;
+}
+
+#index .list .active.item > a > .indexer  {
+    background-color: #74c1b7;
+}
+
+
+
+#index .list .indexer {
+    border-color: white;
+    border-width: 10px;
+    background-color: #858c92;
+    width: 12px;
+    height: 12px;
+    margin-right: 10px;
+    display: inline-block;
+    z-index: 100;
+}
+
+#x-divider {
+    left: 6px;
+    width: 1px;
+    height: 100%;
+    z-index: 2;
+    position: absolute;
+    background-color: #858c92;
+}
+
+.anchor {
+    visibility: hidden;
+    height: 1px;
+}
+
+.description {
+    margin-left: 20px;
+}
+
+#main article {
+    margin-bottom: 20px;
+}
+
+#review {
+    margin-top: 30px;
+    padding: 10px;
+}
+
+#review .date {
+    margin-left: 20px;
+    color: #858c92;
+}
+
+#comment {
+    padding: 0 auto;
+}
+
+#comment textarea {
+    display: block;
+    border-color: #858c92 !important;
+    margin: 0 auto;
+    width: 80%;
+    height: 100px;
+    background-color: #f8f8f8;
+    resize: none;
+}
+
+#comment button {
+    margin-top: 5px;
+    margin-right: 10%;
+    float: right;
+}
+
