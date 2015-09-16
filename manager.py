@@ -131,7 +131,8 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
             db.session.add(d)
             
             from numpy import random
-            for i in range(10):
+            for i in range(50):
+                print 'Faking %d th design ...\r', i,
                 is_finished = random.randint(2) == 1
                 is_shared = is_finished and random.randint(2) == 1
                 is_public = is_shared and random.randint(2) == 1
