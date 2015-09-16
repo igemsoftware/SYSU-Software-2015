@@ -460,7 +460,7 @@ class Device(db.Model, BioBase):
         d.update_from_db()
 
         for ele in ['relationship', 'parts',
-                'name', 'interfaceA', 'interfaceB', 'backbone']:
+                'name', 'backbone']:
             d.__setattr__(ele, json_obj[ele])
 
         d.commit_to_db()
@@ -481,6 +481,8 @@ class Device(db.Model, BioBase):
             elif existed.type == 'normal' and ele['type'] != 'normal':
                 existed.type = ele['type']
                 db.session.add(existed)
+
+        return d
 
 
 
