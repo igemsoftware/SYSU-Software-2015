@@ -23,11 +23,22 @@
         <a class="anchor" name="Descriptions"></a>
         <a href="{{url_for('bank.index')}}" class="links"><i class="angle left icon"></i>Back</a>
         <div id="header">
-            <h2 id="name">{{design.name}}</h2>
+            <h1 id="name">{{design.name}}</h1>
             <span id="totalUsers"><i class="users icon"></i>{{design.used}} useds</span>
             <span id="comments"><i class="edit icon"></i>{{design.comments.count()}} comments</span>
             <span id="author"><i class="user icon"></i>{{design.owner.username}}</span>
             <span id="time"><i class="wait icon"></i>{{design.release_time.strftime('%Y/%m/%d')}}</span>
+            <span id="time"><i class="favorite icon"></i>
+                {% if not current_user.is_anonymous() %}
+                    {% if design in current_user.favorite_designs %}
+                        <a href="{{url_for('bank.favorites_del', id=design.id)}}">Remove from favorites</a>
+                    {%else%}
+                        <a href="{{url_for('bank.favorites_add', id=design.id)}}">Collect into favorites</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{{url_for('auth.login', next=url_for('bank.get_detailed', id=design.id)) }}">Login to collect</a>
+                {% endif %}
+            </span>
         </div>
         <div id="content">
             <article>
@@ -44,9 +55,11 @@
                 <h3 class="title"><i class="line chart icon"></i>Modeling</h3>
                 <div class="ui divider"></div>
                 <p>Equations</p>
-                <div>
-                    {{system}}
-                </div>
+                {% for ele in system %}
+                    <div>
+                        {{ele}}
+                    </div>
+                {% endfor %}
                 <div>
                     <img src="" alt="equation1">
                 </div>
@@ -76,35 +89,34 @@
                         <div class="ui divider"></div>
                     {% endfor %}
 
-                    <form class="ui reply form" action="{{url_for('bank.comment_detail', id=design.id)}}" method="POST">
-                        <div class="field">
-                            <textarea rows=3 name="content"></textarea>
-                        </div>
-                        <button type="submit" class="ui small blue labeled icon submit button">
-                            <i class="edit icon"></i>Add New Comment
-                        </button>
-                    </form>
-
+                    {% if not current_user.is_anonymous() %}
+                        <form class="ui reply form" action="{{url_for('bank.comment_detail', id=design.id)}}" method="POST">
+                            <div class="field">
+                                <textarea rows=3 name="content"></textarea>
+                            </div>
+                            <button type="submit" class="ui small blue labeled icon submit button">
+                                <i class="edit icon"></i>Add New Comment
+                            </button>
+                        </form>
+                    {% else %}
+                        <a href="{{url_for('auth.login', next=url_for('bank.get_detailed', id=design.id, _anchor='UserReviews')) }}">Login to comment</a>
+                    {% endif %}
                 </div>
             </article>
         </div>
+
         <div id="index">
             <div id="x-divider"></div>
             <div class="ui link list">
-                <div class="item">
-                    <div class="indexer"></div>
-                    <a href="#Descriptions" class="item"><i class="info circle icon"></i>Descriptions</a>
-                </div>
-                <div class="item">
-                    <div class="indexer"></div>
-                    <a href="#Modeling" class="item"><i class="line chart icon"></i>Modeling</a></div>
-                <div class="item"><div class="indexer"></div><a href="#Experiments" class="item"><i class="lab icon"></i>Experiments</a></div>
-                <div class="item"><div class="indexer"></div><a href="#References" class="item"><i class="book icon"></i>References</a></div>
-                <div class="item"><div class="indexer"></div><a href="#UserReviews" class="item"><i class="comment icon"></i>User reviews</a></div>
+                <div class="item active"><div class="indexer"></div><a ><i class="info circle icon"></i>Descriptions</a></div>
+                <div class="item"><div class="indexer"></div><a ><i class="line chart icon"></i>Modeling</a></div>
+                <div class="item"><div class="indexer"></div><a ><i class="lab icon"></i>Experiments</a></div>
+                <div class="item"><div class="indexer"></div><a ><i class="book icon"></i>References</a></div>
+                <div class="item"><div class="indexer"></div><a ><i class="comment icon"></i>User reviews</a></div>
             </div>
         </div>
+
     </div>
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/semantic.min.js"></script>
+
     <script src="/static/js/bank_detail.js"></script>
 {% endblock %}

@@ -8,8 +8,13 @@
 </head>
 <body>
   <div id="index-topbar">
-    <a href="/auth/login" class="ui login button">Log In</a>
-    <a href="/auth/register" class="ui signup button">Sign Up</a>
+      {% if current_user.is_anonymous() %}
+      <a href="/auth/login" class="ui login button">Log In</a>
+      <a href="/auth/register" class="ui signup button">Sign Up</a>
+      {% else %}
+      <a href="{{url_for('person.index')}}" class="ui login button">Personal Center</a>
+      <a href="{{url_for('auth.logout')}}" class="ui logout button">Logout</a>
+      {% endif %}
   </div>
 
   <div class="ui middle aligned center aligned grid">
