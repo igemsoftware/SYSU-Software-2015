@@ -4,10 +4,6 @@ body {
     overflow: scroll;
 }
 
-#topbar {
-    background-color: #858c92;
-}
-
 #topbar-bottom-line {
     background: linear-gradient(to right, #6eb6ad, #74c1b7, #87e1d5);
 }
@@ -16,7 +12,7 @@ body {
     width: 90%;
     background-color: #f8f8f8;
     margin: 0 auto;
-    padding: 8% 5%;
+    padding: 70px 5% 10px 5%;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.6);
     overflow: auto;
 }
@@ -39,11 +35,24 @@ i {
     color: #858c92;
 }
 
+#content-wrapper {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+}
+
 #content {
-    margin-left: 10%;
-    width: 60%;
-    float: left;
+    margin-left: 20px;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    width: 20%;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
     margin-bottom: 100px;
+    margin-right: 50px;
 }
 
 #content .imageWrapper {
@@ -59,6 +68,15 @@ i {
     margin: 0 auto;
 }
 
+#right-column {
+    width: 250px;
+}
+
+#right-column #rating-wrapper {
+    padding-top: 0;
+}
+
+/*
 #index {
     position: fixed;
     right: 5%;
@@ -66,15 +84,24 @@ i {
     width: 20%;
     float: right;
 }
+*/
 
 #index .list .item {
-    margin-bottom: 20px;
-   // color: #858c92;
+    margin-bottom: 10px;
+    color: #858c92;
     font-size: 18px;
 }
 
-#index .list .item .textactive {
-    color: #000000;
+#index .list .active.item > a  {
+    color: #74c1b7;
+}
+
+#index .list .active.item > a > .icon {
+    color: #74c1b7;
+}
+
+#index .list .active.item > a > .indexer  {
+    background-color: #74c1b7;
 }
 
 

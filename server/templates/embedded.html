@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <link rel="stylesheet" href="/static/css/semantic.min.css">
   <link rel="stylesheet" href="/static/css/embedded.css">
+  <link rel="stylesheet" href="/static/css/vRating.css">
 </head>
 <body>
 
@@ -51,9 +52,11 @@
 
     </div>
     <div class="right">
-      {% include 'vRating.html' %}
+      <v-rating design-id={{design.id}}></v-rating>
     </div>
   </div>
+
+  {% include 'vRating.html' %}
 
   <script src="/static/js/lib/jquery.min.js"></script>
   <script src="/static/js/lib/semantic.min.js"></script>
@@ -64,15 +67,11 @@
   <script src="/static/js/embedded.js"></script>
   <script src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   <script>
-    vRating.oriRating = [
-      {{design.eval_compatibility}}, {{design.eval_safety}}, {{design.eval_demand}},
-      {{design.eval_completeness}}, {{design.eval_efficiency}}, {{design.eval_reliability}}, {{design.eval_accessibility}}
-    ];
     $.get("/modeling/design/{{design.id}}", function(data) {
       console.log(data);
       vBody.drawChart($("#chart"), data.xAxis, data.variables);
     });
-    </script>
+  </script>
 
 </body>
 </html>

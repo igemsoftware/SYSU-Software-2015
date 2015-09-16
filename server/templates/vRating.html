@@ -1,9 +1,12 @@
-<div id="rating-wrapper">
-  <canvas id="rating-radar" width="230" height="230"></canvas>
-  <div class="rating container" v-repeat="criterion in ratingCriteria">
-    <div class="description">[[criterion]]</div>
-    <div class="ui star rating" data-rating="3" data-max-rating="5" data-criterion-index="[[$index]]"></div>
+<template id="rating-template">
+  <div id="rating-wrapper">
+    <canvas id="rating-radar" v-attr="width: canvasWidth, height: canvasHeight"></canvas>
+    <div class="rating container" v-repeat="criterion in ratingCriteria">
+      <div class="description">[[criterion]]</div>
+      <div class="ui star rating" data-rating="3" data-max-rating="5" data-criterion-index="[[$index]]"></div>
+    </div>
+    <button class="ui blue rating submit button" v-on="click: rate()" v-show="rated === 0">Rate!</button>
+    <button class="ui blue disabled rating submit button" v-show="rated === 1">Rating...</button>
+    <button class="ui blue disabled rating submit button" v-show="rated === 2">Rated:-)</button>
   </div>
-  <button class="ui blue rating submit button" v-on="click: rate()" v-show="!rated">Rate!</button>
-  <button class="ui blue disabled rating submit button" v-show="rated">Rated:-)</button>
-</div>
+</template>

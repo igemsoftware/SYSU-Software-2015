@@ -3,10 +3,6 @@ body {
     font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
 }
 
-#topbar {
-    background-color: #858c92;
-}
-
 #topbar-bottom-line {
     background: linear-gradient(to right, #6eb6ad, #74c1b7, #87e1d5);
 }

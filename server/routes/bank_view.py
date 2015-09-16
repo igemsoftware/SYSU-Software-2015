@@ -92,7 +92,7 @@ def get_list():
                   'name': '<a href="%s">%s</a>' % (url_for('bank.get_detailed', id=d.id), d.name), 
                   'description': shorten(d.brief_description, 30),
                   'contributor': d.owner.username,
-                  'rate': d.rate,
+                  'rate': '%g' % d.rate,
                   'comments': d.comments.count(),
                   'last active': d.last_active.strftime('%Y-%m-%d %H:%M:%S'),
                   'used': d.used,
