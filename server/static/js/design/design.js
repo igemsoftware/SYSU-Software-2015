@@ -1089,7 +1089,7 @@ function LeftBar() {
     this.elemsMatList = [];
     this.elemsUnkList = [];
 
-    this.view.searchRelateInputBox = $("#searchRelate");
+    this.view.searchRelateInput = $("#searchRelate");
     this.view.searchPartInput = $("#searchNew");
     this.view.searchDeviceInput = $("#searchDevice");
 
@@ -1215,9 +1215,34 @@ LeftBar.prototype.addCustomPart = function(part) {
 }
 
 LeftBar.prototype.updateSearchBar = function() {
-    $('#searchPartBox').search({source: this._searchPartTitle});
-    $('#searchDeviceBox').search({source: this._searchDeviceTitle});
-    $('#searchRelateBox').search({source: this._searchPartTitle});
+    var that = this;
+    $('#searchPartBox').search({
+        source: this._searchPartTitle,
+        onSelect: function(value) {
+            var e = jQuery.Event("keyup");//模拟一个键盘事件
+            e.keyCode =13;//keyCode=13是回车
+            that.view.searchPartInput.val(value.title);
+            that.view.searchPartInput.trigger(e);
+        }
+    });
+    $('#searchDeviceBox').search({
+        source: this._searchDeviceTitle,
+        onSelect: function(value) {
+            var e = jQuery.Event("keyup");//模拟一个键盘事件
+            e.keyCode =13;//keyCode=13是回车
+            that.view.searchDeviceInput.val(value.title);
+            that.view.searchDeviceInput.trigger(e);
+        }
+    });
+    $('#searchRelateBox').search({
+        source: this._searchPartTitle,
+        onSelect: function(value) {
+            var e = jQuery.Event("keyup");//模拟一个键盘事件
+            e.keyCode =13;//keyCode=13是回车
+            that.view.searchRelateInput.val(value.title);
+            that.view.searchRelateInput.trigger(e);
+        }
+    });
 }
 
 LeftBar.prototype._leftTriggerAnimation = function() {
@@ -1264,6 +1289,14 @@ LeftBar.prototype._leftTriggerAnimation = function() {
 
 LeftBar.prototype.enableSearchPartBox = function() {
     var that = this;
+    // $("#searchPartBox .results .result").each(function() {
+    //     $(this).click(function(){
+    //         console.log('1111');
+    //         var e = jQuery.Event("keyup");//模拟一个键盘事件
+    //         e.keyCode =13;//keyCode=13是回车
+    //         that.view.searchPartInput.trigger(e);
+    //     });
+    // });
     this.view.searchPartInput.keyup(function() {
         that.updateSearchBar();
         var val = that.view.searchPartInput.val().toLowerCase();
@@ -1285,8 +1318,8 @@ LeftBar.prototype.enableSearchPartBox = function() {
 
 LeftBar.prototype.enableSearchRelateBox = function() {
     var that = this;
-    this.view.searchRelateInputBox.keyup(function() {
-        var val = that.view.searchRelateInputBox.val();
+    this.view.searchRelateInput.keyup(function() {
+        var val = that.view.searchRelateInput.val();
         if (val != "") {
             var searchElemPartList = [];
             for (var i in that.elemsPartList) {
