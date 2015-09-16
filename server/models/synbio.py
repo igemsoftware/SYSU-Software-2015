@@ -223,6 +223,7 @@ class ComponentInstance():
         """Initialization constructor, can use :attr:`ComponentPrototype.name` 
         or :attr:`ComponentPrototype.attr` to find the prototype."""
 #        print "New instance: BBa: %s, pname: %s" % (BBa, partName)
+        partName = partName.replace('-','_').replace(' ','_')
         if partName in ['Promoter', 'RBS', 'Terminator'] and not BBa:
             BBa = ''
         if BBa != None:
