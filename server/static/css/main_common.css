@@ -154,8 +154,38 @@ body {
     text-align: center;
 }
 
+#main-switcher .link > .image {
+    border-radius: 200px;
+    transition: box-shadow .5s linear;
+}
+
+#main-switcher .link > .codev.image {
+    box-shadow: 0 0 15px 5px #edb84e;
+}
+
+#main-switcher .link > .design.image {
+    box-shadow: 0 0 15px 5px #9b83c1;
+}
+
+#main-switcher .link > .bank.image {
+    box-shadow: 0 0 15px 5px #1ba799;
+}
+
+#main-switcher .link > .codev.image:hover {
+    box-shadow: 0 0 15px 10px #ffc757;
+}
+
+#main-switcher .link > .design.image:hover {
+    box-shadow: 0 0 15px 10px #ba95f4;
+}
+
+#main-switcher .link > .bank.image:hover {
+    box-shadow: 0 0 15px 10px #3ae2d1;
+}
+
 #main-switcher .link > .description {
     margin-top: 20px;
+    margin-left: 0;
     color: rgba(255, 255, 255, 0.95);
     font-size: 2rem;
 }
