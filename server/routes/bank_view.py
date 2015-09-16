@@ -3,6 +3,7 @@
 from . import bank
 from ..models import Design, User, EquationBase, DesignComment
 from .. import login_manager, db
+from ..tools.shorten import shorten
 
 from flask import render_template, jsonify, request, \
         current_app, url_for, redirect, abort
@@ -89,7 +90,7 @@ def get_list():
     for d in pagination.items:
         l.append({'id': d.id,
                   'name': '<a href="%s">%s</a>' % (url_for('bank.get_detailed', id=d.id), d.name), 
-                  'description': d.brief_description,
+                  'description': shorten(d.brief_description, 30),
                   'contributor': d.owner.username,
                   'rate': d.rate,
                   'comments': d.comments.count(),
@@ -163,7 +164,7 @@ def get_finished_list():
 
 
 @bank.route('/detail/<int:id>')
-@login_required
+#@login_required
 def get_detailed(id): 
     """
         :Note: Login required
@@ -266,4 +267,38 @@ def comment_detail(id):
     return redirect(url_for('bank.get_detailed', id=id, _anchor='UserReviews'))
 
 
+@bank.route('/datail/favorites/add/<int:id>')
+@login_required
+def favorites_add(id): 
+    """
+        :Note: Login required
+        :Usage: Collect a design into favorites 
+    """
+
+    d = Design.query.get(id)
+    if not d: 
+        abort(404) #return jsonify(error='This design doesn\'t exist')
+
+    current_user.favorite_designs.append(d)
+    db.session.add(current_user)
+    
+    return redirect(url_for('bank.get_detailed', id=d.id))
+
+@bank.route('/datail/favorites/del/<int:id>')
+@login_required
+def favorites_del(id): 
+    """
+        :Note: Login required
+        :Usage: Remove a design from favorites 
+    """
+
+    d = Design.query.get(id)
+    if not d: 
+        abort(404) #return jsonify(error='This design doesn\'t exist')
+
+    if d in current_user.favorite_designs:
+        current_user.favorite_designs.remove(d)
+    db.session.add(current_user)
+    
+    return redirect(url_for('bank.get_detailed', id=d.id))
 
