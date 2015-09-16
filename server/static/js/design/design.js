@@ -208,7 +208,11 @@ Design.prototype.addPartEvent = function(elem) {
     this._partCount += 1;
     var partAttr = elem.attr("part-attr");
     elem.attr('part-id', partAttr + "_" + String(this._partCount));
+    console.log("PartAttr:");
+    console.log(partAttr);
     var part = DataManager.getPartByAttr(partAttr);
+    console.log('Part:');
+    console.log(part);
     rightBar.processDropedPart(part);
     this.updateRisk(part);
 } 
@@ -703,6 +707,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
                     dataType : 'json',
                     data : postDataJson,
                     success: function(data) {
+                        design.designID = data['id'];
                         DataManager.getPerDesignDataFromServer(function(designs) {
                             designMenu.perDesignList = designs;
                         })
@@ -1631,7 +1636,7 @@ $('#loadingData').dimmer('show');
 // $("#deleteModal").modal('show');
 
 $("#moveTo").click(function() {
-    window.location.href = "/modeling";
+    window.location.href = "/modeling?id="+design.designID;
 }); 
 
 $(".modal").modal({transition: 'horizontal flip'});

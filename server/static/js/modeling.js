@@ -73,7 +73,10 @@ Modeling.prototype.drawChart = function(view, xArray, series) {
 
 Modeling.prototype.loadData = function() {
     var that = this;
-    $.get("/modeling/design/1", function(data) {
+    $.get("/modeling/design/"+$.getUrlParam('id'), function(data) {
+        console.log('Design id:');
+        console.log($.getUrlParam('id'));
+        console.log('Load design chart X,Y data:');
         console.log(data);
         that.variables = data.variables;
         that.xAxis = data.x_axis;
