@@ -4,6 +4,7 @@
 {% block head %}
     {{ super() }}
     <link rel="stylesheet" href="/static/css/bank_detail.css">
+    <link rel="stylesheet" href="/static/css/vRating.css">
 {% endblock %}
 
 {% block body %}
@@ -30,64 +31,65 @@
             <span id="time"><i class="wait icon"></i>{{design.release_time.strftime('%Y/%m/%d')}}</span>
             <span id="time"><i class="favorite icon"></i>
                 {% if not current_user.is_anonymous() %}
-                    {% if design in current_user.favorite_designs %}
-                        <a href="{{url_for('bank.favorites_del', id=design.id)}}">Remove from favorites</a>
-                    {%else%}
-                        <a href="{{url_for('bank.favorites_add', id=design.id)}}">Collect into favorites</a>
-                    {% endif %}
+                {% if design in current_user.favorite_designs %}
+                <a href="{{url_for('bank.favorites_del', id=design.id)}}">Remove from favorites</a>
+                {%else%}
+                <a href="{{url_for('bank.favorites_add', id=design.id)}}">Collect into favorites</a>
+                {% endif %}
                 {% else %}
-                    <a href="{{url_for('auth.login', next=url_for('bank.get_detailed', id=design.id)) }}">Login to collect</a>
+                <a href="{{url_for('auth.login', next=url_for('bank.get_detailed', id=design.id)) }}">Login to collect</a>
                 {% endif %}
             </span>
         </div>
-        <div id="content">
-            <article>
-                <h3 class="title"><i class="info circle icon"></i>Descriptions</h3>
-                <div class="ui divider"></div>
-                <p>{{design.brief_description}}</p>
-                <div class="imageWrapper">
-                    <img src="data:image/png;base64,{{design.img}}" alt="Picture of design">
-                </div>
-                <a class="anchor" name="Modeling"></a>
-                <p>{{design.full_description}}</p>
-            </article>
-            <article>
-                <h3 class="title"><i class="line chart icon"></i>Modeling</h3>
-                <div class="ui divider"></div>
-                <p>Equations</p>
-                {% for ele in system %}
+        <div id="content-wrapper">
+            <div id="content">
+                <article>
+                    <h3 class="title"><i class="info circle icon"></i>Descriptions</h3>
+                    <div class="ui divider"></div>
+                    <p>{{design.brief_description}}</p>
+                    <div class="imageWrapper">
+                        <img src="data:image/png;base64,{{design.img}}" alt="Picture of design">
+                    </div>
+                    <a class="anchor" name="Modeling"></a>
+                    <p>{{design.full_description}}</p>
+                </article>
+                <article>
+                    <h3 class="title"><i class="line chart icon"></i>Modeling</h3>
+                    <div class="ui divider"></div>
+                    <p>Equations</p>
+                    {% for ele in system %}
                     <div>
                         {{ele}}
                     </div>
-                {% endfor %}
-                <div>
-                    <img src="" alt="equation1">
-                </div>
-                <a class="anchor" name="Experiments"></a>
-                <div>
-                    <img src="" alt="equation2">
-                </div>
-            </article>
-            <article>
-                <a class="anchor" name="References"></a>
-                <h3 class="title"><i class="lab icon"></i>Experiments</h3>
-                <div class="ui divider"></div>
-            </article>
-            <article>
-                <h3 class="title"><i class="book icon"></i>References</h3>
-                <div class="ui divider"></div>
-                <p>{{self.source}}</p>
-                <p>{{self.protocol_reference}}</p>
-            </article>
-            <article>
-                <a class="anchor" name="UserReviews"></a>
-                <h3 class="title"><i class="comment icon"></i>User reviews</h3>
-                <div class="ui divider"></div>
-                <div id="review">
-                    {% for c in design.comments.all() %}
-                    <p>{{c.owner.username}}: {{c.content}}<span class="date">{{c.timestamp.strftime('%H:%M %d/%m/%Y')}}</span></p>
-                        <div class="ui divider"></div>
                     {% endfor %}
+                    <div>
+                        <img src="" alt="equation1">
+                    </div>
+                    <a class="anchor" name="Experiments"></a>
+                    <div>
+                        <img src="" alt="equation2">
+                    </div>
+                </article>
+                <article>
+                    <a class="anchor" name="References"></a>
+                    <h3 class="title"><i class="lab icon"></i>Experiments</h3>
+                    <div class="ui divider"></div>
+                </article>
+                <article>
+                    <h3 class="title"><i class="book icon"></i>References</h3>
+                    <div class="ui divider"></div>
+                    <p>{{self.source}}</p>
+                    <p>{{self.protocol_reference}}</p>
+                </article>
+                <article>
+                    <a class="anchor" name="UserReviews"></a>
+                    <h3 class="title"><i class="comment icon"></i>User reviews</h3>
+                    <div class="ui divider"></div>
+                    <div id="review">
+                        {% for c in design.comments.all() %}
+                        <p>{{c.owner.username}}: {{c.content}}<span class="date">{{c.timestamp.strftime('%H:%M %d/%m/%Y')}}</span></p>
+                        <div class="ui divider"></div>
+                        {% endfor %}
 
                     {% if not current_user.is_anonymous() %}
                         <form class="ui reply form" action="{{url_for('bank.comment_detail', id=design.id)}}" method="POST">
@@ -105,18 +107,38 @@
             </article>
         </div>
 
-        <div id="index">
-            <div id="x-divider"></div>
-            <div class="ui link list">
-                <div class="item active"><div class="indexer"></div><a ><i class="info circle icon"></i>Descriptions</a></div>
-                <div class="item"><div class="indexer"></div><a ><i class="line chart icon"></i>Modeling</a></div>
-                <div class="item"><div class="indexer"></div><a ><i class="lab icon"></i>Experiments</a></div>
-                <div class="item"><div class="indexer"></div><a ><i class="book icon"></i>References</a></div>
-                <div class="item"><div class="indexer"></div><a ><i class="comment icon"></i>User reviews</a></div>
+        <div id="right-column">
+            <div class="ui sticky">
+            <h3 class="title"><i class="content icon"></i>Index</h3>
+            <div class="ui divider"></div>
+            <div id="index">
+                <!-- <div id="x-divider"></div> -->
+                <div class="ui link list">
+                    <div class="item active"><a><div class="indexer"></div><i class="info circle icon"></i>Descriptions</a></div>
+                    <div class="item"><a><div class="indexer"></div><i class="line chart icon"></i>Modeling</a></div>
+                    <div class="item"><a><div class="indexer"></div><i class="lab icon"></i>Experiments</a></div>
+                    <div class="item"><a><div class="indexer"></div><i class="book icon"></i>References</a></div>
+                    <div class="item"><a><div class="indexer"></div><i class="comment icon"></i>User reviews</a></div>
+                </div>
             </div>
+            <h3 class="title"><i class="star icon"></i>Rating</h3>
+            <div class="ui divider"></div>
+            <v-rating completeness="{{design.completeness}}" compatibility="{{design.compatibility}}"
+                      safety="{{design.eval_safety}}" demand="{{design.eval_demand}}" efficiency="{{design.eval_efficiency}}"
+                      reliability="{{design.eval_reliability}}" accessibility="{{design.accessibility}}"
+                      canvas-width=230 canvas-height=170></v-rating>
+            </div>
+        </div>
+
+
         </div>
 
     </div>
 
+    {% include 'vRating.html' %}
+
     <script src="/static/js/bank_detail.js"></script>
+    <script src="/static/js/lib/Chart.min.js"></script>
+    <script src="/static/js/vRating.js"></script>
+    <script>var vBody = new Vue({el:'body'});</script>
 {% endblock %}
