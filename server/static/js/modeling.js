@@ -181,14 +181,7 @@ Modeling.prototype.initChooseModal = function(designs) {
 		$("#designList div").each(function() {
 			if($(this).hasClass('iyellow')) {
 				var id = $(this).find('input').val();
-				$("#simulation .title span").text($(this).text());
-				$.get("/modeling/design/"+String(id), function(data) {
-					that.variables = data.variables;
-        			that.xAxis = data.x_axis;
-        			that.drawChart($("#chart"), that.xAxis, that.variables);
-			        that.drawChart($("#myChart"));
-			        that.initMenu();
-				});
+				window.location.href = "/modeling?id="+id;
 			}
 		});
 		$("#chooseModal").modal('hide');
@@ -219,4 +212,9 @@ $('.ui.dropdown')
 $.get("/modeling/design/all", function(data) {
 	// console.log(data);
 	modeling.initChooseModal(data['designs']);
+});
+
+
+$("#moveToExper").click(function() {
+    window.location.href = "/experiment?id="+$.getUrlParam('id');
 });

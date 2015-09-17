@@ -415,7 +415,7 @@
 /*=======================================*/
 #plasmid-box {
 	width: 100%;
-	height: 90%;
+	height: 80%;
 	text-align: center;
 }
 
@@ -453,4 +453,8 @@
 
 #readPartInfoModal .content label {
     font-size: 17px;
+}
+
+#chooseDesignBtn {
+	z-index: 100;
 }

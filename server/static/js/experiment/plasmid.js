@@ -238,7 +238,7 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
   		// $scope.currentPlasmid = $scope.plasmids[0];
   	});
 
-  	$http.get("/design/data/1")
+  	$http.get("/design/data/"+$.getUrlParam('id'))
   	.success(function(data) {
   		console.log("Design:");
   		console.log(data['content']);
