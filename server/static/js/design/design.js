@@ -1682,7 +1682,7 @@ $("#createEquationBtn").click(function() {
     var formular = $("#formular").val();
     var coeffList = [];
     if (target == null || requirement == null || formular == null || coeffList == null) {
-        $("#createEquationErrorModal").modal('show');
+        $("#createEquationErrorModal").modal({transition: 'bounce'}).modal('show');
         return ;
     }
     console.log($("#coefficient").find(".ui.labeled.input"));

@@ -135,12 +135,9 @@ Util._createNewCNode = function(part) {
     var titleDiv = this.createTitleDiv(part.partName);
     titleDiv.appendTo(node);
 
-    if (partType == 'gene' || partType == 'promoter' 
-        || partType == 'RBS' || partType == 'terminator') {
-        var filterDiv = $("<div></div>");
-        filterDiv.addClass("filterDiv");
-        filterDiv.appendTo(node);
-    }
+    var filterDiv = $("<div></div>");
+    filterDiv.addClass("filterDiv");
+    filterDiv.appendTo(node);
 
     var minusCircle = this.createMinusCircleDiv();
     minusCircle.appendTo(node);
