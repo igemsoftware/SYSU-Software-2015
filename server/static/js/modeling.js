@@ -2,6 +2,7 @@
 
 
 var modeling;
+var current_id = 1; // replot
 
 function Modeling() {
     this.variables = null;
@@ -84,6 +85,7 @@ Modeling.prototype.loadData = function() {
 		that.drawChart($("#chart"), that.xAxis, that.variables);
         that.drawChart($("#myChart"));
         that.initMenu();
+        that.initParametersMenu(data.variables);
     });
     // that.drawMyChart();
 }
@@ -116,6 +118,21 @@ Modeling.prototype.initMenu = function() {
         this.addItem(this.variables[i].name);
     }
 }
+
+Modeling.prototype.initParametersMenu = function(series) {
+    // parameters
+    $('#parameters-quantity').html('');
+    $(series).each(function(ine, ele) {
+        $('#parameters-quantity').append('<div class="field"><div class="ui labeled input"><div class="ui label">'
+                +ele['name']+'</div><input type="number" min=0.00 placeholder="Default is 0.0" name="'
+                +ele['name']+'"></div></div>');
+//        alert(ele['name']);
+    });
+}
+
+
+
+
 
 Modeling.prototype.addItem = function(name) {
     var itemElem = $("<div class='item'></div>");
@@ -181,7 +198,17 @@ Modeling.prototype.initChooseModal = function(designs) {
 		$("#designList div").each(function() {
 			if($(this).hasClass('iyellow')) {
 				var id = $(this).find('input').val();
-				window.location.href = "/modeling?id="+id;
+				// window.location.href = "/modeling?id="+id;
+                current_id = id; //replot
+				$("#simulation .title span").text($(this).text());
+				$.get("/modeling/design/"+String(id), function(data) {
+					that.variables = data.variables;
+                                        that.xAxis = data.x_axis;
+                                        that.drawChart($("#chart"), that.xAxis, that.variables);
+                                        that.drawChart($("#myChart"));
+                                        that.initMenu();
+                                        that.initParametersMenu(data.variables);
+				});
 			}
 		});
 		$("#chooseModal").modal('hide');
@@ -215,6 +242,39 @@ $.get("/modeling/design/all", function(data) {
 });
 
 
+
 $("#moveToExper").click(function() {
     window.location.href = "/experiment?id="+$.getUrlParam('id');
 });
+
+// parameters
+$("#replot").click(function() {
+    modeling.rePlot();
+});
+
+Modeling.prototype.rePlot = function() {
+    var that = this;
+
+    var postData = {}; 
+    $('#parameters input').each(function(ind, ele) {
+        if (ele.value) postData[ele.name] = ele.value;
+    });
+    console.log(postData);
+    var postDataJson = JSON.stringify(postData);
+
+    $.ajax({
+        url: "/modeling/design/"+String(current_id),
+        data: postDataJson, 
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+            that.variables = data.variables;
+            that.xAxis = data.x_axis;
+            $("#simulation .title span").text(data.name);
+            that.drawChart($("#chart"), that.xAxis, that.variables);
+            that.drawChart($("#myChart"));
+        }
+    });
+}

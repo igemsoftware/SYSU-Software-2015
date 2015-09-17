@@ -2,6 +2,7 @@
 
 from .. import db
 import json
+from ..tools.simulation.release import name_handler
 
 
 #   class ProtocolRecommend(db.Model):
@@ -12,10 +13,6 @@ import json
 
 #       def __repr__(self):
 #           return '<ProtocolRecommend: %s->%s>' % (self.prototype.name, self.device.name)
-
-def name_handler(string):
-    return string.replace(' ', '_').replace('-','_').replace(')','').replace('(','__')
-
 
 class Protocol(db.Model):
     """Protocol model in CORE."""
@@ -194,7 +191,7 @@ class ComponentPrototype(db.Model):
     """What components points to it."""
 
     def __init__(self, **kwargs):
-        kwargs['name'] = name_handler(kwargs['name'])
+#        kwargs['name'] = name_handler(kwargs['name'])
         super(ComponentPrototype, self).__init__(**kwargs)
 
 
@@ -227,7 +224,7 @@ class ComponentInstance():
         """Initialization constructor, can use :attr:`ComponentPrototype.name` 
         or :attr:`ComponentPrototype.attr` to find the prototype."""
 #        print "New instance: BBa: %s, pname: %s" % (BBa, partName)
-        partName = name_handler(partName)
+#        partName = name_handler(partName)
         if partName in ['Promoter', 'RBS', 'Terminator'] and not BBa:
             BBa = ''
         if BBa != None:
@@ -466,14 +463,18 @@ class Device(db.Model, BioBase):
         for ele in ['relationship', 'parts',
                 'name', 'backbone']:
             d.__setattr__(ele, json_obj[ele])
+      # for ele in d.parts:
+      #     ele['partID'] = name_handler(ele['partID'])
+      #     ele['partName'] = name_handler(ele['partName'])
+      #     ele['partAttr'] = name_handler(ele['partAttr'])
 
         d.commit_to_db()
 
         for ele in json_obj['relationship']:
 #            if ele['type'] == 'normal': continue
 
-            ele['start'] = name_handler(ele['start'])
-            ele['end'] = name_handler(ele['end'])
+#           ele['start'] = name_handler(ele['start'])
+#           ele['end'] = name_handler(ele['end'])
 
             start = d.__load_prototype_and_instance(ele['start'], skip_instance=True)
             end = d.__load_prototype_and_instance(ele['end'], skip_instance=True)

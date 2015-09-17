@@ -1,0 +1,14 @@
+['Fe',['T','FUR','Fe_FUR'],[('p',0.1),('K_{Fe_FUR}',0.01),('dff',0.001)],'{{p}}*T-{{K_{Fe_FUR}}}*Fe*FUR+{{dff}}*Fe_FUR']
+
+['FUR',['Fe','Fe_FUR'],[('Fur0',0.01),('K_{Fe_FUR}',0.01),('dff',0.001)],'{{Fur0}}-{{K_{Fe_FUR}}}*Fe*FUR+{{dff}}*Fe_FUR']
+
+['Fe_FUR',['Fur_Binding_Site','FUR','Fe'],[('N_{A}',6.02*10^20),('K_{Fe_FUR}',0.01),('dff',0.001),('V',6.5*10-16],'{{K_{Fe_FUR}}}*Fe*FUR-{{dff}}*Fe_FUR-Fur_Binding_Site/({{N_{A}}}*{{V}}*t)']
+
+['Fur_binding_site',['Fe_FUR'],[('K_{i1}',6.3*10^-5),('K_{f}',10^-4),('N_{pla1}',200)],'{{K_{i1}}}*Fur_Binding_site*(1-Fe_FUR/{{N_{pla1}}})/{{K_{f}}}']#?取一个大于一小于500的常数看效果	
+
+['LacI',['BBa_K1163102','lacI','Fur_Binding_Site'],[('k_{p}',0.5),('K_{i1}',6.3*10^-5),('K_{f}',10^-4),('D_{LacI}',0.0015),('N_{pla}',200)],'{{k_{p}}}*(lacI*Fur_Binding_Site*{{k_{i1}}}*(1-LacI*Fur_Binding_Site/{{N_{pla}}})/{{k_{f}}})-{{D_{LacI}}}*LacI']#全方程
+['LacI',['BBa_K1163102','lacI','Fur_Binding_Site'],[('k_{p}',0.5),('K_{i1}',6.3*10^-5),('K_{f}',10^-4),('D_{LacI}',0.0015)],'-{{D_{LacI}}}*LacI']#当启动子不存在
+
+['RFP',['Plac','rfp','lacI','Fur_Binding_Site'],[('k_{p}',0.5),('K_{i1}',6.3*10^-5),('K_{f}',10^-4),('dff',0.001),('N_{pla}',200)],'{{k_{p}}}*(rfp*Fur_Binding_Site*{{k_{i1}}}*(1-LacI*Fur_Binding_Site/{{N_{pla}}})/{{k_{f}}})-{{dff}}*RFP']#全方程
+['RFP',['Plac','rfp','lacI','Fur_Binding_Site'],[('k_{p}',0.5),('K_{i1}',6.3*10^-5),('K_{f}',10^-4),('dff',0.001),('N_{pla}',200)],'-{{dff}}*RFP']#当启动子不存在
+
