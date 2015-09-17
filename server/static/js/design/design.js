@@ -44,6 +44,13 @@ function CNode() {
     this.partID = null;
 }
 
+/**
+ * Create a design operable node
+ * @method constructor
+ * @for CNode
+ * @param {elem} partElem A part dom element
+ * 
+ */
 CNode.prototype.createCNode = function(partElem) {
     this.view = partElem;
     this.view.attr('normal-connect-num', '0');
@@ -52,13 +59,11 @@ CNode.prototype.createCNode = function(partElem) {
     this.view.find(".BBa").remove();
     var partType = partElem.attr('part-type');
 
-    // if (partType == 'gene' || partType == 'promoter' 
-    //     || partType == 'RBS' || partType == 'terminator') {
-        var filterDiv = $("<div></div>");
-        filterDiv.addClass("filterDiv");
-        filterDiv.css('display', 'none');
-        filterDiv.appendTo(this.view);
-    // }
+    var filterDiv = $("<div></div>");
+    filterDiv.addClass("filterDiv");
+    filterDiv.css('display', 'none');
+    filterDiv.appendTo(this.view);
+
     var minusCircle = Util.createMinusCircleDiv();
     minusCircle.appendTo(this.view);
 
@@ -72,15 +77,8 @@ CNode.prototype.createCNode = function(partElem) {
     this.view.find("span").replaceWith(titleDiv);
 }
 
-CNode.prototype.setCNodeId = function(id) {
-    this.partID = id;
-}
-
-//-===================================================
-//==========================================================================================
 /**
  * @class Design
- *
  * @method constructor
  *
  */
@@ -89,7 +87,6 @@ function Design() {
     this.nodes = $(".node");
     this.drawArea = $("#drawArea");
     this.drawMenu = $("#drawArea-menu");
-    // this._isProOrInhiLink = false;
     this.isPromoteLink = false;
     this.isInhibitLink = false;
     this._isNormalLink = false;
@@ -103,12 +100,25 @@ function Design() {
     this.designName = "New design";
 };
 
+/**
+ * Clear the design area
+ * @method clear
+ * @for Design
+ * 
+ */
 Design.prototype.clear = function() {
     this.nodeElemList = [];
     this.risk = 1;
     this.updateRiskView(1);
 }
 
+
+/**
+ * Init the design area
+ * @method init
+ * @for Design
+ * 
+ */
 Design.prototype.init = function() {
     this._initJsPlumbOption();
     this._makeDrawAreaDroppabble();
@@ -117,6 +127,13 @@ Design.prototype.init = function() {
     this.setDesignName(this.designName);
 };
 
+/**
+ * Set the design area's height
+ * @method setDrawAreaHeight
+ * @for Desgin
+ * @param {int} height
+ * 
+ */
 Design.prototype.setDrawAreaHeight = function(height) {
     this.drawAreaHeight = height;
     $("#drawArea").css("height", this.drawAreaHeight);
@@ -128,6 +145,13 @@ Design.prototype.setDrawAreaHeight = function(height) {
     $(".slider input").val(val);
 }
 
+/**
+ * Add the promotion or inhibition relationship for a part
+ * @method addProAndInhibitLine
+ * @for Desgin
+ * @param {Part} partA a part which need to find relationship with others
+ * 
+ */
 Design.prototype.addProAndInhibitLine = function(partA) {
     var partAttrA = partA.attr('part-attr');
     for (var i in this.nodeElemList) {
@@ -143,6 +167,15 @@ Design.prototype.addProAndInhibitLine = function(partA) {
     }
 };
 
+/**
+ * Draw the line between two parts with line type
+ * @method drawLine
+ * @for Desgin
+ * @param {Part} frompartA a part as source
+ * @param {Part} toPartB a part as target
+ * @param {String} lineType a string "promotion/inhibition/normal" which decides the line style.
+ *  
+ */
 Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
     var overlaysClass = this._getOverLaysClass(lineType);
     var strokeStyle = this._getStorkeStyle(lineType);
@@ -152,12 +185,10 @@ Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
     });
     if (lineType == "promotion") this.isPromoteLink = true;
     if (lineType == "inhibition") this.isInhibitLink = true;
-    // this._isProOrInhiLink = true;
     jsPlumb.connect({
         connector: ["Flowchart"],
         anchor: "Continuous",
         paintStyle: { strokeStyle: strokeStyle, lineWidth: 2 },
-        // hoverPaintStyle: { strokeStyle: "blue" },
         source:fromPartA,
         target:toPartB,
         endpoint:"Blank",
@@ -168,18 +199,39 @@ Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
     });
 };
 
+/**
+ * Get the style of the connection's storkeStyle
+ * @method _getStorkeStyle
+ * @for Desgin
+ * @param {String} lineType a string "promotion/inhibition/normal" which decides the line style.
+ * 
+ */
 Design.prototype._getStorkeStyle = function(lineType) {
     if (lineType == 'normal') return "green";
     if (lineType == 'inhibition') return "red";
     if (lineType == "promotion") return "blue";
 };
 
+
+/**
+ * Get the style of the connection's overlays
+ * @method _getOverLaysClass
+ * @for Desgin
+ * @param {String} lineType a string "promotion/inhibition/normal" which decides the line style.
+ * 
+ */
 Design.prototype._getOverLaysClass = function(lineType) {
     if (lineType == 'normal') return  ["Custom", { create:function(component) {return $("<div></div>");}}];
     if (lineType == 'inhibition') return [ "Diamond", {width:25, length: 1, location:1, foldback:1}];
     if (lineType == "promotion") return ['Arrow', {width:25, length: 15, location:1, foldback:0.3}];
 };
 
+/**
+ * Make the design area droppable.
+ * @method _makeDrawAreaDroppabble
+ * @for Desgin
+ * 
+ */
 Design.prototype._makeDrawAreaDroppabble = function() {
     var that = this;
     this.drawArea.droppable({
@@ -203,25 +255,26 @@ Design.prototype._makeDrawAreaDroppabble = function() {
 
             that.addPartEvent(node.view);
             that.addProAndInhibitLine(node.view);
-            //write log
             operationLog.addPart(dropedElement.attr("part-attr"));
         }
     });
 }
 
+/**
+ * Process the part after the putting the part on the design area
+ * @method addPartEvent
+ * @for Desgin
+ * @param {CNode} elem a CNode which is put on the design area
+ * 
+ */
 Design.prototype.addPartEvent = function(elem) {
     this.addDraggable(elem);
-    // this.addProAndInhibitLine(elem);
     this.makeSourceAndTarget(elem);
     this.nodeElemList.push(elem);
     this._partCount += 1;
     var partAttr = elem.attr("part-attr");
     elem.attr('part-id', partAttr + "_" + String(this._partCount));
-    console.log("PartAttr:");
-    console.log(partAttr);
     var part = DataManager.getPartByAttr(partAttr);
-    console.log('Part:');
-    console.log(part);
     rightBar.processDropedPart(part);
     this.updateRisk(part);
 } 
@@ -892,9 +945,13 @@ DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
 };
 
 //========================================================================================
-function SideBarWorker() {
-
-}
+/**
+ * @class SideBarWorker
+ *
+ * @method constructor
+ *
+ */
+function SideBarWorker() {}
 
 SideBarWorker.prototype.createPartView = function(part) {
     var partName = part.name;
