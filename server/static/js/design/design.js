@@ -1388,7 +1388,6 @@ function LeftBar() {
     this.elemsDeviceList = [];
     this.elemsSystemList = [];
     this.elemsCustomList = [];
-    //test
     this.elemsPromoterList = [];
     this.elemsRBSList = [];
     this.elemsProteinList = [];
@@ -1406,18 +1405,29 @@ function LeftBar() {
     this.leftbarWorker = new SideBarWorker();
 }
 
+/**
+ * Init the left bar
+ * @method init
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.init = function() {
     this._leftTriggerAnimation();
     this.enableSearchPartBox();
     this.enableSearchRelateBox();
     this.enableSearchDeviceInputBox();
-    $('.menu .item').tab();
-
     this.enableFilter();
+    $('.menu .item').tab();
 };
 
+/**
+ * Init the parts of the left bar
+ * @method initPart
+ * @for LeftBar
+ * @param {List} partList
+ *
+ */
 LeftBar.prototype.initPart = function(partList) {
-    //create left-bar data list
     for (var i in partList) {
         var dataDiv = this.leftbarWorker.createPartView(partList[i]);
         this.elemsPartList.push(dataDiv);
@@ -1427,6 +1437,13 @@ LeftBar.prototype.initPart = function(partList) {
     this.updateSearchBar();
 }
 
+/**
+ * Init the devices of the left bar
+ * @method initDevice
+ * @for LeftBar
+ * @param {List} deviceList
+ *
+ */
 LeftBar.prototype.initDevice = function(deviceList) {
     for (var i in deviceList) {
         var dataDiv = this.leftbarWorker.createDeviceView(deviceList[i]);
@@ -1437,10 +1454,24 @@ LeftBar.prototype.initDevice = function(deviceList) {
     this.updateSearchBar();
 }
 
+/**
+ * Add device view to the left bar
+ * @method addDeviceToBar
+ * @for LeftBar
+ * @param {elem} elem A device Dom element
+ *
+ */
 LeftBar.prototype.addDeviceToBar = function(elem) {
     this.leftbarWorker.addElemToView(elem, this.view.devices);
 }
 
+/**
+ * Add part view to the left bar
+ * @method addPartToBar
+ * @for LeftBar
+ * @param {elem} elem A part Dom element
+ *
+ */
 LeftBar.prototype.addPartToBar = function(elem) {
     var partType = elem.attr("type");
     var elemClone = elem.clone();
@@ -1478,6 +1509,12 @@ LeftBar.prototype.addPartToBar = function(elem) {
     this.leftbarWorker.addElemToView(elem, this.view.parts);
 }
 
+/**
+ * Enable filter/search box
+ * @method enableFilter
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.enableFilter = function() {
     var that = this;
     $("#filterParts").change(function() {
@@ -1515,22 +1552,34 @@ LeftBar.prototype.enableFilter = function() {
     })
 }
 
+/**
+ * Add custom part view to the left bar
+ * @method addCustomPart
+ * @for LeftBar
+ * @param {Part} part A part Dom element
+ *
+ */
 LeftBar.prototype.addCustomPart = function(part) {
     var dataDiv = this.leftbarWorker.createPartView(part);
     this.elemsCustomList.push(dataDiv);
     this._searchPartTitle.push({title: part.name});
-
     this.updateSearchBar();
     this.leftbarWorker.addElemToView(dataDiv, this.view.customs);
 }
 
+/**
+ * Update search box
+ * @method updateSearchBar
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.updateSearchBar = function() {
     var that = this;
     $('#searchPartBox').search({
         source: this._searchPartTitle,
         onSelect: function(value) {
-            var e = jQuery.Event("keyup");//模拟一个键盘事件
-            e.keyCode =13;//keyCode=13是回车
+            var e = jQuery.Event("keyup");
+            e.keyCode =13;
             that.view.searchPartInput.val(value.title);
             that.view.searchPartInput.trigger(e);
         }
@@ -1538,8 +1587,8 @@ LeftBar.prototype.updateSearchBar = function() {
     $('#searchDeviceBox').search({
         source: this._searchDeviceTitle,
         onSelect: function(value) {
-            var e = jQuery.Event("keyup");//模拟一个键盘事件
-            e.keyCode =13;//keyCode=13是回车
+            var e = jQuery.Event("keyup");
+            e.keyCode =13;
             that.view.searchDeviceInput.val(value.title);
             that.view.searchDeviceInput.trigger(e);
         }
@@ -1547,14 +1596,20 @@ LeftBar.prototype.updateSearchBar = function() {
     $('#searchRelateBox').search({
         source: this._searchPartTitle,
         onSelect: function(value) {
-            var e = jQuery.Event("keyup");//模拟一个键盘事件
-            e.keyCode =13;//keyCode=13是回车
+            var e = jQuery.Event("keyup");
+            e.keyCode =13;
             that.view.searchRelateInput.val(value.title);
             that.view.searchRelateInput.trigger(e);
         }
     });
 }
 
+/**
+ * Enable left-bar trigger animation
+ * @method _leftTriggerAnimation
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype._leftTriggerAnimation = function() {
     var that = this;
     this.leftTrigger.click(function() {
@@ -1564,10 +1619,6 @@ LeftBar.prototype._leftTriggerAnimation = function() {
             that.view.animate({
                 left: '-' + that._leftBarWidth + 'px'
             }, 500);
-
-            // $("#main-contain").animate({
-            //     left: '0px'
-            // }, 500);
             $("#drawArea").animate({
                 left: '0px'
             }, 500);
@@ -1577,15 +1628,9 @@ LeftBar.prototype._leftTriggerAnimation = function() {
             that.leftTrigger.find("i").removeClass("left").addClass("right");
         } else {
             that.isOpenLeftBar = true;
-
             that.view.animate({
                 left: '0px'
             }, 500);
-
-            // $("#main-contain").animate({
-            //     left: that._leftBarWidth + 'px'
-            // }, 500);
-
             $("#drawArea").animate({
                 left: that._leftBarWidth + 'px'
             }, 500);
@@ -1597,6 +1642,12 @@ LeftBar.prototype._leftTriggerAnimation = function() {
     });
 }
 
+/**
+ * Enable searching part box
+ * @method enableSearchPartBox
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.enableSearchPartBox = function() {
     var that = this;
     this.view.searchPartInput.keyup(function() {
@@ -1610,7 +1661,6 @@ LeftBar.prototype.enableSearchPartBox = function() {
                     searchElemPartList.push(that.elemsPartList[i]);
                 }
             }
-
             that.leftbarWorker.showView(searchElemPartList, that.view.parts);
         } else {
             that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
@@ -1618,6 +1668,12 @@ LeftBar.prototype.enableSearchPartBox = function() {
     });
 };
 
+/**
+ * Enable searching related part box
+ * @method enableSearchRelateBox
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.enableSearchRelateBox = function() {
     var that = this;
     this.view.searchRelateInput.keyup(function() {
@@ -1639,6 +1695,12 @@ LeftBar.prototype.enableSearchRelateBox = function() {
     })
 }
 
+/**
+ * Enable searching deivce box
+ * @method enableSearchDeviceInputBox
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.enableSearchDeviceInputBox = function() {
     var that = this;
     this.view.searchDeviceInput.keyup(function() {
@@ -1657,6 +1719,7 @@ LeftBar.prototype.enableSearchDeviceInputBox = function() {
         }
     })
 }
+
 //========================================================================================
 /**
  * @class RightBar
@@ -1865,7 +1928,6 @@ RightBar.prototype.initEquationParts = function(partList) {
 }
 
 //===============================================================================
-//===============================================================================
 
 $(function() {
     design = new Design();
@@ -1903,9 +1965,6 @@ $(function() {
 })
 
 
-//===============================================================================
-//===============================================================================
-//===============================================================================
 //===============================================================================
 
 $("#createCustomPart").click(function() {
@@ -1952,7 +2011,6 @@ $("#equationPartB").change(function() {
         rightBar.showEquation(partAttrA, partAttrB);
     }
 });
-
 
 $('#loadingData').dimmer('show');
 
