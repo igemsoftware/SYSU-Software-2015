@@ -1084,10 +1084,10 @@ DesignMenu.prototype.enableDownloadBtn =function() {
     $("#downloadsubmit").click(function() {
         $('#downloadModal').modal("hide");
         var curcuitChartData = that.getDesignChartData();
-        var curcuitName = $("#curcuitDownName").val();
-        curcuitChartData.name = curcuitName;
-        Util.downloadFile(curcuitName+".txt", JSON.stringify(curcuitChartData));
-        that.downloadChartAsImage(curcuitName);
+        var designName = $("#curcuitDownName").val();
+        curcuitChartData.name = designName;
+        Util.downloadFile(designName+".txt", JSON.stringify(curcuitChartData));
+        that.downloadChartAsImage(designName);
     });
 }
 
@@ -1095,9 +1095,10 @@ DesignMenu.prototype.enableDownloadBtn =function() {
  * Downloading design as image
  * @method downloadChartAsImage
  * @for DesignMenu
+ * @param {String} designName
  *
  */
-DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
+DesignMenu.prototype.downloadChartAsImage = function(designName) {
     var el = $("#drawArea").get(0);
     html2canvas(el, {
         onrendered: function(canvas) {
@@ -1112,7 +1113,7 @@ DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
                 that.ctx.drawSvg(svgStr, offset.left, offset.top);
             });
             var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-            Util.downloadImage(curcuitName+".png", image);
+            Util.downloadImage(designName+".png", image);
         }
     }); 
 };
@@ -1120,12 +1121,18 @@ DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
 //========================================================================================
 /**
  * @class SideBarWorker
- *
  * @method constructor
  *
  */
 function SideBarWorker() {}
 
+/**
+ * Create view of part
+ * @method createPartView
+ * @for SideBarWorker
+ * @param {Part} part
+ * return {elem}
+ */
 SideBarWorker.prototype.createPartView = function(part) {
     var partName = part.name;
     var partType = part.type;
@@ -1163,18 +1170,33 @@ SideBarWorker.prototype.createPartView = function(part) {
     leftSpan.append(itemDiv);
     dataDiv.append(leftSpan);
     dataDiv.append(iconSpan);
-
     this._makeItJqueryDraggable(itemDiv);
 
     return dataDiv;
 }
 
+/**
+ * Add element to the view
+ * @method addElemToView
+ * @for SideBarWorker
+ * @param {elem} view A view which will be used for putting the part
+ * @param {elem} elem A part view
+ *
+ */
 SideBarWorker.prototype.addElemToView = function(elem, view) {
     view.append(elem);
     this._makeItJqueryDraggable(elem.find('.item'));
     view.append(Util.createDivider());
 }
 
+/**
+ * Show part list to the view
+ * @method showView
+ * @for SideBarWorker
+ * @param {List} elemsPartList A list of part element
+ * @param {elem} view A part view
+ *
+ */
 SideBarWorker.prototype.showView = function(elemsPartList, view) {
     view.empty();
     for (var i in elemsPartList) {
@@ -1182,6 +1204,13 @@ SideBarWorker.prototype.showView = function(elemsPartList, view) {
     }
 }
 
+/**
+ * Make the part view draggable
+ * @method _makeItJqueryDraggable
+ * @for SideBarWorker
+ * @param {elem} view A part view
+ *
+ */
 SideBarWorker.prototype._makeItJqueryDraggable = function(elem) {
     elem.draggable({
         helper: 'clone',
@@ -1191,6 +1220,14 @@ SideBarWorker.prototype._makeItJqueryDraggable = function(elem) {
     });
 }
 
+/**
+ * Create a device view
+ * @method createDeviceView
+ * @for SideBarWorker
+ * @param {device} device A device data structure
+ * @return {elem}
+ *
+ */
 SideBarWorker.prototype.createDeviceView = function(device) {
     var dataDiv = $("<div class='data'></div>");
     var itemDiv = $("<div class='item'></div>");
@@ -1216,6 +1253,13 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     return dataDiv
 }
 
+/**
+ * Add event of reading the information of the part
+ * @method addReadPartInfoEvent
+ * @for SideBarWorker
+ * @param {elem} moreElem
+ *
+ */
 SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
     var that = this;
     moreElem.click(function() {
@@ -1226,6 +1270,13 @@ SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
     });
 }
 
+/**
+ * Write the information of part to modal
+ * @method writePartInfoToModal
+ * @for SideBarWorker
+ * @param {part} part A part data structure
+ *
+ */
 SideBarWorker.prototype.writePartInfoToModal = function(part) {
     var that = this;
     var infoModal = $("#readPartInfoModal");
@@ -1273,6 +1324,13 @@ SideBarWorker.prototype.writePartInfoToModal = function(part) {
 
 }
 
+/**
+ * Add event of reading the information of the device
+ * @method addReadPartInfoEvent
+ * @for SideBarWorker
+ * @param {elem} moreElem
+ *
+ */
 SideBarWorker.prototype.addDevicePartInfoEvent = function(moreElem) {
     var that = this;
     moreElem.click(function() {
@@ -1283,6 +1341,13 @@ SideBarWorker.prototype.addDevicePartInfoEvent = function(moreElem) {
     });
 }
 
+/**
+ * Write the information of device to modal
+ * @method writeDeviceInfoToModal
+ * @for SideBarWorker
+ * @param {device} device A device data structure
+ *
+ */
 SideBarWorker.prototype.writeDeviceInfoToModal = function(device) {
     var infoModal = $("#readDeviceInfoModal");
     infoModal.find('.deviceName').text(device.name);
@@ -1295,9 +1360,10 @@ SideBarWorker.prototype.writeDeviceInfoToModal = function(device) {
     infoModal.find('.deviceSource').text(device.source);
     infoModal.find('.deviceIntro').text(device.full_description);
 }
+
+//=====================================================================================================
 /**
  * @class LeftBar
- *
  * @method constructor
  *
  */
