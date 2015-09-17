@@ -9,7 +9,7 @@
 <body>
 
   <div class="ui secondary menu" id="embedded-topbar">
-    <a v-repeat="i in ['Description', 'Circuit', 'Equations', 'Charts', 'References']"
+    <a v-repeat="i in ['Description', 'Equations', 'Charts', 'References']"
        class="item"
        v-class="active: selectedTab === $index"
        v-on="click: selectedTab = $index">[[i]]</a>
@@ -40,12 +40,9 @@
         <div class="ui tab basic segment" v-class="active: selectedTab === 1">
         </div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 2">
-
-        </div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 3">
           <div id="chart"></div>
         </div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 4">
+        <div class="ui tab basic segment" v-class="active: selectedTab === 3">
           {{design.references}}
         </div>
       </div>

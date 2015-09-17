@@ -13,7 +13,6 @@
       <button class="ui fluid button database tag" v-class="selected: selectedTag === 'favorites'" v-on="click: selectTag('favorites', false, null, null, false)">Favorites</button>
       <button class="ui fluid button database tag" v-class="selected: selectedTag === 'share'" v-on="click: selectTag('share', true, 'share', 'tags', false)">My Sharings</button>
       <button class="ui fluid button database tag" v-class="selected: selectedTag === 'public'" v-on="click: selectTag('public', true, 'public', 'tags', false)">My Publics</button>
-      <button class="ui fluid button database tag" v-class="selected: selectedTag === 'task'" v-on="click: selectTag('task', true, 'task', 'tags', false)">Mentioned In TaskHall</button>
     </div>
 
     <div id="database-main">
@@ -53,24 +52,37 @@
       </div>
       <div id="detail-tabs">
         <div class="ui pointing secondary menu">
-          <a v-repeat="i in ['Description', 'Circuits', 'Equations', 'Charts', 'Plasmids', 'References']"
+          <a v-repeat="i in ['Description', 'Equations', 'Charts', 'Plasmids', 'References']"
           class="item"
-          v-class="active: selectedTab === $index"
-          v-on="click: selectedTab = $index">[[i]]</a>
+          v-class="active: selectedTab === i"
+          v-on="click: selectedTab = i">[[i]]</a>
         </div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 0" id="details-description-tab">[[selectedRecord.description]]</div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 1"></div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 2"></div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 3"></div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 4"></div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 5"></div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 6"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 'Description'" id="details-description-tab">
+          <div class="ui header" v-show="design.img">Image:</div>
+          <img v-attr="src: 'data:image/jpeg;base64,' + design.img" alt="" class="ui fluid image" v-show="design.img">
+          <div class="ui header">Brief Description:</div>
+          <div class="brief">
+            [[design.brief_description]]
+          </div>
+          <div class="ui divider"></div>
+          <div class="ui header">Full Description:</div>
+          <div class="full">
+            [[design.full_description]]
+          </div>
+        </div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 'Equations'"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 'Charts'">
+          <div id="chart"></div>
+        </div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 'Plasmids'"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 'References'"></div>
       </div>
     </div>
   </div>
 
 </div>
 
+<script src="/static/js/lib/highcharts.js"></script>
 <script src="/static/js/personal_center/dashboard_database.js"></script>
 {% endblock %}
 
