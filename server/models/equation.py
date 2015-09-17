@@ -66,8 +66,10 @@ class Equation():
                 'parameters': self.parameters}
 
 
-from .. import db 
 import traceback
+from .. import db 
+from synbio import ComponentPrototype
+                   
 from ..tools.simulation.release import getModel, name_handler
 
 class EquationBase(db.Model):
@@ -156,6 +158,14 @@ class EquationBase(db.Model):
         e = EquationBase()
         e.target = name_handler(ele[0])
         e.related = map(lambda x: name_handler(x), ele[1])
+
+:       for attr in [e.target]+e.related:
+#           c = ComponentPrototype.query.filter_by(name_with_=attr).first()
+#           if c==None:
+#               print("%s not exist" % attr)
+#                raise Exception("%s not exist" % attr)
+
+
         e.parameter = dict(ele[2])
         for coe, value in e.parameter.iteritems():
             e.parameter[coe] = float(value)

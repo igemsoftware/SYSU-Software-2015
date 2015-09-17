@@ -1,27 +1,11 @@
-Demo2_Toggle switch 2008Bologna
-The molecular circuit can switch between two different stable states (CI_ON and TetR_ON).
-The molecular circuit can switch between two different stable states (CI_ON and TetR_ON), driven by the external stimuli. Toggle switch,CI,TetR
-toggle switch
+Demo2-Toggle switch 2008Bologna
+The molecular circuit can switch between two different stable states (CI-ON and TetR-ON), driven by the external stimuli.
+The molecular circuit can switch between two different stable states (CI-ON and TetR-ON), driven by the external stimuli.
+Toggle switch,CI,TetR
 http://2008.igem.org/Team:Bologna
 http://2008.igem.org/Team:Bologna/Notebook
 1
-UVB_1,UVR8_TetR_1,TetR_1		
-YFP_1,GFP_1		
-UVB_1	UVR8_TetR_1	inhibition
-UVR8_TetR_1	Ptet_1	inhibition
-TetR_1	Ptet_1	inhibition
-Ptet_1	RBS_1	normal
-RBS_1	cI_1	normal
-cI_1	CI_1	promotion
-cI_1	RBS_2	normal
-RBS_2	yfp_1	normal
-yfp_1	YFP_1	promotion
-yfp_1	Terminator_1	normal
-CI_1	PcI_1	inhibition
-PcI_1	RBS_3	normal
-RBS_3	tetR_1	normal
-tetR_1	TetR_1	promotion
-tetR_1	RBS_4	normal
-RBS_4	gfp_1	normal
-gfp_1	GFP_1	promotion
-gfp_1	Terminator_2	normal
+UVB_1,UVR8-TetR_1,TetR_1
+YFP_1,GFP_1
+UVB_1	UVR8-TetR_1	inhibitionUVR8-TetR_1	Ptet_1	inhibitionTetR_1	Ptet_1	inhibitionPtet_1	RBS_1	normalRBS_1	cI_1	normalcI_1	CI_1	promotioncI_1	RBS_2	normalRBS_2	yfp_1	normalyfp_1	YFP_1	promotionyfp_1	Terminator_1	normalCI_1	PcI_1	inhibitionPcI_1	RBS_1	normalRBS_1	tetR_1	normaltetR_1	TetR_1	promotiontetR_1	RBS_2	normalRBS_2	gfp_1	normalgfp_1	GFP_1	promotiongfp_1	Terminator_1	normal
+

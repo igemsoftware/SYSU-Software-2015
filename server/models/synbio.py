@@ -105,7 +105,7 @@ class Protocol(db.Model):
 #                                  cascade='all, delete-orphan')
 
 
-from equation import Equation
+#from equation import Equation
 
 class Relationship(db.Model):
     """Relationship between parts in CORE."""
@@ -123,23 +123,23 @@ class Relationship(db.Model):
     :promotion: The existence of starter will promote production of the ender.
     :inhibition: The existence of starter will inhibit production of the ender."""
 
-    @property
-    def equation(self):
-        """A :class:`Equation` instance to describe the relationship"""
-        return Equation(jsonstr=self.__equation)
-    @equation.setter
-    def equation(self, value):
-        if isinstance(value, Equation):
-            self.__equation = value.json_dumps()
-        elif isinstance(value, dict):
-            self.__equation = json.dumps(value)
-        elif isinstance(value, str) or isinstance(value, unicode):
-            self.__equation = value 
-    __equation = db.Column(db.Text, default='')
+#   @property
+#   def equation(self):
+#       """A :class:`Equation` instance to describe the relationship"""
+#       #return Equation(jsonstr=self.__equation)
+#   @equation.setter
+#   def equation(self, value):
+#       if isinstance(value, Equation):
+#           self.__equation = value.json_dumps()
+#       elif isinstance(value, dict):
+#           self.__equation = json.dumps(value)
+#       elif isinstance(value, str) or isinstance(value, unicode):
+#           self.__equation = value 
+#   __equation = db.Column(db.Text, default='')
 
     def __init__(self, **kwargs):
         super(Relationship, self).__init__(**kwargs)
-        self.equation = {'parameters':{}, 'content':''}
+#        self.equation = {'parameters':{}, 'content':''}
 
     def __repr__(self):
         return '<Relationship: %s->%s %s>' % (self.start.attr, self.end.attr, self.type)
@@ -204,6 +204,13 @@ class ComponentPrototype(db.Model):
             return self.name+':'+self.BBa
         else:
             return self.name
+    
+    @property
+    def name_with_(self):
+        """Translate :attr:`attr` into a string with no other punctuation except '_'"""
+        return name_handler(self.attr)
+
+
 
     def __repr__(self):
         return '<ComponentPrototype: %s>' % self.name

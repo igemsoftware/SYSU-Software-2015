@@ -24,6 +24,11 @@ var setDrawLineStyle = function() {
     });
 }
 
+var userGuideModal = $("#userGuideModal");
+var circleTab = userGuideModal.children(".circleTab");
+var btnArrowLeft = userGuideModal.children(".btn-arrow.left");
+var btnArrowRight = userGuideModal.children(".btn-arrow.right");
+
 //==========================================================================================
 /**
  * @class CNode
@@ -39,6 +44,13 @@ function CNode() {
     this.partID = null;
 }
 
+/**
+ * Create a design operable node
+ * @method constructor
+ * @for CNode
+ * @param {elem} partElem A part dom element
+ * 
+ */
 CNode.prototype.createCNode = function(partElem) {
     this.view = partElem;
     this.view.attr('normal-connect-num', '0');
@@ -47,13 +59,11 @@ CNode.prototype.createCNode = function(partElem) {
     this.view.find(".BBa").remove();
     var partType = partElem.attr('part-type');
 
-    // if (partType == 'gene' || partType == 'promoter' 
-    //     || partType == 'RBS' || partType == 'terminator') {
-        var filterDiv = $("<div></div>");
-        filterDiv.addClass("filterDiv");
-        filterDiv.css('display', 'none');
-        filterDiv.appendTo(this.view);
-    // }
+    var filterDiv = $("<div></div>");
+    filterDiv.addClass("filterDiv");
+    filterDiv.css('display', 'none');
+    filterDiv.appendTo(this.view);
+
     var minusCircle = Util.createMinusCircleDiv();
     minusCircle.appendTo(this.view);
 
@@ -67,15 +77,8 @@ CNode.prototype.createCNode = function(partElem) {
     this.view.find("span").replaceWith(titleDiv);
 }
 
-CNode.prototype.setCNodeId = function(id) {
-    this.partID = id;
-}
-
-//-===================================================
-//==========================================================================================
 /**
  * @class Design
- *
  * @method constructor
  *
  */
@@ -84,7 +87,6 @@ function Design() {
     this.nodes = $(".node");
     this.drawArea = $("#drawArea");
     this.drawMenu = $("#drawArea-menu");
-    // this._isProOrInhiLink = false;
     this.isPromoteLink = false;
     this.isInhibitLink = false;
     this._isNormalLink = false;
@@ -98,12 +100,25 @@ function Design() {
     this.designName = "New design";
 };
 
+/**
+ * Clear the design area
+ * @method clear
+ * @for Design
+ * 
+ */
 Design.prototype.clear = function() {
     this.nodeElemList = [];
     this.risk = 1;
     this.updateRiskView(1);
 }
 
+
+/**
+ * Init the design area
+ * @method init
+ * @for Design
+ * 
+ */
 Design.prototype.init = function() {
     this._initJsPlumbOption();
     this._makeDrawAreaDroppabble();
@@ -112,6 +127,13 @@ Design.prototype.init = function() {
     this.setDesignName(this.designName);
 };
 
+/**
+ * Set the design area's height
+ * @method setDrawAreaHeight
+ * @for Desgin
+ * @param {int} height
+ * 
+ */
 Design.prototype.setDrawAreaHeight = function(height) {
     this.drawAreaHeight = height;
     $("#drawArea").css("height", this.drawAreaHeight);
@@ -123,6 +145,13 @@ Design.prototype.setDrawAreaHeight = function(height) {
     $(".slider input").val(val);
 }
 
+/**
+ * Add the promotion or inhibition relationship for a part
+ * @method addProAndInhibitLine
+ * @for Desgin
+ * @param {Part} partA a part which need to find relationship with others
+ * 
+ */
 Design.prototype.addProAndInhibitLine = function(partA) {
     var partAttrA = partA.attr('part-attr');
     for (var i in this.nodeElemList) {
@@ -138,6 +167,15 @@ Design.prototype.addProAndInhibitLine = function(partA) {
     }
 };
 
+/**
+ * Draw the line between two parts with line type
+ * @method drawLine
+ * @for Desgin
+ * @param {Part} frompartA a part as source
+ * @param {Part} toPartB a part as target
+ * @param {String} lineType a string "promotion/inhibition/normal" which decides the line style.
+ *  
+ */
 Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
     var overlaysClass = this._getOverLaysClass(lineType);
     var strokeStyle = this._getStorkeStyle(lineType);
@@ -147,12 +185,10 @@ Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
     });
     if (lineType == "promotion") this.isPromoteLink = true;
     if (lineType == "inhibition") this.isInhibitLink = true;
-    // this._isProOrInhiLink = true;
     jsPlumb.connect({
         connector: ["Flowchart"],
         anchor: "Continuous",
         paintStyle: { strokeStyle: strokeStyle, lineWidth: 2 },
-        // hoverPaintStyle: { strokeStyle: "blue" },
         source:fromPartA,
         target:toPartB,
         endpoint:"Blank",
@@ -163,18 +199,39 @@ Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
     });
 };
 
+/**
+ * Get the style of the connection's storkeStyle
+ * @method _getStorkeStyle
+ * @for Desgin
+ * @param {String} lineType a string "promotion/inhibition/normal" which decides the line style.
+ * 
+ */
 Design.prototype._getStorkeStyle = function(lineType) {
     if (lineType == 'normal') return "green";
     if (lineType == 'inhibition') return "red";
     if (lineType == "promotion") return "blue";
 };
 
+
+/**
+ * Get the style of the connection's overlays
+ * @method _getOverLaysClass
+ * @for Desgin
+ * @param {String} lineType a string "promotion/inhibition/normal" which decides the line style.
+ * 
+ */
 Design.prototype._getOverLaysClass = function(lineType) {
     if (lineType == 'normal') return  ["Custom", { create:function(component) {return $("<div></div>");}}];
     if (lineType == 'inhibition') return [ "Diamond", {width:25, length: 1, location:1, foldback:1}];
     if (lineType == "promotion") return ['Arrow', {width:25, length: 15, location:1, foldback:0.3}];
 };
 
+/**
+ * Make the design area droppable.
+ * @method _makeDrawAreaDroppabble
+ * @for Desgin
+ * 
+ */
 Design.prototype._makeDrawAreaDroppabble = function() {
     var that = this;
     this.drawArea.droppable({
@@ -198,29 +255,37 @@ Design.prototype._makeDrawAreaDroppabble = function() {
 
             that.addPartEvent(node.view);
             that.addProAndInhibitLine(node.view);
-            //write log
             operationLog.addPart(dropedElement.attr("part-attr"));
         }
     });
 }
 
+/**
+ * Process the part after the putting the part on the design area
+ * @method addPartEvent
+ * @for Desgin
+ * @param {CNode} elem a CNode which is put on the design area
+ * 
+ */
 Design.prototype.addPartEvent = function(elem) {
     this.addDraggable(elem);
-    // this.addProAndInhibitLine(elem);
     this.makeSourceAndTarget(elem);
     this.nodeElemList.push(elem);
     this._partCount += 1;
     var partAttr = elem.attr("part-attr");
     elem.attr('part-id', partAttr + "_" + String(this._partCount));
-    console.log("PartAttr:");
-    console.log(partAttr);
     var part = DataManager.getPartByAttr(partAttr);
-    console.log('Part:');
-    console.log(part);
     rightBar.processDropedPart(part);
     this.updateRisk(part);
-} 
+}
 
+/**
+ * Put a new device on the design area
+ * @method putNewDevice
+ * @for Desgin
+ * @param {DeviceView} elem a device dom element which is put on the design area
+ * 
+ */
 Design.prototype.putNewDevice = function(elem) {
     jsPlumb.importDefaults({
         PaintStyle : { strokeStyle: "green", lineWidth: 2 },
@@ -242,11 +307,17 @@ Design.prototype.putNewDevice = function(elem) {
     operationLog.addDevice(elem.attr("device-name"));
 }
 
+/**
+ * Make a part to be source and target so that they can connect with line
+ * @method makeSourceAndTarget
+ * @for Desgin
+ * @param {PartView} elem a part dom element
+ * 
+ */
 Design.prototype.makeSourceAndTarget = function(elem) {
     jsPlumb.makeSource(elem, {
         filter: ".filterDiv",
         connector: ["Flowchart"],
-        // connectorStyle: { strokeStyle: "green", lineWidth: 2 },
         anchor: "Continuous",
         endpoint:"Blank",
         overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]],
@@ -261,6 +332,12 @@ Design.prototype.makeSourceAndTarget = function(elem) {
     });
 };
 
+/**
+ * Init the jsPlumb library option
+ * @method _initJsPlumbOption
+ * @for Desgin
+ * 
+ */
 Design.prototype._initJsPlumbOption = function() {
     var that = this;
     jsPlumb.importDefaults({
@@ -283,16 +360,12 @@ Design.prototype._initJsPlumbOption = function() {
         } else {
             CurrentConnection.connection.scope = "normal";
             if (sourceNormalNum == 2) {
-                // source.attr("data-content", "Most link to two objects");
                 source.popup('show');
-                // source.removeAttr("data-content");
                 jsPlumb.detach(CurrentConnection.connection);
                 return;
             }
             if (targetNormalNum == 2){
-                // target.attr("data-content", "Most link to two objects");
                 target.popup('show');
-                // target.removeAttr("data-content");
                 jsPlumb.detach(CurrentConnection.connection);
                 return;
             }
@@ -335,6 +408,13 @@ Design.prototype._initJsPlumbOption = function() {
     });
 };
 
+/**
+ * Remove a CNode element from the design area
+ * @method removeCNodeElem
+ * @for Desgin
+ * @param {number} partID a part's id
+ * 
+ */
 Design.prototype.removeCNodeElem = function(partID) {
     for (var i in this.nodeElemList) {
         if (this.nodeElemList[i].attr('part-id') == partID) {
@@ -348,6 +428,13 @@ Design.prototype.removeCNodeElem = function(partID) {
     }
 }
 
+/**
+ * Search that is there the part on the design 
+ * @method isPartInDrawArea
+ * @for Desgin
+ * @param {String} partAttr a part's attr 
+ * 
+ */
 Design.prototype.isPartInDrawArea = function(partAttr) {
     for (var i in this.nodeElemList) {
         if (this.nodeElemList[i].attr('part-attr') == partAttr) {
@@ -357,10 +444,16 @@ Design.prototype.isPartInDrawArea = function(partAttr) {
     return false;
 }
 
+/**
+ * Make the part element draggble
+ * @method addDraggable
+ * @for Desgin
+ * @param {elem} elem a part element
+ * 
+ */
 Design.prototype.addDraggable = function(elem) {
     jsPlumb.draggable(elem, {
-        containment: 'parent', //设置后会导致无法scrollable
-        // scroll: true,
+        containment: 'parent',
         grid: [30, 30],
         drag:function(e){
             if (designMenu.isHideNormalLine == true) {
@@ -383,12 +476,25 @@ Design.prototype.addDraggable = function(elem) {
     })
 };
 
+/**
+ * Update the risk after putting a new part
+ * @method updateRisk
+ * @for Desgin
+ * @param {Part} Part a part element
+ * 
+ */
 Design.prototype.updateRisk = function(part) {
     if (this.risk < part.risk) {
         this.updateRiskView(part.risk);
     }
 }
 
+/**
+ * Check the risk of the design
+ * @method checkDesignRisk
+ * @for Desgin
+ * 
+ */
 Design.prototype.checkDesignRisk = function() {
     var risk = 1;
     for (var i in this.nodeElemList) {
@@ -401,6 +507,13 @@ Design.prototype.checkDesignRisk = function() {
     }
 }
 
+/**
+ * Update the risk of view
+ * @method updateRiskView
+ * @for Desgin
+ * @param {number} risk a risk number
+ * 
+ */
 Design.prototype.updateRiskView = function(risk) {
     var color;
     var popupStr;
@@ -427,6 +540,13 @@ Design.prototype.updateRiskView = function(risk) {
     setTimeout(function () {  $("#riskSpan").popup("hide"); }, 3000);
 }
 
+/**
+ * Set the name of current design 
+ * @method setDesignName
+ * @for Desgin
+ * @param {String} designName
+ * 
+ */
 Design.prototype.setDesignName = function(designName) {
     $("#designName").text(designName);
     this.designName = designName;
@@ -653,6 +773,7 @@ DesignMenu.prototype.enableClearCircuitchartBtn = function() {
         $("#deleteBtn").click(function() {
             jsPlumb.empty("drawArea");
             design.clear();
+            rightBar.clear();
             var rubberband = new Rubberband();
             rubberband.init();
             $("#deleteModal").modal('hide');
@@ -680,7 +801,6 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
         curcuitChartData.source = "hello world";
         curcuitChartData.risk = design.risk;
         curcuitChartData.plasmids = dfs.getCircuits();
-        //test
         curcuitChartData.id = design.designID;
 
         $("#saveModal").modal("hide");
@@ -887,9 +1007,13 @@ DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
 };
 
 //========================================================================================
-function SideBarWorker() {
-
-}
+/**
+ * @class SideBarWorker
+ *
+ * @method constructor
+ *
+ */
+function SideBarWorker() {}
 
 SideBarWorker.prototype.createPartView = function(part) {
     var partName = part.name;
@@ -1390,6 +1514,19 @@ RightBar.prototype.init = function() {
     this.enableSearchAddInput();
 }
 
+RightBar.prototype.clear = function() {
+    this._searchPartTitle = [];
+    this._searchDeviceTitle = [];
+    this.elemsPartList = [];
+    this.elemsDeviceList = [];
+    this.elemsSystemList = [];
+    this.elemsCustomList = [];
+    this.view.parts.empty();
+    this.view.devices.empty();
+    this.view.systems.empty();
+    this.view.customs.empty();
+}
+
 RightBar.prototype._rightTriggerAnimation = function() {
     var that = this;
     this.rightTrigger.click(function() {
@@ -1586,7 +1723,6 @@ $(function() {
     DataManager.getRelationAdjDataFromServer();
     DataManager.getRelationShipDataFromServer();
 
-
 })
 
 
@@ -1691,7 +1827,7 @@ $("#createEquationBtn").click(function() {
         var coeffNum = $(this).find('.coeffNum').val();
         console.log(coeffName);
         console.log(coeffNum);
-        coeffList.push({coeffName: coeffNum});
+        coeffList.push({coeffName: parseInt(coeffNum)});
     });
     var data = {};
     data.target = target;
@@ -1711,3 +1847,63 @@ $("#createEquationBtn").click(function() {
         }
     });
 });
+
+// $("#userGuideModal").modal('show');
+
+setTimeout(function(){
+    userGuideInit(11,userGuideModal.children(".content"), circleTab),
+    $("#btn-userGuide").click(function(){
+        userGuideModal.modal("show")
+    }),
+    userGuideModal.find(".content img").each(function(a){
+        0===a? $(this).addClass("ui transition image visible"):$(this).addClass("ui transition image hidden")
+    });
+    var a =! 0, b = circleTab.children(), c = userGuideModal.find(".content img");
+    btnArrowLeft.hide(),
+    userGuideModal.children(".btn-arrow").click(function(d){
+        var e,f;
+        if(a) {
+            for (a=!1, btnArrowRight.show(), btnArrowLeft.show(), e=$(d.target), f=0;
+                f<c.length&&!c.eq(f).hasClass("visible");
+                f++);
+            if (e.hasClass("left")){
+                if(1===f && btnArrowLeft.hide(), 0===f) return;
+                c.eq(f).transition("horizontal flip","300ms"),
+                c.eq(f-1).transition("horizontal flip","300ms"),
+                b.eq(f).removeClass("actived"),
+                b.eq(f-1).addClass("actived")
+            } else {
+                if(f===c.length-2&&btnArrowRight.hide(),f===c.length-1)
+                return;
+                c.eq(f).transition("horizontal flip","300ms"),
+                c.eq(f+1).transition("horizontal flip","300ms"),
+                b.eq(f).removeClass("actived"),
+                b.eq(f+1).addClass("actived")
+            }
+            setTimeout(function(){a=!0},300)
+        }
+    }),
+    b.each(function(a){
+        $(this).click(function(){
+            var d = $(this);
+            d.hasClass("actived") || 
+            (circleTab.find(".actived").removeClass("actived"), d.addClass("actived"),
+            c.eq(a).transition("horizontal flip","300ms"),
+            c.filter(".visible").transition("horizontal flip","300ms")),
+            0 === a ? 
+                (btnArrowLeft.hide(),btnArrowRight.show()):
+                a === b.length-1 ? 
+                    (btnArrowLeft.show(),btnArrowRight.hide()):(btnArrowLeft.show(),btnArrowRight.show())
+        })
+    })
+},2e3);
+
+function userGuideInit(a, b, c){
+    var d, e;
+    for(d = 1; a >= d; d++)
+        e = 10 > d ? "0"+d : d, $("<img>").attr("src","/static/img/user_guide/e"+e+".jpg").appendTo(b),
+        1 === d ? 
+            $("<i>").addClass("circle icon actived").appendTo(c):
+            $("<i>").addClass("circle icon").appendTo(c);
+    c.css("margin-left", -28*a/2+"px")
+}
