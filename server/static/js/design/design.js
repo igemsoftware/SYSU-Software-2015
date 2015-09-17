@@ -1708,7 +1708,7 @@ $("#createEquationBtn").click(function() {
         var coeffNum = $(this).find('.coeffNum').val();
         console.log(coeffName);
         console.log(coeffNum);
-        coeffList.push({coeffName: coeffNum});
+        coeffList.push({coeffName: parseInt(coeffNum)});
     });
     var data = {};
     data.target = target;
