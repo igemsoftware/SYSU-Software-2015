@@ -208,7 +208,11 @@ Design.prototype.addPartEvent = function(elem) {
     this._partCount += 1;
     var partAttr = elem.attr("part-attr");
     elem.attr('part-id', partAttr + "_" + String(this._partCount));
+    console.log("PartAttr:");
+    console.log(partAttr);
     var part = DataManager.getPartByAttr(partAttr);
+    console.log('Part:');
+    console.log(part);
     rightBar.processDropedPart(part);
     this.updateRisk(part);
 } 
@@ -703,6 +707,7 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
                     dataType : 'json',
                     data : postDataJson,
                     success: function(data) {
+                        design.designID = data['id'];
                         DataManager.getPerDesignDataFromServer(function(designs) {
                             designMenu.perDesignList = designs;
                         })
@@ -1289,14 +1294,6 @@ LeftBar.prototype._leftTriggerAnimation = function() {
 
 LeftBar.prototype.enableSearchPartBox = function() {
     var that = this;
-    // $("#searchPartBox .results .result").each(function() {
-    //     $(this).click(function(){
-    //         console.log('1111');
-    //         var e = jQuery.Event("keyup");//模拟一个键盘事件
-    //         e.keyCode =13;//keyCode=13是回车
-    //         that.view.searchPartInput.trigger(e);
-    //     });
-    // });
     this.view.searchPartInput.keyup(function() {
         that.updateSearchBar();
         var val = that.view.searchPartInput.val().toLowerCase();
@@ -1534,6 +1531,21 @@ RightBar.prototype.showEquation = function(partAttrA, partAttrB) {
     MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 }
 
+RightBar.prototype.initEquationParts = function(partList) {
+    for (var i in partList) {
+        var option = $("<option></option>");
+        option.attr("value", partList[i].attr);
+        option.text(partList[i].attr);
+        option.appendTo("#multiParts");
+    }
+    for (var i in partList) {
+        var option = $("<option></option>");
+        option.attr("value", partList[i].attr);
+        option.text(partList[i].attr);
+        option.appendTo("#target");
+    }
+}
+
 //===============================================================================
 //===============================================================================
 
@@ -1553,6 +1565,7 @@ $(function() {
     designMenu.init();
     DataManager.getPartDataFromServer(function(partList) {
         leftBar.initPart(partList);
+        rightBar.initEquationParts(partList);
     });
     DataManager.getDeviceDataFromServer(function(deviceList) {
         leftBar.initDevice(deviceList);
@@ -1626,17 +1639,71 @@ $("#equationPartB").change(function() {
 
 $('#loadingData').dimmer('show');
 
-
-// $('#saveSuccessModal').modal('show');
-// $("#deleteModal").modal('show');
-
 $("#moveTo").click(function() {
-    window.location.href = "/modeling";
+    window.location.href = "/modeling?id="+design.designID;
 }); 
 
 $(".modal").modal({transition: 'horizontal flip'});
 
-// $('#readPartInfoModal').modal('show');
 $('.ui.accordion').accordion();
 
-// $("#readDeviceInfoModal").modal('show');
+$("#openFormularModal").click(function() {
+    $("#formularModal").modal('show');
+});
+
+$("#openAddParamModal").click(function() {
+    $("#paramModal").modal('show');
+});
+
+$('#openAddParamModal').popup();
+
+$("#createParam").click(function() {
+    $("#paramModal").modal('hide');
+    var coeffName = $("#coeffName").val();
+    var coeffNum = $("#coeffNum").val();
+    var labelDiv = $("<div class='ui label coeffName'></div>");
+    var input = $("<input type='number' class='coeffNum'>");
+    labelDiv.text(coeffName);
+    input.val(coeffNum);
+
+    var div = $("<div class='ui labeled input'></div>");
+    div.append(labelDiv);
+    div.append(input);
+    div.appendTo($("#coefficient"));
+});
+
+$("#createEquationBtn").click(function() {
+    var target = $("#target").val();
+    var requirement = $("#multiParts").val();
+    var formular = $("#formular").val();
+    var coeffList = [];
+    if (target == null || requirement == null || formular == null || coeffList == null) {
+        $("#createEquationErrorModal").modal('show');
+        return ;
+    }
+    console.log($("#coefficient").find(".ui.labeled.input"));
+    $("#coefficient").find(".ui.labeled.input").each(function() {
+        var coeffName = $(this).find(".coeffName").text();
+        var coeffNum = $(this).find('.coeffNum').val();
+        console.log(coeffName);
+        console.log(coeffNum);
+        coeffList.push({coeffName: coeffNum});
+    });
+    var data = {};
+    data.target = target;
+    data.requirement = requirement;
+    data.coeffList = coeffList;
+    data.formular = formular;
+    var postDataJson = JSON.stringify(data);
+    console.log(postDataJson);
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: '/design/equation',
+        dataType : 'json',
+        data : postDataJson,
+        success: function() {
+            $("#createEquationSuccessModal").modal('show');
+        }
+    });
+});

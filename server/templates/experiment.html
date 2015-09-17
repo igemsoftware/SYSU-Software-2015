@@ -236,12 +236,13 @@
 	      	<div class="eight wide column" id="leftbox" ng-app="myApp" ng-controller="PlasmidCtrl">
             <div id="plasmid-box">
               <!-- <div class='ui button icolor inline'>Choose a design</div> -->
-              <h3 class='inline'>Choose a plasmid: </h3>
+              <!-- <h3 class='inline'>Choose a plasmid: </h3>
               <select class="ui dropdown" ng-model="curPlaIndex" ng-options="plasmids.indexOf(a) as a.name for a in plasmids">
                 <option value="">Choose a plasmid</option>
-              </select>
+              </select> -->
+              <button class="ui button icolor float-left" id="chooseDesignBtn">Choose a design</button>
               <plasmidapi name="api"></plasmidapi>
-              <plasmid id="pdemo" sequencelength="{[currentPlasmid.length+currentCircuit.length]}" plasmidheight="420" plasmidwidth="500">
+              <plasmid id="pdemo" sequencelength="{[currentPlasmid.length+currentCircuit.length]}" plasmidheight="400" plasmidwidth="500">
                   <plasmidtrack trackstyle="fill:#ccc" width="5" radius="110"></plasmidtrack>
                   <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" radius="100">
                       <tracklabel text="{[currentPlasmid.name]}" labelstyle='font-size:20px;font-weight:400'></tracklabel>
@@ -266,6 +267,12 @@
                       <trackscale interval="200" style="stroke:#f00" direction="in" showlabels="1" labelstyle="fill:#999;stroke:none;text-anchor:middle;alignment-baseline:middle;font-size:10px"></trackscale>
                   </plasmidtrack>
               </plasmid>
+            </div>
+            <div class="myDropdown">
+              <h3 class='title inline'>Choose a plasmid: </h3>
+              <select class="ui dropdown" ng-model="curPlaIndex" ng-options="plasmids.indexOf(a) as a.name for a in plasmids">
+                <option value="">Choose a plasmid</option>
+              </select>
             </div>
             <div class="myDropdown">
               <h3 class='title inline'>Choose a circuit: </h3>

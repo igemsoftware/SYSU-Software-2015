@@ -601,13 +601,13 @@ DataManager.addProtocol = function(protocol) {
 }
 
 DataManager.syncProtocol = function(id) {
-	id = 1;
+	// id = 1;
 	var that = this;
 	var postDataJson = JSON.stringify(that.perProtocols);
 	$.ajax({
 	    type: 'POST',
 	    contentType: 'application/json',
-	    url: '/protocol/design/'+id,
+	    url: '/protocol/design/'+$.getUrlParam('id'),
 	    dataType : 'json',
 	    data : postDataJson,
 	});

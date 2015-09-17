@@ -596,15 +596,41 @@ body {
     vertical-align:middle !important;
 }
 
+#equation {
+    overflow: auto;
+}
+
 #equation .selection {
     min-width: 11em;
     width: 100%;
+    height: 40%;
 }
 
 #saveModal textarea {
     margin-bottom: 1em;
 }
 
+#equation .divider {
+    margin-bottom: 15px;
+}
+
+#equation h3 {
+    margin-bottom: 0;
+}
+
+#equation #openAddParamModal {
+    margin-bottom: 5px;
+}
+
+#createEquation {
+    height: 50%;
+    width: 100%;
+    overflow: auto;
+}
+
+#showEquation {
+    height: 70px;
+}
 
 /*==============================*/
 .filterTitle {
@@ -628,7 +654,11 @@ body {
 
 }
 
-#saveSuccessModal .check.icon {
+.check.icon {
+    color: #71e3d0
+}
+
+.remove.icon {
     color: #71e3d0
 }
 

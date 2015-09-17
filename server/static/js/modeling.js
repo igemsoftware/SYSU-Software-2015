@@ -74,7 +74,10 @@ Modeling.prototype.drawChart = function(view, xArray, series) {
 
 Modeling.prototype.loadData = function() {
     var that = this;
-    $.get("/modeling/design/1", function(data) {
+    $.get("/modeling/design/"+$.getUrlParam('id'), function(data) {
+        console.log('Design id:');
+        console.log($.getUrlParam('id'));
+        console.log('Load design chart X,Y data:');
         console.log(data);
         that.variables = data.variables;
         that.xAxis = data.x_axis;
@@ -195,7 +198,8 @@ Modeling.prototype.initChooseModal = function(designs) {
 		$("#designList div").each(function() {
 			if($(this).hasClass('iyellow')) {
 				var id = $(this).find('input').val();
-                                current_id = id; //replot
+				// window.location.href = "/modeling?id="+id;
+                current_id = id; //replot
 				$("#simulation .title span").text($(this).text());
 				$.get("/modeling/design/"+String(id), function(data) {
 					that.variables = data.variables;
@@ -237,6 +241,11 @@ $.get("/modeling/design/all", function(data) {
 	modeling.initChooseModal(data['designs']);
 });
 
+
+
+$("#moveToExper").click(function() {
+    window.location.href = "/experiment?id="+$.getUrlParam('id');
+});
 
 // parameters
 $("#replot").click(function() {

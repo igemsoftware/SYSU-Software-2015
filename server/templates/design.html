@@ -5,12 +5,9 @@
 {% block head %}
   {{ super() }}
   <link rel="stylesheet" href="/static/css/design.css">
-  <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
-  </script>
-  <script type="text/javascript"
-    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
-  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.2.0/math.min.js"></script>
+  <script src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/0.12.13/vue.min.js'></script>
 {% endblock %}
 
 {% block body %}
@@ -177,8 +174,12 @@
           <div class="content" id="addedCustoms"></div>
         </div>
       </div>
-      <div class="ui bottom attached tab segment" data-tab="equation">
-        <div class="ui grid" id="equation">
+      <div class="ui bottom attached tab segment" data-tab="equation" id="equation">
+        <div class="ui grid">
+          <div class="sixteen wide column text-center">
+            <h3>Check equation between two parts</h3>
+            <span>(You should put them on design-area first)</span>
+          </div>
           <div class="eight wide column">
             <div class="ui fluid selection dropdown" id="equationDropdownA">
               <input id="equationPartA" name="type" type="hidden" value="">
@@ -197,8 +198,48 @@
               </div>
             </div>
           </div>
+          <div class="sixteen wide column text-center" id="showEquation">
+          </div>
         </div>
-        <div id="showEquation">
+        <div class="ui divider"></div>
+        <div class="text-center">
+            <button class="ui tiny button float-right">
+              Help
+            </button>
+            <h3>Create a new equation</h3>
+          </div>
+        <div id="createEquation">
+          <form class="ui form">
+            <div class="inline field">
+              <label>Target:</label>
+              <div class="ui selection dropdown">
+                <input id="target" name="type" type="hidden" value="">
+                <i class="dropdown icon"></i>
+                <div class="default text">Select a part</div>
+                <div class="menu">
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Requirement:</label>
+              <select multiple="" class="ui dropdown" id="multiParts">
+              </select>
+            </div>
+            <div class="field" id="coefficient">
+              <label>Coefficient: </label>
+              <div class="ui mini button" id='openAddParamModal'>Add a param</div>
+            </div>
+            <div class="field">
+              <label>Formular: </label>
+              <div class="ui mini button" id="openFormularModal">Edit a formular</div>
+            </div>
+            <div class="field">
+              <div class="text-center">
+                <p v-text="'$$' + latexExp + '$$'" id="output"></p>
+              </div>
+            </div>
+            <div class="ui button ired white float-right" id="createEquationBtn">Create this equation</div>
+          </form>
         </div>
       </div>
       <div class="ui bottom attached tab segment" data-tab="history" id="history">
@@ -207,6 +248,53 @@
       </div>
     </div>
 <!--   rightbar -->
+
+<!-- coefficient modal -->
+    <div class="ui small modal" id="paramModal">
+      <div class="header">Create a coefficient</div>
+      <div class="content">
+        <div class="text-center ui">
+          <h4>Please input coefficient name: </h4>
+          <div class="ui input">
+            <input type="text" id="coeffName">
+          </div>
+          <h4>Input a value:</h4>
+          <div class="ui input">
+            <input type="number" id="coeffNum">
+          </div>
+        </div>
+        <div class="fluid text-right">
+          <div class="ui cancel button">Cancel</div>
+          <div class="ui button ired white" id="createParam">Create</div>
+        </div>
+      </div>
+    </div>
+<!-- coefficient modal -->
+
+<!-- formular modal -->
+    <div class="ui small modal" id="formularModal">
+      <div class="header">Create a param</div>
+      <div class="content text-center">
+        <div style="text-center">
+          <h4>You should input equation:</h4>
+          <div class="ui fluid input">
+            <input type="text" v-model="expression" debounce=500 id="formular">
+          </div>
+          <h4>Corresponding LaTeX code will be shown here, and the you can still modify it to fit your needs:</h4>
+          <div class="ui fluid input">
+            <input type="text" v-model="latexExp">
+          </div>
+          <h4>And the preview:</h4>
+          <p v-text="'$$' + latexExp + '$$'" id="output"></p>
+        </div>
+        <div class="fluid text-right">
+          <div class="ui cancel button">Cancel</div>
+          <div class="ui button ired white cancel" id="createFormular">Create</div>
+        </div>
+      </div>
+    </div>
+<!-- formular modal -->
+
 <!--   download modal -->
     <div class="ui small modal" id="downloadModal">
       <div class="header">Download a custom part</div>
@@ -284,6 +372,26 @@
       </div>
     </div>
 <!--   saveSuccess modal -->
+<!--   createEquationSuccess modal -->
+    <div class="ui small basic modal" id="createEquationSuccessModal">
+      <div class="content">
+        <h3 class="text-center"><i class="ui large icon check circle"></i>Create equation successfully</h3>
+        <div class="fluid text-center" style="margin-top: 50px;">
+          <div class="ui cancel button ired white">OK.</div>
+        </div>
+      </div>
+    </div>
+<!--   createEquationSuccess modal -->
+<!--   createEquationError modal -->
+    <div class="ui small basic modal" id="createEquationErrorModal">
+      <div class="content">
+        <h3 class="text-center"><i class="ui large icon remove circle"></i>Create equation fail, You have to complete all the information.</h3>
+        <div class="fluid text-center" style="margin-top: 50px;">
+          <div class="ui cancel button ired white">OK.</div>
+        </div>
+      </div>
+    </div>
+<!--   createEquationError modal -->
 <!--  deleteModal modal -->
     <div class="ui small basic modal" id="deleteModal">
       <div class="content">
@@ -562,5 +670,30 @@
     <script type="text/javascript" src="/static/js/lib/semantic.min.js"></script>
     <script type="text/javascript" src="/static/js/design/util.js"></script>
     <script type="text/javascript" src="/static/js/design/design.js"></script>
+    <script>
+      var vBody = new Vue({
+        el : 'body',
+        data : {
+          expression : '',
+          latexExp : ''
+        },
+        computed : {
+          mathJSExp : function() {
+            return this.expression.replace(/[{}]/g, '')
+                                  .replace(/\*\*/g, '^');
+          },
+        },
+        ready : function() {
+          this.$watch('mathJSExp', function() {
+            this.latexExp = math.parse(this.mathJSExp).toTex({parentheses: 'auto'});
+          });
+          this.$watch('latexExp', function() {
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub,"preview"]);
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub,"output"]);
+          });
+        }
+      });
+    </script>
+
     <script>var vueBody = new coreBody({el: 'body'});</script>
 {% endblock %}
