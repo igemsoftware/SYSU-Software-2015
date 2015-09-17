@@ -1711,3 +1711,5 @@ $("#createEquationBtn").click(function() {
         }
     });
 });
+
+$("#userGuideModal").modal('show');
