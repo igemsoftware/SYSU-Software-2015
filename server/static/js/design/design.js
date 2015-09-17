@@ -141,6 +141,10 @@ Design.prototype.addProAndInhibitLine = function(partA) {
 Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
     var overlaysClass = this._getOverLaysClass(lineType);
     var strokeStyle = this._getStorkeStyle(lineType);
+    jsPlumb.importDefaults({
+        PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+        Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+    });
     if (lineType == "promotion") this.isPromoteLink = true;
     if (lineType == "inhibition") this.isInhibitLink = true;
     // this._isProOrInhiLink = true;
