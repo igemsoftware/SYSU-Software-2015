@@ -555,6 +555,7 @@ body {
 }
 
 .filterDiv {
+    display: none;
     position: absolute;
     bottom: 40%;
     right: 40%;
