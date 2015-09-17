@@ -428,39 +428,5 @@ def add_an_equation():
     return 'success'
 
 
-@design.route('/equation', methods=['POST'])
-@login_required
-def add_an_equation():
-    """
-        :Note: Login required
-        :Usage: Add an equation. 
-        :Input Example: 
-
-        .. code-block:: json
-
-            {
-                "target": "A-RBS",
-                "requirement": ["3OC12HSL", "A-RBS", "ADC", "AHL"],
-                "coeffList": [
-                                { "alpha": 12.34 },
-                                { "dna": 2.03 },
-                                { "u1": 12.8 }
-                             ],
-                "formular": "{{alpha}} * {{dna}} / (1 + (UVB) ** k) - {{u1}} * UVR_TetR"
-            }
-    """
-
-    data = request.get_json()
-    e = EquationBase()
-
-    e.target = data.get('target', '')
-    e.related = list(data.get('requirement', ''))
-    e.parameter = map(lambda x: x.items()[0], data.get('coeffList', ''))
-    e.formular = data.get('formular', '')
-    
-    e.commit_to_db()
-    return 'success'
-
-
 
 
