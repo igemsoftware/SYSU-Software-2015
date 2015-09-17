@@ -159,7 +159,7 @@ class EquationBase(db.Model):
         e.target = name_handler(ele[0])
         e.related = map(lambda x: name_handler(x), ele[1])
 
-:       for attr in [e.target]+e.related:
+#       for attr in [e.target]+e.related:
 #           c = ComponentPrototype.query.filter_by(name_with_=attr).first()
 #           if c==None:
 #               print("%s not exist" % attr)
