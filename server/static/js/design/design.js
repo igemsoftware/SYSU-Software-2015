@@ -658,6 +658,7 @@ DesignMenu.prototype.enableClearCircuitchartBtn = function() {
         $("#deleteBtn").click(function() {
             jsPlumb.empty("drawArea");
             design.clear();
+            rightBar.clear();
             var rubberband = new Rubberband();
             rubberband.init();
             $("#deleteModal").modal('hide');
@@ -685,7 +686,6 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
         curcuitChartData.source = "hello world";
         curcuitChartData.risk = design.risk;
         curcuitChartData.plasmids = dfs.getCircuits();
-        //test
         curcuitChartData.id = design.designID;
 
         $("#saveModal").modal("hide");
@@ -1393,6 +1393,19 @@ function RightBar() {
 RightBar.prototype.init = function() {
     this._rightTriggerAnimation();
     this.enableSearchAddInput();
+}
+
+RightBar.prototype.clear = function() {
+    this._searchPartTitle = [];
+    this._searchDeviceTitle = [];
+    this.elemsPartList = [];
+    this.elemsDeviceList = [];
+    this.elemsSystemList = [];
+    this.elemsCustomList = [];
+    this.view.parts.empty();
+    this.view.devices.empty();
+    this.view.systems.empty();
+    this.view.customs.empty();
 }
 
 RightBar.prototype._rightTriggerAnimation = function() {
