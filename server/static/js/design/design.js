@@ -77,6 +77,7 @@ CNode.prototype.createCNode = function(partElem) {
     this.view.find("span").replaceWith(titleDiv);
 }
 
+//========================================================================================
 /**
  * @class Design
  * @method constructor
@@ -555,7 +556,6 @@ Design.prototype.setDesignName = function(designName) {
 //========================================================================================
 /**
  * @class DesignMenu
- *
  * @method constructor
  *
  */
@@ -575,17 +575,21 @@ function DesignMenu() {
     this.importForBtn = $("#importForBtn");
     this.importPubBtn = $("#importPubBtn");
 
-
     this._isMinusBtnOpen = false;
-    // this._isConnectPartBtnOpen = true;
     this.isHideNormalLine = false;
 };
 
+/**
+ * Init the design menu 
+ * @method init
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.init = function() {
-    this.enableSaveCircuitchartBtn();
+    this.enableSaveDesignBtn();
     this.enableDownloadBtn();
     this.enableLoadDesignBtn();
-    this.enableClearCircuitchartBtn();
+    this.enableClearDesignBtn();
     this.enableNormalConnBtn();
     this.enablePromotionConnBtn();
     this.enableInhibitionConnBtn();
@@ -598,6 +602,12 @@ DesignMenu.prototype.init = function() {
     $("#risk").popup();
 }
 
+/**
+ * Enable the button of adding backbone line
+ * @method enableBackboneBtn
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableBackboneBtn = function() {
     this.backboneBtn.click(function() {
         var dotStart = Util.createEndpoint();
@@ -617,6 +627,12 @@ DesignMenu.prototype.enableBackboneBtn = function() {
     });
 };
 
+/**
+ * Pop up all the button of the menu
+ * @method popUpAllButton
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.popUpAllButton = function() {
     this.saveBtn.popup();
     this.downloadBtn.popup();
@@ -630,6 +646,12 @@ DesignMenu.prototype.popUpAllButton = function() {
     this.hideBtn.popup();
 }
 
+/**
+ * Enable the slider of changing the size of design area
+ * @method enableDesignSlider
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableDesignSlider = function() { 
     $(".slider input").val(0);
     $(".slider input").change(function() {
@@ -639,6 +661,12 @@ DesignMenu.prototype.enableDesignSlider = function() {
     });
 }
 
+/**
+ * Enable the button of hidden the normal line
+ * @method enableHideNormal
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableHideNormal = function() {
     var that = this;
     this.hideBtn.click(function() {
@@ -662,6 +690,12 @@ DesignMenu.prototype.enableHideNormal = function() {
     });
 }
 
+/**
+ * Enable the button of removing part
+ * @method enableRemovePartBtn
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableRemovePartBtn = function() {
     var that = this;
     this.minusBtn.click(function() {
@@ -681,6 +715,12 @@ DesignMenu.prototype.enableRemovePartBtn = function() {
     });
 }
 
+/**
+ * Enable the button of connect two parts
+ * @method enableNormalConnBtn
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableNormalConnBtn = function() {
     var that = this;
     this.normalConnBtn.click(function() {
@@ -707,6 +747,12 @@ DesignMenu.prototype.enableNormalConnBtn = function() {
     });
 };
 
+/**
+ * Enable the button of adding promotion relationship
+ * @method enablePromotionConnBtn
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enablePromotionConnBtn = function() {
     var that = this;
     this.promotionConnBtn.click(function() {
@@ -733,6 +779,12 @@ DesignMenu.prototype.enablePromotionConnBtn = function() {
     });
 };
 
+/**
+ * Enable the button of adding inhibition relationship
+ * @method enableInhibitionConnBtn
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableInhibitionConnBtn = function() {
     var that = this;
     this.inhibitionConnBtn.click(function() {
@@ -759,6 +811,13 @@ DesignMenu.prototype.enableInhibitionConnBtn = function() {
     });
 };
 
+/**
+ * highting the button of normal/promotion/inhibition
+ * @method hightConnBtn
+ * @for DesignMenu
+ * @param {Button} connBtn
+ * 
+ */
 DesignMenu.prototype.hightConnBtn = function(connBtn) {
     this.normalConnBtn.removeClass('ired');
     this.promotionConnBtn.removeClass('ired');
@@ -766,7 +825,13 @@ DesignMenu.prototype.hightConnBtn = function(connBtn) {
     connBtn.addClass('ired');
 }
 
-DesignMenu.prototype.enableClearCircuitchartBtn = function() {
+/**
+ * Enable the button of clearing the design area
+ * @method enableClearDesignBtn
+ * @for DesignMenu
+ * 
+ */
+DesignMenu.prototype.enableClearDesignBtn = function() {
     var that = this;
     this.clearBtn.click(function() {
         $("#deleteModal").modal({transition: 'bounce'}).modal('show');
@@ -781,7 +846,13 @@ DesignMenu.prototype.enableClearCircuitchartBtn = function() {
     });
 };
 
-DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
+/**
+ * Enable the button of saving the design area
+ * @method enableSaveDesignBtn
+ * @for DesignMenu
+ * 
+ */
+DesignMenu.prototype.enableSaveDesignBtn = function(){
     var that = this;
     this.saveBtn.click(function() {
         $("#secureModal").modal("show");
@@ -842,6 +913,12 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
     });
 };
 
+/**
+ * Get the data of the design area
+ * @method enableSaveDesignBtn
+ * @for DesignMenu
+ * @return {Json} a design data structure
+ */
 DesignMenu.prototype.getDesignChartData = function() {
     var parts = this.getDesignParts();
     var data = this.getDesignConns();
@@ -854,6 +931,12 @@ DesignMenu.prototype.getDesignChartData = function() {
     return curcuitChart;
 }
 
+/**
+ * Get all the connetion data of the design area
+ * @method getDesignConns
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.getDesignConns = function() {
     var connections = [];
     var backbones = [];
@@ -879,6 +962,13 @@ DesignMenu.prototype.getDesignConns = function() {
     return data;
 }
 
+/**
+ * Get all the parts data of the design area
+ * @method getDesignParts
+ * @for DesignMenu
+ * @return {List} a parts list
+ *
+ */
 DesignMenu.prototype.getDesignParts = function() {
     var parts = []
     $(".node").each(function (idx, elem) {
@@ -894,6 +984,12 @@ DesignMenu.prototype.getDesignParts = function() {
     return parts;
 }
 
+/**
+ * Enable the button of loading design
+ * @method enableLoadDesignBtn
+ * @for DesignMenu
+ *
+ */
 DesignMenu.prototype.enableLoadDesignBtn = function() {
     var that = this;
     var isOpen = false;
@@ -945,6 +1041,12 @@ DesignMenu.prototype.enableLoadDesignBtn = function() {
     });
 };
 
+/**
+ * Init the modal of opening a design
+ * @method initOpenList
+ * @for DesignMenu
+ *
+ */
 DesignMenu.prototype.initOpenList = function(designs) {
     $("#designList").empty();
     for (var i in designs) {
@@ -967,6 +1069,12 @@ DesignMenu.prototype.initOpenList = function(designs) {
     }
 }
 
+/**
+ * Enable the button of downloading design data and image
+ * @method enableDownloadBtn
+ * @for DesignMenu
+ *
+ */
 DesignMenu.prototype.enableDownloadBtn =function() {
     var that = this;
     this.downloadBtn.click(function() {
@@ -976,32 +1084,36 @@ DesignMenu.prototype.enableDownloadBtn =function() {
     $("#downloadsubmit").click(function() {
         $('#downloadModal').modal("hide");
         var curcuitChartData = that.getDesignChartData();
-        var curcuitName = $("#curcuitDownName").val();
-        curcuitChartData.name = curcuitName;
-        Util.downloadFile(curcuitName+".txt", JSON.stringify(curcuitChartData));
-        that.downloadChartAsImage(curcuitName);
+        var designName = $("#curcuitDownName").val();
+        curcuitChartData.name = designName;
+        Util.downloadFile(designName+".txt", JSON.stringify(curcuitChartData));
+        that.downloadChartAsImage(designName);
     });
 }
 
-DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
+/**
+ * Downloading design as image
+ * @method downloadChartAsImage
+ * @for DesignMenu
+ * @param {String} designName
+ *
+ */
+DesignMenu.prototype.downloadChartAsImage = function(designName) {
     var el = $("#drawArea").get(0);
     html2canvas(el, {
         onrendered: function(canvas) {
             var that = this;
             this.canvas = document.createElement('canvas');
             this.ctx = canvas.getContext('2d');
-            // # Render Flows/connections on top of same canvas
             this.flows =  $("> svg", el);
-
             this.flows.each(function() {
                 var svg = $(this)
                 var offset = svg.position();
                 var svgStr = this.outerHTML;
                 that.ctx.drawSvg(svgStr, offset.left, offset.top);
             });
-
             var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-            Util.downloadImage(curcuitName+".png", image);
+            Util.downloadImage(designName+".png", image);
         }
     }); 
 };
@@ -1009,12 +1121,18 @@ DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
 //========================================================================================
 /**
  * @class SideBarWorker
- *
  * @method constructor
  *
  */
 function SideBarWorker() {}
 
+/**
+ * Create view of part
+ * @method createPartView
+ * @for SideBarWorker
+ * @param {Part} part
+ * return {elem}
+ */
 SideBarWorker.prototype.createPartView = function(part) {
     var partName = part.name;
     var partType = part.type;
@@ -1052,18 +1170,33 @@ SideBarWorker.prototype.createPartView = function(part) {
     leftSpan.append(itemDiv);
     dataDiv.append(leftSpan);
     dataDiv.append(iconSpan);
-
     this._makeItJqueryDraggable(itemDiv);
 
     return dataDiv;
 }
 
+/**
+ * Add element to the view
+ * @method addElemToView
+ * @for SideBarWorker
+ * @param {elem} view A view which will be used for putting the part
+ * @param {elem} elem A part view
+ *
+ */
 SideBarWorker.prototype.addElemToView = function(elem, view) {
     view.append(elem);
     this._makeItJqueryDraggable(elem.find('.item'));
     view.append(Util.createDivider());
 }
 
+/**
+ * Show part list to the view
+ * @method showView
+ * @for SideBarWorker
+ * @param {List} elemsPartList A list of part element
+ * @param {elem} view A part view
+ *
+ */
 SideBarWorker.prototype.showView = function(elemsPartList, view) {
     view.empty();
     for (var i in elemsPartList) {
@@ -1071,6 +1204,13 @@ SideBarWorker.prototype.showView = function(elemsPartList, view) {
     }
 }
 
+/**
+ * Make the part view draggable
+ * @method _makeItJqueryDraggable
+ * @for SideBarWorker
+ * @param {elem} view A part view
+ *
+ */
 SideBarWorker.prototype._makeItJqueryDraggable = function(elem) {
     elem.draggable({
         helper: 'clone',
@@ -1080,6 +1220,14 @@ SideBarWorker.prototype._makeItJqueryDraggable = function(elem) {
     });
 }
 
+/**
+ * Create a device view
+ * @method createDeviceView
+ * @for SideBarWorker
+ * @param {device} device A device data structure
+ * @return {elem}
+ *
+ */
 SideBarWorker.prototype.createDeviceView = function(device) {
     var dataDiv = $("<div class='data'></div>");
     var itemDiv = $("<div class='item'></div>");
@@ -1105,6 +1253,13 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     return dataDiv
 }
 
+/**
+ * Add event of reading the information of the part
+ * @method addReadPartInfoEvent
+ * @for SideBarWorker
+ * @param {elem} moreElem
+ *
+ */
 SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
     var that = this;
     moreElem.click(function() {
@@ -1115,6 +1270,13 @@ SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
     });
 }
 
+/**
+ * Write the information of part to modal
+ * @method writePartInfoToModal
+ * @for SideBarWorker
+ * @param {part} part A part data structure
+ *
+ */
 SideBarWorker.prototype.writePartInfoToModal = function(part) {
     var that = this;
     var infoModal = $("#readPartInfoModal");
@@ -1162,6 +1324,13 @@ SideBarWorker.prototype.writePartInfoToModal = function(part) {
 
 }
 
+/**
+ * Add event of reading the information of the device
+ * @method addReadPartInfoEvent
+ * @for SideBarWorker
+ * @param {elem} moreElem
+ *
+ */
 SideBarWorker.prototype.addDevicePartInfoEvent = function(moreElem) {
     var that = this;
     moreElem.click(function() {
@@ -1172,6 +1341,13 @@ SideBarWorker.prototype.addDevicePartInfoEvent = function(moreElem) {
     });
 }
 
+/**
+ * Write the information of device to modal
+ * @method writeDeviceInfoToModal
+ * @for SideBarWorker
+ * @param {device} device A device data structure
+ *
+ */
 SideBarWorker.prototype.writeDeviceInfoToModal = function(device) {
     var infoModal = $("#readDeviceInfoModal");
     infoModal.find('.deviceName').text(device.name);
@@ -1184,9 +1360,10 @@ SideBarWorker.prototype.writeDeviceInfoToModal = function(device) {
     infoModal.find('.deviceSource').text(device.source);
     infoModal.find('.deviceIntro').text(device.full_description);
 }
+
+//=====================================================================================================
 /**
  * @class LeftBar
- *
  * @method constructor
  *
  */
