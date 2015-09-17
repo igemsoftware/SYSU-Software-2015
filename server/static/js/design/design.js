@@ -277,8 +277,15 @@ Design.prototype.addPartEvent = function(elem) {
     var part = DataManager.getPartByAttr(partAttr);
     rightBar.processDropedPart(part);
     this.updateRisk(part);
-} 
+}
 
+/**
+ * Put a new device on the design area
+ * @method putNewDevice
+ * @for Desgin
+ * @param {DeviceView} elem a device dom element which is put on the design area
+ * 
+ */
 Design.prototype.putNewDevice = function(elem) {
     jsPlumb.importDefaults({
         PaintStyle : { strokeStyle: "green", lineWidth: 2 },
@@ -300,11 +307,17 @@ Design.prototype.putNewDevice = function(elem) {
     operationLog.addDevice(elem.attr("device-name"));
 }
 
+/**
+ * Make a part to be source and target so that they can connect with line
+ * @method makeSourceAndTarget
+ * @for Desgin
+ * @param {PartView} elem a part dom element
+ * 
+ */
 Design.prototype.makeSourceAndTarget = function(elem) {
     jsPlumb.makeSource(elem, {
         filter: ".filterDiv",
         connector: ["Flowchart"],
-        // connectorStyle: { strokeStyle: "green", lineWidth: 2 },
         anchor: "Continuous",
         endpoint:"Blank",
         overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]],
@@ -319,6 +332,12 @@ Design.prototype.makeSourceAndTarget = function(elem) {
     });
 };
 
+/**
+ * Init the jsPlumb library option
+ * @method _initJsPlumbOption
+ * @for Desgin
+ * 
+ */
 Design.prototype._initJsPlumbOption = function() {
     var that = this;
     jsPlumb.importDefaults({
@@ -341,16 +360,12 @@ Design.prototype._initJsPlumbOption = function() {
         } else {
             CurrentConnection.connection.scope = "normal";
             if (sourceNormalNum == 2) {
-                // source.attr("data-content", "Most link to two objects");
                 source.popup('show');
-                // source.removeAttr("data-content");
                 jsPlumb.detach(CurrentConnection.connection);
                 return;
             }
             if (targetNormalNum == 2){
-                // target.attr("data-content", "Most link to two objects");
                 target.popup('show');
-                // target.removeAttr("data-content");
                 jsPlumb.detach(CurrentConnection.connection);
                 return;
             }
@@ -393,6 +408,13 @@ Design.prototype._initJsPlumbOption = function() {
     });
 };
 
+/**
+ * Remove a CNode element from the design area
+ * @method removeCNodeElem
+ * @for Desgin
+ * @param {number} partID a part's id
+ * 
+ */
 Design.prototype.removeCNodeElem = function(partID) {
     for (var i in this.nodeElemList) {
         if (this.nodeElemList[i].attr('part-id') == partID) {
@@ -406,6 +428,13 @@ Design.prototype.removeCNodeElem = function(partID) {
     }
 }
 
+/**
+ * Search that is there the part on the design 
+ * @method isPartInDrawArea
+ * @for Desgin
+ * @param {String} partAttr a part's attr 
+ * 
+ */
 Design.prototype.isPartInDrawArea = function(partAttr) {
     for (var i in this.nodeElemList) {
         if (this.nodeElemList[i].attr('part-attr') == partAttr) {
@@ -415,10 +444,16 @@ Design.prototype.isPartInDrawArea = function(partAttr) {
     return false;
 }
 
+/**
+ * Make the part element draggble
+ * @method addDraggable
+ * @for Desgin
+ * @param {elem} elem a part element
+ * 
+ */
 Design.prototype.addDraggable = function(elem) {
     jsPlumb.draggable(elem, {
-        containment: 'parent', //设置后会导致无法scrollable
-        // scroll: true,
+        containment: 'parent',
         grid: [30, 30],
         drag:function(e){
             if (designMenu.isHideNormalLine == true) {
@@ -441,12 +476,25 @@ Design.prototype.addDraggable = function(elem) {
     })
 };
 
+/**
+ * Update the risk after putting a new part
+ * @method updateRisk
+ * @for Desgin
+ * @param {Part} Part a part element
+ * 
+ */
 Design.prototype.updateRisk = function(part) {
     if (this.risk < part.risk) {
         this.updateRiskView(part.risk);
     }
 }
 
+/**
+ * Check the risk of the design
+ * @method checkDesignRisk
+ * @for Desgin
+ * 
+ */
 Design.prototype.checkDesignRisk = function() {
     var risk = 1;
     for (var i in this.nodeElemList) {
@@ -459,6 +507,13 @@ Design.prototype.checkDesignRisk = function() {
     }
 }
 
+/**
+ * Update the risk of view
+ * @method updateRiskView
+ * @for Desgin
+ * @param {number} risk a risk number
+ * 
+ */
 Design.prototype.updateRiskView = function(risk) {
     var color;
     var popupStr;
@@ -485,6 +540,13 @@ Design.prototype.updateRiskView = function(risk) {
     setTimeout(function () {  $("#riskSpan").popup("hide"); }, 3000);
 }
 
+/**
+ * Set the name of current design 
+ * @method setDesignName
+ * @for Desgin
+ * @param {String} designName
+ * 
+ */
 Design.prototype.setDesignName = function(designName) {
     $("#designName").text(designName);
     this.designName = designName;
