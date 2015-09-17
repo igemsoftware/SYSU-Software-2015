@@ -104,37 +104,6 @@ LeftBar.prototype.showView = function(protocolELems) {
 	}
 };
 
-// LeftBar.prototype.enableSearchBox = function() {
-//     var that = this;
-//     this.view.searchPro.keyup(function() {
-//     	var val = that.view.searchPro.val().toLowerCase();
-//         if (val != "") {
-//         	var searchElemPartList = [];
-//         	for (var i in that.protocolElemsList) {
-//         		var title = $(that.protocolElemsList[i].find(".protocolTitle")[0]).text().toLowerCase();
-//         		if (title.indexOf(val) != -1) {
-//         			searchElemPartList.push(that.protocolElemsList[i]);
-//         		}
-//         	}
-//         	that.showView(searchElemPartList);
-//         } else {
-//         	that.showView(that.protocolElemsList);
-//         }
-//     });
-// };
-
-// LeftBar.prototype.enableAddProBtn = function() {
-// 	$(".addPro").click(function() {
-// 		$("#confirmModal").modal("show");
-// 		var index = $("#sysProMoreInfor").attr("index");
-// 		var protocol = DataManager.getPerProtocols()[index];
-// 		var addIndex = DataManager.getPerProLength();
-// 		var protocolElem = protocolList.createProtocolView(protocol, addIndex);
-// 		protocolList.addProtocolView(protocolElem);
-// 		DataManager.addProtocol(protocol);
-// 	});
-// }
-
 LeftBar.prototype.enableMoreBtn = function() {
 	$("#left-sidebar-body").find($(".more")).each(function() {
 		$(this).click(function() {
@@ -151,8 +120,6 @@ function ProtocolList() {
 }
 
 ProtocolList.prototype.init = function() {
-	// this.enableMoreBtns();
-	// this.enableRemoveBtn();
 	this.enableEditProtocolBtn();
 	this.enableAddProBtn();
 }
@@ -222,13 +189,6 @@ ProtocolList.prototype.showView = function(protocolELems) {
 	}
 };
 
-// ProtocolList.prototype.enableMoreBtns = function() {
-// 	var that = this;
-// 	$("#list-body").find($(".more")).each(function() {
-// 		that.enableMoreBtn($(this));
-// 	});
-// }
-
 ProtocolList.prototype.enableMoreBtn = function(btn) {
 	btn.click(function() {
 		var index = btn.parents(".item").attr("index");
@@ -237,14 +197,6 @@ ProtocolList.prototype.enableMoreBtn = function(btn) {
 		ModalManager.showMoreInforModal(protocol, false);
 	});
 }
-
-
-// ProtocolList.prototype.enableRemoveBtns = function() {
-// 	var that = this;
-// 	$(".removeBtn").each(function() {
-// 		that.enableMoreBtn($(this));
-// 	});
-// };
 
 ProtocolList.prototype.enableRemoveBtn = function(btn) {
 	btn.click(function() {
@@ -689,7 +641,7 @@ $('#loadingData').dimmer('show');
 $(function() {
 	if ($.getUrlParam('id') == null) {
 		$('#loadingData').dimmer('hide');
-		$("#noDesignErrorModal").modal('show');
+		$("#noDesignErrorModal").modal('setting', 'closable', false).modal('show');
 	}
 })
 

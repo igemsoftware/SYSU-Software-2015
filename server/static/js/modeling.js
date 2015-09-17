@@ -217,7 +217,7 @@ Modeling.prototype.initChooseModal = function(designs) {
 
 $(function() {
     if ($.getUrlParam('id') == null) {
-        $("#noDesignErrorModal").modal('show');
+        $("#noDesignErrorModal").modal('setting', 'closable', false).modal('show');
     }
     modeling = new Modeling();
     modeling.init();
