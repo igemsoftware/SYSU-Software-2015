@@ -203,11 +203,11 @@ Modeling.prototype.initChooseModal = function(designs) {
 				$("#simulation .title span").text($(this).text());
 				$.get("/modeling/design/"+String(id), function(data) {
 					that.variables = data.variables;
-                                        that.xAxis = data.x_axis;
-                                        that.drawChart($("#chart"), that.xAxis, that.variables);
-                                        that.drawChart($("#myChart"));
-                                        that.initMenu();
-                                        that.initParametersMenu(data.variables);
+                    that.xAxis = data.x_axis;
+                    that.drawChart($("#chart"), that.xAxis, that.variables);
+                    that.drawChart($("#myChart"));
+                    that.initMenu();
+                    that.initParametersMenu(data.variables);
 				});
 			}
 		});
@@ -216,6 +216,9 @@ Modeling.prototype.initChooseModal = function(designs) {
 }
 
 $(function() {
+    if ($.getUrlParam('id') == null) {
+        $("#noDesignErrorModal").modal('show');
+    }
     modeling = new Modeling();
     modeling.init();
     modeling.loadData();
@@ -232,16 +235,11 @@ $("#addLine").click(function() {
     modeling.createLine();
 })
 
-$('.ui.dropdown')
-  .dropdown()
-;
+$('.ui.dropdown').dropdown();
 
 $.get("/modeling/design/all", function(data) {
-	// console.log(data);
 	modeling.initChooseModal(data['designs']);
 });
-
-
 
 $("#moveToExper").click(function() {
     window.location.href = "/experiment?id="+$.getUrlParam('id');
@@ -278,3 +276,7 @@ Modeling.prototype.rePlot = function() {
         }
     });
 }
+
+$("#backToDesign").click(function() {
+    window.location.href = "/design";
+});

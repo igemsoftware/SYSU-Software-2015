@@ -16,11 +16,20 @@
         <div id="designList"></div>
         <div class="fluid float-right">
           <div class="ui tiny cancel button">Cancel</div>
-          <div class="ui tiny button" id="choose">Confirm</div>
+          <div class="ui tiny button icolor" id="choose">Confirm</div>
         </div>
       </div>
     </div>
 <!--   chooseModal modal -->
+<!--  Error modal -->
+    <div class="ui basic modal" id="noDesignErrorModal">
+      <div class="header text-center"><i class="icon remove circle"></i>Your don't have choose a design.</div>
+      <div class="fluid text-center" style="margin-top: 50px;">
+        <div class="ui cancel button" id="backToDesign"><i class="ui icon chevron left"></i>Back to Design</div>
+        <div class="ui move button iyellow cancel" id="moveTo">Stay in modeling<i class='ui icon chevron right'></i></div>
+      </div>
+    </div>
+<!--   Error modal -->
 <!--  main_container -->
     <div class="main_container">
       <div class="ui attached tabular menu">

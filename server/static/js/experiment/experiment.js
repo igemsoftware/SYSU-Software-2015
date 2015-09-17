@@ -685,3 +685,14 @@ $(".cancel").click(function() {
 
 $('.ui.dropdown').dropdown();
 $('#loadingData').dimmer('show');
+
+$(function() {
+	if ($.getUrlParam('id') == null) {
+		$('#loadingData').dimmer('hide');
+		$("#noDesignErrorModal").modal('show');
+	}
+})
+
+$("#backToDesign").click(function() {
+	window.location.href = "/design";
+});

@@ -1,3 +1,4 @@
+"use strict";
 var plasmid;
 var currentPart;
 
@@ -113,8 +114,6 @@ Plasmid.prototype.formatCircuit = function(circuit, length, callback) {
 	var that = this;
 	var xmlDocs;
 	var postDataJson = JSON.stringify(circuit);
-	// console.log('Post Circuit:');
-	// console.log(circuit);
 	$.ajax({
 		type: 'POST',
 		url: '/proxy',
@@ -199,31 +198,6 @@ Plasmid.prototype.writePartInfoToModal = function(part) {
     });
 }
 
-Plasmid.prototype.addDevicePartInfoEvent = function(moreElem) {
-    var that = this;
-    moreElem.click(function() {
-        var deviceName = $(this).parent().find('.item').attr('device-name');
-        var device = DataManager.getDeviceByName(deviceName);
-        that.writeDeviceInfoToModal(device);
-        $("#readDeviceInfoModal").modal('show');
-    });
-}
-
-Plasmid.prototype.writeDeviceInfoToModal = function(device) {
-    var infoModal = $("#readDeviceInfoModal");
-    infoModal.find('.deviceName').text(device.name);
-    infoModal.find('.deviceParts').text(Util.getDevicePartsString(device));
-    infoModal.find('.deviceImg').attr('src', '/static/img/design/devices/'+device.name+'.png');
-    infoModal.find('.deviceRisk').text(Util.getRiskText(device.risk));
-    infoModal.find('.deviceRisk').attr("class", "deviceRisk");
-    infoModal.find('.deviceRisk').addClass(Util.getRiskColor(device.risk));
-    infoModal.find('.deviceInterface').text(device.interfaceA+", "+device.interfaceB);
-    infoModal.find('.deviceSource').text(device.source);
-    infoModal.find('.deviceIntro').text(device.full_description);
-}
-
-
-"use strict";
 var app = angular.module('myApp', ['angularplasmid']);
 
 app.config(['$interpolateProvider', function($interpolateProvider) {
@@ -308,4 +282,49 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
 $(function() {
 	plasmid = new Plasmid();
 	plasmid.init();
+	getDesignData();
 });
+
+$("#chooseDesignBtn").click(function() {
+	$("#chooseModal").modal('show');
+});	
+
+$("#choose").click(function() {
+	$("#designList div").each(function() {
+		if($(this).hasClass('icolor')) {
+			var id = $(this).find('input').val();
+			window.location.href = "/experiment?id="+id;
+		}
+	});
+});
+
+
+function initOpenList(designs) {
+    $("#designList").empty();
+    for (var i in designs) {
+        var div = $("<div></div>");
+        div.text(designs[i].name);
+        var idElem = $("<input type='text'></input>");
+        idElem.css("display", "none");
+        idElem.val(designs[i].id);
+        var divider = $("<div class='ui divider'></div>");
+        div.append(idElem);
+        div.addClass('title')
+        div.click(function() {
+            $("#designList div").each(function() {
+                $(this).removeClass("icolor");
+            })
+            $(this).addClass("icolor");
+        });
+        $("#designList").append(div);
+        $("#designList").append(divider);
+    }
+}
+
+function getDesignData() {
+    $.get("/design/all", function(data, status) {
+        console.log("Personal Designs:");
+        console.log(data['designs']);
+        initOpenList(data['designs'])
+    });
+}

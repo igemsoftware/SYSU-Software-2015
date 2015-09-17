@@ -20,14 +20,6 @@
 	    	<div>
 	    		<h2>Laboratorial material manual</h2>
 	    	</div>
-<!-- 				<div class="ui search">
-				  <div class="ui icon input">
-				    <input class="prompt" type="text" placeholder="Search for a protocol..." id="searchPro">
-				    <i class="search icon"></i>
-				  </div>
-				  <div class="results"></div>
-					<button class="ui button">All</button>
-				</div> -->
 			</div>
 			<div id="left-sidebar-body">
 			</div>
@@ -65,7 +57,6 @@
       		<ul>
       		</ul>
       	</div>
-  <!--     	<h3>Procedure</h3> -->
     	  <h3>
     	  	Procedure
       		<span class="icon-set">
@@ -93,6 +84,29 @@
       <div class="header text-center">Your design is empty !</div>
     </div>
 <!--   Error modal -->
+
+<!--  Error modal -->
+    <div class="ui basic modal" id="noDesignErrorModal">
+      <div class="header text-center"><i class="icon remove circle"></i>Your don't have choose a design.</div>
+      <div class="fluid text-center" style="margin-top: 50px;">
+        <div class="ui cancel button" id="backToDesign"><i class="ui icon chevron left"></i>Back to Design</div>
+        <div class="ui move button icolor cancel" id="moveTo">Stay in experiment<i class='ui icon chevron right'></i></div>
+      </div>
+    </div>
+<!--   Error modal -->
+
+<!--   chooseModal modal -->
+    <div class="ui small modal" id="chooseModal">
+      <div class="header"><h2>Choose A design</h2></div>
+      <div class="content">
+        <div id="designList"></div>
+        <div class="fluid float-right">
+          <div class="ui tiny cancel button">Cancel</div>
+          <div class="ui tiny button" id="choose">Confirm</div>
+        </div>
+      </div>
+    </div>
+<!--   chooseModal modal -->
 
 <!--createProtocol modal -->
     <div class="ui modal" id="createProtocol">
@@ -235,14 +249,9 @@
       	<div class="ui grid">
 	      	<div class="eight wide column" id="leftbox" ng-app="myApp" ng-controller="PlasmidCtrl">
             <div id="plasmid-box">
-              <!-- <div class='ui button icolor inline'>Choose a design</div> -->
-              <!-- <h3 class='inline'>Choose a plasmid: </h3>
-              <select class="ui dropdown" ng-model="curPlaIndex" ng-options="plasmids.indexOf(a) as a.name for a in plasmids">
-                <option value="">Choose a plasmid</option>
-              </select> -->
               <button class="ui button icolor float-left" id="chooseDesignBtn">Choose a design</button>
               <plasmidapi name="api"></plasmidapi>
-              <plasmid id="pdemo" sequencelength="{[currentPlasmid.length+currentCircuit.length]}" plasmidheight="400" plasmidwidth="500">
+              <plasmid id="pdemo" sequencelength="{[currentPlasmid.length+currentCircuit.length]}" plasmidheight="420" plasmidwidth="500">
                   <plasmidtrack trackstyle="fill:#ccc" width="5" radius="110"></plasmidtrack>
                   <plasmidtrack trackstyle="fill:rgba(225,225,225,0.5)" radius="100">
                       <tracklabel text="{[currentPlasmid.name]}" labelstyle='font-size:20px;font-weight:400'></tracklabel>
