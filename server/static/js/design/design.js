@@ -1319,6 +1319,14 @@ SideBarWorker.prototype.writePartInfoToModal = function(part) {
     });
     $("#searchCds").click(function() {
         var there = this;
+        if (that.part.BBa == "") {
+            console.log('111');
+            $("#noBBaErrorModal").modal('show');
+            $("#noBBaErrorModal").find('.back').click(function() {
+                $("#noBBaErrorModal").modal('hide');
+            });
+            return ;
+        }
         $(this).addClass('loading');
         var postDataJson = JSON.stringify({BBa: that.part.BBa});
         $.ajax({
