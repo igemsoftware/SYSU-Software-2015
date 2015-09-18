@@ -138,11 +138,11 @@ def comment_a_answer():
         :Usage: Give an :class:`Comment` to :class:`Answer` . 
         :Content-type: Application/json
     """
-#   answer_id = request.form.get('answer_id', 0)
-#   content = request.form.get('content', '')
-    json_obj = request.get_json()
-    answer_id = json_obj['answer_id']
-    content = json_obj['content']
+    answer_id = request.form.get('answer_id', 0)
+    content = request.form.get('content', '')
+    # json_obj = request.get_json()
+    # answer_id = json_obj['answer_id']
+    # content = json_obj['content']
 
     a = Answer.query.get(answer_id)
     if not a: abort(404)
