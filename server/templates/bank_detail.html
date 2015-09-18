@@ -56,22 +56,13 @@
                 <article>
                     <h3 class="title"><i class="line chart icon"></i>Modeling</h3>
                     <div class="ui divider"></div>
-                    <p>Equations</p>
+                    <h4 class="title">Equations</h4>
                     {% for ele in system %}
                     <v-equation expression="{{ele.formular}}" target="{{ele.target}}"></v-equation>
                     {% endfor %}
-                    <div>
-                        <img src="" alt="equation1">
-                    </div>
-                    <a class="anchor" name="Experiments"></a>
-                    <div>
-                        <img src="" alt="equation2">
-                    </div>
-                </article>
-                <article>
+                    <h4 class="title">Chart</h4>
+                    <v-graph design-id="{{design.id}}"></v-graph>
                     <a class="anchor" name="References"></a>
-                    <h3 class="title"><i class="lab icon"></i>Experiments</h3>
-                    <div class="ui divider"></div>
                 </article>
                 <article>
                     <h3 class="title"><i class="book icon"></i>References</h3>
@@ -114,7 +105,6 @@
                 <div class="ui link list">
                     <div class="item active"><a><div class="indexer"></div><i class="info circle icon"></i>Descriptions</a></div>
                     <div class="item"><a><div class="indexer"></div><i class="line chart icon"></i>Modeling</a></div>
-                    <div class="item"><a><div class="indexer"></div><i class="lab icon"></i>Experiments</a></div>
                     <div class="item"><a><div class="indexer"></div><i class="book icon"></i>References</a></div>
                     <div class="item"><a><div class="indexer"></div><i class="comment icon"></i>User reviews</a></div>
                 </div>
@@ -132,11 +122,14 @@
 
     {% include 'vRating.html' %}
     {% include 'vEquation.html' %}
+    {% include 'vGraph.html' %}
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/mathjs/2.2.0/math.min.js"></script>
     <script src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
     <script src="/static/js/lib/Chart.min.js"></script>
+    <script src="/static/js/lib/highcharts.js"></script>
     <script src="/static/js/vRating.js"></script>
     <script src="/static/js/vEquation.js"></script>
+    <script src="/static/js/vGraph.js"></script>
     <script src="/static/js/bank_detail.js"></script>
 {% endblock %}

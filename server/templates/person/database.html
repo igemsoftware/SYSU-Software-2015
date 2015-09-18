@@ -55,7 +55,7 @@
           <a v-repeat="i in ['Description', 'Equations', 'Charts', 'Plasmids', 'References']"
           class="item"
           v-class="active: selectedTab === i"
-          v-on="click: selectedTab = i">[[i]]</a>
+          v-on="click: selectTab(i)">[[i]]</a>
         </div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 'Description'" id="details-description-tab">
           <div class="ui header" v-show="design.img">Image:</div>
@@ -72,7 +72,7 @@
         </div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 'Equations'"></div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 'Charts'">
-          <div id="chart"></div>
+          <v-graph design-id="[[selectedRecord.id]]"></v-graph>
         </div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 'Plasmids'"></div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 'References'"></div>
@@ -82,7 +82,10 @@
 
 </div>
 
+{% include 'vGraph.html' %}
+
 <script src="/static/js/lib/highcharts.js"></script>
+<script src="/static/js/vGraph.js"></script>
 <script src="/static/js/personal_center/dashboard_database.js"></script>
 {% endblock %}
 
