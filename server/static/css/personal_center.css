@@ -121,7 +121,9 @@
 #detail-header > .title {
   text-overflow: ellipsis;
   overflow: hidden;
-  font-size: 1.8rem; }
+  font-size: 1.8rem;
+  margin-bottom: 10px;
+}
 
 .detail.header.meta {
   display: block;
