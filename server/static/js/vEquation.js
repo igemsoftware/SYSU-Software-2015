@@ -8,7 +8,7 @@ var vEquation = Vue.component('v-equation', {
     }},
     computed : {
         mathJSExp : function() {
-          return this.expression.replace(/[{}]/g, '')
+          return this.expression.toString().replace(/[{}]/g, '')
                                 .replace(/\*\*/g, '^');
         },
     },

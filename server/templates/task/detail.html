@@ -1,6 +1,6 @@
 {% extends 'core_common.html' %}
 
-{% block title %}Task Hall{% endblock %}
+{% block title %}Core - Co-dev{% endblock %}
 
 {% block head %}
   {{ super() }}
@@ -73,7 +73,7 @@
 
   <div class="ui divider"></div>
   {% if current_user.is_authenticated() %}
-  <form id="taskhall-detail-answer-form" class="ui form" action="/taskhall/action/answer" method="POST">
+  <form id="taskhall-detail-answer-form" class="ui form" action="/co-dev/action/answer" method="POST">
     <div class="ui header">Add Your Answer</div>
     <input type="hidden" name="task_id" value="{{task.id}}">
     <div class="field">
@@ -136,7 +136,7 @@
         {% endif %}
       </div>
     </div>
-  <form action="/taskhall/action/comment" method="POST" class="ui reply form" v-show="showReply">
+  <form action="/co-dev/action/comment" method="POST" class="ui reply form" v-show="showReply">
     <input type="hidden" name="answer_id" v-attr="value: answerId">
     <div class="ui action input field">
       <input type="text" name="content" v-attr="value: '@' + commentAuthor + ' '">
@@ -164,7 +164,7 @@
           <content select="v-comment"></content>
           <div class="ui divider"></div>
           {% if current_user.is_authenticated() %}
-          <form action="/taskhall/action/comment" class="ui form" method="POST">
+          <form action="/co-dev/action/comment" class="ui form" method="POST">
             <input type="hidden" name="answer_id" v-attr="value: answerId">
             <div class="field">
               <input type="text" name="content">

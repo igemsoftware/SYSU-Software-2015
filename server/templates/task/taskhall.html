@@ -1,6 +1,6 @@
 {% extends 'core_common.html' %}
 
-{% block title %}Task Hall{% endblock %}
+{% block title %}Core - Co-development{% endblock %}
 
 {% block head %}
   {{ super() }}
@@ -80,7 +80,7 @@
             </div>
           </div>
           <div class="question main">
-          <div class="header"><a v-attr="href: '/taskhall/detail/' + task.id">[[task.title]]</a></div>
+          <div class="header"><a v-attr="href: '/co-dev/detail/' + task.id">[[task.title]]</a></div>
             <div class="detail">
               [[[task.content]]]
             </div>

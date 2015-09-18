@@ -49,7 +49,7 @@ var vueBody = new coreBody({
         },
         updateTasks : function(store, resetPage) {
             if (resetPage) store.page = 1;
-            var url = '/taskhall/list?page=' + store.page +
+            var url = '/co-dev/list?page=' + store.page +
                       '&order=' + store.currentOrder +
                       '&keyword=' + store.searchTerm +
                       (store.unansweredOnly ? '&unanswered=True' : '');
