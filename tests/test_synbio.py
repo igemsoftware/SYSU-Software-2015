@@ -41,7 +41,6 @@ class TestFunction(TestCase):
         assert d.parts[0].positionX == 300.0
 
         c2 = d.add_component_by_id(2, partID='Promotor 2', positionX=0.3)
-        d.add_component_by_name('foo', partID='haha 3')
         d.add_connection(c1.partID, c2.partID, 'Promote')
 
         d.commit_to_db() # use this method to commit
@@ -50,7 +49,6 @@ class TestFunction(TestCase):
         assert d.parts[1].positionX == 0.3
         assert d.parts[0].partID == 'Promotor'
         assert d.parts[1].partID == 'Promotor 2'
-        assert d.parts[2].partID == 'None'
         assert d.relationship[0]['start'] == c1.partID
         assert d.relationship[0]['end'] == c2.partID
         assert d.relationship[0]['type'] == 'Promote'
