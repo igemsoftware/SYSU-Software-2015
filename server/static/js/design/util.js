@@ -85,6 +85,7 @@ Util.loadCircuitCNodes = function(parts) {
     var nodeElems = [];
     var that = this;
     var mostHeight = 0;
+    var mostWidth = 0;
     $.each(parts, function(index, part ) {
         var node = that._createNewCNode(part);
         node.appendTo(design.drawArea);
@@ -97,9 +98,15 @@ Util.loadCircuitCNodes = function(parts) {
         if (parts[i].positionY + 80 > mostHeight) {
             mostHeight = parts[i].positionY + 80;
         }
+        if (parts[i].positionX + 120 > mostWidth) {
+            mostWidth = parts[i].positionX + 120;
+        }
     }
     if (mostHeight > design.drawAreaHeight) {
         design.setDrawAreaHeight(mostHeight+$("#drawArea").offset().top);
+    }
+    if (mostWidth > design.drawAreaWidth) {
+        design.setDrawAreaWidth(mostWidth);
     }
     return nodeElems;
 };

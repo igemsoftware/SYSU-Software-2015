@@ -352,7 +352,7 @@
         </div>
         <div class="fluid text-right">
           <div class="ui cancel button">Cancel</div>
-          <div class="ui submmit button ired" id="saveCircuitBtn">Save</div>
+          <div class="ui submmit button ired white" id="saveCircuitBtn">Save</div>
         </div>
       </div>
     </div>
@@ -641,8 +641,6 @@
   </div>
 </div>
 
-<!-- main-contain -->
-    <!-- <div id="main-contain"> -->
       <div id="drawArea-menu">
         <div class="ui large icon buttons">
           <button class="ui grey button" id="openFile" data-content="Open an circuit"><i class="folder open icon"></i></button>
@@ -656,18 +654,20 @@
           <button class="ui grey button" id="hideNormal" data-content="Hide normal line" ><i class="hide icon"></i></button>
           <button class="ui grey button" id="download" data-content="Download this image" ><i class="download icon"></i></button>
         </div>
-        <span class="title">Canvas size:</span>
-        <div class="slider">
+        <span class="title">Canvas: height</span>
+        <div class="heightSlider slider">
+            <input type="range">
+        </div>
+        <span class="no-margin title">width</span>
+        <div class="widthSlider slider">
             <input type="range">
         </div>
         <span id="riskSpan" data-content="Low risk(1)" class="title">Risk: <span class="vertical-middle ui green button" id="risk"></span></span>
         <span class="title">Current design: <span id='designName'></span></span>
       </div>
-      <div class="" id="drawArea">
-          <!-- <div id="test">hello</div> -->
-          <div id="rubberband"></div>
-      </div>
-    <!-- </div> -->
+        <div class="" id="drawArea">
+            <div id="rubberband"></div>
+        </div>
     <script type="text/javascript" src="/static/js/lib/jquery-ui.min.js"></script>
     <script type="text/javascript" src="/static/js/lib/dom.jsPlumb-1.7.6-min.js"></script>
     <script type="text/javascript" src="/static/js/lib/rgbcolor.js"></script>
