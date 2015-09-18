@@ -648,3 +648,9 @@ $(function() {
 $("#backToDesign").click(function() {
 	window.location.href = "/design";
 });
+
+$('.coupled.modal')
+  .modal({
+    allowMultiple: true
+  })
+;

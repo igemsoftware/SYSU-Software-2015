@@ -91,7 +91,8 @@ class EquationBase(db.Model):
     """Its content object."""
 
     def __repr__(self):
-        return '<EquationBase[%d] #%d: %s>' % (self.id, self.related_count, self.formular)
+        self.update_from_db()
+        return '<EquationBase[%d] %r>' % (self.id, self.packed())
 
     def commit_to_db(self):
         """Encode things into :attr:`_content` ."""
@@ -152,24 +153,37 @@ class EquationBase(db.Model):
         self.content['formular'] = value
 
 
+    def render(self):
+        self.update_from_db()
+        return Equation(parameters=self.parameter, content=self.formular).render()
+
+
     @staticmethod
     def preload_from_str(line):
         ele = eval(line, {'__builtins__':None}, {})
         e = EquationBase()
+
+        for attr in [ele[0]]+ele[1]:
+            c = ComponentPrototype.query.filter_by(attr=attr).first()
+            if c==None:
+                print(">>>>>>>%s does not exist<<<<<<" % attr)
+                #raise Exception("%s not exist" % attr)
+
         e.target = name_handler(ele[0])
         e.related = map(lambda x: name_handler(x), ele[1])
-
-#       for attr in [e.target]+e.related:
-#           c = ComponentPrototype.query.filter_by(name_with_=attr).first()
-#           if c==None:
-#               print("%s not exist" % attr)
-#                raise Exception("%s not exist" % attr)
-
-
         e.parameter = dict(ele[2])
+        e.formular = ele[3]
+
         for coe, value in e.parameter.iteritems():
             e.parameter[coe] = float(value)
-        e.formular = ele[3]
+            
+            # tranlate coe to var
+            c = ComponentPrototype.query.filter_by(attr=coe).first()
+            if c:
+                c.initval = float(value)
+                e.formular = e.formular.replace('{{'+coe+'}}', coe)
+                ele[1].append(coe)
+                e.related.append(name_handler(coe))
 
         # name handler
         para = [ele[0]]+ele[1]
@@ -204,7 +218,7 @@ class EquationBase(db.Model):
 
                 system.append(e.packed())
 
-        model, msg = getModel(system)
+        model, msg, names = getModel(system)
         if model:
             print 'Success'
             return 'success'

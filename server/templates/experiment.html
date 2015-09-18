@@ -249,7 +249,10 @@
       	<div class="ui grid">
 	      	<div class="eight wide column" id="leftbox" ng-app="myApp" ng-controller="PlasmidCtrl">
             <div id="plasmid-box">
-              <button class="ui button icolor float-left" id="chooseDesignBtn">Choose a design</button>
+              <div class="top">
+                <button class="ui button icolor" id="chooseDesignBtn">Choose a design</button>
+                <h3 class="title">Current Design:<span></span></h3>
+              </div>
               <plasmidapi name="api"></plasmidapi>
               <plasmid id="pdemo" sequencelength="{[currentPlasmid.length+currentCircuit.length]}" plasmidheight="420" plasmidwidth="500">
                   <plasmidtrack trackstyle="fill:#ccc" width="5" radius="110"></plasmidtrack>
@@ -312,7 +315,7 @@
       </div>
     </div>
 
-    <div class="ui small modal" id="readPartInfoModal">
+    <div class="ui small coupled modal" id="readPartInfoModal">
       <div class="header">Part Information:</div>
         <div class="content">
           <div class="ui grid">
@@ -374,7 +377,7 @@
     </div>
 
     <!--   cds modal -->
-    <div class="ui small modal" id="cdsModal">
+    <div class="ui small coupled modal" id="cdsModal">
       <div class="header">This is the coding sequences.</div>
       <div class="content">
         <p class="cdsContent"></p>

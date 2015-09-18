@@ -24,15 +24,9 @@ var setDrawLineStyle = function() {
     });
 }
 
-var userGuideModal = $("#userGuideModal");
-var circleTab = userGuideModal.children(".circleTab");
-var btnArrowLeft = userGuideModal.children(".btn-arrow.left");
-var btnArrowRight = userGuideModal.children(".btn-arrow.right");
-
 //==========================================================================================
 /**
  * @class CNode
- *
  * @method constructor
  *
  */
@@ -77,6 +71,7 @@ CNode.prototype.createCNode = function(partElem) {
     this.view.find("span").replaceWith(titleDiv);
 }
 
+//========================================================================================
 /**
  * @class Design
  * @method constructor
@@ -111,7 +106,6 @@ Design.prototype.clear = function() {
     this.risk = 1;
     this.updateRiskView(1);
 }
-
 
 /**
  * Init the design area
@@ -211,7 +205,6 @@ Design.prototype._getStorkeStyle = function(lineType) {
     if (lineType == 'inhibition') return "red";
     if (lineType == "promotion") return "blue";
 };
-
 
 /**
  * Get the style of the connection's overlays
@@ -555,7 +548,6 @@ Design.prototype.setDesignName = function(designName) {
 //========================================================================================
 /**
  * @class DesignMenu
- *
  * @method constructor
  *
  */
@@ -575,17 +567,21 @@ function DesignMenu() {
     this.importForBtn = $("#importForBtn");
     this.importPubBtn = $("#importPubBtn");
 
-
     this._isMinusBtnOpen = false;
-    // this._isConnectPartBtnOpen = true;
     this.isHideNormalLine = false;
 };
 
+/**
+ * Init the design menu 
+ * @method init
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.init = function() {
-    this.enableSaveCircuitchartBtn();
+    this.enableSaveDesignBtn();
     this.enableDownloadBtn();
     this.enableLoadDesignBtn();
-    this.enableClearCircuitchartBtn();
+    this.enableClearDesignBtn();
     this.enableNormalConnBtn();
     this.enablePromotionConnBtn();
     this.enableInhibitionConnBtn();
@@ -598,6 +594,12 @@ DesignMenu.prototype.init = function() {
     $("#risk").popup();
 }
 
+/**
+ * Enable the button of adding backbone line
+ * @method enableBackboneBtn
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableBackboneBtn = function() {
     this.backboneBtn.click(function() {
         var dotStart = Util.createEndpoint();
@@ -617,6 +619,12 @@ DesignMenu.prototype.enableBackboneBtn = function() {
     });
 };
 
+/**
+ * Pop up all the button of the menu
+ * @method popUpAllButton
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.popUpAllButton = function() {
     this.saveBtn.popup();
     this.downloadBtn.popup();
@@ -630,6 +638,12 @@ DesignMenu.prototype.popUpAllButton = function() {
     this.hideBtn.popup();
 }
 
+/**
+ * Enable the slider of changing the size of design area
+ * @method enableDesignSlider
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableDesignSlider = function() { 
     $(".slider input").val(0);
     $(".slider input").change(function() {
@@ -639,6 +653,12 @@ DesignMenu.prototype.enableDesignSlider = function() {
     });
 }
 
+/**
+ * Enable the button of hidden the normal line
+ * @method enableHideNormal
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableHideNormal = function() {
     var that = this;
     this.hideBtn.click(function() {
@@ -662,6 +682,12 @@ DesignMenu.prototype.enableHideNormal = function() {
     });
 }
 
+/**
+ * Enable the button of removing part
+ * @method enableRemovePartBtn
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableRemovePartBtn = function() {
     var that = this;
     this.minusBtn.click(function() {
@@ -681,6 +707,12 @@ DesignMenu.prototype.enableRemovePartBtn = function() {
     });
 }
 
+/**
+ * Enable the button of connect two parts
+ * @method enableNormalConnBtn
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableNormalConnBtn = function() {
     var that = this;
     this.normalConnBtn.click(function() {
@@ -707,6 +739,12 @@ DesignMenu.prototype.enableNormalConnBtn = function() {
     });
 };
 
+/**
+ * Enable the button of adding promotion relationship
+ * @method enablePromotionConnBtn
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enablePromotionConnBtn = function() {
     var that = this;
     this.promotionConnBtn.click(function() {
@@ -733,6 +771,12 @@ DesignMenu.prototype.enablePromotionConnBtn = function() {
     });
 };
 
+/**
+ * Enable the button of adding inhibition relationship
+ * @method enableInhibitionConnBtn
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.enableInhibitionConnBtn = function() {
     var that = this;
     this.inhibitionConnBtn.click(function() {
@@ -759,6 +803,13 @@ DesignMenu.prototype.enableInhibitionConnBtn = function() {
     });
 };
 
+/**
+ * highting the button of normal/promotion/inhibition
+ * @method hightConnBtn
+ * @for DesignMenu
+ * @param {Button} connBtn
+ * 
+ */
 DesignMenu.prototype.hightConnBtn = function(connBtn) {
     this.normalConnBtn.removeClass('ired');
     this.promotionConnBtn.removeClass('ired');
@@ -766,7 +817,13 @@ DesignMenu.prototype.hightConnBtn = function(connBtn) {
     connBtn.addClass('ired');
 }
 
-DesignMenu.prototype.enableClearCircuitchartBtn = function() {
+/**
+ * Enable the button of clearing the design area
+ * @method enableClearDesignBtn
+ * @for DesignMenu
+ * 
+ */
+DesignMenu.prototype.enableClearDesignBtn = function() {
     var that = this;
     this.clearBtn.click(function() {
         $("#deleteModal").modal({transition: 'bounce'}).modal('show');
@@ -781,7 +838,13 @@ DesignMenu.prototype.enableClearCircuitchartBtn = function() {
     });
 };
 
-DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
+/**
+ * Enable the button of saving the design area
+ * @method enableSaveDesignBtn
+ * @for DesignMenu
+ * 
+ */
+DesignMenu.prototype.enableSaveDesignBtn = function(){
     var that = this;
     this.saveBtn.click(function() {
         $("#secureModal").modal("show");
@@ -842,6 +905,12 @@ DesignMenu.prototype.enableSaveCircuitchartBtn = function(){
     });
 };
 
+/**
+ * Get the data of the design area
+ * @method enableSaveDesignBtn
+ * @for DesignMenu
+ * @return {Json} a design data structure
+ */
 DesignMenu.prototype.getDesignChartData = function() {
     var parts = this.getDesignParts();
     var data = this.getDesignConns();
@@ -854,6 +923,12 @@ DesignMenu.prototype.getDesignChartData = function() {
     return curcuitChart;
 }
 
+/**
+ * Get all the connetion data of the design area
+ * @method getDesignConns
+ * @for DesignMenu
+ * 
+ */
 DesignMenu.prototype.getDesignConns = function() {
     var connections = [];
     var backbones = [];
@@ -879,6 +954,13 @@ DesignMenu.prototype.getDesignConns = function() {
     return data;
 }
 
+/**
+ * Get all the parts data of the design area
+ * @method getDesignParts
+ * @for DesignMenu
+ * @return {List} a parts list
+ *
+ */
 DesignMenu.prototype.getDesignParts = function() {
     var parts = []
     $(".node").each(function (idx, elem) {
@@ -894,6 +976,12 @@ DesignMenu.prototype.getDesignParts = function() {
     return parts;
 }
 
+/**
+ * Enable the button of loading design
+ * @method enableLoadDesignBtn
+ * @for DesignMenu
+ *
+ */
 DesignMenu.prototype.enableLoadDesignBtn = function() {
     var that = this;
     var isOpen = false;
@@ -945,6 +1033,12 @@ DesignMenu.prototype.enableLoadDesignBtn = function() {
     });
 };
 
+/**
+ * Init the modal of opening a design
+ * @method initOpenList
+ * @for DesignMenu
+ *
+ */
 DesignMenu.prototype.initOpenList = function(designs) {
     $("#designList").empty();
     for (var i in designs) {
@@ -967,6 +1061,12 @@ DesignMenu.prototype.initOpenList = function(designs) {
     }
 }
 
+/**
+ * Enable the button of downloading design data and image
+ * @method enableDownloadBtn
+ * @for DesignMenu
+ *
+ */
 DesignMenu.prototype.enableDownloadBtn =function() {
     var that = this;
     this.downloadBtn.click(function() {
@@ -976,32 +1076,36 @@ DesignMenu.prototype.enableDownloadBtn =function() {
     $("#downloadsubmit").click(function() {
         $('#downloadModal').modal("hide");
         var curcuitChartData = that.getDesignChartData();
-        var curcuitName = $("#curcuitDownName").val();
-        curcuitChartData.name = curcuitName;
-        Util.downloadFile(curcuitName+".txt", JSON.stringify(curcuitChartData));
-        that.downloadChartAsImage(curcuitName);
+        var designName = $("#curcuitDownName").val();
+        curcuitChartData.name = designName;
+        Util.downloadFile(designName+".txt", JSON.stringify(curcuitChartData));
+        that.downloadChartAsImage(designName);
     });
 }
 
-DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
+/**
+ * Downloading design as image
+ * @method downloadChartAsImage
+ * @for DesignMenu
+ * @param {String} designName
+ *
+ */
+DesignMenu.prototype.downloadChartAsImage = function(designName) {
     var el = $("#drawArea").get(0);
     html2canvas(el, {
         onrendered: function(canvas) {
             var that = this;
             this.canvas = document.createElement('canvas');
             this.ctx = canvas.getContext('2d');
-            // # Render Flows/connections on top of same canvas
             this.flows =  $("> svg", el);
-
             this.flows.each(function() {
                 var svg = $(this)
                 var offset = svg.position();
                 var svgStr = this.outerHTML;
                 that.ctx.drawSvg(svgStr, offset.left, offset.top);
             });
-
             var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
-            Util.downloadImage(curcuitName+".png", image);
+            Util.downloadImage(designName+".png", image);
         }
     }); 
 };
@@ -1009,12 +1113,18 @@ DesignMenu.prototype.downloadChartAsImage = function(curcuitName) {
 //========================================================================================
 /**
  * @class SideBarWorker
- *
  * @method constructor
  *
  */
 function SideBarWorker() {}
 
+/**
+ * Create view of part
+ * @method createPartView
+ * @for SideBarWorker
+ * @param {Part} part
+ * return {elem}
+ */
 SideBarWorker.prototype.createPartView = function(part) {
     var partName = part.name;
     var partType = part.type;
@@ -1052,18 +1162,33 @@ SideBarWorker.prototype.createPartView = function(part) {
     leftSpan.append(itemDiv);
     dataDiv.append(leftSpan);
     dataDiv.append(iconSpan);
-
     this._makeItJqueryDraggable(itemDiv);
 
     return dataDiv;
 }
 
+/**
+ * Add element to the view
+ * @method addElemToView
+ * @for SideBarWorker
+ * @param {elem} view A view which will be used for putting the part
+ * @param {elem} elem A part view
+ *
+ */
 SideBarWorker.prototype.addElemToView = function(elem, view) {
     view.append(elem);
     this._makeItJqueryDraggable(elem.find('.item'));
     view.append(Util.createDivider());
 }
 
+/**
+ * Show part list to the view
+ * @method showView
+ * @for SideBarWorker
+ * @param {List} elemsPartList A list of part element
+ * @param {elem} view A part view
+ *
+ */
 SideBarWorker.prototype.showView = function(elemsPartList, view) {
     view.empty();
     for (var i in elemsPartList) {
@@ -1071,6 +1196,13 @@ SideBarWorker.prototype.showView = function(elemsPartList, view) {
     }
 }
 
+/**
+ * Make the part view draggable
+ * @method _makeItJqueryDraggable
+ * @for SideBarWorker
+ * @param {elem} view A part view
+ *
+ */
 SideBarWorker.prototype._makeItJqueryDraggable = function(elem) {
     elem.draggable({
         helper: 'clone',
@@ -1080,6 +1212,14 @@ SideBarWorker.prototype._makeItJqueryDraggable = function(elem) {
     });
 }
 
+/**
+ * Create a device view
+ * @method createDeviceView
+ * @for SideBarWorker
+ * @param {device} device A device data structure
+ * @return {elem}
+ *
+ */
 SideBarWorker.prototype.createDeviceView = function(device) {
     var dataDiv = $("<div class='data'></div>");
     var itemDiv = $("<div class='item'></div>");
@@ -1105,6 +1245,13 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     return dataDiv
 }
 
+/**
+ * Add event of reading the information of the part
+ * @method addReadPartInfoEvent
+ * @for SideBarWorker
+ * @param {elem} moreElem
+ *
+ */
 SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
     var that = this;
     moreElem.click(function() {
@@ -1115,6 +1262,13 @@ SideBarWorker.prototype.addReadPartInfoEvent = function(moreElem) {
     });
 }
 
+/**
+ * Write the information of part to modal
+ * @method writePartInfoToModal
+ * @for SideBarWorker
+ * @param {part} part A part data structure
+ *
+ */
 SideBarWorker.prototype.writePartInfoToModal = function(part) {
     var that = this;
     var infoModal = $("#readPartInfoModal");
@@ -1162,6 +1316,13 @@ SideBarWorker.prototype.writePartInfoToModal = function(part) {
 
 }
 
+/**
+ * Add event of reading the information of the device
+ * @method addReadPartInfoEvent
+ * @for SideBarWorker
+ * @param {elem} moreElem
+ *
+ */
 SideBarWorker.prototype.addDevicePartInfoEvent = function(moreElem) {
     var that = this;
     moreElem.click(function() {
@@ -1172,6 +1333,13 @@ SideBarWorker.prototype.addDevicePartInfoEvent = function(moreElem) {
     });
 }
 
+/**
+ * Write the information of device to modal
+ * @method writeDeviceInfoToModal
+ * @for SideBarWorker
+ * @param {device} device A device data structure
+ *
+ */
 SideBarWorker.prototype.writeDeviceInfoToModal = function(device) {
     var infoModal = $("#readDeviceInfoModal");
     infoModal.find('.deviceName').text(device.name);
@@ -1184,9 +1352,10 @@ SideBarWorker.prototype.writeDeviceInfoToModal = function(device) {
     infoModal.find('.deviceSource').text(device.source);
     infoModal.find('.deviceIntro').text(device.full_description);
 }
+
+//=====================================================================================================
 /**
  * @class LeftBar
- *
  * @method constructor
  *
  */
@@ -1211,7 +1380,6 @@ function LeftBar() {
     this.elemsDeviceList = [];
     this.elemsSystemList = [];
     this.elemsCustomList = [];
-    //test
     this.elemsPromoterList = [];
     this.elemsRBSList = [];
     this.elemsProteinList = [];
@@ -1229,18 +1397,29 @@ function LeftBar() {
     this.leftbarWorker = new SideBarWorker();
 }
 
+/**
+ * Init the left bar
+ * @method init
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.init = function() {
     this._leftTriggerAnimation();
     this.enableSearchPartBox();
     this.enableSearchRelateBox();
     this.enableSearchDeviceInputBox();
-    $('.menu .item').tab();
-
     this.enableFilter();
+    $('.menu .item').tab();
 };
 
+/**
+ * Init the parts of the left bar
+ * @method initPart
+ * @for LeftBar
+ * @param {List} partList
+ *
+ */
 LeftBar.prototype.initPart = function(partList) {
-    //create left-bar data list
     for (var i in partList) {
         var dataDiv = this.leftbarWorker.createPartView(partList[i]);
         this.elemsPartList.push(dataDiv);
@@ -1250,6 +1429,13 @@ LeftBar.prototype.initPart = function(partList) {
     this.updateSearchBar();
 }
 
+/**
+ * Init the devices of the left bar
+ * @method initDevice
+ * @for LeftBar
+ * @param {List} deviceList
+ *
+ */
 LeftBar.prototype.initDevice = function(deviceList) {
     for (var i in deviceList) {
         var dataDiv = this.leftbarWorker.createDeviceView(deviceList[i]);
@@ -1260,10 +1446,24 @@ LeftBar.prototype.initDevice = function(deviceList) {
     this.updateSearchBar();
 }
 
+/**
+ * Add device view to the left bar
+ * @method addDeviceToBar
+ * @for LeftBar
+ * @param {elem} elem A device Dom element
+ *
+ */
 LeftBar.prototype.addDeviceToBar = function(elem) {
     this.leftbarWorker.addElemToView(elem, this.view.devices);
 }
 
+/**
+ * Add part view to the left bar
+ * @method addPartToBar
+ * @for LeftBar
+ * @param {elem} elem A part Dom element
+ *
+ */
 LeftBar.prototype.addPartToBar = function(elem) {
     var partType = elem.attr("type");
     var elemClone = elem.clone();
@@ -1301,6 +1501,12 @@ LeftBar.prototype.addPartToBar = function(elem) {
     this.leftbarWorker.addElemToView(elem, this.view.parts);
 }
 
+/**
+ * Enable filter/search box
+ * @method enableFilter
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.enableFilter = function() {
     var that = this;
     $("#filterParts").change(function() {
@@ -1338,22 +1544,34 @@ LeftBar.prototype.enableFilter = function() {
     })
 }
 
+/**
+ * Add custom part view to the left bar
+ * @method addCustomPart
+ * @for LeftBar
+ * @param {Part} part A part Dom element
+ *
+ */
 LeftBar.prototype.addCustomPart = function(part) {
     var dataDiv = this.leftbarWorker.createPartView(part);
     this.elemsCustomList.push(dataDiv);
     this._searchPartTitle.push({title: part.name});
-
     this.updateSearchBar();
     this.leftbarWorker.addElemToView(dataDiv, this.view.customs);
 }
 
+/**
+ * Update search box
+ * @method updateSearchBar
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.updateSearchBar = function() {
     var that = this;
     $('#searchPartBox').search({
         source: this._searchPartTitle,
         onSelect: function(value) {
-            var e = jQuery.Event("keyup");//模拟一个键盘事件
-            e.keyCode =13;//keyCode=13是回车
+            var e = jQuery.Event("keyup");
+            e.keyCode =13;
             that.view.searchPartInput.val(value.title);
             that.view.searchPartInput.trigger(e);
         }
@@ -1361,8 +1579,8 @@ LeftBar.prototype.updateSearchBar = function() {
     $('#searchDeviceBox').search({
         source: this._searchDeviceTitle,
         onSelect: function(value) {
-            var e = jQuery.Event("keyup");//模拟一个键盘事件
-            e.keyCode =13;//keyCode=13是回车
+            var e = jQuery.Event("keyup");
+            e.keyCode =13;
             that.view.searchDeviceInput.val(value.title);
             that.view.searchDeviceInput.trigger(e);
         }
@@ -1370,14 +1588,20 @@ LeftBar.prototype.updateSearchBar = function() {
     $('#searchRelateBox').search({
         source: this._searchPartTitle,
         onSelect: function(value) {
-            var e = jQuery.Event("keyup");//模拟一个键盘事件
-            e.keyCode =13;//keyCode=13是回车
+            var e = jQuery.Event("keyup");
+            e.keyCode =13;
             that.view.searchRelateInput.val(value.title);
             that.view.searchRelateInput.trigger(e);
         }
     });
 }
 
+/**
+ * Enable left-bar trigger animation
+ * @method _leftTriggerAnimation
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype._leftTriggerAnimation = function() {
     var that = this;
     this.leftTrigger.click(function() {
@@ -1387,10 +1611,6 @@ LeftBar.prototype._leftTriggerAnimation = function() {
             that.view.animate({
                 left: '-' + that._leftBarWidth + 'px'
             }, 500);
-
-            // $("#main-contain").animate({
-            //     left: '0px'
-            // }, 500);
             $("#drawArea").animate({
                 left: '0px'
             }, 500);
@@ -1400,15 +1620,9 @@ LeftBar.prototype._leftTriggerAnimation = function() {
             that.leftTrigger.find("i").removeClass("left").addClass("right");
         } else {
             that.isOpenLeftBar = true;
-
             that.view.animate({
                 left: '0px'
             }, 500);
-
-            // $("#main-contain").animate({
-            //     left: that._leftBarWidth + 'px'
-            // }, 500);
-
             $("#drawArea").animate({
                 left: that._leftBarWidth + 'px'
             }, 500);
@@ -1420,6 +1634,12 @@ LeftBar.prototype._leftTriggerAnimation = function() {
     });
 }
 
+/**
+ * Enable searching part box
+ * @method enableSearchPartBox
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.enableSearchPartBox = function() {
     var that = this;
     this.view.searchPartInput.keyup(function() {
@@ -1433,7 +1653,6 @@ LeftBar.prototype.enableSearchPartBox = function() {
                     searchElemPartList.push(that.elemsPartList[i]);
                 }
             }
-
             that.leftbarWorker.showView(searchElemPartList, that.view.parts);
         } else {
             that.leftbarWorker.showView(that.elemsPartList, that.view.parts);
@@ -1441,6 +1660,12 @@ LeftBar.prototype.enableSearchPartBox = function() {
     });
 };
 
+/**
+ * Enable searching related part box
+ * @method enableSearchRelateBox
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.enableSearchRelateBox = function() {
     var that = this;
     this.view.searchRelateInput.keyup(function() {
@@ -1462,6 +1687,12 @@ LeftBar.prototype.enableSearchRelateBox = function() {
     })
 }
 
+/**
+ * Enable searching deivce box
+ * @method enableSearchDeviceInputBox
+ * @for LeftBar
+ *
+ */
 LeftBar.prototype.enableSearchDeviceInputBox = function() {
     var that = this;
     this.view.searchDeviceInput.keyup(function() {
@@ -1480,10 +1711,10 @@ LeftBar.prototype.enableSearchDeviceInputBox = function() {
         }
     })
 }
+
 //========================================================================================
 /**
  * @class RightBar
- *
  * @method constructor
  *
  */
@@ -1509,11 +1740,23 @@ function RightBar() {
     this._searchDeviceTitle = [];
 };
 
+/**
+ * Init the left bar
+ * @method init
+ * @for RightBar
+ *
+ */
 RightBar.prototype.init = function() {
     this._rightTriggerAnimation();
     this.enableSearchAddInput();
 }
 
+/**
+ * Clear right part/device/system/.. view
+ * @method clear
+ * @for RightBar
+ *
+ */
 RightBar.prototype.clear = function() {
     this._searchPartTitle = [];
     this._searchDeviceTitle = [];
@@ -1527,11 +1770,16 @@ RightBar.prototype.clear = function() {
     this.view.customs.empty();
 }
 
+/**
+ * Add right bar trigger animation
+ * @method _rightTriggerAnimation
+ * @for RightBar
+ *
+ */
 RightBar.prototype._rightTriggerAnimation = function() {
     var that = this;
     this.rightTrigger.click(function() {
         var right = that.view.css("right");
-
         if (parseInt(right) == 0) {
             that._isOpenRightBar = false;
             that.view.animate({
@@ -1551,11 +1799,25 @@ RightBar.prototype._rightTriggerAnimation = function() {
     });
 };
 
+/**
+ * Process the part after putting
+ * @method processDropedPart
+ * @for RightBar
+ * @param {Part} part A part data structure
+ *
+ */
 RightBar.prototype.processDropedPart = function(part) {
     this.updateEquationView(part);
     this.updateAddedView(part);
 }
 
+/**
+ * Process the device after putting
+ * @method processDropedDevice
+ * @for RightBar
+ * @param {Device} device A device data structure
+ *
+ */
 RightBar.prototype.processDropedDevice = function(device) {
     var deviceElem = this.rightbarWorker.createDeviceView(device);
     if (!this.isDeviceAdded(device)) {
@@ -1566,6 +1828,13 @@ RightBar.prototype.processDropedDevice = function(device) {
     }
 }
 
+/**
+ * Update equation view
+ * @method updateEquationView
+ * @for RightBar
+ * @param {Part} part A part data structure
+ *
+ */
 RightBar.prototype.updateEquationView = function(part) {
     if (this.isPartAddedEquationMenu(part)) {
         return;
@@ -1575,20 +1844,33 @@ RightBar.prototype.updateEquationView = function(part) {
     }
 }
 
+/**
+ * Add part to the dropdown menu
+ * @method addDropdownItem
+ * @for RightBar
+ * @param {Part} part A part data structure
+ * @param {elem} dropdownMenuElem A dropdown menu Dom elem
+ *
+ */
 RightBar.prototype.addDropdownItem = function(part, dropdownMenuElem) {
     var itemDiv = $("<div></div>");
     itemDiv.addClass("item");
     itemDiv.attr("data-value", part.name);
-
     var imgElem = $("<img/>");
     imgElem.addClass("ui mini avatar image");
     imgElem.attr("src", Util.getImagePath(part.type, 70));
     imgElem.appendTo(itemDiv);
-
     itemDiv.append(part.name);
     dropdownMenuElem.append(itemDiv);
 }
 
+/**
+ * Check if is the part added in the equation menu
+ * @method isPartAddedEquationMenu
+ * @for RightBar
+ * @param {Part} part A part data structure
+ *
+ */
 RightBar.prototype.isPartAddedEquationMenu = function(part) {
     var flag = false;
     $("#equationDropdownA .menu").each(function() {
@@ -1599,6 +1881,13 @@ RightBar.prototype.isPartAddedEquationMenu = function(part) {
     return flag;
 }
 
+/**
+ * Update "Added" view of the right bar
+ * @method updateAddedView
+ * @for RightBar
+ * @param {Part} part A part data structure
+ *
+ */
 RightBar.prototype.updateAddedView = function(part) {
     var partElem = this.rightbarWorker.createPartView(part);
     if (!this.isPartAdded(part)) {
@@ -1609,6 +1898,13 @@ RightBar.prototype.updateAddedView = function(part) {
     }
 }
 
+/**
+ * Remove part view by part.attr
+ * @method removePartViewByAttr
+ * @for RightBar
+ * @param {String} partAttr A part attr
+ *
+ */
 RightBar.prototype.removePartViewByAttr = function(partAttr) {
     for (var i in this.elemsPartList) {
         if ($(this.elemsPartList[i].find('.item')).attr('part-attr') == partAttr) {
@@ -1619,6 +1915,13 @@ RightBar.prototype.removePartViewByAttr = function(partAttr) {
     }
 }
 
+/**
+ * Check if is the part added
+ * @method isPartAdded
+ * @for RightBar
+ * @param {Part} part A part data structure
+ *
+ */
 RightBar.prototype.isPartAdded = function(part) {
     for (var i in this.elemsPartList) {
         if ($(this.elemsPartList[i].find('.item')).attr('part-attr') == part.attr) {
@@ -1628,6 +1931,13 @@ RightBar.prototype.isPartAdded = function(part) {
     return false;
 }
 
+/**
+ * Check if is the device added
+ * @method isDeviceAdded
+ * @for RightBar
+ * @param {Device} device A device data structure
+ *
+ */
 RightBar.prototype.isDeviceAdded = function(device) {
     for (var i in this.elemsDeviceList) {
         if ($(this.elemsDeviceList[i]).find(".partTitle").text() == device.name) {
@@ -1637,10 +1947,22 @@ RightBar.prototype.isDeviceAdded = function(device) {
     return false;
 }
 
+/**
+ * Update search bar
+ * @method updateSearchBar
+ * @for RightBar
+ *
+ */
 RightBar.prototype.updateSearchBar = function() {
     this.view.searchAddBox.search({source: this._searchPartTitle});
 }
 
+/**
+ * Enable searching box of added part
+ * @method enableSearchAddInput
+ * @for RightBar
+ *
+ */
 RightBar.prototype.enableSearchAddInput = function() {
     var that = this;
     this.view.searchAddInput.keyup(function() {
@@ -1664,6 +1986,14 @@ RightBar.prototype.enableSearchAddInput = function() {
     });
 };
 
+/**
+ * Show equation
+ * @method showEquation
+ * @for RightBar
+ * @param {String} partAttrA A part attr
+ * @param {String} partAttrB A part attr
+ *
+ */
 RightBar.prototype.showEquation = function(partAttrA, partAttrB) {
     var equationStr = DataManager.getEquation(partAttrA, partAttrB);
     var pElem = $("<p></p>");
@@ -1672,6 +2002,13 @@ RightBar.prototype.showEquation = function(partAttrA, partAttrB) {
     MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 }
 
+/**
+ * Init equation parts
+ * @method initEquationParts
+ * @for RightBar
+ * @param {List} partList A part list
+ *
+ */
 RightBar.prototype.initEquationParts = function(partList) {
     for (var i in partList) {
         var option = $("<option></option>");
@@ -1685,11 +2022,15 @@ RightBar.prototype.initEquationParts = function(partList) {
         option.text(partList[i].attr);
         option.appendTo("#target");
     }
+    for (var i in partList) {
+        var option = $("<option></option>");
+        option.attr("value", partList[i].attr);
+        option.text(partList[i].attr);
+        option.appendTo("#searchParts");
+    }
 }
 
 //===============================================================================
-//===============================================================================
-
 $(function() {
     design = new Design();
     leftBar = new LeftBar();
@@ -1724,11 +2065,6 @@ $(function() {
     DataManager.getRelationShipDataFromServer();
 
 })
-
-
-//===============================================================================
-//===============================================================================
-//===============================================================================
 //===============================================================================
 
 $("#createCustomPart").click(function() {
@@ -1776,7 +2112,6 @@ $("#equationPartB").change(function() {
     }
 });
 
-
 $('#loadingData').dimmer('show');
 
 $("#moveTo").click(function() {
@@ -1821,7 +2156,6 @@ $("#createEquationBtn").click(function() {
         $("#createEquationErrorModal").modal({transition: 'bounce'}).modal('show');
         return ;
     }
-    console.log($("#coefficient").find(".ui.labeled.input"));
     $("#coefficient").find(".ui.labeled.input").each(function() {
         var coeffName = $(this).find(".coeffName").text();
         var coeffNum = $(this).find('.coeffNum').val();
@@ -1835,7 +2169,6 @@ $("#createEquationBtn").click(function() {
     data.coeffList = coeffList;
     data.formular = formular;
     var postDataJson = JSON.stringify(data);
-    console.log(postDataJson);
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
@@ -1848,62 +2181,35 @@ $("#createEquationBtn").click(function() {
     });
 });
 
-// $("#userGuideModal").modal('show');
-
-setTimeout(function(){
-    userGuideInit(11,userGuideModal.children(".content"), circleTab),
-    $("#btn-userGuide").click(function(){
-        userGuideModal.modal("show")
-    }),
-    userGuideModal.find(".content img").each(function(a){
-        0===a? $(this).addClass("ui transition image visible"):$(this).addClass("ui transition image hidden")
-    });
-    var a =! 0, b = circleTab.children(), c = userGuideModal.find(".content img");
-    btnArrowLeft.hide(),
-    userGuideModal.children(".btn-arrow").click(function(d){
-        var e,f;
-        if(a) {
-            for (a=!1, btnArrowRight.show(), btnArrowLeft.show(), e=$(d.target), f=0;
-                f<c.length&&!c.eq(f).hasClass("visible");
-                f++);
-            if (e.hasClass("left")){
-                if(1===f && btnArrowLeft.hide(), 0===f) return;
-                c.eq(f).transition("horizontal flip","300ms"),
-                c.eq(f-1).transition("horizontal flip","300ms"),
-                b.eq(f).removeClass("actived"),
-                b.eq(f-1).addClass("actived")
-            } else {
-                if(f===c.length-2&&btnArrowRight.hide(),f===c.length-1)
-                return;
-                c.eq(f).transition("horizontal flip","300ms"),
-                c.eq(f+1).transition("horizontal flip","300ms"),
-                b.eq(f).removeClass("actived"),
-                b.eq(f+1).addClass("actived")
-            }
-            setTimeout(function(){a=!0},300)
+$("#searchEquationsBtn").click(function() {
+    $(this).addClass("loading");
+    var postData = {};
+    postData.related = $("#searchParts").val();
+    var postDataJson = JSON.stringify(postData);
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: '/design/equation/search',
+        dataType : 'json',
+        data : postDataJson,
+        success: function(data) {
+            console.log(data);
+            $("#equaSearchResultModal").modal('show');
         }
-    }),
-    b.each(function(a){
-        $(this).click(function(){
-            var d = $(this);
-            d.hasClass("actived") || 
-            (circleTab.find(".actived").removeClass("actived"), d.addClass("actived"),
-            c.eq(a).transition("horizontal flip","300ms"),
-            c.filter(".visible").transition("horizontal flip","300ms")),
-            0 === a ? 
-                (btnArrowLeft.hide(),btnArrowRight.show()):
-                a === b.length-1 ? 
-                    (btnArrowLeft.show(),btnArrowRight.hide()):(btnArrowLeft.show(),btnArrowRight.show())
-        })
-    })
-},2e3);
+    });
+});
 
-function userGuideInit(a, b, c){
-    var d, e;
-    for(d = 1; a >= d; d++)
-        e = 10 > d ? "0"+d : d, $("<img>").attr("src","/static/img/user_guide/e"+e+".jpg").appendTo(b),
-        1 === d ? 
-            $("<i>").addClass("circle icon actived").appendTo(c):
-            $("<i>").addClass("circle icon").appendTo(c);
-    c.css("margin-left", -28*a/2+"px")
-}
+// initialize all modals
+$('.coupled.modal')
+  .modal({
+    allowMultiple: true
+  })
+;
+// open second modal on first modal buttons
+$('.second.modal')
+  .modal('attach events', '.first.modal .button')
+;
+// show first immediately
+// $('.first.modal')
+//   .modal('show')
+// ;

@@ -419,6 +419,19 @@
 	text-align: center;
 }
 
+#plasmid-box .top {
+	vertical-align: middle;
+	text-align: left;
+}
+
+#plasmid-box .title {
+	vertical-align: middle;
+	font-size: 20px;
+	margin-top: 0;
+	margin-bottom: 0;
+	display: inline-block;
+}
+
 .myDropdown .button {
 	background-color: rgb(114, 211, 227);
 }
@@ -457,6 +470,8 @@
 
 #chooseDesignBtn {
 	z-index: 100;
+	text-align: left;
+	display: inline-block;
 }
 
 #chooseModal {

@@ -1,0 +1,13 @@
+['alpha',['RtTA-DOXYCYCLINE','Ptet'],[('alpha_{alpha}',1.12),('d',0.35),('K',2.5),('n',3),('mfalpha',150)],'{{alpha_{alpha}}}*{{mfalpha}}*(RtTA-DOXYCYCLINE**{{n}}/({{K}}**{{n}}+RtTA-DOXYCYCLINE**{{n}}))-{{d}}*alpha']
+#全方程
+['alpha',[],[('d',0.35)],'-{{d}}*alpha']
+#当启动子不存在时
+['alpha',['Ptet'],[('alpha_{alpha}',1.12),('d',0.35),('mfalpha',150)],'{{alpha_{alpha}}}*{{mfalpha}}-{{d}}*alpha']
+#当启动子存在，而RtTA-DOXYCYCLINE不存在时
+
+['RFP',['PAGA','alpha'],[('alpha_{RFP}',0.93),('d',0.35),('rfp',150),('K',2.5),('n',3)],'{{alpha_{RFP}}}*{{rfp}}*(alpha**{{n}}/({{K}}**{{n}}+alpha**{{n}}))-{{d}}*RFP']
+#全方程
+['RFP',[],[('d',0.35),('rfp',150)],'-{{d}}*RFP']
+#当PAGA不存在时
+['RFP',['PAGA'],[('alpha_{RFP}',0.93),('d',0.35),('rfp',150)],'{{alpha_{RFP}}}*{{rfp}}-{{d}}*RFP']
+#当PAGA存在，a不存在时

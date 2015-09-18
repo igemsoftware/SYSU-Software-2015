@@ -78,7 +78,6 @@ Util.downloadImage = function(fileName, content){
     evt.initEvent("click", false, false);
     aLink.download = fileName;
     aLink.href = content;
-    // aLink.href = content;
     aLink.dispatchEvent(evt);
 }
 

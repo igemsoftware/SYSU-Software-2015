@@ -43,7 +43,7 @@ class Task(db.Model):
                 'id':self.id,
                 'title':self.title,
                 'content':htmltotext(self.content),
-                'timestamp': (self.timestamp - datetime.utcfromtimestamp(0)).total_seconds(),
+                'timestamp': (self.timestamp - datetime.utcfromtimestamp(0)).total_seconds() * 1000,
                 'views' : self.views,
                 'votes' : self.votes,
                 'answers':self.answers.count(),

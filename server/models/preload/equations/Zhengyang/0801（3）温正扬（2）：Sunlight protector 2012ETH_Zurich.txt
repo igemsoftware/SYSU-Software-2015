@@ -1,11 +1,11 @@
-['PabAB',['Ptet','UVR8_TetRDBD_dimer'],[('A',0.05),('k_{Ptet}',1.1),('k_{deg}',3.85*10**(-5)),('n_{TetR}',1),('KM_{TetR}',100),('pabApabB',150)],'{{A}}*{{k_{Ptet}}}*{{pabApabB}}*1/(1+(UVR8_TetRDBD_dimer)**{{n_{TetR}}})-{{k_{deg}}}*PabAB']
+['PabAB',['Ptet','UVR8-TetRDBD(dimer)'],[('A',0.05),('k_{Ptet}',1.1),('k_{deg}',3.85*10**(-5)),('n_{TetR}',1),('KM_{TetR}',100),('pabA pabB',150)],'{{A}}*{{k_{Ptet}}}*{{pabA pabB}}*1/(1+(UVR8-TetRDBD(dimer))**{{n_{TetR}}})-{{k_{deg}}}*PabAB']
 #全方程
 ['PabAB',[],[('k_{deg}',3.85*10**(-5))],'-{{k_{deg}}}*PabAB']
 #当启动子不存在时，无论UVR8_TetRDBD_dimer存在不存在都同上
-['PabAB',['Ptet'],[('A',0.05),('k_{Ptet}',1.1),('k_{deg}',3.85*10**(-5)),('pabApabB',150)],'{{A}}*{{k_{Ptet}}}*{{pabApabB}}-{{k_{deg}}}*PabAB']
+['PabAB',['Ptet'],[('A',0.05),('k_{Ptet}',1.1),('k_{deg}',3.85*10**(-5)),('pabA pabB',150)],'{{A}}*{{k_{Ptet}}}*{{pabA pabB}}-{{k_{deg}}}*PabAB']
 #当启动子存在，UVR8_TetRDBD_dimer不存在时
 
-['PabC',['Ptet','UVR8_TetRDBD_dimer'],[('A',0.05),('k_{Ptet}',1.1),('k_{deg}',3.85*10**(-5)),('n_{TetR}',1),('KM_{TetR}',100),('pabC',150)],'{{A}}*{{k_{Ptet}}}*{{pabC}}*1/(1+(UVR8_TetRDBD_dimer)**{{n_{TetR}}})-{{k_{deg}}}*PabC']
+['PabC',['Ptet','UVR8-TetRDBD(dimer)'],[('A',0.05),('k_{Ptet}',1.1),('k_{deg}',3.85*10**(-5)),('n_{TetR}',1),('KM_{TetR}',100),('pabC',150)],'{{A}}*{{k_{Ptet}}}*{{pabC}}*1/(1+(UVR8-TetRDBD(dimer))**{{n_{TetR}}})-{{k_{deg}}}*PabC']
 #全方程
 ['PabC',[],[('k_{deg}',3.85*10**(-5))],'-{{k_{deg}}}*PabC']
 #当启动子不存在时，无论UVR8_TetRDBD_dimer存在不存在都同上

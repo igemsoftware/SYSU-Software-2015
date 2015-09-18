@@ -106,7 +106,6 @@ def data_fetch_relationship():
         l.append({'start': r.start.attr,
                   'end': r.end.attr,
                   'type': r.type,
-                  'equation':r.equation.jsonify() #render()
                   })
     return jsonify(relationship=l)
 
@@ -405,6 +404,7 @@ def add_an_equation():
         .. code-block:: json
 
             {
+                "id": -1
                 "target": "A-RBS",
                 "requirement": ["3OC12HSL", "A-RBS", "ADC", "AHL"],
                 "coeffList": [
@@ -417,16 +417,53 @@ def add_an_equation():
     """
 
     data = request.get_json()
-    e = EquationBase()
+    id = data.get('id', -1)
+    if id <= 0:
+        e = EquationBase()
+    else:
+        e = EquationBase.query.get(id)
+        e.update_from_db()
 
     e.target = data.get('target', '')
-    e.related = list(data.get('requirement', ''))
-    e.parameter = map(lambda x: x.items()[0], data.get('coeffList', ''))
+    e.related = list(data.get('requirement', []))
+    e.parameter = dict(map(lambda x: x.items()[0] if x else [], data.get('coeffList', [])))
     e.formular = data.get('formular', '')
     
     e.commit_to_db()
     return 'success'
 
+
+@design.route('/equation/search', methods=['POST'])
+#@login_required
+def get_equations():
+    """
+        :Note: Login required
+        :Usage: Get equations for a given components list.
+        :Input Example: 
+
+        .. code-block:: json
+
+            {
+                "related": ["YFP", "yfp"]
+            }
+    """
+
+    data = request.get_json()
+    related = set(data.get('related', []))
+    equations = []
+    for e in EquationBase.query.all():
+        e.update_from_db()
+        needed = set(e.all_related)
+        if related >= needed:
+            equations.append(
+            {
+                "id": e.id,
+                "target": e.target, 
+                "requirement": e.related,
+                "coeffList": [{coname: value} for coname,value in e.parameter.iteritems()],
+                "formular": e.formular 
+            })
+    return jsonify(equations=equations)
 
 
 
