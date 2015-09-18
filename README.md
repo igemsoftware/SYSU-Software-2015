@@ -51,7 +51,7 @@ python core.py
 ## Advanced usage
 
 ### On the shoulders of giants:
-The primitive CORE contains nothing except few necessary information to support the software. If you want to start with some parts, devices and tasks that we collected for you, run `python manager.py testinit` instead. You can acquire many useful components and feel less lonely.
+The primitive CORE contains nothing except few necessary information to support the software. If you want to start with some parts, devices and tasks that we collected for you, run `python manager.py userinit` instead. You can acquire many useful components and feel less lonely.
 
 ### Share a database within lab:
 It is **highly recommended** to deploy CORE on a public (like world-wide-web) or semi-public (like laboratory) server. Because users can cooperate with each other by answering others' question or by sharing their devices.

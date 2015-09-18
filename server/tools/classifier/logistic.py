@@ -27,7 +27,7 @@ class LogisticRegression():
         """
         return 1/(1+np.exp(-z))
 
-    def fit_from_file(self, filename, ignoreline=1):
+    def fit_from_file(self, filename, ignoreline=1, **kwargs):
         """
             Train classifier by using data fetched in a file. The format is given in the example csv file.
         """
@@ -41,7 +41,7 @@ class LogisticRegression():
         y = a[:, 7]
 
         # train with default settings
-        self.fit(x, y, max_iteration = 1000, plot_interval=200, lr=0.01)
+        self.fit(x, y, max_iteration = 400, plot_interval=10, lr=0.01, **kwargs)
         return self
 
 
@@ -73,10 +73,16 @@ class LogisticRegression():
         self.y = y.reshape(1, self.n)
         self.lr = lr
         self.theta = np.random.uniform(-1, 1, size=(1, self.dim) )
+        self.accuracy = []
 
         for iteration in range(max_iteration):
+            # stochastic gradient descent
+            #random_ind = np.random.randint(0, self.n)
+            #rx = self.x[random_ind].reshape(1, 8)
+            #ry = self.y[0][random_ind]
+
             self.theta = self.theta - self.lr * \
-                    np.dot( (self.sigmoid(np.dot(self.theta, x.T)) - self.y), self.x)
+                    np.dot( (self.sigmoid(np.dot(self.theta, self.x.T)) - self.y), self.x)
 
             if iteration % plot_interval == 0 and not slient:
                 print 'iteration %d:' % iteration
@@ -84,8 +90,9 @@ class LogisticRegression():
                 print '\tdot:', np.dot(self.theta, x.T)
                 print '\tpredict:', self.binary_predict(self.raw_x)
                 print '\taccuracy = %d/%d' % ( ( (self.binary_predict(self.raw_x)) == self.y).sum(), self.n)
+                self.accuracy.append( float(((self.binary_predict(self.raw_x)) == self.y).sum())/self.n)
+        return self
 
-        return self.theta
 
     def predict(self, x):
         """
@@ -118,21 +125,22 @@ if __name__ == '__main__':
 #                 [5, 2]])
 #   y = np.array([0,0,0,1,1,1,1])
 
+    c = LogisticRegression()
+    
+    # equivalent
+    #c.fit_from_file('server/tools/classifier/data.csv', return_acc=True, slient=True)
+
     with open('server/tools/classifier/data.csv', 'r') as f:
         a = np.array(map(lambda x: map(float, x.strip().split(',')), f.read().strip().split('\n')[1:]))
-    print a
     x = a[:, :7]
     y = a[:, 7]
-    print x
-    print y
 
-    c = LogisticRegression()
-#    c.fit(x, y, max_iteration = 200, plot_interval=10, lr=0.1)
-    c.fit_from_file('server/tools/classifier/data.csv')
+    from datetime import datetime
+    start = datetime.now()
+    c.fit(x, y, max_iteration = 400, plot_interval=10, lr=0.01)
+    end = datetime.now()
 
-    x = np.array([[1,1,1,1,1,1,1],
-            [5,5,5,5,5,5,5]])
-    print x
-    print c.predict(x)
+    print c.accuracy
+    print (end-start).total_seconds()
 
 
