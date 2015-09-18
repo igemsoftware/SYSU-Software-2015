@@ -177,6 +177,13 @@ Plasmid.prototype.writePartInfoToModal = function(part) {
     });
     $("#searchCds").click(function() {
         var there = this;
+        if (that.part.BBa == "") {
+        	$("#noBBaErrorModal").modal('show');
+        	$("#noBBaErrorModal").find('.back').click(function() {
+                $("#noBBaErrorModal").modal('hide');
+            });
+        	return ;
+        }
         $(this).addClass('loading');
         var postDataJson = JSON.stringify({BBa: that.part.BBa});
         $.ajax({
@@ -209,7 +216,6 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
     $http.get("/static/js/experiment/plasmidData.json")
   	.success(function(data) {
   		$scope.plasmids = data;
-  		// $scope.currentPlasmid = $scope.plasmids[0];
   	});
 
   	$http.get("/design/data/"+$.getUrlParam('id'))
