@@ -8,6 +8,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/2.2.0/math.min.js"></script>
   <script src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
   <script src='https://cdnjs.cloudflare.com/ajax/libs/vue/0.12.13/vue.min.js'></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+</script>
 {% endblock %}
 
 {% block body %}
@@ -178,8 +181,6 @@
         <div class="ui grid">
           <div class="sixteen wide column text-center">
             <h3>Search equation:</h3>
-            <!-- <h3>Check equation between two parts</h3> -->
-            <!-- <span>(You should put them on design-area first)</span> -->
           </div>
           <div class="sixteen wide column ">
             <label>Parts:</label>
@@ -187,29 +188,6 @@
             </select>
             <div class="ui button ired white float-right" id="searchEquationsBtn">Search</div>
           </div>
-<!--           <div class="sixteen wide column ">
-            <div class="ui button ired white">Search</div>
-          </div> -->
-   <!--        <div class="eight wide column">
-            <div class="ui fluid selection dropdown" id="equationDropdownA">
-              <input id="equationPartA" name="type" type="hidden" value="">
-              <i class="dropdown icon"></i>
-              <div class="default text">Select a part</div>
-              <div class="menu">
-              </div>
-            </div>
-          </div>
-          <div class="eight wide column">
-            <div class="ui fluid selection dropdown" id="equationDropdownB">
-              <input id="equationPartB" name="type" type="hidden" value="">
-              <i class="dropdown icon"></i>
-              <div class="default text">Select a part</div>
-              <div class="menu">
-              </div>
-            </div>
-          </div> -->
-       <!--    <div class="sixteen wide column text-center" id="showEquation">
-          </div> -->
         </div>
         <div class="ui divider"></div>
         <div class="text-center">
@@ -282,69 +260,28 @@
 <!-- coefficient modal -->
 
 <!-- EquationSearchResult modal -->
-    <div class="ui small first coupled modal" id="equaSearchResultModal">
+    <div class="ui small first modal" id="equaSearchResultModal">
       <div class="header">Search Reasult:</div>
       <div class="content">
-        <div class="ui grid">
-          <div class="five wide column">
-            <span>Target:</span>
-            <span class="target"></span>
-          </div>
-          <div class="eleven wide column">
-            <span>Requirement:</span>
-            <span class="requirement"></span>
-          </div>
-          <div class="sixteen wide column">
-            <span>coefficient:</span>
-            <span class='coefficient'></span>
-          </div>
-          <div class= "three wide column">
-            <span>Formular:</span>
-          </div>
-          <div class= "thirteen wide column">
-            <span></span>
-          </div>
-        </div>
-        <div class="ui divider"></div>
-        <div class="ui grid">
-          <div class="five wide column">
-            <span>Target:</span>
-            <span class="target"></span>
-          </div>
-          <div class="eleven wide column">
-            <span>Requirement:</span>
-            <span class="requirement"></span>
-          </div>
-          <div class="sixteen wide column">
-            <span>coefficient:</span>
-            <span class='coefficient'></span>
-          </div>
-          <div class= "three wide column">
-            <span>Formular:</span>
-          </div>
-          <div class= "thirteen wide column">
-            <span></span>
-          </div>
+        <div class="equationList">
         </div>
         <div class="fluid text-right">
-          <div class="ui cancel button">Cancel</div>
-          <div class="ui button ired white" id="createParam">Create</div>
+          <div class="ui cancel button">Back</div>
         </div>
       </div>
     </div>
 <!-- EquationSearchResult modal -->
 
-<!-- EquationSearchResult modal -->
-    <div class="ui small coupled second modal">
-      <div class="header">Second:</div>
+<!--   searchEquationError modal -->
+    <div class="ui small basic modal" id="searchEquationErrorModel">
       <div class="content">
-        <div class="fluid text-right">
-          <div class="ui cancel button">Cancel</div>
-          <div class="ui button ired white" id="createParam">Create</div>
+        <h3 class="text-center"><i class="ui large icon remove circle"></i>No equation was found.</h3>
+        <div class="fluid text-center" style="margin-top: 50px;">
+          <div class="ui cancel button ired white">OK.</div>
         </div>
       </div>
     </div>
-<!-- EquationSearchResult modal -->
+<!--   searchEquationError modal -->
 
 <!-- formular modal -->
     <div class="ui small modal" id="formularModal">

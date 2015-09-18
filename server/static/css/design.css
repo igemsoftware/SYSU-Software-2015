@@ -608,6 +608,25 @@ body {
     margin-bottom: 5px;
 }
 
+#equaSearchResultModal .content .equationList {
+    overflow: auto;
+    height: 400px;
+}
+
+#equaSearchResultModal .content .equationList .title {
+    font-size: 17px;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#equaSearchResultModal .content .equationList .column {
+    line-height: 2.3em;
+    padding-bottom: 0px;
+    padding-top: 5px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 #createEquation {
     height: 50%;
     width: 100%;

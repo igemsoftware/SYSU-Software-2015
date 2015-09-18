@@ -85,18 +85,22 @@ class EquationBase(db.Model):
     """How many components related to it."""
     _content = db.Column(db.Text, default = '{}') 
     """Raw content in database."""
-    printable = db.Column(db.Text, default = '')
-    """Printable formular in Tex."""
+    #printable = db.Column(db.Text, default = '')
+    #"""Printable formular in Tex."""
     content = {}
     """Its content object."""
 
     def __repr__(self):
         self.update_from_db()
         return '<EquationBase[%d] %r>' % (self.id, self.packed())
+    
+    @property
+    def encoded(self):
+        return json.dumps(self.content)
 
     def commit_to_db(self):
         """Encode things into :attr:`_content` ."""
-        self._content = json.dumps(self.content)
+        self._content = self.encoded 
         self.related_count = len(self.content.get('related', [])) + 1
         db.session.add(self)
         return self
@@ -192,9 +196,12 @@ class EquationBase(db.Model):
             newvar = name_handler(var)
             e.formular = e.formular.replace(var, newvar)
 
-        e.commit_to_db()
-
-        return e
+        if EquationBase.query.filter_by(_content=e.encoded).first() == None:
+            e.commit_to_db()
+            return e
+        else:
+            print("Duplicated equation.")
+            return None
 
     @staticmethod
     def preload_from_file(filename):
@@ -216,7 +223,7 @@ class EquationBase(db.Model):
                     raise Exception
                     return msg
 
-                system.append(e.packed())
+                if e: system.append(e.packed())
 
         model, msg, names = getModel(system)
         if model:

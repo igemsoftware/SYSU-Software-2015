@@ -81,14 +81,6 @@ Util.downloadImage = function(fileName, content){
     aLink.dispatchEvent(evt);
 }
 
-Util.renderEquation = function(e) {
-    var res = e.content;  
-    for (var key in e.parameters) 
-        res=res.replace('{{'+key+'}}', e.parameters[key]); 
-    res = "$$ " + res + " $$";
-    return res;
-}
-
 Util._loadCircuitCNodes = function(parts) {
     var nodeElems = [];
     var that = this;
@@ -97,7 +89,6 @@ Util._loadCircuitCNodes = function(parts) {
         var node = that._createNewCNode(part);
         node.appendTo(design.drawArea);
         design.addPartEvent(node);
-        // design.addProAndInhibitLine(node);
         var partID = part.partID;
         nodeElems.push([partID, node]);
     });
@@ -198,19 +189,24 @@ Util.loadCircuitLinks = function(connections, nodeElems) {
             if (nodeElems[index][0] == elem.start) startElem = nodeElems[index][1];
             if (nodeElems[index][0] == elem.end) endElem = nodeElems[index][1];
         }
-        // if (elem.type == 'normal') {
-            // var startNormalNum = parseInt($(startElem).attr("normal-connect-num"));
-            // var endNormalNum = parseInt($(endElem).attr("normal-connect-num"));
-            // if (elem.type == 'normal') {
-            //     startNormalNum += 1;
-            //     endNormalNum += 1;
-            //     $(startElem).attr("normal-connect-num", startNormalNum);
-            //     $(endElem).attr("normal-connect-num", endNormalNum);
-            // }
-            design.drawLine(startElem, endElem, elem.type);
-        // }
+        design.drawLine(startElem, endElem, elem.type);
     }); 
 };
+
+Util.createEquationShow = function() {
+    var gridElem = $("<div class='ui grid'></div>");
+    var targetElem = $('<div class="five wide column"><span class="title">Target:</span><span class="target"></span></div>');
+    var requirementElem = $('<div class="eleven wide column"><span class="title">Requirement:</span><span class="requirement"></span></div>');
+    var coeffElem = $('<div class="sixteen wide column"><span class="title">Coefficient:</span><span class="coefficient"></span></div>');
+    var formular = $('<div class= "sixteen wide column"><span class="title">Formular:</span><span class="formular"></span></div>');
+    // var formular = $('<div class= "thirteen wide column"><span class="formular"></span></div>');
+    gridElem.append(targetElem);
+    gridElem.append(requirementElem);
+    gridElem.append(coeffElem);
+    // gridElem.append(formularTitle);
+    gridElem.append(formular);
+    return gridElem;
+}
 
 Util.getDevicePartsString = function(device) {
     var partString = "";
@@ -336,20 +332,6 @@ DataManager.isRelate = function(partAttrA, partAttrB) {
         }
     }
     return false;
-}
-
-DataManager.getEquation = function(partAttrA, partAttrB) {
-    var equationStr;
-    for (var i in this.relationShipList) {
-        var start = this.relationShipList[i].start.toLowerCase();
-        var end = this.relationShipList[i].end.toLowerCase();
-        if ((start === partAttrA.toLowerCase() && end === partAttrB.toLowerCase()) ||
-            (start === partAttrB.toLowerCase() && end === partAttrA.toLowerCase())) {
-            equationStr = Util.renderEquation(this.relationShipList[i].equation);
-            return equationStr
-        }
-    }
-    return "There are no equation between "+ partAttrA + " and " + partAttrB;
 }
 
 DataManager.isProOrInhibitRelation = function(fromPartA, toPartB) {

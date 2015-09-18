@@ -12,7 +12,9 @@
         4.1 interface API
     5.0 coe into var
         5.1 tranlate coe into var
-        5.1 var with initval
+        5.2 var with initval
+        5.3
+        5.4 data update
 '''
 import numpy as np
 from math import *
