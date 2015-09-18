@@ -13,12 +13,11 @@ var vEquation = Vue.component('v-equation', {
         },
     },
     ready : function() {
-        this.latexExp = math.parse(this.mathJSExp).toTex({parentheses: 'auto'});
         this.$watch('mathJSExp', function() {
-          this.latexExp = math.parse(this.mathJSExp).toTex({parentheses: 'auto'});
-        });
+            this.latexExp = math.parse(this.mathJSExp).toTex({parentheses: 'auto'});
+        }, {immediate: true});
         this.$watch('latexExp', function() {
-          MathJax.Hub.Queue(["Typeset",MathJax.Hub,"output"]);
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
         });
     }
 });
