@@ -3,7 +3,7 @@
  * @description Help the user to design circuits and logics
  * @author JinJin Lin
  * @mail jinjin.lin@outlook.com
- * @data Aug 7 2015
+ * @date Aug 7 2015
  * @copyright 2015 SYSU-Software. All rights reserved.
  *
  */
