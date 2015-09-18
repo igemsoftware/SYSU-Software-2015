@@ -133,9 +133,6 @@ Design.prototype.setDrawAreaHeight = function(height) {
     $("#drawArea").css("height", this.drawAreaHeight);
     var temp = this.drawAreaHeight - this.DRAWAREA_HEIGHT;
     var val = parseInt((parseFloat(temp*100))/this.DRAWAREA_HEIGHT);
-    console.log((parseFloat(temp*100)));
-    console.log(this.DRAWAREA_HEIGHT);
-    console.log(val);
     $(".slider input").val(val);
 }
 
@@ -856,6 +853,7 @@ DesignMenu.prototype.enableSaveDesignBtn = function(){
     });
 
     $("#saveCircuitBtn").click(function() {
+        $("#saveCircuitBtn").addClass("loading");
         var there = this;
         var img;
         var curcuitChartData = that.getDesignChartData();
@@ -866,8 +864,6 @@ DesignMenu.prototype.enableSaveDesignBtn = function(){
         curcuitChartData.plasmids = dfs.getCircuits();
         curcuitChartData.id = design.designID;
 
-        $("#saveModal").modal("hide");
-        $("#saveSuccessModal").modal('show');
         design.setDesignName(curcuitChartData.name);
         var el = $("#drawArea").get(0);
         html2canvas(el, {
@@ -898,6 +894,9 @@ DesignMenu.prototype.enableSaveDesignBtn = function(){
                         DataManager.getPerDesignDataFromServer(function(designs) {
                             designMenu.perDesignList = designs;
                         })
+                        $("#saveModal").modal("hide");
+                        $("#saveCircuitBtn").removeClass("loading");
+                        $("#saveSuccessModal").modal('show');
                     }
                 });
             }
