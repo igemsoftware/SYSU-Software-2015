@@ -17,6 +17,7 @@
         5.4 data update
     6.0 multiple sources 
         6.1 add target into database to acc
+    7.0 plasmid
 '''
 import numpy as np
 from math import *
