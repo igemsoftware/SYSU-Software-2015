@@ -2026,22 +2026,6 @@ $("#customCreate").click(function() {
 
 });
 
-$("#equationPartA").change(function() {
-    var partAttrA = $(this).attr("value");
-    var partAttrB = $("#equationPartB").attr("value");
-    if (partAttrA != "" && partAttrB != "") {
-        rightBar.showEquation(partAttrA, partAttrB);
-    }
-});
-
-$("#equationPartB").change(function() {
-    var partAttrA = $("#equationPartA").attr("value");
-    var partAttrB = $(this).attr("value");
-    if (partAttrA != "" && partAttrB != "") {
-        rightBar.showEquation(partAttrA, partAttrB);
-    }
-});
-
 $('#loadingData').dimmer('show');
 
 $("#moveTo").click(function() {
