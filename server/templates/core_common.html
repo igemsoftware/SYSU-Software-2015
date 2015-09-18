@@ -13,15 +13,15 @@
   <div class="ui page dimmer" id="main-switcher">
     <div class="content">
       <div class="center">
-        <a href="/taskhall" class="link">
+        <a href="{{url_for('taskhall.taskhall_index')}}" class="link">
           <img src="/static/img/common/co-development_circular.png" class="ui codev image">
           <div class="description">Co-development</div>
         </a>
-        <a href="/design" class="link">
+        <a href="{{url_for('main.design')}}" class="link">
           <img src="/static/img/common/design_circular.png" class="ui design image">
           <div class="description">Design</div>
         </a>
-        <a href="/bank" class="link">
+        <a href="{{url_for('bank.index')}}" class="link">
           <img src="/static/img/common/bank_circular.png" class="ui bank image">
           <div class="description">Bank</div>
         </a>
@@ -42,7 +42,7 @@
       <div class="ui popup transition hidden" id="topbar-avatar-popup">
         <div class="ui link list">
         {% if logged_in %}
-          <a class="item" href="/person">Dashboard</a>
+          <a class="item" href="/person">Personal Center</a>
           <a class="item" href="/person/notifs">Notifications <div class="ui red circular label">{{unread_count}}</div></a>
           <a href="{{url_for('auth.logout')}}" class="item">Log Out</a>
         {% else %}
@@ -63,8 +63,6 @@
       <div id="topbar-bottom-line"></div>
     </div>
   </template>
-
-  <component id="main-view" is="[[ currentView ]]" keep-alive></component>
 
   <script src="/static/js/lib/jquery.min.js"></script>
   <script src="/static/js/lib/semantic.min.js"></script>
