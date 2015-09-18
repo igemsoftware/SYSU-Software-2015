@@ -166,7 +166,7 @@ LeftBar.prototype.enableMoreBtn = function() {
 
 //===============================================================
 /**
- * @class CNode
+ * @class ProtocolList
  * @method constructor
  *
  */
@@ -352,10 +352,20 @@ ProtocolList.prototype.enableAddProBtn = function() {
 }
 
 //===========================================================================
-
+/**
+ * @class ModalManager
+ * @method constructor
+ *
+ */
 function ModalManager() {
 }
 
+/**
+ * Init all the modal
+ * @method init
+ * @for ModalManager
+ * 
+ */
 ModalManager.init = function() {
 	this.enablePlusLi();
 	this.enablePlusTableRow();
@@ -364,6 +374,14 @@ ModalManager.init = function() {
 	this.enableAddCalendar();
 }
 
+/**
+ * Show more information modal
+ * @method showMoreInforModal
+ * @for ModalManager
+ * @param {json} protocol A protocol data structure
+ * @param {boolean} isSetB True when the protocol belong to setB
+ * 
+ */
 ModalManager.showMoreInforModal = function(protocol, isSetB) {
 	$("#moreIndorModal .pro-title").text(protocol.name);
 	$("#moreIndorModal .star").text(protocol.likes);
@@ -388,6 +406,13 @@ ModalManager.showMoreInforModal = function(protocol, isSetB) {
 	;
 }
 
+/**
+ * Render component
+ * @method renderComponent
+ * @for ModalManager
+ * @param {json} protocol A protocol data structure
+ * 
+ */
 ModalManager.renderComponent = function(protocol) {
 	var ulElem = $("#moreIndorModal .content .component ul");
 	ulElem.empty();
@@ -399,6 +424,13 @@ ModalManager.renderComponent = function(protocol) {
 	}
 }
 
+/**
+ * Render table
+ * @method renderTable
+ * @for ModalManager
+ * @param {json} protocol A protocol data structure
+ * 
+ */
 ModalManager.renderTable = function(protocol) {
 	var proceduresTbodyElem = $("#moreIndorModal .content .procedures tbody");
 	proceduresTbodyElem.empty();
@@ -423,6 +455,12 @@ ModalManager.renderTable = function(protocol) {
 	}
 }
 
+/**
+ * Enable edit and save button
+ * @method enableEditSaveBtn
+ * @for ModalManager
+ * 
+ */
 ModalManager.enableEditSaveBtn = function() {
 	var that = this;
 	$("#save-edit").click(function() {
@@ -434,11 +472,18 @@ ModalManager.enableEditSaveBtn = function() {
 	});
 }
 
+/**
+ * Save status
+ * @method saveStatus
+ * @for ModalManager
+ * @param {elem} btn A button dom element
+ *
+ */
 ModalManager.saveStatus = function(btn) {
 	var that = this;
-	// come in save status
 	btn.find("i").removeClass("save");
 	btn.find("i").addClass("edit");
+
 	var temp = btn.find("i");
 	btn.empty();
 	btn.append(temp);
@@ -447,18 +492,23 @@ ModalManager.saveStatus = function(btn) {
 	$(".procedures td").each(function() {
 		that.changeToText($(this));
 	});
-
 	$(".component ul li").each(function() {
 		that.changeToText($(this));
 	});
+
 	this.changeToText($(".introduction"));
 	this.changeToText($(".pro-title"));
-
 	this.updateProtocolById($("#moreIndorModal").attr("index"));
 }
 
+/**
+ * Edit status
+ * @method editStatus
+ * @for ModalManager
+ * @param {elem} btn A button dom element
+ *
+ */
 ModalManager.editStatus = function(btn) {
-	// come in edit status
 	var that = this;
 	btn.find("i").removeClass("edit");
 	btn.find("i").addClass("save");
@@ -478,6 +528,13 @@ ModalManager.editStatus = function(btn) {
 	this.changeToTextarea($(".pro-title"));
 }
 
+/**
+ * Update protocol by id
+ * @method updateProtocolById
+ * @for ModalManager
+ * @param {number} id A protocol id
+ *
+ */
 ModalManager.updateProtocolById = function(id) {
 	var protocol = DataManager.getPerProtocolById(id);
 	var name = $(".pro-title").text();
@@ -488,7 +545,6 @@ ModalManager.updateProtocolById = function(id) {
 	$(".component ul li").each(function() {
 		component.push($(this).text())
 	});
-
 	$(".procedures tr").each(function() {
 		var procedure = {};
 		procedure.time = $(this).find(".time").text();
@@ -505,6 +561,13 @@ ModalManager.updateProtocolById = function(id) {
 	DataManager.syncProtocol(); 
 }
 
+/**
+ * Change elements to textarea
+ * @method changeToTextarea
+ * @for ModalManager
+ * @param {elem} sourceElem A dom element
+ *
+ */
 ModalManager.changeToTextarea = function(sourceElem) {
 	var textarea = $("<textarea></textarea>");
 	textarea.text(sourceElem.text());
@@ -512,12 +575,25 @@ ModalManager.changeToTextarea = function(sourceElem) {
 	sourceElem.append(textarea);
 };
 
+/**
+ * Change elements to text
+ * @method changeToText
+ * @for ModalManager
+ * @param {elem} sourceElem A dom element
+ *
+ */
 ModalManager.changeToText = function(sourceElem) {
 	var textarea = sourceElem.find("textarea");
 	var content = textarea.val();
 	sourceElem.text(content);
 };
 
+/**
+ * Enable plus element
+ * @method enablePlusLi
+ * @for ModalManager
+ *
+ */
 ModalManager.enablePlusLi = function() {
 	$("#plusLi").click(function() {
 		var liElem = $('<li><input type="text"></li>');
@@ -525,6 +601,12 @@ ModalManager.enablePlusLi = function() {
 	});
 }
 
+/**
+ * Enable plus table row button
+ * @method enablePlusTableRow
+ * @for ModalManager
+ *
+ */
 ModalManager.enablePlusTableRow = function() {
 	$("#plusTableRow").click(function() {
 		var td1 = $("<td></td>");
@@ -541,6 +623,12 @@ ModalManager.enablePlusTableRow = function() {
 	});
 }
 
+/**
+ * Enable create protocol button
+ * @method enableCreateProBtn
+ * @for ModalManager
+ *
+ */
 ModalManager.enableCreateProBtn = function() {
 	$("#createProBtn").click(function() {
 		var protocol = {};
@@ -578,6 +666,12 @@ ModalManager.enableCreateProBtn = function() {
 	});
 }
 
+/**
+ * Enable add protocol to calendar button
+ * @method enableAddCalendar
+ * @for ModalManager
+ *
+ */
 ModalManager.enableAddCalendar = function() {
 	$("#addCalendar").click(function() {
 		var inforElem = $(this).parents("#moreIndorModal");
@@ -597,13 +691,12 @@ ModalManager.enableAddCalendar = function() {
 		$("#protocol-menu").removeClass("active");
 		$("#calendar-box").addClass("active");
 		$("#PlaPro").removeClass("active");
-
 		$("#moreIndorModal").modal("hide");
 		rightBar.openRightBar("create");
 	});
 }
 
-//==============================================
+//=====================================================================
 function DataManager() {
     this.setAProtocols = [];
     this.setBProtocols = [];
@@ -618,7 +711,6 @@ DataManager.getNewId = function() {
 DataManager.getSysProtocolData = function(callback) {
 	var that = this;
     $.get("/protocol/setB", function(data, status) {
-    	// console.log(data['protocols']);
         that.setBProtocols = data['protocols'];
         callback(that.setBProtocols);
     });
