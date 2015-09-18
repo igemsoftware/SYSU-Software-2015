@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from . import design
+from .. import db
 
 from ..models import ComponentPrototype, ComponentInstance, Relationship
 from ..models import Protocol, Device, Design, EquationBase
@@ -367,6 +368,11 @@ def mark_design(id):
     d.eval_reliability   = ((float(d.eval_reliability  )*count)+data[5])/(count+1)
     d.eval_accessibility = ((float(d.eval_accessibility)*count)+data[6])/(count+1)
     d.eval_count += 1 
+
+    db.session.add(d)
+    db.session.commit()
+
+    d.check_public()
 
     return get_design_mark(id)
 
