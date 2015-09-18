@@ -42,7 +42,7 @@
       <div class="ui popup transition hidden" id="topbar-avatar-popup">
         <div class="ui link list">
         {% if logged_in %}
-          <a class="item" href="/person">Dashboard</a>
+          <a class="item" href="/person">Personal Center</a>
           <a class="item" href="/person/notifs">Notifications <div class="ui red circular label">{{unread_count}}</div></a>
           <a href="{{url_for('auth.logout')}}" class="item">Log Out</a>
         {% else %}
@@ -63,8 +63,6 @@
       <div id="topbar-bottom-line"></div>
     </div>
   </template>
-
-  <component id="main-view" is="[[ currentView ]]" keep-alive></component>
 
   <script src="/static/js/lib/jquery.min.js"></script>
   <script src="/static/js/lib/semantic.min.js"></script>
