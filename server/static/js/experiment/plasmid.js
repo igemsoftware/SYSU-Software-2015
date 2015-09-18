@@ -1,9 +1,9 @@
 /**
- * @file modeling.js
- * @description Run the modeling
+ * @file plasmid.js
+ * @description Plasmid function
  * @author JinJin Lin
  * @mail jinjin.lin@outlook.com
- * @data Sept 7 2015
+ * @data Sept 13 2015
  * @copyright 2015 SYSU-Software. All rights reserved.
  * 
  */
@@ -12,15 +12,33 @@
 var plasmid;
 var currentPart;
 
+/**
+ * @class Plasmid
+ * @method constructor
+ *
+ */
 function Plasmid() {
 	this.plasmidCirs = [];
 	this.circuitCount = 0;
 }
 
+/**
+ * Init the plasmid events
+ * @method constructor
+ * @for Plasmid
+ * 
+ */
 Plasmid.prototype.init = function() {
 	this.addReadPartInfoEvent($("#readPartInfo"));
 }
 
+/**
+ * Get the marker by part
+ * @method getMarkerByPart
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getMarkerByPart = function(part) {
 	var marker = {};
 	marker.name = part.name
@@ -37,6 +55,13 @@ Plasmid.prototype.getMarkerByPart = function(part) {
 	return marker;
 }
 
+/**
+ * Get the marker in style by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getMakerStyleIn = function(part) {
 	if (part.type == 'promoter') {
 		return "fill:rgba(170,0,85,0.9)";
@@ -52,6 +77,13 @@ Plasmid.prototype.getMakerStyleIn = function(part) {
 	}
 }
 
+/**
+ * Get the marker out style by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getMarkerStyleOut = function(part) {
 	if (part.type == 'promoter') {
 		return "fill:rgba(238,255,221,0.6)";
@@ -67,6 +99,13 @@ Plasmid.prototype.getMarkerStyleOut = function(part) {
 	}
 }
 
+/**
+ * Get the vadjust of marker by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getVadjust = function(part) {
 	if (part.type == 'promoter') {
 		return "65";
@@ -82,6 +121,13 @@ Plasmid.prototype.getVadjust = function(part) {
 	}
 }
 
+/**
+ * Get the valign of marker by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getValign = function(part) {
 	if (part.type == 'promoter') {
 		return "outer";
@@ -97,6 +143,13 @@ Plasmid.prototype.getValign = function(part) {
 	}
 }
 
+/**
+ * Get the showline of marker by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getShowline = function(part) {
 	if (part.type == 'promoter') {
 		return 1;
@@ -112,6 +165,13 @@ Plasmid.prototype.getShowline = function(part) {
 	}
 }
 
+/**
+ * Get the markers length by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getMarkersLength = function(markers) {
 	var length = 0;
 	for (var i in markers) {
@@ -120,6 +180,13 @@ Plasmid.prototype.getMarkersLength = function(markers) {
 	return length;
 }
 
+/**
+ * Create a design operable node
+ * @method constructor
+ * @for Plasmid
+ * @param {elem} partElem A part dom element
+ * 
+ */
 Plasmid.prototype.formatCircuit = function(circuit, length, callback) {
 	var that = this;
 	var xmlDocs;
