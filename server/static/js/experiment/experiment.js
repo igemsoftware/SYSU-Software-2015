@@ -1,6 +1,6 @@
 /**
  * @file experiment.js
- * @description Help the user to design circuits and logics
+ * @description /experiment page javascript code
  * @author JinJin Lin
  * @mail jinjin.lin@outlook.com
  * @data Aug 30 2015
@@ -13,6 +13,11 @@
 var leftBar;
 var protocolList;
 
+/**
+ * @class LeftBar
+ * @method constructor
+ *
+ */
 function LeftBar() {
     this.isOpenLeftBar = false;
     this._LeftBarWidth = 350;
@@ -27,13 +32,24 @@ function LeftBar() {
     this.protocolCount = 0;
 };
 
+
+ /**
+ * Init the left bar
+ * @method init
+ * @for LeftBar
+ * 
+ */
 LeftBar.prototype.init = function() {
 	this._leftTriggerAnimation();
-	// this.enableSearchBox();
 	this.enableMoreBtn();
-	// this.enableAddProBtn();
 };
 
+ /**
+ * Enable left-bar trigger animation
+ * @method _leftTriggerAnimation
+ * @for LeftBar
+ * 
+ */
 LeftBar.prototype._leftTriggerAnimation = function() {
     var that = this;
     this.leftTrigger.click(function() {
@@ -59,6 +75,13 @@ LeftBar.prototype._leftTriggerAnimation = function() {
     });
 };
 
+ /**
+ * Create protocol view
+ * @method createProtocolView
+ * @for LeftBar
+ * @param {Json} Protocol A protocol
+ * 
+ */
 LeftBar.prototype.createProtocolView = function(protocol) {
 	var divElem = $("<div></div>");
 	var starIconElem = $("<i></i>");
@@ -67,7 +90,6 @@ LeftBar.prototype.createProtocolView = function(protocol) {
 	var likesSpanElem = $("<span></span>");
 
 	divElem.addClass("item");
-
 	starIconElem.addClass("empty star icon");
 	likesSpanElem.addClass("likes");
 	likesSpanElem.text(protocol.likes);
@@ -86,10 +108,24 @@ LeftBar.prototype.createProtocolView = function(protocol) {
 	return divElem;
 };
 
+ /**
+ * Add protocol view
+ * @method addProtocolView
+ * @for LeftBar
+ * @param {elem} protocolElem A protocol element
+ * 
+ */
 LeftBar.prototype.addProtocolView = function(protocolElem) {
 	protocolElem.appendTo($("#left-sidebar-body"));
 };
 
+ /**
+ * Init protocols view
+ * @method initProtocolElems
+ * @for LeftBar
+ * @param {List} protocols A protocol List
+ * 
+ */
 LeftBar.prototype.initProtocolElems = function(protocols) {
 	for (var i in protocols) {
 		var protocolElem = this.createProtocolView(protocols[i]);
@@ -97,6 +133,13 @@ LeftBar.prototype.initProtocolElems = function(protocols) {
 	}
 }
 
+ /**
+ * Show protocol view
+ * @method showView
+ * @for LeftBar
+ * @param {elem} protocolELems A list of protocol element
+ * 
+ */
 LeftBar.prototype.showView = function(protocolELems) {
 	this.view.protocols.empty();
 	for (var i in protocolELems) {
@@ -104,6 +147,12 @@ LeftBar.prototype.showView = function(protocolELems) {
 	}
 };
 
+/**
+ * Enable more button
+ * @method enableMoreBtn
+ * @for LeftBar
+ * 
+ */
 LeftBar.prototype.enableMoreBtn = function() {
 	$("#left-sidebar-body").find($(".more")).each(function() {
 		$(this).click(function() {
@@ -115,7 +164,12 @@ LeftBar.prototype.enableMoreBtn = function() {
 	});
 }
 
-//==============================================
+//===============================================================
+/**
+ * @class CNode
+ * @method constructor
+ *
+ */
 function ProtocolList() {
 }
 
