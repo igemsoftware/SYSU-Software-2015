@@ -8,9 +8,9 @@
 
 CORE is a Crowdsourcing Open Redesign Engine for Synthetic Biology. It contains three major parts:
 
-  - Co-development: A crowdsourcing and Q&A platform. Helps synthetic biologists to identify problems and improve designs via communication and co-development.
-  - CORE Design: A genetic circuit design and experiment management tool. Helps users re-engineer existing design in an economic and convenient way. Numerical simulation and experiment management meet the wet lab's needs.
-  - CORE Bank: A repository of previous genetic circuit designs. Helps avoid re-inventing the wheel through redesign of existing ones. Promotes information parsing with uniform presentation styles.
+  - Co-development: Crowdsourcing platform for collaborative design. Collaboration results in great projects. Crowdsourcing helps synthetic biologists identify problems and co-develop their constructs.
+  - CORE Design: A Standardized Genetic Design Bank. Reuse and re-design lead to efficiency. Standard repository of genetic design helps “stand on the shoulder of the giants” while prevent “re-inventing the wheels”.
+  - CORE Bank: Integrated solutions for wet-lab assistance. For Synbio, genetic design is the basis but not the whole story. Mathematical modeling, plasmid design, protocol management and experiment schedule are good auxiliaries.
 
 ## Requirements
 

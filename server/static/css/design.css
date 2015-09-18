@@ -299,6 +299,37 @@ body {
 #left-sidebar #devices .divider {
     margin-top: 2px;
 }
+
+/*---------------------------------------------------*/
+#left-sidebar #systems .deviceTitle {
+    font-size: 14px;
+    width: 90%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#left-sidebar #systems .more {
+    width: 10%;
+    font-size: 17px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#left-sidebar #systems .item {
+    width: 100%;
+    overflow: hidden;
+    height: 164px;
+}
+
+#left-sidebar #systems .item img {
+    float: right;
+    width: 100%;
+    height: 160px;
+}
+
+#left-sidebar #systems .divider {
+    margin-top: 2px;
+}
 /*======================================================*/
 #right-sidebar {
     position: fixed;
@@ -454,6 +485,42 @@ body {
 }
 
 #right-sidebar #addedDevices .divider {
+    margin-top: 2px;
+}
+/*--------------------------------------------------------*/
+#right-sidebar #addedSystems {
+    height: 65%;
+    overflow: auto;
+    width: 100%;
+}
+
+#right-sidebar #addedSystems .deviceTitle {
+    font-size: 14px;
+    width: 90%;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+#right-sidebar #addedSystems .more {
+    width: 10%;
+    font-size: 17px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+#right-sidebar #addedSystems .item {
+    width: 100%;
+    overflow: hidden;
+    height: 164px;
+}
+
+#right-sidebar #addedSystems .item img {
+    float: left;
+    width: 100%;
+    height: 160px;
+}
+
+#right-sidebar #addedSystems .divider {
     margin-top: 2px;
 }
 
