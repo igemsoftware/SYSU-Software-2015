@@ -392,6 +392,10 @@ DataManager.initDeviceList = function(deviceList) {
     this.deviceList = deviceList;
 }
 
+DataManager.initSystemList = function(systemList) {
+    this.systemList = systemList;
+}
+
 DataManager.addRelationAdj = function(relationAdj) {
     this.relationAdjList.push(relationAdj);
 }
@@ -438,6 +442,13 @@ DataManager.getPartByAttr = function(partAttr) {
 DataManager.getDeviceByName = function(deviceName) {
     for (var i in this.deviceList) {
         if (this.deviceList[i].name == deviceName) return this.deviceList[i];
+    }
+    return null;
+}
+
+DataManager.getSystemByName = function(systemName) {
+    for (var i in this.systemList) {
+        if (this.systemList[i].name == systemName) return this.systemList[i];
     }
     return null;
 }
@@ -519,6 +530,16 @@ DataManager.getDeviceDataFromServer = function(callback) {
         console.log(data['deviceList']);
         that.initDeviceList(data['deviceList']);
         callback(data['deviceList']);
+    });
+}
+
+DataManager.getSystemDataFromServer = function(callback) {
+    var that = this;
+    $.get("/design/data/fetch/system", function(data, status) {
+        console.log("SystemList:");
+        console.log(data['systemList']);
+        that.initSystemList(data['systemList']);
+        callback(data['systemList']);
     });
 }
 
@@ -686,6 +707,12 @@ OperationLog.prototype.addPart = function(partName) {
 
 OperationLog.prototype.addDevice = function(deviceName) {
     var message = "Added a <a>" + deviceName + "</a> Device.";
+    var EventElem = this._getEventElem("plus icon", message);
+    this._writeToRightBar(EventElem);
+};
+
+OperationLog.prototype.addSystem = function(systemName) {
+    var message = "Added a <a>" + systemName + "</a> System.";
     var EventElem = this._getEventElem("plus icon", message);
     this._writeToRightBar(EventElem);
 };
