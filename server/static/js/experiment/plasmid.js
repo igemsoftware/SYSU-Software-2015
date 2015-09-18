@@ -1,3 +1,13 @@
+/**
+ * @file modeling.js
+ * @description Run the modeling
+ * @author JinJin Lin
+ * @mail jinjin.lin@outlook.com
+ * @data Sept 7 2015
+ * @copyright 2015 SYSU-Software. All rights reserved.
+ * 
+ */
+
 "use strict";
 var plasmid;
 var currentPart;

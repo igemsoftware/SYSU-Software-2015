@@ -1,7 +1,22 @@
+/**
+ * @file calendar.js
+ * @description Calendar function
+ * @author JinJin Lin
+ * @mail jinjin.lin@outlook.com
+ * @data Sept 11 2015
+ * @copyright 2015 SYSU-Software. All rights reserved.
+ * 
+ */
+
 var rightBar;
 var calendar = $("#calendar");
 var clickedEvent;
 
+/**
+ * @class RightBar
+ * @method constructor
+ *
+ */
 function RightBar() {
     this.isOpenLeftBar = false;
     this._rightBarWidth = 350;
@@ -9,12 +24,24 @@ function RightBar() {
     this.rightTrigger = $(".trigger-right");
 };
 
+/**
+ * Init the right bar
+ * @method init
+ * @for RightBar
+ * 
+ */
 RightBar.prototype.init = function() {
 	this._rightTriggerAnimation();
 	this.enableAddEvent();
 	this.enableTimePicker();
 }
 
+/**
+ * Enable the right bar trigger function
+ * @method _rightTriggerAnimation
+ * @for RightBar
+ * 
+ */
 RightBar.prototype._rightTriggerAnimation = function() {
     var that = this;
     this.rightTrigger.click(function() {
@@ -27,6 +54,12 @@ RightBar.prototype._rightTriggerAnimation = function() {
     });
 };
 
+/**
+ * Close the right bar
+ * @method closeRightBar
+ * @for RightBar
+ * 
+ */
 RightBar.prototype.closeRightBar = function() {
    	var that = this;
    	this._isOpenRightBar = false;
@@ -37,6 +70,13 @@ RightBar.prototype.closeRightBar = function() {
     this.rightTrigger.find("i").removeClass("right").addClass("left");
 }
 
+/**
+ * Open the right bar
+ * @method openRightBar
+ * @for RightBar
+ * @param {String} op A string for desicript the operation
+ * 
+ */
 RightBar.prototype.openRightBar = function(op) {
 	if (op == "create") {
     	$("#deleteEvent").hide();
@@ -58,11 +98,23 @@ RightBar.prototype.openRightBar = function(op) {
     this.rightTrigger.find("i").removeClass("left").addClass("right");
 }
 
+/**
+ * Enable the timepicker
+ * @method enableTimePicker
+ * @for RightBar
+ * 
+ */
 RightBar.prototype.enableTimePicker = function() {
 	$('#startTime').datetimepicker({theme:'dark', step: 30});
 	$('#endTime').datetimepicker({theme:'dark', step: 30});
 }
 
+/**
+ * Clear the right bar
+ * @method clearBar
+ * @for RightBar
+ * 
+ */
 RightBar.prototype.clearBar = function() {
 	$("#eventTitle").val("");
 	$("#startTime").val("");
@@ -72,6 +124,12 @@ RightBar.prototype.clearBar = function() {
 	$("#eventError").val("");
 }
 
+/**
+ * Enable the adding event button
+ * @method enableAddEvent
+ * @for RightBar
+ * 
+ */
 RightBar.prototype.enableAddEvent = function() {
 	var that = this;
 	$("#createEvent").click(function() {
@@ -98,6 +156,12 @@ RightBar.prototype.enableAddEvent = function() {
 	})
 }
 
+/**
+ * SYNC the events
+ * @method syncEvents
+ * @for RightBar
+ * 
+ */
 RightBar.prototype.syncEvents = function() {
 	var events = calendar.fullCalendar('clientEvents');
 	var eventsArr = [];
@@ -128,6 +192,12 @@ RightBar.prototype.syncEvents = function() {
 
 }
 
+/**
+ * Init the protocols
+ * @method initProtocol
+ * @for RightBar
+ * 
+ */
 RightBar.prototype.initProtocol = function() {
 	var protocols = DataManager.getPerProtocols();
 	for (var i in protocols) {
