@@ -598,7 +598,7 @@ body {
 }
 
 #equaSearchResultModal .content .equationList {
-    overflow: auto;
+    overflow-y: auto;
     height: 400px;
 }
 
