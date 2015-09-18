@@ -33,7 +33,7 @@ function LeftBar() {
 };
 
 
- /**
+/**
  * Init the left bar
  * @method init
  * @for LeftBar
@@ -44,7 +44,7 @@ LeftBar.prototype.init = function() {
 	this.enableMoreBtn();
 };
 
- /**
+/**
  * Enable left-bar trigger animation
  * @method _leftTriggerAnimation
  * @for LeftBar
@@ -75,7 +75,7 @@ LeftBar.prototype._leftTriggerAnimation = function() {
     });
 };
 
- /**
+/**
  * Create protocol view
  * @method createProtocolView
  * @for LeftBar
@@ -108,7 +108,7 @@ LeftBar.prototype.createProtocolView = function(protocol) {
 	return divElem;
 };
 
- /**
+/**
  * Add protocol view
  * @method addProtocolView
  * @for LeftBar
@@ -119,7 +119,7 @@ LeftBar.prototype.addProtocolView = function(protocolElem) {
 	protocolElem.appendTo($("#left-sidebar-body"));
 };
 
- /**
+/**
  * Init protocols view
  * @method initProtocolElems
  * @for LeftBar
@@ -133,7 +133,7 @@ LeftBar.prototype.initProtocolElems = function(protocols) {
 	}
 }
 
- /**
+/**
  * Show protocol view
  * @method showView
  * @for LeftBar
@@ -173,11 +173,24 @@ LeftBar.prototype.enableMoreBtn = function() {
 function ProtocolList() {
 }
 
+/**
+ * Init the protocols list
+ * @method ProtocolList
+ * @for LeftBar
+ * 
+ */
 ProtocolList.prototype.init = function() {
 	this.enableEditProtocolBtn();
 	this.enableAddProBtn();
 }
 
+/**
+ * Create a protocol view
+ * @method createProtocolView
+ * @for ProtocolList
+ * @param {json} protocol A protocol data structure
+ * 
+ */
 ProtocolList.prototype.createProtocolView = function(protocol) {
 	var itemElem = $("<div></div>");
 	itemElem.addClass("item");
@@ -194,7 +207,6 @@ ProtocolList.prototype.createProtocolView = function(protocol) {
 	itemNameElem.addClass("item-name");
 
 	var iconsSetElem = this.createIconSet(protocol);
-
 	itemElem.append(removeSpan);
 	itemElem.append(itemNameElem);
 	itemElem.append(iconsSetElem);
@@ -203,6 +215,13 @@ ProtocolList.prototype.createProtocolView = function(protocol) {
 	return itemElem;
 };
 
+/**
+ * Create a design operable node
+ * @method constructor
+ * @for ProtocolList
+ * @param {elem} partElem A part dom element
+ * 
+ */
 ProtocolList.prototype.createIconSet = function(protocol) {
 	var iconsSetElem = $("<span></span>");
 	var timeIconElem = $("<i></i>");
@@ -218,17 +237,30 @@ ProtocolList.prototype.createIconSet = function(protocol) {
 	iconsSetElem.append(timeIconElem);
 	iconsSetElem.append(tagsIconElem);
 	iconsSetElem.append(moreIconElem);
-
 	this.enableMoreBtn(moreIconElem);
 
 	return iconsSetElem;
 }
 
+/**
+ * Add protocol view
+ * @method addProtocolView
+ * @for ProtocolList
+ * @param {elem} protocolElem A protocol dom element
+ * 
+ */
 ProtocolList.prototype.addProtocolView = function(protocolElem) {
 	$("#list-body").append(protocolElem);
 	protocolElem.append('<div class="ui divider"></div>');
 };
 
+/**
+ * Init the protocol element
+ * @method initProtocolElems
+ * @for ProtocolList
+ * @param {List} protocols A list of protocols
+ * 
+ */
 ProtocolList.prototype.initProtocolElems = function(protocols) {
 	for (var i in protocols) {
 		var protocolElem = this.createProtocolView(protocols[i]);
@@ -236,6 +268,13 @@ ProtocolList.prototype.initProtocolElems = function(protocols) {
 	}
 }
 
+/**
+ * Create a design operable node
+ * @method constructor
+ * @for ProtocolList
+ * @param {elem} partElem A part dom element
+ * 
+ */
 ProtocolList.prototype.showView = function(protocolELems) {
 	this.view.protocols.empty();
 	for (var i in protocolELems) {
@@ -243,6 +282,13 @@ ProtocolList.prototype.showView = function(protocolELems) {
 	}
 };
 
+/**
+ * Enable more button
+ * @method enableMoreBtn
+ * @for ProtocolList
+ * @param {elem} btn A button dom element
+ * 
+ */
 ProtocolList.prototype.enableMoreBtn = function(btn) {
 	btn.click(function() {
 		var index = btn.parents(".item").attr("index");
@@ -252,6 +298,13 @@ ProtocolList.prototype.enableMoreBtn = function(btn) {
 	});
 }
 
+/**
+ * Enable remove button
+ * @method enableRemoveBtn
+ * @for ProtocolList
+ * @param {elem} btn A button dom element
+ * 
+ */
 ProtocolList.prototype.enableRemoveBtn = function(btn) {
 	btn.click(function() {
 		var item = btn.parent();
@@ -264,6 +317,12 @@ ProtocolList.prototype.enableRemoveBtn = function(btn) {
 	});
 };
 
+/**
+ * Enable edit protocol button
+ * @method enableEditProtocolBtn
+ * @for ProtocolList
+ * 
+ */
 ProtocolList.prototype.enableEditProtocolBtn = function() {
 	$("#edit-protocol").click(function() {
 		$(".remove-protocol").each(function() {
@@ -277,6 +336,12 @@ ProtocolList.prototype.enableEditProtocolBtn = function() {
 	});
 }
 
+/**
+ * Enable add protocol button
+ * @method enableAddProBtn
+ * @for ProtocolList
+ * 
+ */
 ProtocolList.prototype.enableAddProBtn = function() {
 	$("#add-protocol").click(function() {
 		$("#createProtocol")
@@ -665,9 +730,6 @@ $(function() {
 	DataManager.getSysProtocolData(function(protocols) {
 		leftBar.initProtocolElems(protocols);
 		leftBar.init();
-
-		// rightBar.initProtocol();
-		// protocolList.initProtocolElems(protocolA);
 	});
 	DataManager.getPerProtocolData(function(protocols) {
 		protocolList.initProtocolElems(protocols);
@@ -680,10 +742,6 @@ $(function() {
 $('.menu .item')
   .tab()
 ;
-
-// $(".confirmButton").click(function() {
-// 	$('.modal').modal("hide");
-// });
 
 $(".cancel").click(function() {
 	$(".modal").modal("hide");
