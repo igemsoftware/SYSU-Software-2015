@@ -3,4 +3,6 @@
 =========================================
 
 
+.. automodule:: server.tools.shorten
 
+    .. autofunction:: shorten

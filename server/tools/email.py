@@ -6,10 +6,16 @@ from flask.ext.mail import Message
 from .. import mail
 
 def __send_async_email(app, msg):
+    """
+        Send an email via an asynchronous process.
+    """
     with app.app_context():
         mail.send(msg)
 
 def _send_email(to, subject, template, async=True, **kwargs):
+    """
+        Send an email with details(subject, template).
+    """
     app = current_app._get_current_object()
     msg = Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + ' ' + subject,
                   sender=app.config['FLASKY_MAIL_SENDER'], recipients=[to])
@@ -30,6 +36,9 @@ def _send_email(to, subject, template, async=True, **kwargs):
 
 
 def _send_raw_email(to, subject, body):
+    """
+        Send an email with given subject. 
+    """
     app = current_app._get_current_object()
     msg = Message(app.config['FLASKY_MAIL_SUBJECT_PREFIX'] + ' ' + subject,
                   sender=app.config['FLASKY_MAIL_SENDER'], recipients=[to])
