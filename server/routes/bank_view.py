@@ -4,6 +4,7 @@ from . import bank
 from ..models import Design, User, EquationBase, DesignComment
 from .. import login_manager, db
 from ..tools.shorten import shorten
+from modeling_view import get_system_from_design
 
 from flask import render_template, jsonify, request, \
         current_app, url_for, redirect, abort
@@ -163,7 +164,6 @@ def get_finished_list():
     return jsonify(finishedList = l)
 
 
-from modeling_view import get_system_from_related
 @bank.route('/detail/<int:id>')
 #@login_required
 def get_detailed(id): 
@@ -189,7 +189,7 @@ def get_detailed(id):
 
     d = Design.query.get(id)
     if not d: abort(404)#return jsonify(error='This design doesn\'t exist')
-    system = get_system_from_design(id)
+    system, var_mapper = get_system_from_design(id)
 
     return render_template('bank_detail.html', design=d, system=system)
 

@@ -27,6 +27,7 @@ var vDatabase = new Vue({
         var store = this;
         $.get('/person/mine', function(data) {
             store.$set('databaseRecords', data.mine);
+            hhhh = data.mine;
         });
         $.get('/person/favorite', function(data) {
             store.$set('favoriteRecords', data.favorite);
@@ -41,75 +42,26 @@ var vDatabase = new Vue({
             this.tagRev = reverse;
         },
         selectRecord: function(rec) {
-            this.selectedTab = 'Description';
+            this.$eval("selectTab('Description')");
             this.selectedRecord = rec;
             var store = this;
-            $.get("/modeling/design/" + rec.id, function(data) {
-                console.log(data);
-                store.drawChart($("#chart"), data.xAxis, data.variables);
-            });
         },
-        drawChart : function(view, xArray, series) {
-            var that = this;
-            view.highcharts({
-                plotOptions: {
-                    series: { marker: { enabled: false } }
-                },
-                chart: { type: 'spline', backgroundColor: 'transparent' },
-                title: {
-                    text: 'Dynamic Performance',
-                    x: -20,
-                    style: {
-                        fontSize: "20px"
-                    }
-                },
-                subtitle: {
-                    text: 'The equations describing the change of concentration of protein over time',
-                    x: -20
-                },
-                marker: {
-                    enabled: false
-                },
-                xAxis: {
-                    categories: xArray,
-                    labels: {
-                        formatter: function() {
-                            return this.value.toFixed(2);//这里是两位小数，你要几位小数就改成几
-                        },
-                    },
-                },
-                yAxis: {
-                    title: {
-                        text: 'Output (concn [a.u.])',
-                        style: {
-                            fontSize: "17px"
-                        }
-                    },
-                    minorTickInterval: 'auto',
-                },
-                tooltip: {
-                    valueSuffix: '[a.u.]'
-                },
-                legend: {
-                    layout: 'vertical',
-                    align: 'right',
-                    verticalAlign: 'middle',
-                    borderWidth: 0
-                },
-                series: series
-            }
-        );
-        $(window).trigger('resize');
+        selectTab : function(i) {
+            this.selectedTab = i;
+            if (i !== 'Charts') return;
+            this.$nextTick(function() {
+                $(window).trigger('resize');  // updates the width of the chart
+            });
+        }
     },
-},
-filters : {
-    recordFilterBy : function (arr, search, delimiter, dataKey, reverse) {
-        var result = Vue.filter('filterBy')(arr, search, delimiter, dataKey);
-        if (!reverse)
+    filters : {
+        recordFilterBy : function (arr, search, delimiter, dataKey, reverse) {
+            var result = Vue.filter('filterBy')(arr, search, delimiter, dataKey);
+            if (!reverse)
+                return result;
+            result = arr.filter(function(item) {return result.indexOf(item) < 0;})
             return result;
-        result = arr.filter(function(item) {return result.indexOf(item) < 0;})
-        return result;
+        },
     },
-},
 });
 

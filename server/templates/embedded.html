@@ -9,10 +9,10 @@
 <body>
 
   <div class="ui secondary menu" id="embedded-topbar">
-    <a v-repeat="i in ['Description', 'Equations', 'Charts', 'References']"
+    <a v-repeat="i in ['Description', 'Modeling', 'Charts', 'References']"
        class="item"
-       v-class="active: selectedTab === $index"
-       v-on="click: selectedTab = $index">[[i]]</a>
+       v-class="active: selectedTab === i"
+       v-on="click: selectTab(i)">[[i]]</a>
     <div class="right menu">
       <a class="item" id="embedded-edit-in-core" href=""><i class="edit icon"></i>View In CORE</a>
     </div>
@@ -22,10 +22,12 @@
   <div id="embedded-container">
     <div class="left">
       <div id="embedded-tabs">
-        <div class="ui tab basic segment" v-class="active: selectedTab === 0" id="details-description-tab">
+        <div class="ui tab basic segment" v-class="active: selectedTab === 'Description'" id="details-description-tab">
           {% if design.img %}
           <div class="ui header">Image:</div>
-          <img src="data:image/jpeg;base64,{{design.img}}" alt="" class="ui fluid image">
+          <a href="{{url_for('bank.get_detailed', id=design.id)}}" id="design-image">
+            <img src="{{design.img}}" alt="" class="ui image">
+          </a>
           {% endif %}
           <div class="ui header">Brief Description:</div>
           <div class="brief">
@@ -37,23 +39,24 @@
             {{design.full_description}}
           </div>
         </div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 1">
+        <div class="ui tab basic segment" v-class="active: selectedTab === 'Modeling'">
         </div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 2">
-          <div id="chart"></div>
+        <div class="ui tab basic segment" v-class="active: selectedTab === 'Charts'">
+          <v-graph design-id="{{design.id}}"></v-graph>
         </div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 3">
+        <div class="ui tab basic segment" v-class="active: selectedTab === 'References'">
           {{design.references}}
         </div>
       </div>
 
     </div>
     <div class="right">
-      <v-rating design-id={{design.id}}></v-rating>
+      <v-rating design-id="{{design.id}}"></v-rating>
     </div>
   </div>
 
   {% include 'vRating.html' %}
+  {% include 'vGraph.html' %}
 
   <script src="/static/js/lib/jquery.min.js"></script>
   <script src="/static/js/lib/semantic.min.js"></script>
@@ -61,14 +64,8 @@
   <script src="/static/js/lib/Chart.min.js"></script>
   <script src="/static/js/lib/highcharts.js"></script>
   <script src="/static/js/vRating.js"></script>
+  <script src="/static/js/vGraph.js"></script>
   <script src="/static/js/embedded.js"></script>
-  <script src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
-  <script>
-    $.get("/modeling/design/{{design.id}}", function(data) {
-      console.log(data);
-      vBody.drawChart($("#chart"), data.xAxis, data.variables);
-    });
-  </script>
 
 </body>
 </html>

@@ -8,6 +8,8 @@
   padding-bottom: 40px;
   min-height: 100%; }
 
+#view-taskhall-index .pagination.menu { margin-top: 30px; }
+
 #taskhall-index-ask-modal > .segment {
   border: none;
   border-radius: 0;

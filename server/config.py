@@ -26,7 +26,7 @@ class Config:
     PICTURE_CROP_SIZE = (50, 50) 
 
     #
-    FLASKY_TASKS_PER_PAGE = 2
+    FLASKY_TASKS_PER_PAGE = 15
     FLASKY_DESIGNS_PER_PAGE = 7
 
     # init

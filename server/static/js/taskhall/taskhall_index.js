@@ -13,21 +13,18 @@ var vueBody = new coreBody({
     ready: function() {
         $('#taskhall-index-sticky').sticky({ offset: 60 });
         $('#taskhall-index-order-dropdown').dropdown();
-        this.$eval('updateTasks(this)');
+        this.updateTasks(this, false);
         this.$watch('page', function() {
-            this.$eval('updateTasks(this)');
+            this.updateTasks(this, false);
         });
         this.$watch('selectedTab', function() {
-            this.page = 1;
-            this.$eval('updateTasks(this)');
+            this.updateTasks(this, true);
         });
         this.$watch('currentOrder', function() {
-            this.page = 1;
-            this.$eval('updateTasks(this)');
+            this.updateTasks(this, true);
         });
         this.$watch('searchTerm', function() {
-            this.page = 1;
-            this.$eval('updateTasks(this)');
+            this.updateTasks(this, true);
         });
         this.$watch('tasks', function() {
             $('.question.author').popup({
@@ -50,7 +47,8 @@ var vueBody = new coreBody({
                 CKEDITOR.replace('askcontent');
             }
         },
-        updateTasks : function(store) {
+        updateTasks : function(store, resetPage) {
+            if (resetPage) store.page = 1;
             var url = '/taskhall/list?page=' + store.page +
                       '&order=' + store.currentOrder +
                       '&keyword=' + store.searchTerm +

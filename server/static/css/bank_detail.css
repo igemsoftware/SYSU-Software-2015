@@ -55,11 +55,9 @@ i {
     margin-right: 50px;
 }
 
-#content .imageWrapper {
-    width: 100%;
-    height: 200px;
-    background-color: #ffffff;
-    margin-bottom: 10px;
+#content .image-wrapper {
+    max-width: 500px;
+    margin-bottom: 20px;
 }
 
 #content .imageWrapper img {
@@ -115,15 +113,6 @@ i {
     margin-right: 10px;
     display: inline-block;
     z-index: 100;
-}
-
-#x-divider {
-    left: 6px;
-    width: 1px;
-    height: 100%;
-    z-index: 2;
-    position: absolute;
-    background-color: #858c92;
 }
 
 .anchor {

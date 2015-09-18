@@ -87,8 +87,6 @@ class EquationBase(db.Model):
     """The target variable in differential equation."""
     _content = db.Column(db.Text, default = '{}') 
     """Raw content in database."""
-    #printable = db.Column(db.Text, default = '')
-    #"""Printable formular in Tex."""
     content = {}
     """Its content object."""
 
