@@ -3,6 +3,7 @@
 from .. import db
 import json
 from ..tools.simulation.release import name_handler
+from flask import current_app
 
 
 #   class ProtocolRecommend(db.Model):
@@ -565,6 +566,8 @@ class Device(db.Model, BioBase):
 
 
 from datetime import datetime
+from ..tools.classifier.logistic import LogisticRegression
+classifier = None
 
 Favorite_design = db.Table('favorite_design',
     db.Column('design_id', db.Integer, db.ForeignKey('design.id')),
@@ -654,10 +657,28 @@ class Design(db.Model, BioBase):
     favoriter = db.relationship('User', secondary=Favorite_design, backref=db.backref('fav_design', lazy='dynamic')) 
     """Who mark it as favorite."""
 
+    @property
+    def eval_flatten(self):
+        return map(float, [self.eval_compatibility,
+               self.eval_safety,
+               self.eval_demand,
+               self.eval_completeness,
+               self.eval_efficiency,
+               self.eval_reliability,
+               self.eval_accessibility])
+
     def check_public(self):
+        global classifier
+        if not classifier:
+            classifier = LogisticRegression().fit_from_file(current_app.config['LOGISTIC_REGRESSION_DATA'])
         if self.is_shared:
-            self.is_public = True
+            possibility = classifier.predict([self.eval_flatten])[0][0]
+            print possibility
+            if possibility > 0.5:
+                self.is_public = True
             self.public_create_time = datetime.now()
+        db.session.add(self)
+
 
 
 ##  recommended_protocol = db.relationship('ProtocolRecommend',

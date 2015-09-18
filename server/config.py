@@ -41,6 +41,9 @@ class Config:
 #   INIT_PRELOAD_PART_DIRS = ['server/models/preload/components']
 #   INIT_PRELOAD_EQUATION_DIRS = ['server/models/preload/equations/demo']
 
+    # logistic regression data
+    LOGISTIC_REGRESSION_DATA = 'server/tools/classifier/data.csv'
+
 
 
 
