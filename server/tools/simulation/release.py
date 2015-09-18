@@ -17,7 +17,7 @@
         5.4 data update
     6.0 multiple sources 
         6.1 add target into database to acc
-    7.0 plasmid
+    7.0 plasmid needed
 '''
 import numpy as np
 from math import *
@@ -63,7 +63,7 @@ __example_system = [
 def getModel(system, dependancy_check=True): 
     # check dependancy
     set_provided = set([equ[0] for equ in system]) 
-    set_needed = set(reduce(lambda x, y: x+y, [equ[1] for equ in system])) 
+    set_needed = set(reduce(lambda x, y: x+y, [equ[1] for equ in system], [])) 
 
 # dependancy checking is not needed.
     if dependancy_check:

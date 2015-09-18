@@ -2,7 +2,7 @@
 #['UVB',[],[],'t']
 #全方程
 
-[u'UVR8_TetR', [u'Promoter', u'UVB'], {u'alpha': 8.034, u'UVR8_tetR': 168, u'k': 6.0, u'd_{1}': 1.3}, u'{{alpha}}*{{UVR8_tetR}}/(1+UVB**{{k}})-{{d_{1}}}*UVR8_TetR']
+[u'UVR8-TetR', [u'Promoter', u'UVB'], {u'alpha': 8.034, u'UVR8_tetR': 168, u'k': 6.0, u'd_{1}': 1.3}, u'{{alpha}}*{{UVR8_tetR}}/(1+UVB**{{k}})-{{d_{1}}}*UVR8-TetR']
 #['UVR8-TetR',['Promoter','UVB'],[('alpha',8.034),('k',6),('d_{1}',1.3)],'{{alpha}}*UVR8-TetR/(1+UVB**{{k}})-{{d_{1}}}*UVR8-TetR']
 #全方程
 ['UVR8-TetR',['Promoter'],[('alpha',8.034),('d_{1}',1.3)],'{{alpha}}*UVR8-TetR-{{d_{1}}}*UVR8-TetR']

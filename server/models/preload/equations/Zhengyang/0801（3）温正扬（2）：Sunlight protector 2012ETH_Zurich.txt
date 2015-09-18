@@ -15,7 +15,7 @@
 ['ADC',['PabAB'],[('k_{cat}',0.65),('KM_{PabAB}',960*10**3)],'{{k_{cat}}}*PabAB/({{KM_{PabAB}}}+ADC)']
 #全方程
 
-['ADC',['PabAB','Chorismic_acid'],[('k_{cat}',0.65),('KM_{PabAB}',960*10**3)],'{{k_{cat}}}*PabAB*Chorismic_acid/({{KM_{PabAB}}}+ADC)']
+['ADC',['PabAB','Chorismic acid'],[('k_{cat}',0.65),('KM_{PabAB}',960*10**3)],'{{k_{cat}}}*PabAB*Chorismic acid/({{KM_{PabAB}}}+ADC)']
 #全方程
 
 ['PABA',['PabC'],[('k_{cat}',0.65),('k_{out}',3.85*10**(-4)),('KM_{PabAB}',960*10**3)],'{{k_{cat}}}*PabC/({{KM_{PabAB}}}+PABA)-{{k_{out}}}*PABA']

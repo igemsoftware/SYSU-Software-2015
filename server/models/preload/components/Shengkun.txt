@@ -8,7 +8,7 @@ ALCR	protein
 PConst	promoter	BBa_K625002		
 tetR	gene	BBa_C0040		
 TetR	protein			
-PcI_1	promoter	BBa_R1051		
+PcI	promoter	BBa_R1051		
 cI	gene	BBa_C0051		
 PtetR	promoter	BBa_R0040		
 lacIm1	gene	BBa_K395400		
@@ -80,9 +80,9 @@ gfp	gene	BBa_E0040
 GFP	protein			
 CI434	protein			
 Toggle switch	unknown	BBa_K228003		
-ColE7_immE7_complex	gene	BBa_K117001	1	Escherichia coli
+ColE7-immE7 complex	gene	BBa_K117001	1	Escherichia coli
 Colicin E7	protein			
-Aptamer_Chez	gene	BBa_K557001		
+Aptamer-Chez	gene	BBa_K557001		
 CheZ	protein			
 lys	gene	BBa_K117000	1	Escherichia coli
 Lysis	protein			
@@ -99,7 +99,7 @@ RhlR	protein
 Promoter	promoter	BBa_R0071	2	Pseudomonas aeruginosa
 RBS	RBS	BBa_B0034		
 GFP	protein			
-L_arabinose	chemical			
+L-arabinose	chemical			
 AraC	protein			
 PBAD	promoter	BBa_K206000	1	Escherichia coli
 RBS	RBS	BBa_J61101		

@@ -883,8 +883,9 @@ DesignMenu.prototype.enableSaveDesignBtn = function(){
         var img;
         var curcuitChartData = that.getDesignChartData();
         curcuitChartData.name = $("#curcuitName").val();
-        curcuitChartData.full_description = $("#designIntro").val();
-        curcuitChartData.source = "hello world";
+        curcuitChartData.full_description = $("#full_description").val();
+        curcuitChartData.brief_description = $("#brief_description").val();
+        curcuitChartData.references = $("#designSource").val();
         curcuitChartData.risk = design.risk;
         curcuitChartData.plasmids = dfs.getCircuits();
         curcuitChartData.id = design.designID;
@@ -1318,6 +1319,14 @@ SideBarWorker.prototype.writePartInfoToModal = function(part) {
     });
     $("#searchCds").click(function() {
         var there = this;
+        if (that.part.BBa == "") {
+            console.log('111');
+            $("#noBBaErrorModal").modal('show');
+            $("#noBBaErrorModal").find('.back').click(function() {
+                $("#noBBaErrorModal").modal('hide');
+            });
+            return ;
+        }
         $(this).addClass('loading');
         var postDataJson = JSON.stringify({BBa: that.part.BBa});
         $.ajax({

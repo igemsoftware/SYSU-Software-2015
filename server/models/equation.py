@@ -183,6 +183,7 @@ class EquationBase(db.Model):
             # tranlate coe to var
             c = ComponentPrototype.query.filter_by(attr=coe).first()
             if c:
+                if c.attr in ['alpha']: continue
                 c.initval = float(value)
                 e.formular = e.formular.replace('{{'+coe+'}}', coe)
                 ele[1].append(coe)
