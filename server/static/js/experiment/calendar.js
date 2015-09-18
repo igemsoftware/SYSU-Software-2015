@@ -177,6 +177,7 @@ $(function() {
 	        $("#eventOpTitle").text("Edit event");
 	        clickedEvent = event;
 	        rightBar.openRightBar("edit");
+	        rightBar.event = event;
 	    },
 	    eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view) {
 	    	rightBar.syncEvents();
@@ -199,14 +200,14 @@ $.get("/calendar/all", function(data, status) {
 });
 
 $("#deleteEvent").click(function() {
-	calendar.fullCalendar('removeEvents', event._id);
+	calendar.fullCalendar('removeEvents', rightBar.event._id);
 	$.ajax({
 	    type: 'DELETE',
 	    url: '/calendar/all',
-	    data : "id="+event._id,
+	    data : "id="+rightBar.event._id,
 	});
 	rightBar.closeRightBar();
-	that.clearBar();
+	rightBar.clearBar();
 });
 
 $("#saveEvent").click(function() {
