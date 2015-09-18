@@ -11,15 +11,26 @@ __example_data = ([[1, 8],
                  [0,0,0,1,1,1,1])
 
 class LogisticRegression():
+    """
+        Classifier class using Logistic Regression.
+        We use Gradient Descent to train it on collected and cropped data to get a robust classifier.
+        And we then apply the classifier on a new design to determine whether it's good or not to be public.
+    """
 
     def __init__(self):
         pass
 
     @staticmethod
     def sigmoid(z):
+        """
+            Sigmoid function that applied element-wise.
+        """
         return 1/(1+np.exp(-z))
 
     def fit_from_file(self, filename, ignoreline=1):
+        """
+            Train classifier by using data fetched in a file. The format is given in the example csv file.
+        """
         with open(filename, 'r') as f:
             a = np.array(map(lambda x: map(float, x.strip().split(',')), f.read().strip().split('\n')[ignoreline:]))
         print a

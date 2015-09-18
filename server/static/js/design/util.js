@@ -1,12 +1,27 @@
-//========================================================================================
+/**
+ * @file util.js
+ * @description Help the user to design circuits and logics
+ * @author JinJin Lin
+ * @mail jinjin.lin@outlook.com
+ * @date Aug 20 2015
+ * @copyright 2015 SYSU-Software. All rights reserved.
+ *
+ */
+
 /**
  * @class Util
- *
  * @method constructor
  *
  */
 function Util() {};
 
+/**
+ * Get risk text
+ * @method getRiskText
+ * @for Util
+ * @param {number} risk A risk of part
+ * 
+ */
 Util.getRiskText = function(risk) {
     if (risk == -1 || risk == 1) return "Low risk(1)"
     if (risk == 2) return 'Moderate risk(2)'
@@ -14,6 +29,13 @@ Util.getRiskText = function(risk) {
     if (risk == 4) return 'Extreme risk(4)'
 }
 
+/**
+ * Get the color of risk
+ * @method getRiskColor
+ * @for Util
+ * @param {number} risk A risk of part
+ * 
+ */
 Util.getRiskColor = function(risk) {
     if (risk == -1 || risk == 1) return "ui green mini button"
     if (risk == 2) return 'ui orange mini button'
@@ -21,10 +43,25 @@ Util.getRiskColor = function(risk) {
     if (risk == 4) return 'ui red mini button'
 }
 
+/**
+ * Get the path of image 
+ * @method getImagePath
+ * @for Util
+ * @param {String} type The type of part.
+ * @param {number} imgSize the size of img
+ * 
+ */
 Util.getImagePath = function(type, imgSize) {
     return "/static/img/design/parts/"+ type + "_" + imgSize +".png";
 };
 
+/**
+ * Create a image div
+ * @method createImageDiv
+ * @for Util
+ * @param {String} partType The type of part
+ * 
+ */
 Util.createImageDiv = function(partType) {
     var img = $("<img></img>");
     var imgPath = this.getImagePath(partType, 60);
@@ -32,6 +69,13 @@ Util.createImageDiv = function(partType) {
     return img;
 }
 
+/**
+ * Create a title div
+ * @method createTitleDiv
+ * @for Util
+ * @param {String} partName The part name
+ * 
+ */
 Util.createTitleDiv = function(partName) {
     var titleDiv = $("<div class='partTitle'></div>");
     titleDiv.css("text-align", "center");
@@ -39,6 +83,12 @@ Util.createTitleDiv = function(partName) {
     return titleDiv;
 }
 
+/**
+ * Create minus circle div
+ * @method createMinusCircleDiv
+ * @for Util
+ * 
+ */
 Util.createMinusCircleDiv = function() {
     var minusCircle = $("<div></div>");
     var icon = $("<i></i>");
@@ -48,6 +98,12 @@ Util.createMinusCircleDiv = function() {
     return minusCircle;
 }
 
+/**
+ * Create the item button
+ * @method createItemBtn
+ * @for Util
+ * 
+ */
 Util.createItemBtn = function() {
     var btn = $("<button></button>");
     btn.addClass("ui mini button");
@@ -56,12 +112,26 @@ Util.createItemBtn = function() {
     return btn;
 }
 
+/**
+ * Create a divider dom element
+ * @method createDivider
+ * @for Util
+ * 
+ */
 Util.createDivider = function() {
 	var divider = $("<div></div>");
     divider.addClass("ui inverted divider");
     return divider;
 }
 
+/**
+ * Download file
+ * @method downloadFile
+ * @for Util
+ * @param {String} fileName The name of file
+ * @param {content} content 
+ * 
+ */
 Util.downloadFile = function(fileName, content){
     var aLink = document.createElement('a');
     var blob = new Blob([content]);
@@ -72,6 +142,14 @@ Util.downloadFile = function(fileName, content){
     aLink.dispatchEvent(evt);
 }
 
+/**
+ * Download image
+ * @method downloadImage
+ * @for Util
+ * @param {String} fileName The name of file
+ * @param {content} content
+ * 
+ */
 Util.downloadImage = function(fileName, content){
     var aLink = document.createElement('a');
     var evt = document.createEvent("HTMLEvents");
@@ -81,6 +159,13 @@ Util.downloadImage = function(fileName, content){
     aLink.dispatchEvent(evt);
 }
 
+/**
+ * Load circuit CNode
+ * @method loadCircuitCNodes
+ * @for Util
+ * @param {List} parts A list of parts
+ * 
+ */
 Util.loadCircuitCNodes = function(parts) {
     var nodeElems = [];
     var that = this;
@@ -111,6 +196,13 @@ Util.loadCircuitCNodes = function(parts) {
     return nodeElems;
 };
 
+/**
+ * Create new CNode
+ * @method _createNewCNode
+ * @for Util
+ * @param {Part} part A part data structure
+ * 
+ */
 Util._createNewCNode = function(part) {
     var node = $("<div></div>");
     var left = part.positionX;
@@ -142,6 +234,13 @@ Util._createNewCNode = function(part) {
     return node;
 };
 
+/**
+ * Load backbone
+ * @method loadBackbone
+ * @for Util
+ * @param {list} backbone A list of backbones
+ * 
+ */
 Util.loadBackbone = function(backbones) {
     var that = this;
     $.each(backbones, function(index, elem) {
@@ -158,6 +257,14 @@ Util.loadBackbone = function(backbones) {
     })
 }
 
+/**
+ * Connect backbone
+ * @method connectBackbone
+ * @for Util
+ * @param {elem} dotStart A part dom element
+ * @param {elem} dotEnd A part dom element
+ * 
+ */
 Util.connectBackbone = function(dotStart, dotEnd) {
     jsPlumb.importDefaults({
         PaintStyle : { strokeStyle: "green", lineWidth: 2 },
@@ -183,13 +290,26 @@ Util.connectBackbone = function(dotStart, dotEnd) {
     setDrawLineStyle();
 }
 
+/**
+ * Create end point
+ * @method createEndpoint
+ * @for Util
+ * 
+ */
 Util.createEndpoint = function () {
     return $("<div class='dotShape'></div>");
 }
 
+/**
+ * Load circuit links
+ * @method constructor
+ * @for Util
+ * @param {List} connections
+ * @param {elem} nodeElems
+ * 
+ */
 Util.loadCircuitLinks = function(connections, nodeElems) {
     $.each(connections, function(index, elem) {
-        // if (elem.type == "promotion" || elem.type == "inhibition") return;
         var startElem;
         var endElem;
         for (var index in nodeElems) {
@@ -200,21 +320,32 @@ Util.loadCircuitLinks = function(connections, nodeElems) {
     }); 
 };
 
+/**
+ * Create equations display
+ * @method createEquationShow
+ * @for Util
+ * 
+ */
 Util.createEquationShow = function() {
     var gridElem = $("<div class='ui grid'></div>");
     var targetElem = $('<div class="five wide column"><span class="title">Target:</span><span class="target"></span></div>');
     var requirementElem = $('<div class="eleven wide column"><span class="title">Requirement:</span><span class="requirement"></span></div>');
     var coeffElem = $('<div class="sixteen wide column"><span class="title">Coefficient:</span><span class="coefficient"></span></div>');
     var formular = $('<div class= "sixteen wide column"><span class="title">Formular:</span><span class="formular"></span></div>');
-    // var formular = $('<div class= "thirteen wide column"><span class="formular"></span></div>');
     gridElem.append(targetElem);
     gridElem.append(requirementElem);
     gridElem.append(coeffElem);
-    // gridElem.append(formularTitle);
     gridElem.append(formular);
     return gridElem;
 }
 
+/**
+ * Get the parts of a device toString
+ * @method getDevicePartsString
+ * @for Util
+ * @param {Device} device A device data structure
+ * 
+ */
 Util.getDevicePartsString = function(device) {
     var partString = "";
     if (device.parts.length > 0)
@@ -227,7 +358,6 @@ Util.getDevicePartsString = function(device) {
 //========================================================================================
 /**
  * @class DataManager
- *
  * @method constructor
  *
  */
@@ -535,7 +665,7 @@ Rubberband.prototype._diagramContainerFindSelectedItem = function() {
     });
 };
 
-
+//====================================================================
 /**
  * @class OperationLog
  *
@@ -663,8 +793,6 @@ DFS.prototype.searchCircuit = function() {
             queue.push(this.map[i]);
         }
     }
-    // console.log("Queue:");
-    // console.log(queue);
     for (var i in queue) {
         circuit = [];
         var head = queue[i];

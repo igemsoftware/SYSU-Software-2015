@@ -13,7 +13,7 @@ from server.tools.classifier.logistic import __example_data as test_data
 class TestMathTool(TestCase):
 
     def testModeling(self):
-        ODEModel, names = getModel(test_system)
+        ODEModel, names, v_m = getModel(test_system)
         t, results = simulate(ODEModel, names, 0, 3.0, 0.05, [0,0,0,0,0,0])
 
         for ele in results:

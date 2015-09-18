@@ -1,27 +1,56 @@
+/**
+ * @file modeling.js
+ * @description Run the modeling
+ * @author JinJin Lin
+ * @mail jinjin.lin@outlook.com
+ * @date Sept 7 2015
+ * @copyright 2015 SYSU-Software. All rights reserved.
+ * 
+ */
+
 "use strict"
 
-
 var modeling;
-var current_id = 1; // replot
+var current_id = 1;
 
+/**
+ * @class Modeling
+ * @method constructor
+ *
+ */
 function Modeling() {
     this.variables = null;
     this.xAxis = null;
     this.count = 0;
 }
 
+/**
+ * Init the modeling.html
+ * @method init
+ * @for Modeling
+ * 
+ */
 Modeling.prototype.init = function() {
     this.enableGetPlot();
     this.enableChooseDesignBtn();
 }
 
+/**
+ * Draw the chart of modeling 
+ * @method drawChart
+ * @for Modeling
+ * @param {elem} view A dom element for drawing chart
+ * @param {List} xArray X coordinates
+ * @param {List} series Y coordinates
+ * 
+ */
 Modeling.prototype.drawChart = function(view, xArray, series) {
     var that = this;
     view.highcharts({
         plotOptions: {
             series: {
                 marker: {
-                    enabled: false, /*数据点是否显示*/
+                    enabled: false,
                 },            
             }
         },
@@ -46,7 +75,7 @@ Modeling.prototype.drawChart = function(view, xArray, series) {
             categories: xArray,
             labels: {
                     formatter: function() {
-                        return this.value.toFixed(2);//这里是两位小数，你要几位小数就改成几
+                        return this.value.toFixed(2);
                     },
                 },
         },
@@ -72,6 +101,12 @@ Modeling.prototype.drawChart = function(view, xArray, series) {
     });
 }
 
+/**
+ * Load modeling data
+ * @method loadData
+ * @for Modeling
+ * 
+ */
 Modeling.prototype.loadData = function() {
     var that = this;
     $.get("/modeling/design/"+$.getUrlParam('id'), function(data) {
@@ -87,14 +122,26 @@ Modeling.prototype.loadData = function() {
         that.initMenu();
         that.initParametersMenu(data.variables);
     });
-    // that.drawMyChart();
 }
 
+/**
+ * Init the table
+ * @method initTable
+ * @for Modeling
+ * 
+ */
 Modeling.prototype.initTable = function() {
     for (var i = 0; i < 10; i++) {
         this.createLine();
     }
 }
+
+/**
+ * Create a line on the table
+ * @method createLine
+ * @for Modeling
+ * 
+ */
 Modeling.prototype.createLine = function() {
     var tr = $("<tr></tr>");
     var td1 = $("<td></td>");
@@ -112,6 +159,12 @@ Modeling.prototype.createLine = function() {
     tr.appendTo($("#dataTable"));
 }
 
+/**
+ * Init the variables menu
+ * @method initMenu
+ * @for Modeling
+ * 
+ */
 Modeling.prototype.initMenu = function() {
 	$("#myMenu").empty();
     for (var i in this.variables) {
@@ -119,8 +172,14 @@ Modeling.prototype.initMenu = function() {
     }
 }
 
+/**
+ * Init the paramters menu
+ * @method initParametersMenu
+ * @for Modeling
+ * @param {List} series
+ * 
+ */
 Modeling.prototype.initParametersMenu = function(series) {
-    // parameters
     $('#parameters-quantity').html('');
     var vars = [];
     $(series).each(function(ine, ele) {
@@ -143,13 +202,15 @@ Modeling.prototype.initParametersMenu = function(series) {
             });
         }
     });
-
 }
 
-
-
-
-
+/**
+ * Add item to the menu
+ * @method addItem
+ * @for Modeling
+ * @param {string} name A part name
+ * 
+ */
 Modeling.prototype.addItem = function(name) {
     var itemElem = $("<div class='item'></div>");
     itemElem.text(name);
@@ -157,6 +218,12 @@ Modeling.prototype.addItem = function(name) {
     itemElem.appendTo($("#myMenu"));
 }
 
+/**
+ * Enable get plot button 
+ * @method enableGetPlot
+ * @for Modeling
+ * 
+ */
 Modeling.prototype.enableGetPlot = function() {
     var that = this;
     $('#getPlot').click(function() {
@@ -180,12 +247,25 @@ Modeling.prototype.enableGetPlot = function() {
     })
 }
 
+/**
+ * Enable choose design button
+ * @method enableChooseDesignBtn
+ * @for Modeling
+ * 
+ */
 Modeling.prototype.enableChooseDesignBtn = function() {
 	$("#chooseDesignBtn").click(function() {
 		$("#chooseModal").modal('show');
 	});
 }
 
+/**
+ * Init the choose design modal
+ * @method initChooseModal
+ * @for Modeling
+ * @param {list} designs A list of designs
+ * 
+ */
 Modeling.prototype.initChooseModal = function(designs) {
 	var that = this;
 	for (var i in designs) {
@@ -214,7 +294,6 @@ Modeling.prototype.initChooseModal = function(designs) {
 		$("#designList div").each(function() {
 			if($(this).hasClass('iyellow')) {
 				var id = $(this).find('input').val();
-				// window.location.href = "/modeling?id="+id;
                 current_id = id; //replot
 				$("#simulation .title span").text($(this).text());
 				$.get("/modeling/design/"+String(id), function(data) {
@@ -229,6 +308,38 @@ Modeling.prototype.initChooseModal = function(designs) {
 		});
 		$("#chooseModal").modal('hide');
 	})
+}
+
+/**
+ * Replot the chart
+ * @method rePlot
+ * @for Modeling
+ * 
+ */
+Modeling.prototype.rePlot = function() {
+    var that = this;
+    var postData = {}; 
+    $('#parameters input').each(function(ind, ele) {
+        if (ele.value) postData[ele.name] = ele.value;
+    });
+    console.log(postData);
+    var postDataJson = JSON.stringify(postData);
+
+    $.ajax({
+        url: "/modeling/design/"+String(current_id),
+        data: postDataJson, 
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+            that.variables = data.variables;
+            that.xAxis = data.x_axis;
+            $("#simulation .title span").text(data.name);
+            that.drawChart($("#chart"), that.xAxis, that.variables);
+            that.drawChart($("#myChart"));
+        }
+    });
 }
 
 $(function() {
@@ -261,37 +372,9 @@ $("#moveToExper").click(function() {
     window.location.href = "/experiment?id="+$.getUrlParam('id');
 });
 
-// parameters
 $("#replot").click(function() {
     modeling.rePlot();
 });
-
-Modeling.prototype.rePlot = function() {
-    var that = this;
-
-    var postData = {}; 
-    $('#parameters input').each(function(ind, ele) {
-        if (ele.value) postData[ele.name] = ele.value;
-    });
-    console.log(postData);
-    var postDataJson = JSON.stringify(postData);
-
-    $.ajax({
-        url: "/modeling/design/"+String(current_id),
-        data: postDataJson, 
-        type: "POST",
-        contentType: "application/json",
-        dataType: "json",
-        success: function(data) {
-            console.log(data);
-            that.variables = data.variables;
-            that.xAxis = data.x_axis;
-            $("#simulation .title span").text(data.name);
-            that.drawChart($("#chart"), that.xAxis, that.variables);
-            that.drawChart($("#myChart"));
-        }
-    });
-}
 
 $("#backToDesign").click(function() {
     window.location.href = "/design";
