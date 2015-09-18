@@ -558,7 +558,7 @@ ModalManager.updateProtocolById = function(id) {
 	protocol.component = component;
 	protocol.procedure = procedures;
 
-	DataManager.syncProtocol(); 
+	DataManager.syncProtocols(); 
 }
 
 /**
@@ -660,7 +660,7 @@ ModalManager.enableCreateProBtn = function() {
 		protocolList.addProtocolView(protocolElem);
 
 		DataManager.addProtocol(protocol);
-		DataManager.syncProtocol();
+		DataManager.syncProtocols();
 
 		$("#createProtocol").modal('hide');
 	});
@@ -697,17 +697,36 @@ ModalManager.enableAddCalendar = function() {
 }
 
 //=====================================================================
+/**
+ * @class DataManager
+ * @method constructor
+ *
+ */
 function DataManager() {
     this.setAProtocols = [];
     this.setBProtocols = [];
     this.perProtocols = [];
 };
 
+/**
+ * Get a new id
+ * @method getNewId
+ * @for DataManager
+ * 
+ */
+
 DataManager.getNewId = function() {
 	this.newId -= 1;
 	return this.newId;
 }
 
+/**
+ * Get system protocol data
+ * @method getSysProtocolData
+ * @for DataManager
+ * @param {function} callback Use this callback to process the getting data
+ * 
+ */
 DataManager.getSysProtocolData = function(callback) {
 	var that = this;
     $.get("/protocol/setB", function(data, status) {
@@ -716,20 +735,29 @@ DataManager.getSysProtocolData = function(callback) {
     });
 };
 
+/**
+ * Get personal protocol data
+ * @method getPerProtocolData
+ * @for DataManager
+ * @param {function} callback Use this callback to process the getting data
+ * 
+ */
 DataManager.getPerProtocolData = function(callback) {
 	this.newId = 0;
 	var that = this;
-    $.get("/protocol/design/1", function(data, status) {
-    	// console.log(data['protocols']);
+    $.get("/protocol/design/"+$.getUrlParam('id'), function(data, status) {
         that.perProtocols = data['protocols'];
         callback(that.perProtocols);
     });
 };
 
-DataManager.getPerProLength = function() {
-	return this.perProtocols.length
-}
-
+/**
+ * Get personal protocol by id
+ * @method getPerProtocolById
+ * @for DataManager
+ * @param {number} id A protocol id
+ * 
+ */
 DataManager.getPerProtocolById = function(id) {
 	for (var i in this.perProtocols) {
 		if (this.perProtocols[i].id == id) {
@@ -738,6 +766,13 @@ DataManager.getPerProtocolById = function(id) {
 	}
 }
 
+/**
+ * Get setB protocol by id
+ * @method getSetBProtocolById
+ * @for DataManager
+ * @param {number} id A protocol id
+ * 
+ */
 DataManager.getSetBProtocolById = function(id) {
 	for (var i in this.setBProtocols) {
 		if (this.setBProtocols[i].id == id) {
@@ -746,25 +781,40 @@ DataManager.getSetBProtocolById = function(id) {
 	}
 }
 
-DataManager.getPerProtocols = function() {
-	return this.perProtocols;
-}
-
+/**
+ * Delete protocol by id
+ * @method deleteProtocolById
+ * @for DataManager
+ * @param {number} id A protocol id
+ * 
+ */
 DataManager.deleteProtocolById = function(id) {
 	for (var i in this.perProtocols) {
 		if (this.perProtocols[i].id == id) {
 			this.perProtocols.splice(i, 1);
 		}
 	}
-	this.syncProtocol();
+	this.syncProtocols();
 }
 
+/**
+ * Add protocol to personal protocols
+ * @method deleteProtocolById
+ * @for DataManager
+ * @param {json} protocol A protocol
+ * 
+ */
 DataManager.addProtocol = function(protocol) {
 	this.perProtocols.push(protocol);
 }
 
-DataManager.syncProtocol = function(id) {
-	// id = 1;
+/**
+ * SYNC the protocol
+ * @method syncProtocols
+ * @for DataManager
+ * 
+ */
+DataManager.syncProtocols = function() {
 	var that = this;
 	var postDataJson = JSON.stringify(that.perProtocols);
 	$.ajax({
@@ -776,9 +826,12 @@ DataManager.syncProtocol = function(id) {
 	});
 }
 
-DataManager.init = function() {
-};
-
+/**
+ * Get seconds
+ * @method getSec
+ * @param {string} time
+ * 
+ */
 function getSec(time) {
 	if (time.indexOf("s") != -1) {
 		return parseInt(time, 10);	
@@ -789,6 +842,12 @@ function getSec(time) {
 	}
 }
 
+/**
+ * Get the procedures total time
+ * @method getTotalTime
+ * @param {json} procedures
+ * 
+ */
 function getTotalTime(procedures) {
 	var total = 0;
 	for (var i in procedures) {
@@ -831,16 +890,10 @@ $(function() {
 	ModalManager.init();
 });
 
-$('.menu .item')
-  .tab()
-;
-
-$(".cancel").click(function() {
-	$(".modal").modal("hide");
-});
-
 $('.ui.dropdown').dropdown();
+$('.menu .item').tab();
 $('#loadingData').dimmer('show');
+$('.coupled.modal').modal({allowMultiple: true});
 
 $(function() {
 	if ($.getUrlParam('id') == null) {
@@ -852,9 +905,6 @@ $(function() {
 $("#backToDesign").click(function() {
 	window.location.href = "/design";
 });
-
-$('.coupled.modal')
-  .modal({
-    allowMultiple: true
-  })
-;
+$(".cancel").click(function() {
+	$(".modal").modal("hide");
+});
