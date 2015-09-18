@@ -47,7 +47,10 @@ def embedded(id):
         :Usage: Get a design.
     """
     d = Design.query.get_or_404(id)
-    return render_template('embedded.html', design=d)
+    from .modeling_view import get_system_from_design
+    equations = [{'expression': ele[-1], 'target': ele[0]}
+        for ele in get_system_from_design(id)[0]]
+    return render_template('embedded.html', design=d, equations=equations)
 
 @main.route('/proxy', methods=['POST'])
 def proxy():

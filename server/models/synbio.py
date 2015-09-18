@@ -590,9 +590,8 @@ class Design(db.Model, BioBase):
     """Full description."""
 #    graph
 #    statistical chart
-    references = db.Column(db.Text, default='')
-    """References."""
-
+    references = db.Column(db.Text, default = '')
+    """The references the author used"""
     rate = db.Column(db.Numeric, default = 0)
     """The integrated rate."""
     eval_efficiency = db.Column(db.Numeric, default = 0)
@@ -630,8 +629,6 @@ class Design(db.Model, BioBase):
 
     create_time = db.Column(db.DateTime, index=True, default=datetime.now)
     """When the design is created."""
-    progress = db.Column(db.Integer, default=0)
-    """The progress of the design."""
 
     protocols = db.Column(db.Text, default='')
     """The protocols it is using."""
@@ -693,14 +690,19 @@ class Design(db.Model, BioBase):
         tags = []
         if self.is_shared: tags.append('Share')
         if self.is_public: tags.append('Public')
+        if not tags: tags.append('Not-shared')
         #if self.task_related > 0: tags.append('Task')
+        from ..routes.modeling_view import get_system_from_design
         return {
             'id': self.id,
             'tags': tags,
-            'progress': self.progress,
             'name': self.name,
             'description': self.full_description,
+            'introduction': self.brief_description[:80],
             'img': self.img,
+            'references': self.references,
+            'equations': [{'expression': ele[-1], 'target': ele[0]}
+                for ele in get_system_from_design(self.id)[0]]
         }
 
 

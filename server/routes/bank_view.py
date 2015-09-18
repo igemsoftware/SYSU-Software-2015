@@ -159,7 +159,7 @@ def get_finished_list():
             } 
     """
     l = []
-    for d in current_user.designs.filter_by(is_shared=False).filter_by(is_finished=True).all():
+    for d in current_user.designs.filter_by(is_shared=False).all():
         l.append({'id':d.id, 'name': d.name})
     return jsonify(finishedList = l)
 
