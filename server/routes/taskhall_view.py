@@ -74,7 +74,7 @@ def get_task_list():
                  'vote': Task.votes.desc(),
                  'view': Task.views.desc(),
                 }
-    pagination = Task.query.filter(or_(not unanswered, not_(Task.answers))).\
+    pagination = Task.query.filter(or_(not unanswered, not_(Task.answers.any()))).\
             filter(Task.title.like('%'+keyword+'%')).\
             order_by(order_obj.get(order, Task.timestamp.desc())).\
             paginate(page, per_page=per_page, error_out=False)
