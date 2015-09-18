@@ -15,13 +15,16 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    text-align: right;
     padding-top: 15px;
     padding-right: 25px;
     z-index: 100;
 }
 
-#index-topbar > .ui.button {
+#index-topbar > .right {
+    float: right;
+}
+
+#index-topbar .ui.button {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.95);
     border-radius: 0;
     font-weight: lighter;
@@ -30,16 +33,16 @@ body {
     line-height: 1.3rem;
 }
 
-#index-topbar > .ui.button:hover {
+#index-topbar .ui.button:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.95);
 }
 
-#index-topbar > .signup.button {
+#index-topbar .signup.button {
     background-color: #909292;
     color: #313131;
 }
 
-#index-topbar > .login.button {
+#index-topbar .login.button {
     background-color: #3b3f42;
     color: #ffffff;
     padding-left: 30px;
