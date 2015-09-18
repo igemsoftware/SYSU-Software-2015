@@ -177,10 +177,20 @@
       <div class="ui bottom attached tab segment" data-tab="equation" id="equation">
         <div class="ui grid">
           <div class="sixteen wide column text-center">
-            <h3>Check equation between two parts</h3>
-            <span>(You should put them on design-area first)</span>
+            <h3>Search equation:</h3>
+            <!-- <h3>Check equation between two parts</h3> -->
+            <!-- <span>(You should put them on design-area first)</span> -->
           </div>
-          <div class="eight wide column">
+          <div class="sixteen wide column ">
+            <label>Parts:</label>
+            <select multiple="" class="ui dropdown" id="searchParts">
+            </select>
+            <div class="ui button ired white float-right" id="searchEquationsBtn">Search</div>
+          </div>
+<!--           <div class="sixteen wide column ">
+            <div class="ui button ired white">Search</div>
+          </div> -->
+   <!--        <div class="eight wide column">
             <div class="ui fluid selection dropdown" id="equationDropdownA">
               <input id="equationPartA" name="type" type="hidden" value="">
               <i class="dropdown icon"></i>
@@ -197,9 +207,9 @@
               <div class="menu">
               </div>
             </div>
-          </div>
-          <div class="sixteen wide column text-center" id="showEquation">
-          </div>
+          </div> -->
+       <!--    <div class="sixteen wide column text-center" id="showEquation">
+          </div> -->
         </div>
         <div class="ui divider"></div>
         <div class="text-center">
@@ -271,18 +281,38 @@
     </div>
 <!-- coefficient modal -->
 
+<!-- EquationSearchResult modal -->
+    <div class="ui small first coupled modal" id="equaSearchResultModal">
+      <div class="header">Search Reasult:</div>
+      <div class="content">
+        <div class="fluid text-right">
+          <div class="ui cancel button">Cancel</div>
+          <div class="ui button ired white" id="createParam">Create</div>
+        </div>
+      </div>
+    </div>
+<!-- EquationSearchResult modal -->
+
+<!-- EquationSearchResult modal -->
+    <div class="ui small coupled second modal">
+      <div class="header">Second:</div>
+      <div class="content">
+        <div class="fluid text-right">
+          <div class="ui cancel button">Cancel</div>
+          <div class="ui button ired white" id="createParam">Create</div>
+        </div>
+      </div>
+    </div>
+<!-- EquationSearchResult modal -->
+
 <!-- formular modal -->
     <div class="ui small modal" id="formularModal">
       <div class="header">Create a param</div>
       <div class="content text-center">
         <div style="text-center">
-          <h4>You should input equation:</h4>
+          <h4>Input an equation:</h4>
           <div class="ui fluid input">
             <input type="text" v-model="expression" debounce=500 id="formular">
-          </div>
-          <h4>Corresponding LaTeX code will be shown here, and the you can still modify it to fit your needs:</h4>
-          <div class="ui fluid input">
-            <input type="text" v-model="latexExp">
           </div>
           <h4>And the preview:</h4>
           <p v-text="'$$' + latexExp + '$$'" id="output"></p>
@@ -372,19 +402,6 @@
       </div>
     </div>
 <!--   saveSuccess modal -->
-<div class="ui modal" id="userGuideModal">
-    <i class="close icon"></i>
-    <div class="btn-arrow left">
-      <i class="angle left icon"></i>
-    </div>
-    <div class="btn-arrow right">
-      <i class="angle right icon"></i>
-    </div>
-    <div class="content">
-    </div>
-    <div class="circleTab">
-    </div>
-  </div>
 <!--   createEquationSuccess modal -->
     <div class="ui small basic modal" id="createEquationSuccessModal">
       <div class="content">
@@ -418,7 +435,7 @@
 <!--   deleteModal modal -->
 
 <!--   Part more modal -->
-    <div class="ui small modal" id="readPartInfoModal">
+    <div class="ui small coupled modal" id="readPartInfoModal">
       <div class="header">Part Information:</div>
         <div class="content">
           <div class="ui grid">
@@ -481,7 +498,7 @@
 <!--   Part more modal -->
 
 <!--   cds modal -->
-    <div class="ui small modal" id="cdsModal">
+    <div class="ui small coupled modal" id="cdsModal">
       <div class="header">This is the coding sequences.</div>
       <div class="content">
         <p class="cdsContent"></p>

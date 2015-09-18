@@ -8,7 +8,7 @@
 </head>
 <body>
   <div id="index-topbar">
-    <a class="ui login button">User Guide</a>
+    <a class="ui login button" id="UserGuideBtn">User Guide</a>
     <div class="right">
       {% if current_user.is_anonymous() %}
       <a href="/auth/login" class="ui login button">Log In</a>
@@ -70,9 +70,23 @@
       </div>
     </div>
   </div>
+  <div class="ui modal" id="userGuideModal">
+    <i class="close icon"></i>
+    <div class="btn-arrow left">
+      <i class="angle left icon"></i>
+    </div>
+    <div class="btn-arrow right">
+      <i class="angle right icon"></i>
+    </div>
+    <div class="content">
+    </div>
+    <div class="circleTab">
+    </div>
+  </div>
 
 <script src="/static/js/lib/jquery.min.js"></script>
 <script src="/static/js/lib/semantic.min.js"></script>
+<script src="/static/js/index.js"></script>
 <script>$('.dimmer').dimmer({on: 'hover'});</script>
 
 </body>
