@@ -1,0 +1,84 @@
+['Cph8 (active)',['Cph8* (inactive)'],[('k^{Cph8}_{decay}',5.8*10**(-3)),('k^{Cph8}_{hv}',3*10**(-3))],'{{k^{Cph8}_{decay}}}*Cph8* (inactive)-{{k^{Cph8}_{hv}}}*Cph8 (active)']
+#全方程
+['Cph8 (active)',[],[('k^{Cph8}_{hv}',3*10**(-3))],'-{{k^{Cph8}_{hv}}}*Cph8 (active)']
+#当Cph8*不存在时
+
+['Cph8* (inactive)',['Cph8 (active)'],[('k^{Cph8}_{decay}',5.8*10**(-3)),('k^{Cph8}_{hv}',3*10**(-3))],'-{{k^{Cph8}_{decay}}}*Cph8* (inactive)+{{k^{Cph8}_{hv}}}*Cph8 (active)']
+#全方程
+['Cph8* (inactive)',[],[('k^{Cph8}_{decay}',5.8*10**(-3))],'-{{k^{Cph8}_{decay}}}*Cph8* (inactive)']
+#当Cph8不存在时
+
+['LOV (inactive)',['LOV* (active)'],[('k^{Lov}_{decay}',5.8*10**(-3)),('k^{Lov}_{hv}',3*10**(-3))],'{{k^{Lov}_{decay}}}*LOV* (active)-{{k^{Lov}_{hv}}}*LOV (inactive)']
+#全方程
+['LOV (inactive)',[],[('k^{Lov}_{hv}',3*10**(-3))],'-{{k^{Lov}_{hv}}}*LOV (inactive)']
+#当LOV*不存在时
+
+['LOV* (active)',['LOV (inactive)'],[('k^{Lov}_{decay}',5.8*10**(-3)),('k^{Lov}_{hv}',3*10**(-3))],'-{{k^{Lov}_{decay}}}*LOV* (active)+{{k^{Lov}_{hv}}}*LOV (inactive)']
+#全方程
+['LOV* (active)',[],[('k^{Lov}_{decay}',5.8*10**(-3))],'-{{k^{Lov}_{decay}}}*LOV* (active)']
+#当LOV不存在时
+
+
+['TetR',['Promoter','Cph8 (active)','OompC'],[('k_{deg}',3.85*10**(-5)),('k_{PompC}',3.454*10**(-1)),('n_{Cph8}',1),('KM_{Cph8}',1000),('n',2),('tetR',150)],'{{k_{PompC}}}*{{tetR}}*Cph8 (active)**{{n_{Cph8}}}/({{KM_{Cph8}}}**{{n}}+Cph8 (active)**{{n_{Cph8}}})-{{k_{deg}}}*TetR']
+#全方程
+['TetR',[],[('k_{deg}',3.85*10**(-5))],'-{{k_{deg}}}*TetR']
+#缺少启动子时
+['TetR',['Promoter'],[('k_{deg}',3.85*10**(-5)),('k_{PompC}',3.454*10**(-1)),('tetR',150)],'{{k_{PompC}}}*{{tetR}}-{{k_{deg}}}*TetR']
+#当启动子存在，而OompC不存在时
+
+['LacI',['Promoter','LOV* (active)','trpO'],[('k_{Ptrp}',2.23),('KM_{Lov}',142),('n_{Lov}',1),('k_{deg}',3.85*10**(-5)),('lacI',150)],'{{k_{Ptrp}}}*{{lacI}}*1/(1+(LOV* (active)/{{KM_{Lov}}})**{{n_{Lov}}})-{{k_{deg}}}*LacI']
+#全方程
+['LacI',[],[('k_{deg}',3.85*10**(-5))],'-{{k_{deg}}}*LacI']
+#缺少启动子时
+['LacI',['Promoter'],[('k_{Ptrp}',2.23),('k_{deg}',3.85*10**(-5)),('lacI',150)],'{{k_{Ptrp}}}*{{lacI}}-{{k_{deg}}}*LacI']
+#当启动子存在，而trpO不存在时
+
+['CI',['Promoter','LacI','TetR','lacO','tetO'],[('k_{PL}',3*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{LacI}',800),('n_{LacI}',2),('KM_{TetR}',587),('n_{TetR}',2),('cI',150)],'1/(1+(LacI/{{KM_{LacI}}})**{{n_{LacI}}})*1/(1+(TetR/{{KM_{TetR}}})**{{n_{TetR}}})*{{cI}}*{{k_{PL}}}-{{k_{deg}}}*CI']
+#全方程
+['CI',[],[('k_{deg}',3.85*10**(-5))],'-{{k_{deg}}}*CI']
+#缺少启动子时
+['CI',['Promoter','LacI','lacO'],[('k_{PL}',3*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{LacI}',800),('n_{LacI}',2),('cI',150)],'1/(1+(LacI/{{KM_{LacI}}})**{{n_{LacI}}})*{{cI}}*{{k_{PL}}}-{{k_{deg}}}*CI']
+#启动子、LacI、lacO存在，而TetR或tetO不存在时
+['CI',['Promoter','TetR','tetO'],[('k_{PL}',3*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{TetR}',587),('n_{TetR}',2),('cI',150)],'1/(1+(TetR/{{KM_{TetR}}})**{{n_{TetR}}})*{{cI}}*{{k_{PL}}}-{{k_{deg}}}*CI']
+#启动子、TetR、tetO存在，而LacI或lacO不存在
+
+['P Green Pigment',['Promoter','CI','OR','LacI','lacO'],[('k_{PR}',2.8*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{CI}',322),('n_{CI}',1),('KM_{LacI}',800),('n_{LacI}',2),('Green Pigment',150)],'{{k_{PR}}}*{{Green Pigment}}*1/(1+(CI/{{KM_{CI}}})**{{n_{CI}}})*1/(1+(LacI/{{KM_{LacI}}})**{{n_{LacI}}})-{{k_{deg}}}*P Green Pigment']
+#全方程
+['P Green Pigment',[],[('k_{deg}',3.85*10**(-5))],'-{{k_{deg}}}*P Green Pigment']
+#缺少启动子时
+['P Green Pigment',['Promoter','CI','OR'],[('k_{PR}',2.8*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{CI}',322),('n_{CI}',1),('Green Pigment',150)],'{{k_{PR}}}*{{Green Pigment}}*1/(1+(CI/{{KM_{CI}}})**{{n_{CI}}})-{{k_{deg}}}*P Green Pigment']
+#启动子、CI、OR存在，而LacI或lacO不存在
+['P Green Pigment',['Promoter','LacI','lacO'],[('k_{PR}',2.8*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{LacI}',800),('n_{LacI}',2),('Green Pigment',150)],'{{k_{PR}}}*{{Green Pigment}}*1/(1+(LacI/{{KM_{LacI}}})**{{n_{LacI}}})-{{k_{deg}}}*P Green Pigment']
+#启动子、LacI、lacO存在，而CI或OR不存在
+
+['P Red Pigment',['Promoter','CI','OR','TetR','tetO'],[('k_{PR}',2.8*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{CI}',322),('n_{CI}',1),('KM_{TetR}',587),('n_{TetR}',2),('Red Pigment',150)],'{{k_{PR}}}*{{Red Pigment}}*1/(1+(CI/{{KM_{CI}}})**{{n_{CI}}})*1/(1+(TetR/{{KM_{TetR}}})**{{n_{TetR}}})-{{k_{deg}}}*P Red Pigment']
+#全方程
+['P Red Pigment',[],[('k_{deg}',3.85*10**(-5))],'-{{k_{deg}}}*P Red Pigment']
+#缺少启动子时
+['P Red Pigment',['Promoter','TetR','tetO'],[('k_{PR}',2.8*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{TetR}',587),('n_{TetR}',2),('Red Pigment',150)],'{{k_{PR}}}*{{Red Pigment}}*1/(1+(TetR/{{KM_{TetR}}})**{{n_{TetR}}})-{{k_{deg}}}*P Red Pigment']
+#当启动子、TetR、tetO存在，而CI或OR不存在时
+['P Red Pigment',['Promoter','CI','OR'],[('k_{PR}',2.8*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{CI}',322),('n_{CI}',1),('Red Pigment',150)],'{{k_{PR}}}*{{Red Pigment}}*1/(1+(CI/{{KM_{CI}}})**{{n_{CI}}})-{{k_{deg}}}*P Red Pigment']
+#当启动子、CI、OR存在，而TetR或tetO不存在
+
+['P Violet Pigment',['Promoter','LacI','lacO','TetR','tetO'],[('k_{PR}',2.8*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{LacI}',800),('n_{LacI}',2),('KM_{TetR}',587),('n_{TetR}',2),('Violet Pigment',150)],'{{k_{PR}}}*{{Violet Pigment}}*1/(1+(LacI/{{KM_{LacI}}})**{{n_{LacI}}})*1/(1+(TetR/{{KM_{TetR}}})**{{n_{TetR}}})-{{k_{deg}}}*P Violet Pigment']
+#全方程
+['P Violet Pigment',[],[('k_{deg}',3.85*10**(-5))],'-{{k_{deg}}}*P Violet Pigment']
+#缺少启动子时
+['P Violet Pigment',['Promoter','TetR','tetO'],[('k_{PR}',2.8*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{TetR}',587),('n_{TetR}',2),('Violet Pigment',150)],'{{k_{PR}}}*{{Violet Pigment}}*1/(1+(TetR/{{KM_{TetR}}})**{{n_{TetR}}})-{{k_{deg}}}*P Violet Pigment']
+#当启动子、TetR、tetO都存在，LacI或lacO不存在时
+['P Violet Pigment',['Promoter','LacI','lacO'],[('k_{PR}',2.8*10**(-2)),('k_{deg}',3.85*10**(-5)),('KM_{LacI}',800),('n_{LacI}',2),('Violet Pigment',150)],'{{k_{PR}}}*{{Violet Pigment}}*1/(1+(LacI/{{KM_{LacI}}})**{{n_{LacI}}})-{{k_{deg}}}*P Violet Pigment']
+#当启动子、LacI、lacO都存在，而TetR或tetO不存在
+
+
+
+
+
+
+
+
+
+
+
+
+
+

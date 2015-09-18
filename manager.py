@@ -96,7 +96,13 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
                 for filename in get_file_list(dir):
                     preload_parts(filename)
 
+            # add testing equations 
+            for dir in app.config.get('INIT_PRELOAD_EQUATION_DIRS', []):
+                for filename in get_file_list(dir):
+                    EquationBase.preload_from_file(filename)
+
 #           # add testing component prototype
+#           # old version input
 #           for dir in app.config.get('INIT_PRELOAD_DEVICE_DIRS', []):
 #               for filename in get_file_list(dir):
 #                   device = Device().load_from_file(filename)
@@ -105,14 +111,6 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
                 for filename in get_file_list(dir):
                     device = Device.new_load_from_file(filename)
 
-            # add testing equations 
-            for dir in app.config.get('INIT_PRELOAD_EQUATION_DIRS', []):
-                for filename in get_file_list(dir):
-                    try:
-                        EquationBase.preload_from_file(filename)
-                    except:
-                        print 'error occurs when loading', filename
-                        pass
             if quickcheck: return
         
 
@@ -131,7 +129,7 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
             db.session.add(d)
             
             from numpy import random
-            for i in range(50):
+            for i in range(3):
                 print 'Faking %d th design ...\r', i,
                 device_num = random.randint(1, Device.query.count()+1)
                 is_finished = random.randint(2) == 1

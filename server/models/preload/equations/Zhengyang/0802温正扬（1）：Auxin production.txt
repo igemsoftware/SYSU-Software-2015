@@ -1,14 +1,14 @@
-['mRNA_IAAM',['Promoter'],[('Pr',1),('iaaM',150),('d_{mRNA}',0.017)],'{{Pr}}*{{iaaM}}-{{d_{mRNA}}}*mRNA_IAAM']
+['mRNA-IAAM',['Promoter'],[('Pr',1),('iaaM',150),('d_{mRNA}',0.017)],'{{Pr}}*{{iaaM}}-{{d_{mRNA}}}*mRNA-IAAM']
 #全方程
-['mRNA_IAAM',[],[('d_{mRNA}',0.017)],'-{{d_{mRNA}}}*mRNA_IAAM']
+['mRNA-IAAM',[],[('d_{mRNA}',0.017)],'-{{d_{mRNA}}}*mRNA-IAAM']
 #当启动子不存在时
 
-['mRNA_IAAH',['Promoter'],[('Pr',1),('iaaH',150),('d_{mRNA}',0.017)],'{{Pr}}*{{iaaH}}-{{d_{mRNA}}}*mRNA_IAAH']
+['mRNA-IAAH',['Promoter'],[('Pr',1),('iaaH',150),('d_{mRNA}',0.017)],'{{Pr}}*{{iaaH}}-{{d_{mRNA}}}*mRNA-IAAH']
 #全方程
-['mRNA_IAAH',[],[('d_{mRNA}',0.017)],'-{{d_{mRNA}}}*mRNA_IAAH']
+['mRNA-IAAH',[],[('d_{mRNA}',0.017)],'-{{d_{mRNA}}}*mRNA-IAAH']
 #当启动子不存在时
 
-['IAAM',['mRNA_IAAM'],[('Kz',1),('d_{protein}',0.0017)],'{{Kz}}*mRNA_IAAM-{{d_{protein}}}*IAAM']
+['IAAM',['mRNA-IAAM'],[('Kz',1),('d_{protein}',0.0017)],'{{Kz}}*mRNA-IAAM-{{d_{protein}}}*IAAM']
 #全方程
 ['IAAM',[],[('d_{protein}',0.0017)],'-{{d_{protein}}}*IAAM']
 #当mRNA_IAAM不存在时
@@ -23,7 +23,7 @@
 ['IAAM',[],[('Km_{IAAM}',50),('d_{protein}',0.0017)],'IAAM/{{Km_{IAAM}}}-{{d_{protein}}}*IAAM']
 #当IAA不存在时
 
-['IAAH',['mRNA_IAAH'],[('Kz',1),('d_{protein}',0.0017)],'{{Kz}}*mRNA_IAAH-{{d_{protein}}}*IAAH']
+['IAAH',['mRNA-IAAH'],[('Kz',1),('d_{protein}',0.0017)],'{{Kz}}*mRNA-IAAH-{{d_{protein}}}*IAAH']
 #全方程
 ['IAAH',[],[('d_{protein}',0.0017)],'-{{d_{protein}}}*IAAH']
 #当mRNA_IAAH不存在时

@@ -154,6 +154,9 @@ class ComponentPrototype(db.Model):
 
     name = db.Column(db.String) #unique=True)
     """Its name."""
+    attr = db.Column(db.String)
+    """Combine :attr:`BBa` with :attr:`name`, if :attr:`BBa` exists."""
+    initval = db.Column(db.Numeric, default = 0)
 
     type = db.Column(db.String(64), default='None')
     """There many type of components.
@@ -191,19 +194,12 @@ class ComponentPrototype(db.Model):
     """What components points to it."""
 
     def __init__(self, **kwargs):
-#        kwargs['name'] = name_handler(kwargs['name'])
+#        kwargs['name'] = name_handler(kwargs['name'])    
         super(ComponentPrototype, self).__init__(**kwargs)
-
-
-
-
-    @property
-    def attr(self):
-        """Combine :attr:`BBa` with :attr:`name`, if :attr:`BBa` exists."""
         if self.name in ['Promoter', 'RBS', 'Terminator'] and self.BBa:
-            return self.name+':'+self.BBa
+            self.attr = self.name+':'+self.BBa
         else:
-            return self.name
+            self.attr = self.name
     
     @property
     def name_with_(self):

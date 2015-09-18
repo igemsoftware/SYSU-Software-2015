@@ -4,7 +4,7 @@ import traceback
 from . import modeling 
 from flask import render_template, jsonify, request
 from ..tools.simulation.release import getModel, simulate, __example_system, name_handler
-from ..models import EquationBase, Design 
+from ..models import EquationBase, Design, ComponentPrototype
 
 # /modeling/
 @modeling.route('/')
@@ -45,20 +45,10 @@ def design_all():
                   'id': d.id,
                   'img': d.img})
     return jsonify(designs=l)
-
  
-def get_system_from_design(id):
-    try:
-        d = Design.query.get(id)
-        d.update_from_db()
-        vars = [ele['partAttr'] for ele in d.parts]
-        newvars = map(lambda x: name_handler(x), vars) 
-        var_mapper = {}
-        for var, newvar in zip(vars, newvars):
-            if var != newvar:
-                var_mapper.update({newvar:var})
-        design_set = set(newvars)
 
+def get_system_from_related(design_set):
+    try:
         system = []
         system_set = set({})
         for e in EquationBase.query.order_by(EquationBase.related_count.desc()).all():
@@ -76,9 +66,37 @@ def get_system_from_design(id):
                 system_set.update([e.target])
        #from pprint import pprint
        #pprint(system)
+        return system
+    except:
+        return None
+
+def get_system_from_design(id):
+    try:
+        d = Design.query.get(id)
+        d.update_from_db()
+        vars = [ele['partAttr'] for ele in d.parts]
+        newvars = map(lambda x: name_handler(x), vars) 
+        var_mapper = {}
+        for var, newvar in zip(vars, newvars):
+            if var != newvar:
+                var_mapper.update({newvar:var})
+        design_set = set(newvars)
+
+        system = get_system_from_related(design_set)
+        if system==None: raise Exception
+            
         return system, var_mapper
     except:
         return None, None
+
+def get_initval_from_system(system, var_mapper):
+    initval = []
+    for ele in system:
+        target = ele[0]
+        if target in var_mapper: target = var_mapper[target]
+        c = ComponentPrototype.query.filter_by(attr=target).first()
+        initval.append(c.initval if c else 0.0)
+    return initval
 
 @modeling.route('/design/<int:id>', methods=["GET"])
 def plot_design(id):
@@ -297,10 +315,11 @@ def plot_design(id):
         system, var_mapper = get_system_from_design(id)
         if not system: raise Exception("Cannot find the system.")
 
-        ODEModel, names = getModel(system)
+        ODEModel, system, names = getModel(system)
         if not ODEModel: raise Exception("Build ODE system error.")
 
-        t, result = simulate(ODEModel, names, 0, 3.0, 0.05, [0.]*len(names))
+        initval = get_initval_from_system(system, var_mapper)
+        t, result = simulate(ODEModel, names, 0, 3.0, 0.05, initval)
 
         for ind, ele in enumerate(result):
             if ele['name'] in var_mapper:
@@ -333,18 +352,19 @@ def replot_design(id):
         system, var_mapper = get_system_from_design(id)
         if not system: raise Exception("Cannot find the system.")
 
-        ODEModel, names = getModel(system)
+        ODEModel, system, names = getModel(system)
         if not ODEModel: raise Exception("Build ODE system error.")
+        initval = get_initval_from_system(system, var_mapper)
 
         data = request.get_json()
         maximum = float(data.get('maximum-time', 3.0))
         interval = float(data.get('interval', 0.05))
 
-        initval = [0.] * len(names)
         for ind, ele in enumerate(names):
             if ele in var_mapper:
                 ele = var_mapper[ele]
-            initval[ind] = float(data.get(ele, 0.0))
+            if data.has_key(ele):
+                initval[ind] = float(data.get(ele, 0.0))
         print initval
 
         t, result = simulate(ODEModel, names, 0, maximum, interval, initval)

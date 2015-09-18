@@ -1,19 +1,22 @@
-['Lux',['Ptet','TetR'],[('k_{2}',0.01),('beta_{TetR}',0.5),('N',1),('d_{2}',0)],'{{k_{2}}}*{{N}}*1/(1+(TetR/{{beta_{TetR}}})**2)-{{d_{2}}}*Lux']
+['Lux',['Ptet','TetR'],[('k_{2}',0.01),('lux',150),('beta_{TetR}',0.5),('N',1),('d_{2}',0)],'{{lux}}*{{k_{2}}}*{{N}}*1/(1+(TetR/{{beta_{TetR}}})**2)-{{d_{2}}}*Lux']
 #全方程，N取1或者2试一下看效果，beta_{TetR}取0.5或者2试一下看效果
 ['Lux',[],[('d_{2}',0)],'-{{d_{2}}}*Lux']
-#当启动子不存在时
+#当启动子不存在时（无论TetR在不在）
+['Lux',['Ptet'],[('k_{2}',0.01),('lux',150),('N',1),('d_{2}',0)],'{{lux}}*{{k_{2}}}*{{N}}-{{d_{2}}}*Lux']
 
 ['Light',['Ptet','TetR','Lux'],[('k_{2}',0.01),('beta_{TetR}',0.5),('N',1),('d_{2}',0),('k_{3}',8.4)],'{{k_{3}}}*({{k_{2}}}*{{N}}*1/(1+(TetR/{{beta_{TetR}}})**2)-{{d_{2}}}*Lux)+t']
 #全方程，N取1或者2试一下看效果，beta_{TetR}取0.5或者2试一下看效果
 ['Light',['Lux'],[('k_{3}',8.4),('d_{2}',0)],'-{{k_{3}}}*{{d_{2}}}*Lux+t']
 #当启动子不存在时
 
-['Endogenous_Light_Sensing_System',['Light'],[('k_{1}',0.01),('N',1),('k_{5}',20),('k_{6}',20),('d_{1}',0)],'Light*{{k_{1}}}*{{N}}*(1-Endogenous_Light_Sensing_System/{{k_{5}}})*(1-Light/{{k_{6}}})-{{d_{1}}}*Endogenous_Light_Sensing_System']
+['Endogenous Light Sensing System',['Light'],[('k_{1}',0.01),('N',1),('k_{5}',20),('k_{6}',20),('d_{1}',0)],'Light*{{k_{1}}}*{{N}}*(1-Endogenous Light Sensing System/{{k_{5}}})*(1-Light/{{k_{6}}})-{{d_{1}}}*Endogenous Light Sensing System']
 #全方程，N取1或者2试一下看效果
-['Endogenous_Light_Sensing_System',[],[('d_{1}',0)],'-{{d_{1}}}*Endogenous_Light_Sensing_System']
+['Endogenous Light Sensing System',[],[('d_{1}',0)],'-{{d_{1}}}*Endogenous Light Sensing System']
 #当Light为0的情况
 
-['TetR',['PycgZ','Endogenous_Light_Sensing_System'],[('k_{7}',0.01),('N',1),('h_{0}',1),('d_{3}',20)],'{{k_{7}}}*{{N}}*(Endogenous_Light_Sensing_System)**2/({{h_{0}}}**2+(Endogenous_Light_Sensing_System)**2)-{{d_{3}}}*TetR']
+['TetR',['PycgZ','Endogenous Light Sensing System'],[('tetR',150),('k_{7}',0.01),('N',1),('h_{0}',1),('d_{3}',20)],'{{tetR}}*{{k_{7}}}*{{N}}*(Endogenous Light Sensing System)**2/({{h_{0}}}**2+(Endogenous Light Sensing System)**2)-{{d_{3}}}*TetR']
 #全方程
 ['TetR',[],[('d_{3}',20)],'-{{d_{3}}}*TetR']
-#当启动自PycgZ不存在
+#当启动自PycgZ不存在，（不论Endogenous_Light_Sensing_System存在与否）
+['TetR',['PycgZ'],[('tetR',150),('k_{7}',0.01),('N',1),('h_{0}',1),('d_{3}',20)],'{{tetR}}*{{k_{7}}}*{{N}}*1/({{h_{0}}}**2)-{{d_{3}}}*TetR']
+#当启动子存在，而Endogenous_Light_Sensing_System不存在时

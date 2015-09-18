@@ -1,0 +1,46 @@
+['CI',['Light','Light Receiver','Light Promoter','PcI'],[('alpha_{1}',5.59),('cI',150),('d',0.034)],'{{alpha_{1}}}*{{cI}}+{{alpha_{1}}}*{{cI}}-{{d}}*CI']
+#全方程
+['CI',['PcI'],[('alpha_{1}',5.59),('cI',150),('d',0.034)],'{{alpha_{1}}}*{{cI}}-{{d}}*CI']
+#当Light或Light_Receiver或Light_Promoter不存在，而PcI存在时
+['CI',[],[('d',0.034)],'-{{d}}*CI']
+#当Light或Light_Receiver或Light_Promoter不存在，且而PcI不存在时
+['CI',['Light','Light Receiver','Light Promoter'],[('alpha_{1}',5.59),('cI',150),('d',0.034)],'{{alpha_{1}}}*{{cI}}-{{d}}*CI']
+#当PcI不存在，而Light，Light_Receiver，Light_Promoter都存在时
+
+['LacI',['CI','PcI'],[('alpha_{2}',9.12),('lacI',150),('d',0.034),('beta_{CI}',0.008),('mju_{CI}',2)],'{{alpha_{2}}}*{{lacI}}*1/(1+(CI/{{beta_{CI}}})**{{mju_{CI}}})-{{d}}*LacI']
+#全方程
+['LacI',[],[('d',0.034)],'-{{d}}*LacI']
+#当启动子PcI不存在，（不论CI存在与否）
+['LacI',['PcI'],[('alpha_{2}',9.12),('lacI',150),('d',0.034)],'{{alpha_{2}}}*{{lacI}}-{{d}}*LacI']
+#当启动子PcI存在,且CI不存在时
+
+['CI',['Plac','LacI'],[('alpha_{1}',5.59),('cI',150),('d',0.034),('beta_{LacI}',0.8),('mju_{LacI}',2)],'{{alpha_{1}}}*{{cI}}*1/(1+(LacI/{{beta_{LacI}}})**{{mju_{LacI}}})-{{d}}*CI']
+#全方程
+['CI',[],[('d',0.034)],'-{{d}}*CI']
+#当启动子Plac不存在，（不论LacI存在与否）
+['CI',['Plac'],[('alpha_{1}',5.59),('cI',150),('d',0.034)],'{{alpha_{1}}}*{{cI}}-{{d}}*CI']
+#当启动子Plac存在，而LacI不存在时
+
+['AHL enzyme',['Plac'],[('AHL generator',150),('alpha_{3}',2.28),('d',0.034)],'{{alpha_{3}}}*{{AHL generator}}-{{d}}*AHL enzyme']
+#全方程
+['AHL enzyme',[],[('d',0.034)],'-{{d}}*AHL enzyme']
+#当启动子Plac不存在
+
+['AHL',['AHL enzyme'],[('alpha_{4}',0.60),('h_{0}',1.8),('n',2),('d',0.034)],'{{alpha_{4}}}*AHL enzyme**{{n}}/({{h_{0}}}**{{n}}+AHL enzyme**{{n}})-{{d}}*AHL']
+#全方程
+['AHL',[],[('d',0.034)],'-{{d}}*AHL']
+#当AHL_enzyme不存在时
+
+['as-FtsZ mRNA',['Plac'],[('AHL generator',150),('alpha_{3}',2.28),('d',0.034)],'{{alpha_{3}}}*{{AHL generator}}-{{d}}*as-FtsZ mRNA']
+#全方程
+['as-FtsZ mRNA',[],[('d',0.034)],'-{{d}}*as-FtsZ mRNA']
+#当Plac不存在时
+
+
+['FtsZ',['as-FtsZ mRNA'],[('alpha_{5}',3.78),('beta_{as_TtszmRNA}',0.75),('mju_{as_TtszmRNA}',1),('d',0.034)],'{{alpha_{5}}}*1/(1+(as-FtsZ mRNA/{{beta_{as_TtszmRNA}}})**{{mju_{as_TtszmRNA}}})-{{d}}*FtsZ']
+#全方程
+['FtsZ',[],[('alpha_{5}',3.78),('d',0.034)],'{{alpha_{5}}}-{{d}}*FtsZ']
+#当as_FtsZ_mRNA不存在时
+
+
+
