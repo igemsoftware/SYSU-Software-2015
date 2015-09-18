@@ -58,7 +58,7 @@
                     <div class="ui divider"></div>
                     <h4 class="title">Equations</h4>
                     {% for ele in system %}
-                    <v-equation expression="{{ele.formular}}" target="{{ele.target}}"></v-equation>
+                    <v-equation expression="{{ele[-1]}}" target="{{ele[0]}}"></v-equation>
                     {% endfor %}
                     <h4 class="title">Chart</h4>
                     <v-graph design-id="{{design.id}}"></v-graph>
