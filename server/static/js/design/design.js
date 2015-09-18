@@ -883,8 +883,9 @@ DesignMenu.prototype.enableSaveDesignBtn = function(){
         var img;
         var curcuitChartData = that.getDesignChartData();
         curcuitChartData.name = $("#curcuitName").val();
-        curcuitChartData.full_description = $("#designIntro").val();
-        curcuitChartData.source = "hello world";
+        curcuitChartData.full_description = $("#full_description").val();
+        curcuitChartData.brief_description = $("#brief_description").val();
+        curcuitChartData.source = $("#designSource").val();
         curcuitChartData.risk = design.risk;
         curcuitChartData.plasmids = dfs.getCircuits();
         curcuitChartData.id = design.designID;
