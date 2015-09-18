@@ -878,7 +878,6 @@ DesignMenu.prototype.enableSaveDesignBtn = function(){
     });
 
     $("#saveCircuitBtn").click(function() {
-        $("#saveCircuitBtn").addClass("loading");
         var there = this;
         var img;
         var curcuitChartData = that.getDesignChartData();
@@ -908,6 +907,7 @@ DesignMenu.prototype.enableSaveDesignBtn = function(){
                 curcuitChartData.img = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
                 console.log("Post Data");
                 console.log(curcuitChartData);
+                $("#saveCircuitBtn").addClass("loading");
                 var postDataJson = JSON.stringify(curcuitChartData);
                 $.ajax({
                     type: 'POST',
