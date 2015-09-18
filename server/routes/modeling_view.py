@@ -49,26 +49,59 @@ def design_all():
 
 def get_system_from_related(design_set):
     try:
+        design_set = set(design_set)
+
+        # single source 
+        #system = []
+        #system_set = set({})
+
+        # mutli-sourcing 
         system = []
-        system_set = set({})
-        for e in EquationBase.query.order_by(EquationBase.related_count.desc()).all():
-            e.update_from_db()
-            # Find the max match
-            if e.target in system_set: continue
-            # Filter
-            if e.target not in design_set: continue
-            # debug codes
-       #    print design_set
-       #    print e.all_related
-       #    print design_set >= e.all_related
-            if design_set >= e.all_related:
-                system.append(e.packed())
-                system_set.update([e.target])
-       #from pprint import pprint
-       #pprint(system)
+
+        for target in design_set:
+            component_set = set([])
+            component_equ = []
+
+            for e in EquationBase.query.filter_by(target=target).order_by(EquationBase.related_count.desc()).all():
+#                print 'checking %s' % e.packed()
+                e.update_from_db()
+                related = set(e.related)
+                if not related:
+                    # empty requirment will be added if and only if current equation set is empty
+                    if not component_set:
+                        component_equ.append(e.packed())
+                    else:
+                        pass
+                else:
+                    if related <= component_set:
+                        # ignore the included equations
+                        pass
+                    else:
+                        component_set.update(related)
+                        component_equ.append(e.packed())
+#           from pprint import pprint
+#           pprint(component_set)
+#           pprint(component_equ)
+
+            if len(component_equ) == 0:
+                continue
+            elif len(component_equ) == 1:
+                system.append(component_equ[0])
+            else:
+                # concatenate all equation
+                coedict = {}
+                for ind, equ in enumerate(component_equ):
+                    for coe, value in equ[2].iteritems():
+                        newcoe = '%s_%d' % (coe, ind+1)
+                        equ[3] = equ[3].replace('{{%s}}'%coe, '{{%s}}'%newcoe)
+                        coedict.update({newcoe:value})
+
+                system.append([target, list(component_set), coedict, '+'.join(map(lambda x: x[3], component_equ))])
+#       from pprint import pprint
+#       pprint(system)
         return system
     except:
-        return None
+        return []
 
 def get_system_from_design(id):
     try:

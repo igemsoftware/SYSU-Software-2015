@@ -163,6 +163,7 @@ def get_finished_list():
     return jsonify(finishedList = l)
 
 
+from modeling_view import get_system_from_related
 @bank.route('/detail/<int:id>')
 #@login_required
 def get_detailed(id): 
@@ -188,40 +189,8 @@ def get_detailed(id):
 
     d = Design.query.get(id)
     if not d: abort(404)#return jsonify(error='This design doesn\'t exist')
+    system = get_system_from_design(id)
 
-    d.update_from_db()
-    system = []
-    try:
-        design_set = set([ele['partAttr'] for ele in d.parts])
-        system_set = set({})
-        for e in EquationBase.query.order_by(EquationBase.related_count.desc()).all():
-            e.update_from_db()
-            # Find the max match
-            if e.target in system_set: continue
-            # Filter
-            if e.target not in design_set: continue
-            # debug codes
-            print design_set
-            print e.all_related
-            print design_set >= e.all_related
-            if design_set >= e.all_related:
-                system.append(e.packed())
-                system_set.update([e.target])
-    except:
-        pass
-
-
-
-
-#   design = {
-#               'name': d.name,
-#               'id': d.id,
-#               'favoriter': len(d.favoriter),
-#               'comments': d.comments.count(),
-#               'owner': d.owner.username,
-#               'release_time': d.release_time.strftime('%Y-%m-%d %H:%M:%S')
-#             }
-#   
     return render_template('bank_detail.html', design=d, system=system)
 
 

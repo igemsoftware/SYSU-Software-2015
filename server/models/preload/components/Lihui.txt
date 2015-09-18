@@ -19,8 +19,8 @@ Fusaric Acid	chemical
 fadP	gene		1	Fusarium oxysporum
 FadP	protein			
 Rhamnose	chemical			
-cI¦Ë	gene	BBa_I13504	1	Fusarium oxysporum
-CI¦Ë	protein			
+cIlambda	gene	BBa_I13504	1	Fusarium oxysporum
+CIlambda	protein			
 PcI/lac	promoter	BBa_K909012		
 tetR	gene	BBa_P0440	1	Fusarium oxysporum
 TetR	protein			
@@ -74,8 +74,8 @@ rtTA	gene		1	vibrio fischeri
 RtTA	protein			
 DOXYCYCLINE	chemical			
 RtTA-DOXYCYCLINE	protein			
-mf¦Á	gene		1	vibrio fischeri
-¦Á	protein			
+mfalpha	gene		1	vibrio fischeri
+alpha	protein			
 PAGA1	promoter			
 Ptet	promoter	BBa_R0040		
 gfp	gene			

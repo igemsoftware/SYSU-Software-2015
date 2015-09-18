@@ -15,6 +15,8 @@
         5.2 var with initval
         5.3
         5.4 data update
+    6.0 multiple sources 
+        6.1 add target into database to acc
 '''
 import numpy as np
 from math import *
@@ -81,14 +83,15 @@ def getModel(system, dependancy_check=True):
     for equ in system:
         e = Equation(dict(equ[2]), equ[3].replace(':', '_'))
         var = [ele.replace(':', '_') for ele in [equ[0]]+equ[1]+['t'] ]
+
         eval_dict = dict(zip(var, [0.]*len(var)))
         eval_dict['__builtins__'] = None
 
 #        print '='*20
         try:
             testv = eval(e.render(), eval_dict, safe_dict)
-            print 'Test pass:', equ
-            print '\tValue(all 0):', testv
+#           print 'Test pass:', equ
+#           print '\tValue(all 0):', testv
             rendered.append(e.render())
         except Exception, exp:
             print 'Test error:', equ

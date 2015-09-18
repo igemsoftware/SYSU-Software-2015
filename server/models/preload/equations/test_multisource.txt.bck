@@ -1,0 +1,4 @@
+#['A', ['B'], [('alpha', 1)], "B*{{alpha}}"]
+#['A', ['C'], [('alpha', 2)], "C*{{alpha}}"]
+#['A', ['B', 'D'], [('alpha', 1)], "{{alpha}}*B+D"]
+#['A', ['C', 'D'], [('alpha', 2), ('beta', 3)], "{{alpha}}*C+{{beta}}*D"]
