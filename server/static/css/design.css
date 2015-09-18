@@ -869,3 +869,8 @@ input[type="range"]::-ms-thumb {
 #readDeviceInfoModal label {
     font-size: 17px;
 }
+
+#equationHelpModal ul {
+    font-size: 14px;
+    list-style: none;
+}

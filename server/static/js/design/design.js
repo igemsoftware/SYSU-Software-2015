@@ -2189,3 +2189,7 @@ $('.coupled.modal')
   })
 ;
 
+$("#equationHelp").click(function() {
+    $("#equationHelpModal").modal("show");
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+});
