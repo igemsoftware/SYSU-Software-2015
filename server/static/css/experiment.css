@@ -450,15 +450,14 @@
 }
 
 .eventClass a {
-    background-color: black; /* background color */
-    border-color: black;     /* border color */
-    color: #ffffff;              /* text color */
- }
+	background-color: black; /* background color */
+	border-color: black;     /* border color */
+	color: #ffffff;              /* text color */
+}
 
- .fc-event { 
- 	height: 2em; 
- 	font-size: 20px !important;
- }
+.fc-event { 
+	font-size: 20px !important;
+}
 
 .icolor {
 	background-color: rgb(114, 211, 227) !important;
@@ -509,7 +508,6 @@
 }
 
 #chooseModal div{
-	/*height: 1em;*/
 	font-size: 17px;
 }
 
@@ -519,5 +517,4 @@
 
 #icolor {
 	background-color: rgb(114, 211, 227) !important;
-}
 }
