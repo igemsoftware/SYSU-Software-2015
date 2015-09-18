@@ -6,6 +6,9 @@ import os
 import codecs
 
 def preload_parts(filename):
+    """
+        Preload file form filename.
+    """
     print 'loading parts from %s' % filename
     with codecs.open(filename, 'r', 'gb2312') as f:
         for line in f:
@@ -27,6 +30,9 @@ def preload_parts(filename):
 
 
 def get_file_list(path):
+    """
+        Get all file list by traversing a directory.
+    """
     l = []
     for dirpath, dirnames, filenames in os.walk(path):
         for f in filenames:

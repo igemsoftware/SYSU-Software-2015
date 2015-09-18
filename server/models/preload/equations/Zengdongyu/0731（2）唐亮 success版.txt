@@ -1,0 +1,29 @@
+#['Fe',['Ferext','FUR','Fe-FUR'],[('p',0.1),('K_{Fe FUR}',0.01),('dff',0.001)],'{{p}}*Ferext-{{K_{Fe FUR}}}*Fe*FUR+{{dff}}*Fe-FUR']#全方程
+#['Fe',['Ferext','Fe-FUR'],[('p',0.1),('K_{Fe FUR}',0.01),('dff',0.001)],'{{p}}*Ferext+{{dff}}*Fe-FUR']#Ferext存在，FUR不存在，Fe-FUR存在
+#['Fe',['Ferext','FUR'],[('p',0.1),('K_{Fe FUR}',0.01),('dff',0.001)],'{{p}}*Ferext-{{K_{Fe FUR}}}*Fe*FUR']#Ferext存在，FUR存在，Fe-FUR不存在
+#['Fe',['Ferext'],[('p',0.1),('K_{Fe FUR}',0.01),('dff',0.001)],'{{p}}*Ferext']#Ferext存在，FUR不存在，Fe-FUR不存在
+#['Fe',['FUR','Fe-FUR'],[('p',0.1),('K_{Fe FUR}',0.01),('dff',0.001)],'-{{K_{Fe FUR}}}*Fe*FUR+{{dff}}*Fe-FUR']#Ferext不存在，FUR存在，Fe-FUR存在
+#['Fe',['FUR'],[('p',0.1),('K_{Fe FUR}',0.01),('dff',0.001)],'-{{K_{Fe FUR}}}*Fe*FUR']#Ferext不存在，FUR不存在，Fe-FUR存在
+#['Fe',[],[('p',0.1),('K_{Fe FUR}',0.01),('dff',0.001)],'0']#Ferext不存在，FUR不存在，Fe-FUR不存在
+#['Fe',['Fe-FUR'],[('p',0.1),('K_{Fe FUR}',0.01),('dff',0.001)],'-{{K_{Fe FUR}}}*Fe*FUR']#Ferext不存在，FUR存在，Fe-FUR不存在
+
+
+#['FUR',['Fe','Fe-FUR'],[('Fur0',0.01),('K_{Fe FUR}',0.01),('dff',0.001)],'{{Fur0}}-{{K_{Fe FUR}}}*Fe*FUR+{{dff}}*Fe-FUR']#全方程
+#['FUR',['Fe'],[('Fur0',0.01),('K_{Fe FUR}',0.01),('dff',0.001)],'{{Fur0}}-{{K_{Fe FUR}}}*Fe*FUR']#Fe存在，Fe-FUR不存在
+#['FUR',['Fe-FUR'],[('Fur0',0.01),('K_{Fe FUR}',0.01),('dff',0.001)],'{{Fur0}}+{{dff}}*Fe-FUR']#Fe不存在，Fe-FUR存在
+#['FUR',[],[('Fur0',0.01),('K_{Fe FUR}',0.01),('dff',0.001)],'{{Fur0}}']#Fe不存在，Fe-FUR不存在
+
+#['Fe-FUR',['FUR','Fe'],[('N_{A}',6.02*10**20),('K_{Fe FUR}',0.01),('dff',0.001),('V',6.5*10-16),('Fur Binding Site',150)],'{{K_{Fe FUR}}}*Fe*FUR-{{dff}}*Fe-FUR*{{Fur Binding Site}}/({{N_{A}}}*{{V}}*(t+1))']#全方程
+#['Fe-FUR',['FUR'],[('N_{A}',6.02*10**20),('K_{Fe FUR}',0.01),('dff',0.001),('V',6.5*10-16),('Fur Binding Site',150)],'-{{dff}}*Fe-FUR-{{Fur Binding Site}}/({{N_{A}}}*{{V}}*(t+1))']#FUR存在，Fe不存在
+#['Fe-FUR',['Fe'],[('N_{A}',6.02*10**20),('K_{Fe FUR}',0.01),('dff',0.001),('V',6.5*10-16),('Fur Binding Site',150)],'-{{dff}}*Fe-FUR-{{Fur Binding Site}}/({{N_{A}}}*{{V}}*(t+1))']#FUR不存在，Fe存在
+#['Fe-FUR',[],[('N_{A}',6.02*10**20),('K_{Fe FUR}',0.01),('dff',0.001),('V',6.5*10-16),('Fur Binding Site',150)],'-{{dff}}*Fe-FUR-{{Fur Binding Site}}/({{N_{A}}}*{{V}}*(t+1))']#FUR不存在，Fe不存在
+
+['Fur Binding Site',['Fe-FUR'],[('K_{i1}',6.3*10**-5.),('K_{f}',10**-4.),('N_{pla1}',200.),('lacI',150.)],'{{K_{i1}}}*Fur Binding Site*(1-Fe-FUR/{{N_{pla1}}})/{{K_{f}}}']#全方程
+['Fur Binding Site',[],[('K_{i1}',6.3*10**-5),('K_{f}',10**-4),('N_{pla1}',200),('lacI',150)],'{{K_{i1}}}*Fur Binding Site/{{K_{f}}}']#当Fe-FUR不存在
+
+['LacI',['Promoter:BBa_K1163102'],[('k_{p}',0.5),('k_{i1}',6.3*10**-5),('k_{f}',10**-4),('D_{LacI}',0.0015),('N_{pla}',200),('lacI',150),('Fur Binding Site',150)],'{{k_{p}}}*({{lacI}}*{{Fur Binding Site}}*{{k_{i1}}}*(1-LacI*{{Fur Binding Site}}/{{N_{pla}}})/{{k_{f}}})-{{D_{LacI}}}*LacI']#全方程
+['LacI',[],[('k_{p}',0.5),('k_{i1}',6.3*10**-5),('k_{f}',10**-4),('D_{LacI}',0.0015),('lacI',150),('Fur Binding Site',150)],'-{{D_{LacI}}}*LacI']#当启动子不存在
+
+['RFP',['Plac'],[('k_{p}',0.5),('k_{i1}',6.3*10**-5),('k_{f}',10**-4),('dff',0.001),('N_{pla}',200),('rfp',150.),('lacI',150),('Fur Binding Site',150)],'{{k_{p}}}*({{rfp}}*{{Fur Binding Site}}*{{k_{i1}}}*(1-{{lacI}}*{{Fur Binding Site}}/{{N_{pla}}})/{{k_{f}}})-{{dff}}*RFP']#全方程
+['RFP',[],[('k_{p}',0.5),('k_{i1}',6.3*10**-5),('k_{f}',10**-4),('dff',0.001),('N_{pla}',200),('rfp',150),('lacI',150),('Fur Binding Site',150)],'-{{dff}}*RFP']#当启动子不存在
+

@@ -8,6 +8,7 @@ seap	gene	BBa_K747016	2	Mammalian cells
 SEAP	protein			
 tracr/crRNA	gene	BBa_K1150034	2	Mammalian cells
 Tracr/crRNA	RNA			
+TET	protein			
 tetR-VP16	gene	BBa_K105001	2	Mammalian cells
 TetR-VP16	protein			
 tetO	gene	BBa_K079036	2	Mammalian cells
