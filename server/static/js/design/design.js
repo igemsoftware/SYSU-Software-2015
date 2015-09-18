@@ -91,7 +91,9 @@ function Design() {
     this.isRemove = false;
     this.designID = -1;
     this.drawAreaHeight = parseInt($("#drawArea").css("height"));
+    this.drawAreaWidth = parseInt($("#drawArea").css("width"));
     this.DRAWAREA_HEIGHT = 550;
+    this.DRAWAREA_WIDTH = 1190
     this.designName = "New design";
 };
 
@@ -133,7 +135,23 @@ Design.prototype.setDrawAreaHeight = function(height) {
     $("#drawArea").css("height", this.drawAreaHeight);
     var temp = this.drawAreaHeight - this.DRAWAREA_HEIGHT;
     var val = parseInt((parseFloat(temp*100))/this.DRAWAREA_HEIGHT);
-    $(".slider input").val(val);
+    $(".heightSlider input").val(val);
+}
+
+
+/**
+ * Set the design area's width
+ * @method setDrawAreaHeight
+ * @for Desgin
+ * @param {int} width
+ * 
+ */
+Design.prototype.setDrawAreaWidth = function(width) {
+    this.drawAreaWidth = width;
+    $("#drawArea").css("width", this.drawAreaWidth);
+    var temp = this.drawAreaWidth - this.DRAWAREA_WIDTH;
+    var val = parseInt((parseFloat(temp*100))/this.DRAWAREA_WIDTH);
+    $(".widthSlider input").val(val);
 }
 
 /**
@@ -642,11 +660,18 @@ DesignMenu.prototype.popUpAllButton = function() {
  * 
  */
 DesignMenu.prototype.enableDesignSlider = function() { 
-    $(".slider input").val(0);
-    $(".slider input").change(function() {
+    $(".heightSlider input").val(0);
+    $(".heightSlider input").change(function() {
         var zoom = parseFloat($(this).val())/100;
         var height = parseInt(design.DRAWAREA_HEIGHT);
         $("#drawArea").css("height", String(height*(zoom+1)+'px'));
+    });
+
+    $(".widthSlider input").val(0);
+    $(".widthSlider input").change(function() {
+        var zoom = parseFloat($(this).val())/100;
+        var width = parseInt(design.DRAWAREA_WIDTH);
+        $("#drawArea").css("width", String(width*(zoom+1)+'px'));
     });
 }
 
