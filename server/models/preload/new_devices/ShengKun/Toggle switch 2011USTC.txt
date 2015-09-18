@@ -1,6 +1,6 @@
 Toggle switch 2011USTC
 It is a part which has two stable states.
-It is a part which has two stable states--CI and CI434 and the orginal state can be either of the two. CI repressor is expressed after a CI434 repressible promoter, while the CI434 is expressed after a CI repressible promoter, thus the system can only stay in one state, when one is expressed and the other is repressed. The two states can be swicthed in certain conditions. In other words, the orginal state can be changed by exogenetic triggering. For example, the orginal state is CI, then you can use an gene which exogenetically expresses CI434 to trigger the bistable part into the state of CI434.
+It is a part which has two stable states--CI and CI434 and the orginal state can be either of the two. CI repressor is expressed after a CI434 repressible Promoter, while the CI434 is expressed after a CI repressible Promoter, thus the system can only stay in one state, when one is expressed and the other is repressed. The two states can be swicthed in certain conditions. In other words, the orginal state can be changed by exogenetic triggering. For example, the orginal state is CI, then you can use an gene which exogenetically expresses CI434 to trigger the bistable part into the state of CI434.
 CI,CI434
 http://2011.igem.org/Team:USTC-China
 http://2011.igem.org/Team:USTC-China/Wet_Lab/protocol
