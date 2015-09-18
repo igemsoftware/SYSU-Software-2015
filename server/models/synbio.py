@@ -590,9 +590,6 @@ class Design(db.Model, BioBase):
     """Full description."""
 #    graph
 #    statistical chart
-    references = db.Column(db.Text, default='')
-    """References."""
-
     rate = db.Column(db.Numeric, default = 0)
     """The integrated rate."""
     eval_efficiency = db.Column(db.Numeric, default = 0)
@@ -630,8 +627,6 @@ class Design(db.Model, BioBase):
 
     create_time = db.Column(db.DateTime, index=True, default=datetime.now)
     """When the design is created."""
-    progress = db.Column(db.Integer, default=0)
-    """The progress of the design."""
 
     protocols = db.Column(db.Text, default='')
     """The protocols it is using."""
@@ -697,9 +692,9 @@ class Design(db.Model, BioBase):
         return {
             'id': self.id,
             'tags': tags,
-            'progress': self.progress,
             'name': self.name,
             'description': self.full_description,
+            'introduction': self.brief_description[:80],
             'img': self.img,
         }
 
