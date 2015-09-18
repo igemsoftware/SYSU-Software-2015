@@ -252,6 +252,10 @@ Design.prototype._makeDrawAreaDroppabble = function() {
                 that.putNewDevice(dropedElement);
                 return ;
             }
+            if (dropedElement.attr('part-type') == 'system') {
+                that.putNewSystem(dropedElement);
+                return ;
+            }
             var node = new CNode();
             node.createCNode($(dropedElement));
             node.view.css({left: e.pageX, top: e.pageY});
@@ -313,6 +317,27 @@ Design.prototype.putNewDevice = function(elem) {
         designMenu.hideBtn.click();
     }
     operationLog.addDevice(elem.attr("device-name"));
+}
+
+Design.prototype.putNewSystem = function(elem) {
+    jsPlumb.importDefaults({
+        PaintStyle : { strokeStyle: "green", lineWidth: 2 },
+        Overlays: [["Custom", { create:function(component) {return $("<div></div>");}}]]
+    });
+    var system = DataManager.getSystemByName(elem.attr('system-name'));
+    console.log('Put a system:');
+    console.log(system);
+    var parts = system.parts;
+    var connections = system.relationship;
+    var nodeElems = Util.loadCircuitCNodes(parts);
+    Util.loadCircuitLinks(connections, nodeElems);
+    Util.loadBackbone(system.backbone);
+    setDrawLineStyle();
+    rightBar.processDropedSystem(system);
+    if (designMenu.isHideNormalLine == false) {
+        designMenu.hideBtn.click();
+    }
+    operationLog.addSystem(elem.attr("system-name"));
 }
 
 /**
@@ -891,10 +916,8 @@ DesignMenu.prototype.enableSaveDesignBtn = function(){
 
         design.setDesignName(curcuitChartData.name);
         var el = $("#drawArea").get(0);
-        console.log('test1');
         html2canvas(el, {
             onrendered: function(canvas) {
-                console.log('test2');
                 var that = this;
                 this.canvas = document.createElement('canvas');
                 this.ctx = canvas.getContext('2d');
@@ -1282,6 +1305,31 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     return dataDiv
 }
 
+SideBarWorker.prototype.createSystemView = function(system) {
+    var dataDiv = $("<div class='data'></div>");
+    var itemDiv = $("<div class='item'></div>");
+    var imgElem = $("<img/>");
+    var titleSpan = $("<span class='deviceTitle'></span>");
+    var iconSpan = $("<span class='more system-more'><i class='icon zoom'></i></span>");
+
+    imgElem.attr("src", "/static/img/design/systems/"+system.name+'.png');
+    titleSpan.text(system.name);
+    itemDiv.attr('part-type', 'system');
+    itemDiv.attr('system-name', system.name);
+    iconSpan.attr("data-content", "Read more about this system");
+    iconSpan.popup();
+
+
+    this.addDevicePartInfoEvent(iconSpan);
+    itemDiv.append(imgElem);
+    dataDiv.append(itemDiv);
+    dataDiv.append(titleSpan);
+    dataDiv.append(iconSpan);
+
+    this._makeItJqueryDraggable(itemDiv);
+    return dataDiv
+}
+
 /**
  * Add event of reading the information of the part
  * @method addReadPartInfoEvent
@@ -1412,7 +1460,7 @@ function LeftBar() {
     this.view.parts = $("#parts");
     this.view.devices = $("#devices");
     this.view.customs = $("#customs");
-    // this.vide.systems = $("#systems");
+    this.view.systems = $("#systems");
     this.view.relates = $("#relates");
     this.view.relateParts = $("#relateParts");
     this.view.relateDevices = $("#relateDevices");
@@ -1420,6 +1468,7 @@ function LeftBar() {
 
     this._searchPartTitle = [];
     this._searchDeviceTitle = [];
+    this._searchSystemTitle = [];
     this.elemsPartList = [];
     this.elemsDeviceList = [];
     this.elemsSystemList = [];
@@ -1490,6 +1539,16 @@ LeftBar.prototype.initDevice = function(deviceList) {
     this.updateSearchBar();
 }
 
+LeftBar.prototype.initSystem = function(systemList) {
+    for (var i in systemList) {
+        var dataDiv = this.leftbarWorker.createSystemView(systemList[i]);
+        this.elemsSystemList.push(dataDiv);
+        this.addSystemToBar(dataDiv);
+        this._searchSystemTitle.push({title: systemList[i].name});
+    }
+    this.updateSearchBar();
+}
+
 /**
  * Add device view to the left bar
  * @method addDeviceToBar
@@ -1500,6 +1559,11 @@ LeftBar.prototype.initDevice = function(deviceList) {
 LeftBar.prototype.addDeviceToBar = function(elem) {
     elem.find('.more').popup();
     this.leftbarWorker.addElemToView(elem, this.view.devices);
+}
+
+LeftBar.prototype.addSystemToBar = function(elem) {
+    elem.find('.more').popup();
+    this.leftbarWorker.addElemToView(elem, this.view.systems);
 }
 
 /**
@@ -1720,8 +1784,6 @@ LeftBar.prototype.enableSearchRelateBox = function() {
             for (var i in that.elemsPartList) {
                 var partAttr = $(that.elemsPartList[i].find("div")[0]).attr("part-attr");
                 if (DataManager.isRelate(val, partAttr)) {
-                    console.log(val);
-                    console.log(partAttr);
                     searchElemPartList.push(that.elemsPartList[i]);
                 }
             }
@@ -1783,6 +1845,7 @@ function RightBar() {
     this.rightbarWorker = new SideBarWorker();
     this._searchPartTitle = [];
     this._searchDeviceTitle = [];
+    this._searchSystemTitle = [];
 };
 
 /**
@@ -1805,6 +1868,7 @@ RightBar.prototype.init = function() {
 RightBar.prototype.clear = function() {
     this._searchPartTitle = [];
     this._searchDeviceTitle = [];
+    this._searchSystemTitle = [];
     this.elemsPartList = [];
     this.elemsDeviceList = [];
     this.elemsSystemList = [];
@@ -1869,6 +1933,16 @@ RightBar.prototype.processDropedDevice = function(device) {
         this._searchDeviceTitle.push({title: device.name});
         this.updateSearchBar();
         this.rightbarWorker.showView(this.elemsDeviceList, this.view.devices);
+    }
+}
+
+RightBar.prototype.processDropedSystem = function(system) {
+    var systemElem = this.rightbarWorker.createSystemView(system);
+    if (!this.isSystemAdded(system)) {
+        this.elemsSystemList.push(systemElem);
+        this._searchSystemTitle.push({title: system.name});
+        this.updateSearchBar();
+        this.rightbarWorker.showView(this.elemsSystemList, this.view.systems);
     }
 }
 
@@ -1937,6 +2011,16 @@ RightBar.prototype.isDeviceAdded = function(device) {
     }
     return false;
 }
+
+RightBar.prototype.isSystemAdded = function(system) {
+    for (var i in this.elemsSystemList) {
+        if ($(this.elemsSystemList[i]).find(".partTitle").text() == system.name) {
+            return true;
+        }
+    }
+    return false;
+}
+
 
 /**
  * Update search bar
@@ -2026,6 +2110,9 @@ $(function() {
     });
     DataManager.getDeviceDataFromServer(function(deviceList) {
         leftBar.initDevice(deviceList);
+    });
+    DataManager.getSystemDataFromServer(function(systemList) {
+        leftBar.initSystem(systemList);
     });
     DataManager.getPerDesignDataFromServer(function(designs) {
         designMenu.perDesignList = designs;
@@ -2118,8 +2205,6 @@ $("#createEquationBtn").click(function() {
     $("#coefficient").find(".ui.labeled.input").each(function() {
         var coeffName = $(this).find(".coeffName").text();
         var coeffNum = $(this).find('.coeffNum').val();
-        console.log(coeffName);
-        console.log(coeffNum);
         coeffList.push({coeffName: parseInt(coeffNum)});
     });
     var data = {};
@@ -2168,7 +2253,6 @@ $("#searchEquationsBtn").click(function() {
                 var requirStr = "";
                 var coeff = "";
                 var coeffStr = "";
-                console.log(equations[i].target);
                 for (var j in equations[i].requirement) {
                     requirStr += equations[i].requirement[j] + ", ";
                 }
@@ -2176,7 +2260,6 @@ $("#searchEquationsBtn").click(function() {
                     var name = Object.getOwnPropertyNames(equations[i].coeffList[j]);
                     var value = equations[i].coeffList[j][name];
                     coeffStr = "( " + name + ', ' + value + '), ';
-                    console.log(name);
                 }
                 gridElem.find('.target').text(equations[i].target);
                 gridElem.find('.requirement').text(requirStr);

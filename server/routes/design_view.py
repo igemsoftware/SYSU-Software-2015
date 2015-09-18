@@ -270,22 +270,22 @@ def data_fetch_system():
             }
 
     """
-    devices = [] 
-    for device in Device.query.filter_by().all():
-        device.update_from_db()
-        if (device.name == 'Sunlight responsor system 2015SYSU-Software'):
-	        devices.append({'name': device.name,
-	                  'parts': map(lambda x: x.jsonify(), device.parts),
-	                  'relationship': device.relationship,
-	                  'interfaceA': device.interfaceA,
-	                  'interfaceB': device.interfaceB,
-	                  'backbone': device.backbone,
-	                   'full_description': device.full_description,
-	                   'source': device.source,
-	                   'risk': device.risk,
+    systems = [] 
+    for system in Device.query.filter_by().all():
+        system.update_from_db()
+        if (system.name == 'Sunlight responsor system 2015SYSU-Software'):
+	        systems.append({'name': system.name,
+	                  'parts': map(lambda x: x.jsonify(), system.parts),
+	                  'relationship': system.relationship,
+	                  'interfaceA': system.interfaceA,
+	                  'interfaceB': system.interfaceB,
+	                  'backbone': system.backbone,
+	                   'full_description': system.full_description,
+	                   'source': system.source,
+	                   'risk': system.risk,
 	                  })
 
-    return jsonify(deviceList=devices)
+    return jsonify(systemList=systems)
 
 @design.route('/data/<int:id>', methods=['GET'])
 def get_design(id):
