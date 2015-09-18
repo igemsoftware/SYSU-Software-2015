@@ -58,9 +58,7 @@
                     <div class="ui divider"></div>
                     <p>Equations</p>
                     {% for ele in system %}
-                    <div>
-                        {{ele}}
-                    </div>
+                    <v-equation expression="{{ele.formular}}" target="{{ele.target}}"></v-equation>
                     {% endfor %}
                     <div>
                         <img src="" alt="equation1">
@@ -133,9 +131,12 @@
     </div>
 
     {% include 'vRating.html' %}
+    {% include 'vEquation.html' %}
 
-    <script src="/static/js/bank_detail.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/mathjs/2.2.0/math.min.js"></script>
+    <script src='//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
     <script src="/static/js/lib/Chart.min.js"></script>
     <script src="/static/js/vRating.js"></script>
-    <script>var vBody = new Vue({el:'body'});</script>
+    <script src="/static/js/vEquation.js"></script>
+    <script src="/static/js/bank_detail.js"></script>
 {% endblock %}
