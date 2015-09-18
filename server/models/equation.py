@@ -83,6 +83,8 @@ class EquationBase(db.Model):
     """ID is an unique number to identify each :class:`Memo`."""
     related_count = db.Column(db.Integer, default=0, index=True)
     """How many components related to it."""
+    target = db.Column(db.String, default='')
+    """The target variable in differential equation."""
     _content = db.Column(db.Text, default = '{}') 
     """Raw content in database."""
     #printable = db.Column(db.Text, default = '')
@@ -110,10 +112,10 @@ class EquationBase(db.Model):
         self.content = json.loads(self._content)
         return self
 
-    @property
-    def target(self):
-        """The target variable in differential equation."""
-        return self.content.get('target', '')
+#   @property
+#   def target(self):
+#       """The target variable in differential equation."""
+#       return self.content.get('target', '')
 
     @property
     def related(self):
@@ -140,9 +142,9 @@ class EquationBase(db.Model):
         self.update_from_db()
         return [self.target, self.related, self.parameter, self.formular]
 
-    @target.setter
-    def target(self, value):
-        self.content['target'] = value
+#   @target.setter
+#   def target(self, value):
+#       self.content['target'] = value
 
     @related.setter
     def related(self, value):
@@ -155,7 +157,6 @@ class EquationBase(db.Model):
     @formular.setter
     def formular(self, value):
         self.content['formular'] = value
-
 
     def render(self):
         self.update_from_db()
@@ -200,13 +201,13 @@ class EquationBase(db.Model):
             e.commit_to_db()
             return e
         else:
-            print("Duplicated equation.")
+            #print("Duplicated equation.")
             return None
 
     @staticmethod
-    def preload_from_file(filename):
+    def preload_from_file(filename, force=False):
         print 'loading equation from %s ...' % filename
-        if filename.split('.')[-1] not in ['txt', 'py']: 
+        if not force and filename.split('.')[-1] not in ['txt', 'py']: 
             print '\tSkip', filename
             return  
         system = []

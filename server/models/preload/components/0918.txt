@@ -1,0 +1,5 @@
+P Violet Pigment	protein			
+P Red Pigment	protein			
+P Green Pigment	protein			
+dIAA	chemical			
+tetracycline	chemical			
