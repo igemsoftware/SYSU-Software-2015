@@ -5,7 +5,7 @@
  * @mail jinjin.lin@outlook.com
  * @data Aug 7 2015
  * @copyright 2015 SYSU-Software. All rights reserved.
- * 
+ *
  */
 
 "use strict";
@@ -43,7 +43,7 @@ function CNode() {
  * @method constructor
  * @for CNode
  * @param {elem} partElem A part dom element
- * 
+ *
  */
 CNode.prototype.createCNode = function(partElem) {
     this.view = partElem;
@@ -101,7 +101,7 @@ function Design() {
  * Clear the design area
  * @method clear
  * @for Design
- * 
+ *
  */
 Design.prototype.clear = function() {
     this.nodeElemList = [];
@@ -113,7 +113,7 @@ Design.prototype.clear = function() {
  * Init the design area
  * @method init
  * @for Design
- * 
+ *
  */
 Design.prototype.init = function() {
     this._initJsPlumbOption();
@@ -128,7 +128,7 @@ Design.prototype.init = function() {
  * @method setDrawAreaHeight
  * @for Desgin
  * @param {int} height
- * 
+ *
  */
 Design.prototype.setDrawAreaHeight = function(height) {
     this.drawAreaHeight = height;
@@ -144,7 +144,7 @@ Design.prototype.setDrawAreaHeight = function(height) {
  * @method setDrawAreaHeight
  * @for Desgin
  * @param {int} width
- * 
+ *
  */
 Design.prototype.setDrawAreaWidth = function(width) {
     this.drawAreaWidth = width;
@@ -159,7 +159,7 @@ Design.prototype.setDrawAreaWidth = function(width) {
  * @method addProAndInhibitLine
  * @for Desgin
  * @param {Part} partA a part which need to find relationship with others
- * 
+ *
  */
 Design.prototype.addProAndInhibitLine = function(partA) {
     var partAttrA = partA.attr('part-attr');
@@ -183,7 +183,7 @@ Design.prototype.addProAndInhibitLine = function(partA) {
  * @param {Part} frompartA a part as source
  * @param {Part} toPartB a part as target
  * @param {String} lineType a string "promotion/inhibition/normal" which decides the line style.
- *  
+ *
  */
 Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
     var overlaysClass = this._getOverLaysClass(lineType);
@@ -213,7 +213,7 @@ Design.prototype.drawLine = function(fromPartA, toPartB, lineType) {
  * @method _getStorkeStyle
  * @for Desgin
  * @param {String} lineType a string "promotion/inhibition/normal" which decides the line style.
- * 
+ *
  */
 Design.prototype._getStorkeStyle = function(lineType) {
     if (lineType == 'normal') return "green";
@@ -226,7 +226,7 @@ Design.prototype._getStorkeStyle = function(lineType) {
  * @method _getOverLaysClass
  * @for Desgin
  * @param {String} lineType a string "promotion/inhibition/normal" which decides the line style.
- * 
+ *
  */
 Design.prototype._getOverLaysClass = function(lineType) {
     if (lineType == 'normal') return  ["Custom", { create:function(component) {return $("<div></div>");}}];
@@ -238,7 +238,7 @@ Design.prototype._getOverLaysClass = function(lineType) {
  * Make the design area droppable.
  * @method _makeDrawAreaDroppabble
  * @for Desgin
- * 
+ *
  */
 Design.prototype._makeDrawAreaDroppabble = function() {
     var that = this;
@@ -273,7 +273,7 @@ Design.prototype._makeDrawAreaDroppabble = function() {
  * @method addPartEvent
  * @for Desgin
  * @param {CNode} elem a CNode which is put on the design area
- * 
+ *
  */
 Design.prototype.addPartEvent = function(elem) {
     this.addDraggable(elem);
@@ -292,7 +292,7 @@ Design.prototype.addPartEvent = function(elem) {
  * @method putNewDevice
  * @for Desgin
  * @param {DeviceView} elem a device dom element which is put on the design area
- * 
+ *
  */
 Design.prototype.putNewDevice = function(elem) {
     jsPlumb.importDefaults({
@@ -320,7 +320,7 @@ Design.prototype.putNewDevice = function(elem) {
  * @method makeSourceAndTarget
  * @for Desgin
  * @param {PartView} elem a part dom element
- * 
+ *
  */
 Design.prototype.makeSourceAndTarget = function(elem) {
     jsPlumb.makeSource(elem, {
@@ -344,7 +344,7 @@ Design.prototype.makeSourceAndTarget = function(elem) {
  * Init the jsPlumb library option
  * @method _initJsPlumbOption
  * @for Desgin
- * 
+ *
  */
 Design.prototype._initJsPlumbOption = function() {
     var that = this;
@@ -421,7 +421,7 @@ Design.prototype._initJsPlumbOption = function() {
  * @method removeCNodeElem
  * @for Desgin
  * @param {number} partID a part's id
- * 
+ *
  */
 Design.prototype.removeCNodeElem = function(partID) {
     for (var i in this.nodeElemList) {
@@ -437,11 +437,11 @@ Design.prototype.removeCNodeElem = function(partID) {
 }
 
 /**
- * Search that is there the part on the design 
+ * Search that is there the part on the design
  * @method isPartInDrawArea
  * @for Desgin
- * @param {String} partAttr a part's attr 
- * 
+ * @param {String} partAttr a part's attr
+ *
  */
 Design.prototype.isPartInDrawArea = function(partAttr) {
     for (var i in this.nodeElemList) {
@@ -457,7 +457,7 @@ Design.prototype.isPartInDrawArea = function(partAttr) {
  * @method addDraggable
  * @for Desgin
  * @param {elem} elem a part element
- * 
+ *
  */
 Design.prototype.addDraggable = function(elem) {
     jsPlumb.draggable(elem, {
@@ -470,7 +470,7 @@ Design.prototype.addDraggable = function(elem) {
                         $(this).css('display', 'none');
                     }
                 });
-            }        
+            }
         },
         stop: function(e){
             if (designMenu.isHideNormalLine == true) {
@@ -479,7 +479,7 @@ Design.prototype.addDraggable = function(elem) {
                         $(this).css('display', 'none');
                     }
                 });
-            }        
+            }
         },
     })
 };
@@ -489,7 +489,7 @@ Design.prototype.addDraggable = function(elem) {
  * @method updateRisk
  * @for Desgin
  * @param {Part} Part a part element
- * 
+ *
  */
 Design.prototype.updateRisk = function(part) {
     if (this.risk < part.risk) {
@@ -501,7 +501,7 @@ Design.prototype.updateRisk = function(part) {
  * Check the risk of the design
  * @method checkDesignRisk
  * @for Desgin
- * 
+ *
  */
 Design.prototype.checkDesignRisk = function() {
     var risk = 1;
@@ -520,7 +520,7 @@ Design.prototype.checkDesignRisk = function() {
  * @method updateRiskView
  * @for Desgin
  * @param {number} risk a risk number
- * 
+ *
  */
 Design.prototype.updateRiskView = function(risk) {
     var color;
@@ -549,11 +549,11 @@ Design.prototype.updateRiskView = function(risk) {
 }
 
 /**
- * Set the name of current design 
+ * Set the name of current design
  * @method setDesignName
  * @for Desgin
  * @param {String} designName
- * 
+ *
  */
 Design.prototype.setDesignName = function(designName) {
     $("#designName").text(designName);
@@ -587,10 +587,10 @@ function DesignMenu() {
 };
 
 /**
- * Init the design menu 
+ * Init the design menu
  * @method init
  * @for DesignMenu
- * 
+ *
  */
 DesignMenu.prototype.init = function() {
     this.enableSaveDesignBtn();
@@ -613,7 +613,7 @@ DesignMenu.prototype.init = function() {
  * Enable the button of adding backbone line
  * @method enableBackboneBtn
  * @for DesignMenu
- * 
+ *
  */
 DesignMenu.prototype.enableBackboneBtn = function() {
     this.backboneBtn.click(function() {
@@ -638,7 +638,7 @@ DesignMenu.prototype.enableBackboneBtn = function() {
  * Pop up all the button of the menu
  * @method popUpAllButton
  * @for DesignMenu
- * 
+ *
  */
 DesignMenu.prototype.popUpAllButton = function() {
     this.saveBtn.popup();
@@ -657,9 +657,9 @@ DesignMenu.prototype.popUpAllButton = function() {
  * Enable the slider of changing the size of design area
  * @method enableDesignSlider
  * @for DesignMenu
- * 
+ *
  */
-DesignMenu.prototype.enableDesignSlider = function() { 
+DesignMenu.prototype.enableDesignSlider = function() {
     $(".heightSlider input").val(0);
     $(".heightSlider input").change(function() {
         var zoom = parseFloat($(this).val())/100;
@@ -679,7 +679,7 @@ DesignMenu.prototype.enableDesignSlider = function() {
  * Enable the button of hidden the normal line
  * @method enableHideNormal
  * @for DesignMenu
- * 
+ *
  */
 DesignMenu.prototype.enableHideNormal = function() {
     var that = this;
@@ -708,7 +708,7 @@ DesignMenu.prototype.enableHideNormal = function() {
  * Enable the button of removing part
  * @method enableRemovePartBtn
  * @for DesignMenu
- * 
+ *
  */
 DesignMenu.prototype.enableRemovePartBtn = function() {
     var that = this;
@@ -733,7 +733,7 @@ DesignMenu.prototype.enableRemovePartBtn = function() {
  * Enable the button of connect two parts
  * @method enableNormalConnBtn
  * @for DesignMenu
- * 
+ *
  */
 DesignMenu.prototype.enableNormalConnBtn = function() {
     var that = this;
@@ -765,7 +765,7 @@ DesignMenu.prototype.enableNormalConnBtn = function() {
  * Enable the button of adding promotion relationship
  * @method enablePromotionConnBtn
  * @for DesignMenu
- * 
+ *
  */
 DesignMenu.prototype.enablePromotionConnBtn = function() {
     var that = this;
@@ -797,7 +797,7 @@ DesignMenu.prototype.enablePromotionConnBtn = function() {
  * Enable the button of adding inhibition relationship
  * @method enableInhibitionConnBtn
  * @for DesignMenu
- * 
+ *
  */
 DesignMenu.prototype.enableInhibitionConnBtn = function() {
     var that = this;
@@ -830,7 +830,7 @@ DesignMenu.prototype.enableInhibitionConnBtn = function() {
  * @method hightConnBtn
  * @for DesignMenu
  * @param {Button} connBtn
- * 
+ *
  */
 DesignMenu.prototype.hightConnBtn = function(connBtn) {
     this.normalConnBtn.removeClass('ired');
@@ -843,7 +843,7 @@ DesignMenu.prototype.hightConnBtn = function(connBtn) {
  * Enable the button of clearing the design area
  * @method enableClearDesignBtn
  * @for DesignMenu
- * 
+ *
  */
 DesignMenu.prototype.enableClearDesignBtn = function() {
     var that = this;
@@ -864,7 +864,7 @@ DesignMenu.prototype.enableClearDesignBtn = function() {
  * Enable the button of saving the design area
  * @method enableSaveDesignBtn
  * @for DesignMenu
- * 
+ *
  */
 DesignMenu.prototype.enableSaveDesignBtn = function(){
     var that = this;
@@ -954,7 +954,7 @@ DesignMenu.prototype.getDesignChartData = function() {
  * Get all the connetion data of the design area
  * @method getDesignConns
  * @for DesignMenu
- * 
+ *
  */
 DesignMenu.prototype.getDesignConns = function() {
     var connections = [];
@@ -962,9 +962,9 @@ DesignMenu.prototype.getDesignConns = function() {
     $.each(jsPlumb.getAllConnections(), function (idx, CurrentConnection) {
         if (CurrentConnection.scope == 'backbone') {
             backbones.push({
-                start: [parseInt($(CurrentConnection.source).css('left'), 10), 
+                start: [parseInt($(CurrentConnection.source).css('left'), 10),
                         parseInt($(CurrentConnection.source).css('top'), 10)],
-                end: [parseInt($(CurrentConnection.target).css('left'), 10), 
+                end: [parseInt($(CurrentConnection.target).css('left'), 10),
                     parseInt($(CurrentConnection.target).css('top'), 10)]
             });
             return ;
@@ -1134,7 +1134,7 @@ DesignMenu.prototype.downloadChartAsImage = function(designName) {
             var image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
             Util.downloadImage(designName+".png", image);
         }
-    }); 
+    });
 };
 
 //========================================================================================
@@ -1253,7 +1253,7 @@ SideBarWorker.prototype.createDeviceView = function(device) {
     var imgElem = $("<img/>");
     var titleSpan = $("<span class='deviceTitle'></span>");
     var iconSpan = $("<span class='more device-more'><i class='icon zoom'></i></span>");
-    
+
     imgElem.attr("src", "/static/img/design/devices/"+device.name+'.png');
     titleSpan.text(device.name);
     itemDiv.attr('part-type', 'device');
@@ -1531,7 +1531,7 @@ LeftBar.prototype.addPartToBar = function(elem) {
     }
     if (partType == 'unknown') {
         this.elemsUnkList.push(elemClone);
-    } 
+    }
 
     this.leftbarWorker.addElemToView(elem, this.view.parts);
 }
@@ -1828,7 +1828,7 @@ RightBar.prototype._rightTriggerAnimation = function() {
             that.view.animate({
                 right: '0px'
             }, 500);
-            
+
             that.view.find(".trigger-right > i").removeClass("left").addClass("right");
         }
     });
@@ -2065,7 +2065,7 @@ $('#loadingData').dimmer('show');
 
 $("#moveTo").click(function() {
     window.location.href = "/modeling?id="+design.designID;
-}); 
+});
 
 $(".modal").modal({transition: 'horizontal flip'});
 
@@ -2158,7 +2158,7 @@ $("#searchEquationsBtn").click(function() {
                 var requirStr = "";
                 var coeff = "";
                 var coeffStr = "";
-                console.log(equations[i].target);                
+                console.log(equations[i].target);
                 for (var j in equations[i].requirement) {
                     requirStr += equations[i].requirement[j] + ", ";
                 }
@@ -2171,7 +2171,10 @@ $("#searchEquationsBtn").click(function() {
                 gridElem.find('.target').text(equations[i].target);
                 gridElem.find('.requirement').text(requirStr);
                 gridElem.find('.coefficient').text(coeffStr);
-                gridElem.find('.formular').text("$" + equations[i].formular + "$");
+                var replaced = equations[i].formular.replace(/[{}]/g, '')
+                                                        .replace(/\*\*/g, '^');
+                var latexExp = '\\frac{d' + equations[i].target + '}{dt}=' + math.parse(replaced).toTex({parentheses: 'auto'});
+                gridElem.find('.formular').text("$" + latexExp + "$");
                 gridElem.appendTo($('#equaSearchResultModal .content .equationList'));
                 divider.appendTo($('#equaSearchResultModal .content .equationList'));
             }
@@ -2189,3 +2192,7 @@ $('.coupled.modal')
   })
 ;
 
+$("#equationHelp").click(function() {
+    $("#equationHelpModal").modal("show");
+    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+});

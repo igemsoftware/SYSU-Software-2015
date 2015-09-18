@@ -268,7 +268,7 @@ def store_design():
     c.update_from_db()
     for attr in ['parts', 'name', 'relationship',
             'interfaceA', 'interfaceB', 'full_description',
-            'backbone', 'source', 'risk', 'plasmids',
+            'backbone', 'references', 'risk', 'plasmids',
             'img']:
         if not data.has_key(attr): continue
 

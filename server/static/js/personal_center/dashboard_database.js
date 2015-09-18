@@ -42,16 +42,22 @@ var vDatabase = new Vue({
             this.tagRev = reverse;
         },
         selectRecord: function(rec) {
-            this.$eval("selectTab('Description')");
+            this.selectTab('Description');
             this.selectedRecord = rec;
             var store = this;
         },
         selectTab : function(i) {
             this.selectedTab = i;
-            if (i !== 'Charts') return;
-            this.$nextTick(function() {
-                $(window).trigger('resize');  // updates the width of the chart
-            });
+            this.$broadcast('rating-destroy');
+            if (i === 'Charts') {
+                this.$nextTick(function() {
+                    $(window).trigger('resize');  // updates the width of the chart
+                });
+            } else if (i === 'Equations') {
+                MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+            } else if (i === 'Rating') {
+                this.$broadcast('rating-init');
+            }
         }
     },
     filters : {

@@ -20,12 +20,22 @@
         </div>
     </v-topbar>
 
+  <div class="ui page dimmer" id="image-zoom">
+    <div class="content">
+      <div class="center">
+        <img src="{{design.img}}" alt="" class="ui image">
+      </div>
+    </div>
+  </div>
+
+
     <div id="main">
         <a class="anchor" name="Descriptions"></a>
         <a href="{{url_for('bank.index')}}" class="links"><i class="angle left icon"></i>Back</a>
         <div id="header">
             <h1 id="name">{{design.name}}</h1>
-            <span id="totalUsers"><i class="users icon"></i>{{design.used}} useds</span>
+            <span id="designidspan"><i class="checkmark icon"></i>ID: {{design.id}}</span>
+            <span id="totalUsers"><i class="users icon"></i>{{design.used}} used</span>
             <span id="comments"><i class="edit icon"></i>{{design.comments.count()}} comments</span>
             <span id="author"><i class="user icon"></i>{{design.owner.username}}</span>
             <span id="time"><i class="wait icon"></i>{{design.release_time.strftime('%Y/%m/%d')}}</span>
@@ -58,7 +68,7 @@
                     <div class="ui divider"></div>
                     <h4 class="title">Equations</h4>
                     {% for ele in system %}
-                    <v-equation expression="{{ele.formular}}" target="{{ele.target}}"></v-equation>
+                    <v-equation expression="{{ele[-1]}}" target="{{ele[0]}}"></v-equation>
                     {% endfor %}
                     <h4 class="title">Chart</h4>
                     <v-graph design-id="{{design.id}}"></v-graph>
@@ -67,8 +77,7 @@
                 <article>
                     <h3 class="title"><i class="book icon"></i>References</h3>
                     <div class="ui divider"></div>
-                    <p>{{self.source}}</p>
-                    <p>{{self.protocol_reference}}</p>
+                    <p>{{design.references}}</p>
                 </article>
                 <article>
                     <a class="anchor" name="UserReviews"></a>
