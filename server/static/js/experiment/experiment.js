@@ -3,7 +3,7 @@
  * @description /experiment page javascript code
  * @author JinJin Lin
  * @mail jinjin.lin@outlook.com
- * @data Aug 30 2015
+ * @date Aug 30 2015
  * @copyright 2015 SYSU-Software. All rights reserved.
  * 
  */

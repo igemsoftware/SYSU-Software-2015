@@ -3,7 +3,7 @@
  * @description Plasmid function
  * @author JinJin Lin
  * @mail jinjin.lin@outlook.com
- * @data Sept 13 2015
+ * @date Sept 13 2015
  * @copyright 2015 SYSU-Software. All rights reserved.
  * 
  */
