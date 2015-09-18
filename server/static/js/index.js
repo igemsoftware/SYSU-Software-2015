@@ -4,9 +4,9 @@ var btnArrowLeft = userGuideModal.children(".btn-arrow.left");
 var btnArrowRight = userGuideModal.children(".btn-arrow.right");
 
 setTimeout(function(){
-    userGuideInit(24,userGuideModal.children(".content"), circleTab),
+    userGuideInit(27,userGuideModal.children(".content"), circleTab),
     $("#UserGuideBtn").click(function(){
-        userGuideModal.modal("show")
+        userGuideModal.modal("show");
     }),
     userGuideModal.find(".content img").each(function(a){
         0===a? $(this).addClass("ui transition image visible"):$(this).addClass("ui transition image hidden")
