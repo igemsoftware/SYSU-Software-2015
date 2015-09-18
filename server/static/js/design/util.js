@@ -358,7 +358,6 @@ Util.getDevicePartsString = function(device) {
 //========================================================================================
 /**
  * @class DataManager
- *
  * @method constructor
  *
  */
@@ -666,7 +665,7 @@ Rubberband.prototype._diagramContainerFindSelectedItem = function() {
     });
 };
 
-
+//====================================================================
 /**
  * @class OperationLog
  *
@@ -794,8 +793,6 @@ DFS.prototype.searchCircuit = function() {
             queue.push(this.map[i]);
         }
     }
-    // console.log("Queue:");
-    // console.log(queue);
     for (var i in queue) {
         circuit = [];
         var head = queue[i];
