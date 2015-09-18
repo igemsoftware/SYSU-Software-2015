@@ -1220,6 +1220,7 @@ SideBarWorker.prototype.addElemToView = function(elem, view) {
 SideBarWorker.prototype.showView = function(elemsPartList, view) {
     view.empty();
     for (var i in elemsPartList) {
+        this.addReadPartInfoEvent(elemsPartList[i]);
         this.addElemToView(elemsPartList[i], view);
     }
 }
@@ -1331,7 +1332,6 @@ SideBarWorker.prototype.writePartInfoToModal = function(part) {
     $("#searchCds").click(function() {
         var there = this;
         if (that.part.BBa == "") {
-            console.log('111');
             $("#noBBaErrorModal").modal('show');
             $("#noBBaErrorModal").find('.back').click(function() {
                 $("#noBBaErrorModal").modal('hide');

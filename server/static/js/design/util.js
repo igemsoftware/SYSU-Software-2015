@@ -522,6 +522,16 @@ DataManager.getDeviceDataFromServer = function(callback) {
     });
 }
 
+DataManager.getSystemDataFromServer = function(callback) {
+    var that = this;
+    $.get("/design/data/fetch/system", function(data, status) {
+        console.log("SystemList:");
+        console.log(data['systemList']);
+        that.initSystemList(data['systemList']);
+        callback(data['systemList']);
+    });
+}
+
 DataManager.getPerDesignDataFromServer = function(callback) {
     var that = this;
     $.get("/design/all", function(data, status) {
