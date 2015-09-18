@@ -27,7 +27,6 @@ var setDrawLineStyle = function() {
 //==========================================================================================
 /**
  * @class CNode
- *
  * @method constructor
  *
  */
@@ -107,7 +106,6 @@ Design.prototype.clear = function() {
     this.risk = 1;
     this.updateRiskView(1);
 }
-
 
 /**
  * Init the design area
@@ -207,7 +205,6 @@ Design.prototype._getStorkeStyle = function(lineType) {
     if (lineType == 'inhibition') return "red";
     if (lineType == "promotion") return "blue";
 };
-
 
 /**
  * Get the style of the connection's overlays
@@ -2184,14 +2181,22 @@ $("#createEquationBtn").click(function() {
     });
 });
 
-// $("#userGuideModal").modal('show');
-
-
 $("#searchEquationsBtn").click(function() {
     $(this).addClass("loading");
-    var parts = $("#searchParts").val();
-    $("#equaSearchResultModal").modal('show');
-    // $.get("")
+    var postData = {};
+    postData.related = $("#searchParts").val();
+    var postDataJson = JSON.stringify(postData);
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: '/design/equation/search',
+        dataType : 'json',
+        data : postDataJson,
+        success: function(data) {
+            console.log(data);
+            $("#equaSearchResultModal").modal('show');
+        }
+    });
 });
 
 // initialize all modals

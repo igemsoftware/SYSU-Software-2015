@@ -106,7 +106,6 @@ def data_fetch_relationship():
         l.append({'start': r.start.attr,
                   'end': r.end.attr,
                   'type': r.type,
-                  'equation':r.equation.jsonify() #render()
                   })
     return jsonify(relationship=l)
 
@@ -434,7 +433,7 @@ def add_an_equation():
     return 'success'
 
 
-@design.route('/equation', methods=['GET'])
+@design.route('/equation/search', methods=['POST'])
 #@login_required
 def get_equations():
     """
