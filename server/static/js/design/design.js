@@ -891,8 +891,10 @@ DesignMenu.prototype.enableSaveDesignBtn = function(){
 
         design.setDesignName(curcuitChartData.name);
         var el = $("#drawArea").get(0);
+        console.log('test1');
         html2canvas(el, {
             onrendered: function(canvas) {
+                console.log('test2');
                 var that = this;
                 this.canvas = document.createElement('canvas');
                 this.ctx = canvas.getContext('2d');
