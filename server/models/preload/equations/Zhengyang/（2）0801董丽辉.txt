@@ -5,9 +5,9 @@
 ['CheZ',['Plac','IPTG'],[('alpha_{Che}',3.467),('d',0.35),('cheZ',150),('Beta_{IPT}',4)],'{{alpha_{Che}}}*{{cheZ}}*IPTG/({{Beta_{IPT}}}+IPTG)-{{d}}*CheZ']
 #当有启动子有IPTG而缺乏LacI时
 
-['LacI',['PBAD','Arac','L-Arabinose'],[('alpha_{Lac}',2.734),('d',0.35),('lacI',150),('Beta_{Ara}',4),('mju_{Ara}',2),('Beta_{L_Arabinose}',3)],'{{alpha_{Lac}}}*{{lacI}}/(1+(Arac/{{Beta_{Ara}}})**{{mju_{Ara}}})*L-Arabinose/({{Beta_{L_Arabinose}}}+L-Arabinose)-{{d}}*LacI']
+['LacI',['PBAD','AraC','L-arabinose'],[('alpha_{Lac}',2.734),('d',0.35),('lacI',150),('Beta_{Ara}',4),('mju_{Ara}',2),('Beta_{L_Arabinose}',3)],'{{alpha_{Lac}}}*{{lacI}}/(1+(AraC/{{Beta_{Ara}}})**{{mju_{Ara}}})*L-arabinose/({{Beta_{L_Arabinose}}}+L-arabinose)-{{d}}*LacI']
 #全方程
 ['LacI',[],[('d',0.35)],'-{{d}}*LacI']
 #当没有PBAD时
-['LacI',['PBAD','L-Arabinose'],[('alpha_{Lac}',2.734),('d',0.35),('lacI',150),('Beta_{L_Arabinose}',3)],'{{alpha_{Lac}}}*{{lacI}}*L-Arabinose/({{Beta_{L_Arabinose}}}+L-Arabinose)-{{d}}*LacI']
+['LacI',['PBAD','L-arabinose'],[('alpha_{Lac}',2.734),('d',0.35),('lacI',150),('Beta_{L_Arabinose}',3)],'{{alpha_{Lac}}}*{{lacI}}*L-arabinose/({{Beta_{L_Arabinose}}}+L-arabinose)-{{d}}*LacI']
 #当有PBAD和L-Arabinose，没有Arac的时候

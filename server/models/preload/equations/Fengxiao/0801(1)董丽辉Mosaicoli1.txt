@@ -1,0 +1,8 @@
+['lux-AHL 3OC6HSL',[],[('d',0.004)],'-{{d}}*lux-AHL 3OC6HSL']
+
+['LuxR',['Pconst'],[('d',0.0231),('luxR',150),('alpha',0.005)],'{{alpha}}*{{luxR}}-{{d}}*LuxR']
+#Pconst存在
+['LuxR',[],[('d',0.0231)],'-{{d}}*LuxR']
+#Pconst不存在
+
+

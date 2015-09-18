@@ -187,9 +187,13 @@ def get_detailed(id):
             }
     """
 
+
     d = Design.query.get(id)
     if not d: abort(404)#return jsonify(error='This design doesn\'t exist')
     system, var_mapper = get_system_from_design(id)
+
+    print 'here'
+    print system
 
     return render_template('bank_detail.html', design=d, system=system)
 

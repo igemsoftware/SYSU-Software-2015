@@ -1,4 +1,4 @@
-['RtTA',['Ptef'],[('alpha_{RtTA}',0.73),('d',0.35),('rtTA',150)],'{{alpha_{RtTA}}}*{{rtTA}}-{{d}}*RtTA']
+['RtTA',['Ptef1'],[('alpha_{RtTA}',0.73),('d',0.35),('rtTA',150)],'{{alpha_{RtTA}}}*{{rtTA}}-{{d}}*RtTA']
 #全方程
 ['RtTA',[],[('d',0.35)],'-{{d}}*RtTA']
 #当启动子不存在时

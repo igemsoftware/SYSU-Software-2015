@@ -4,7 +4,7 @@ import traceback
 from . import modeling 
 from flask import render_template, jsonify, request
 from ..tools.simulation.release import getModel, simulate, __example_system, name_handler
-from ..models import EquationBase, Design, ComponentPrototype
+from ..models import EquationBase, Design, ComponentPrototype, Relationship
 
 # /modeling/
 @modeling.route('/')
@@ -47,24 +47,48 @@ def design_all():
     return jsonify(designs=l)
  
 
-def get_system_from_related(design_set):
-    try:
+def get_system_from_related(design_set, plasmids='[]', var_mapper={}):
+    if 1:
         design_set = set(design_set)
 
-        # single source 
-        #system = []
-        #system_set = set({})
+        # plasmid checking
+        promoter_gene = {}
+        promoter = None
+        for ele in reduce(lambda x, y: x+y, eval(plasmids), []):
+            if ele['type'] == 'promoter':
+                promoter = ele['attr']
+            elif ele['type'] == 'gene':
+                if promoter:
+                    if not promoter_gene.has_key(promoter):
+                        promoter_gene[promoter] = [] 
+                    # relationship between promoter and gene
+                    promoter_gene[promoter].append(name_handler(ele['attr']))
+
+                    c = ComponentPrototype.query.filter_by(\
+                                attr=var_mapper[ele['attr']] if ele['attr'] in var_mapper else ele['attr']).first()
+                    related_protein = map(lambda x: x.end.attr, Relationship.query.filter(Relationship.start==c)\
+                            .filter(Relationship.type=='promotion').all())
+                    for protein in related_protein:
+                        protein = name_handler(protein)
+                        if protein in design_set:
+                            promoter_gene[promoter].append(protein)
+
 
         # mutli-sourcing 
         system = []
+        #print promoter_gene
 
         for target in design_set:
             component_set = set([])
             component_equ = []
+            #print '>>>', target
 
-            for e in EquationBase.query.filter_by(target=target).order_by(EquationBase.related_count.desc()).all():
-#                print 'checking %s' % e.packed()
+            for e in EquationBase.query.\
+                    filter_by(target=target).\
+                    order_by(EquationBase.related_count.desc()).all():
                 e.update_from_db()
+                #print e.packed()
+
                 related = set(e.related)
                 if not related <= design_set: continue
                 if not related:
@@ -78,6 +102,23 @@ def get_system_from_related(design_set):
                         # ignore the included equations
                         pass
                     else:
+                        if var_mapper and plasmids!='[]':
+                            t = ComponentPrototype.query.filter_by(\
+                                    attr=var_mapper[target] if target in var_mapper else target).first()
+                            if t.type == 'protein' or t.type == 'gene':
+                                # check whether the promoter exists
+                                success = True
+                                for needed in e.related:
+                                    c = ComponentPrototype.query.filter_by(\
+                                            attr=var_mapper[needed] if needed in var_mapper else needed).first()
+                                    if c.type == 'promoter':
+                                        if target not in promoter_gene[needed]:
+                                            #print target, 'not with', needed
+                                            success = False
+                                            break
+                                if not success:
+                                    continue
+
                         component_set.update(related)
                         component_equ.append(e.packed())
 #           from pprint import pprint
@@ -101,11 +142,11 @@ def get_system_from_related(design_set):
 #       from pprint import pprint
 #       pprint(system)
         return system
-    except:
+    else:
         return []
 
 def get_system_from_design(id):
-    try:
+    if 1:
         d = Design.query.get(id)
         d.update_from_db()
         vars = [ele['partAttr'] for ele in d.parts]
@@ -116,12 +157,12 @@ def get_system_from_design(id):
                 var_mapper.update({newvar:var})
         design_set = set(newvars)
 
-        system = get_system_from_related(design_set)
+        system = get_system_from_related(design_set, plasmids=d.plasmids, var_mapper=var_mapper)
         if system==None: raise Exception
             
         return system, var_mapper
-    except:
-        return None, None
+    else:
+        return [], None
 
 def get_initval_from_system(system, var_mapper):
     initval = []
@@ -350,7 +391,7 @@ def plot_design(id):
         if not system: raise Exception("Cannot find the system.")
 
         from pprint import pprint
-        pprint(system)
+        #pprint(system)
 
         ODEModel, system, names = getModel(system)
         if not ODEModel: raise Exception("Build ODE system error.")
@@ -364,7 +405,7 @@ def plot_design(id):
 
         return jsonify(x_axis=t, variables=result, name=d.name)
     except Exception, e:
-        print e
+        print traceback.format_exc()
         return jsonify(x_axis=[], variables=[], name=d.name)
 
     # example data 
