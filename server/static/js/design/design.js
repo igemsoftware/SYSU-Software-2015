@@ -1204,6 +1204,7 @@ SideBarWorker.prototype.createPartView = function(part) {
  */
 SideBarWorker.prototype.addElemToView = function(elem, view) {
     view.append(elem);
+    elem.find(".more").popup();
     this._makeItJqueryDraggable(elem.find('.item'));
     view.append(Util.createDivider());
 }
@@ -1220,6 +1221,14 @@ SideBarWorker.prototype.showView = function(elemsPartList, view) {
     view.empty();
     for (var i in elemsPartList) {
         this.addElemToView(elemsPartList[i], view);
+    }
+}
+
+SideBarWorker.prototype.showDeviceView = function(elemsDeviceList, view) {
+    view.empty();
+    for (var i in elemsDeviceList) {
+        this.addDevicePartInfoEvent(elemsDeviceList[i]);
+        this.addElemToView(elemsDeviceList[i], view);
     }
 }
 
@@ -1489,6 +1498,7 @@ LeftBar.prototype.initDevice = function(deviceList) {
  *
  */
 LeftBar.prototype.addDeviceToBar = function(elem) {
+    elem.find('.more').popup();
     this.leftbarWorker.addElemToView(elem, this.view.devices);
 }
 
@@ -1740,9 +1750,9 @@ LeftBar.prototype.enableSearchDeviceInputBox = function() {
                     searchElemDeviceList.push(that.elemsDeviceList[i]);
                 }
             }
-            that.leftbarWorker.showView(searchElemDeviceList, that.view.devices);
+            that.leftbarWorker.showDeviceView(searchElemDeviceList, that.view.devices);
         } else {
-            that.leftbarWorker.showView(that.elemsDeviceList, that.view.devices);
+            that.leftbarWorker.showDeviceView(that.elemsDeviceList, that.view.devices);
         }
     })
 }
