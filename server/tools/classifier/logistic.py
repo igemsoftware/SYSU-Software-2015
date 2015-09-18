@@ -32,11 +32,15 @@ class LogisticRegression():
             Train classifier by using data fetched in a file. The format is given in the example csv file.
         """
         with open(filename, 'r') as f:
+            # split lines
+            # split values
+            # translate string into value
             a = np.array(map(lambda x: map(float, x.strip().split(',')), f.read().strip().split('\n')[ignoreline:]))
         print a
         x = a[:, :7]
         y = a[:, 7]
 
+        # train with default settings
         self.fit(x, y, max_iteration = 1000, plot_interval=200, lr=0.01)
         return self
 
@@ -45,7 +49,10 @@ class LogisticRegression():
                  max_iteration=100, plot_interval=10,
                  lr=0.01, slient=False):
         '''
+            Train classifier with given x and y. The user can also set the maximum iteration and learning rate.
 
+            slient and plot_interval only affect on the terminal.
+    
             x is [n * d], n is the number of instances,
                           d is the dimension of each instance.
 
@@ -81,11 +88,21 @@ class LogisticRegression():
         return self.theta
 
     def predict(self, x):
+        """
+            Predict a list of given x.
+
+            The input x must align with the X in training set.
+
+            The ouput is the possiblity of the given input's belongingness to class 1.
+        """
         x = np.array(x)
         x = np.concatenate([x, np.ones((x.shape[0], 1))], 1)
         return self.sigmoid(np.dot(self.theta, x.T))
 
     def binary_predict(self, x):
+        """
+            The similar usage as ``predict`` . It will classify X into 2 classes (0 or 1).
+        """
         x = np.array(x)
         x = np.concatenate([x, np.ones((x.shape[0], 1))], 1)
         return np.round(self.sigmoid(np.dot(self.theta, x.T)))

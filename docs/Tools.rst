@@ -8,6 +8,7 @@ The tools reference provides detailed descriptions of CORE's toolkits and how to
 .. toctree::
     :maxdepth: 2
 
+    CORE.tools.simulation
     CORE.tools.classifier
     CORE.tools.shorten
     CORE.tools.random_text
