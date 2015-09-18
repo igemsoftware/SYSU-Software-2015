@@ -289,7 +289,7 @@ Design.prototype.putNewDevice = function(elem) {
     console.log(device);
     var parts = device.parts;
     var connections = device.relationship;
-    var nodeElems = Util._loadCircuitCNodes(parts);
+    var nodeElems = Util.loadCircuitCNodes(parts);
     Util.loadCircuitLinks(connections, nodeElems);
     Util.loadBackbone(device.backbone);
     setDrawLineStyle();
@@ -1022,7 +1022,7 @@ DesignMenu.prototype.enableLoadDesignBtn = function() {
                     var parts = curcuitChart.parts;
                     var connections = curcuitChart.relationship;
                     var backbones = curcuitChart.backbone;
-                    var nodeElems = Util._loadCircuitCNodes(parts);
+                    var nodeElems = Util.loadCircuitCNodes(parts);
                     Util.loadBackbone(backbones);
                     Util.loadCircuitLinks(connections, nodeElems);
                     design.setDesignName(curcuitChart.name);
