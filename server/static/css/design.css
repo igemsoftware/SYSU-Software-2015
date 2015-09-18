@@ -596,6 +596,7 @@ body {
 }
 
 #equation .divider {
+    margin-top: 15px;
     margin-bottom: 15px;
 }
 

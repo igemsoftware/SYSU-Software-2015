@@ -218,6 +218,7 @@ app.controller('PlasmidCtrl', ['$http', '$scope', '$timeout', function ($http, $
   		console.log(data['content']);
   		var design = data['content'];
   		$scope.circuits = null;
+  		$("#plasmid-box .title span").text(design.name);
   		if (design['plasmids'].length == 0) {
   			console.log('Plasmids is empty!!');
   			$('#loadingData').dimmer('hide');

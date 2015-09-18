@@ -24,15 +24,9 @@ var setDrawLineStyle = function() {
     });
 }
 
-var userGuideModal = $("#userGuideModal");
-var circleTab = userGuideModal.children(".circleTab");
-var btnArrowLeft = userGuideModal.children(".btn-arrow.left");
-var btnArrowRight = userGuideModal.children(".btn-arrow.right");
-
 //==========================================================================================
 /**
  * @class CNode
- *
  * @method constructor
  *
  */
@@ -112,7 +106,6 @@ Design.prototype.clear = function() {
     this.risk = 1;
     this.updateRiskView(1);
 }
-
 
 /**
  * Init the design area
@@ -212,7 +205,6 @@ Design.prototype._getStorkeStyle = function(lineType) {
     if (lineType == 'inhibition') return "red";
     if (lineType == "promotion") return "blue";
 };
-
 
 /**
  * Get the style of the connection's overlays
@@ -2030,6 +2022,12 @@ RightBar.prototype.initEquationParts = function(partList) {
         option.text(partList[i].attr);
         option.appendTo("#target");
     }
+    for (var i in partList) {
+        var option = $("<option></option>");
+        option.attr("value", partList[i].attr);
+        option.text(partList[i].attr);
+        option.appendTo("#searchParts");
+    }
 }
 
 //===============================================================================
@@ -2158,7 +2156,6 @@ $("#createEquationBtn").click(function() {
         $("#createEquationErrorModal").modal({transition: 'bounce'}).modal('show');
         return ;
     }
-    console.log($("#coefficient").find(".ui.labeled.input"));
     $("#coefficient").find(".ui.labeled.input").each(function() {
         var coeffName = $(this).find(".coeffName").text();
         var coeffNum = $(this).find('.coeffNum').val();
@@ -2172,7 +2169,6 @@ $("#createEquationBtn").click(function() {
     data.coeffList = coeffList;
     data.formular = formular;
     var postDataJson = JSON.stringify(data);
-    console.log(postDataJson);
     $.ajax({
         type: 'POST',
         contentType: 'application/json',
@@ -2185,62 +2181,35 @@ $("#createEquationBtn").click(function() {
     });
 });
 
-// $("#userGuideModal").modal('show');
-
-setTimeout(function(){
-    userGuideInit(11,userGuideModal.children(".content"), circleTab),
-    $("#btn-userGuide").click(function(){
-        userGuideModal.modal("show")
-    }),
-    userGuideModal.find(".content img").each(function(a){
-        0===a? $(this).addClass("ui transition image visible"):$(this).addClass("ui transition image hidden")
-    });
-    var a =! 0, b = circleTab.children(), c = userGuideModal.find(".content img");
-    btnArrowLeft.hide(),
-    userGuideModal.children(".btn-arrow").click(function(d){
-        var e,f;
-        if(a) {
-            for (a=!1, btnArrowRight.show(), btnArrowLeft.show(), e=$(d.target), f=0;
-                f<c.length&&!c.eq(f).hasClass("visible");
-                f++);
-            if (e.hasClass("left")){
-                if(1===f && btnArrowLeft.hide(), 0===f) return;
-                c.eq(f).transition("horizontal flip","300ms"),
-                c.eq(f-1).transition("horizontal flip","300ms"),
-                b.eq(f).removeClass("actived"),
-                b.eq(f-1).addClass("actived")
-            } else {
-                if(f===c.length-2&&btnArrowRight.hide(),f===c.length-1)
-                return;
-                c.eq(f).transition("horizontal flip","300ms"),
-                c.eq(f+1).transition("horizontal flip","300ms"),
-                b.eq(f).removeClass("actived"),
-                b.eq(f+1).addClass("actived")
-            }
-            setTimeout(function(){a=!0},300)
+$("#searchEquationsBtn").click(function() {
+    $(this).addClass("loading");
+    var postData = {};
+    postData.related = $("#searchParts").val();
+    var postDataJson = JSON.stringify(postData);
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        url: '/design/equation/search',
+        dataType : 'json',
+        data : postDataJson,
+        success: function(data) {
+            console.log(data);
+            $("#equaSearchResultModal").modal('show');
         }
-    }),
-    b.each(function(a){
-        $(this).click(function(){
-            var d = $(this);
-            d.hasClass("actived") || 
-            (circleTab.find(".actived").removeClass("actived"), d.addClass("actived"),
-            c.eq(a).transition("horizontal flip","300ms"),
-            c.filter(".visible").transition("horizontal flip","300ms")),
-            0 === a ? 
-                (btnArrowLeft.hide(),btnArrowRight.show()):
-                a === b.length-1 ? 
-                    (btnArrowLeft.show(),btnArrowRight.hide()):(btnArrowLeft.show(),btnArrowRight.show())
-        })
-    })
-},2e3);
+    });
+});
 
-function userGuideInit(a, b, c){
-    var d, e;
-    for(d = 1; a >= d; d++)
-        e = 10 > d ? "0"+d : d, $("<img>").attr("src","/static/img/user_guide/e"+e+".jpg").appendTo(b),
-        1 === d ? 
-            $("<i>").addClass("circle icon actived").appendTo(c):
-            $("<i>").addClass("circle icon").appendTo(c);
-    c.css("margin-left", -28*a/2+"px")
-}
+// initialize all modals
+$('.coupled.modal')
+  .modal({
+    allowMultiple: true
+  })
+;
+// open second modal on first modal buttons
+$('.second.modal')
+  .modal('attach events', '.first.modal .button')
+;
+// show first immediately
+// $('.first.modal')
+//   .modal('show')
+// ;
