@@ -27,6 +27,7 @@ var vDatabase = new Vue({
         var store = this;
         $.get('/person/mine', function(data) {
             store.$set('databaseRecords', data.mine);
+            hhhh = data.mine;
         });
         $.get('/person/favorite', function(data) {
             store.$set('favoriteRecords', data.favorite);

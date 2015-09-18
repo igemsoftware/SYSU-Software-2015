@@ -700,6 +700,7 @@ class Design(db.Model, BioBase):
             'progress': self.progress,
             'name': self.name,
             'description': self.full_description,
+            'img': self.img,
         }
 
 

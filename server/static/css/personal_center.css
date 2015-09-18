@@ -151,10 +151,17 @@
   background-color: #72d3e3; }
 
 #detail-tabs {
-  margin-top: 20px; }
+  margin-top: 10px;
+  height: calc(100% - 150px); }
 
-#detail-tabs > .menu > .item {
-  transition: all .3s ease; }
+#detail-tabs .menu > .item {
+  transition: all .3s ease;
+}
+
+#detail-tabs .tab {
+  overflow: auto;
+  height: calc(100% - 54px);
+}
 
 #details-description-tab {
   font-size: 1.2rem;
