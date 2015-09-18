@@ -1,7 +1,9 @@
-['UVB',[],[],'t']
+['UVB',[],[],'t ** 0.5']
+#['UVB',[],[],'t']
 #全方程
 
-['UVR8-TetR',['Promoter','UVB'],[('alpha',8.034),('k',6),('d_{1}',1.3)],'{{alpha}}*UVR8-TetR/(1+UVB**{{k}})-{{d_{1}}}*UVR8-TetR']
+[u'UVR8_TetR', [u'Promoter', u'UVB'], {u'alpha': 8.034, u'UVR8_tetR': 168, u'k': 6.0, u'd_{1}': 1.3}, u'{{alpha}}*{{UVR8_tetR}}/(1+UVB**{{k}})-{{d_{1}}}*UVR8_TetR']
+#['UVR8-TetR',['Promoter','UVB'],[('alpha',8.034),('k',6),('d_{1}',1.3)],'{{alpha}}*UVR8-TetR/(1+UVB**{{k}})-{{d_{1}}}*UVR8-TetR']
 #全方程
 ['UVR8-TetR',['Promoter'],[('alpha',8.034),('d_{1}',1.3)],'{{alpha}}*UVR8-TetR-{{d_{1}}}*UVR8-TetR']
 #Promoter存在,UVB不存在
@@ -28,7 +30,14 @@
 #Ptet不在,UVR8-TetR不在,TetR不在
 
 ['TetR',['PcI','CI'],[('gamma_{0}',80),('tetR',168),('d_{3}',0.87)],'0']
-#全方程
+#   ['TetR',['PcI','CI'],[('gamma_{0}',80),('tetR',168),('d_{3}',0.87)],'{{gamma_{0}}}/(1+CI)*{{tetR}}-{{d_{3}}}*TetR']
+#   #全方程
+#   ['TetR',['PcI'],[('gamma_{0}',80),('tetR',168),('d_{3}',0.87)],'{{gamma_{0}}}*{{tetR}}-{{d_{3}}}*TetR']
+#   #PcI存在,CI不存在
+#   ['TetR',['CI'],[('d_{3}',0.87)],'-{{d_{3}}}*TetR']
+#   #PcI不存在,CI存在
+#   ['TetR',[],[('d_{3}',0.87)],'-{{d_{3}}}*TetR']
+#   #PcI不存在,CI不存在
 
 ['YFP',['Ptet','UVR8-TetR','TetR'],[('yfp',168),('beta_{0}',130),('a_{1}',0.4),('a_{3}',2),('d_{4}',0.55)],'{{yfp}}*{{beta_{0}}}/(1+UVR8-TetR*TetR)/(1+UVR8-TetR**{{a_{1}}})/(1+TetR**{{a_{3}}})-{{d_{4}}}*YFP']
 #全方程

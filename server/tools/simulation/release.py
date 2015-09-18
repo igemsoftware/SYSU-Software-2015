@@ -85,8 +85,8 @@ def getModel(system, dependancy_check=True):
 #        print '='*20
         try:
             testv = eval(e.render(), eval_dict, safe_dict)
-#            print 'Test pass:', equ
-#            print '\tValue(all 0):', testv
+            print 'Test pass:', equ
+            print '\tValue(all 0):', testv
             rendered.append(e.render())
         except Exception, exp:
             print 'Test error:', equ
@@ -108,7 +108,8 @@ def getModel(system, dependancy_check=True):
     return ODEModel, system, [ele[0] for ele in system]
 
 def simulate(ODEModel, names, t_start, t_final, t_delta, initial_value):
-    r = integrate.ode(ODEModel).set_integrator('vode', method='bdf')
+#    r = integrate.ode(ODEModel).set_integrator('vode', method='bdf')
+    r = integrate.ode(ODEModel).set_integrator('dopri5', method='bdf')
     r.set_initial_value(initial_value, t_start)
 
 #    t_delta = (t_final - t_start)/(num_steps-1)
