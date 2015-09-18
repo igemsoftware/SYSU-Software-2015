@@ -27,7 +27,7 @@ var vueBody = new coreBody({
             this.voted = true;
             $.ajax({
                 type        : 'POST',
-                url         : '/taskhall/action/vote',
+                url         : '/co-dev/action/vote',
                 data        : JSON.stringify({'task_id': id}),
                 dataType    : 'json',
                 contentType : 'application/json'
