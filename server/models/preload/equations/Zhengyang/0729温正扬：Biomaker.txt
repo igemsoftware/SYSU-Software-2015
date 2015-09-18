@@ -1,9 +1,11 @@
-['OMPA_SILA',['Plac','LacI','IPTG'],[('beta_{s}',1),('k_{IPTG}',0.5),('k_{I}',0.5),('alpha_{s}',0.2)],'{{beta_{s}}}*1/(1+LacI*1/(1+IPTG/{{k_{IPTG}}})/{{k_{I}}})-{{alpha_{s}}}*OMPA_SILA']
+['OMPA-SILA',['Plac','LacI','IPTG'],[('beta_{s}',1),('OmpA_Sila',150),('k_{IPTG}',0.5),('k_{I}',0.5),('alpha_{s}',0.2)],'{{OmpA_Sila}}*{{beta_{s}}}*1/(1+LacI*1/(1+IPTG/{{k_{IPTG}}})/{{k_{I}}})-{{alpha_{s}}}*OMPA-SILA']
 #全方程
-['OMPA_SILA',[],[('alpha_{s}',0.2)],'-{{alpha_{s}}}*OMPA_SILA']
-#当启动子Plac不存在时
+['OMPA-SILA',[],[('alpha_{s}',0.2)],'-{{alpha_{s}}}*OMPA-SILA']
+#当启动子Plac或者lacI不存在，（不论IPTG存在与否）
+['OMPA-SILA',['Plac','LacI'],[('beta_{s}',1),('OmpA-Sila',150),('k_{I}',0.5),('alpha_{s}',0.2)],'{{OmpA-Sila}}*{{beta_{s}}}*1/(1+LacI/{{k_{I}}})-{{alpha_{s}}}*OMPA-SILA']
+#当IPTG不存在，而Plac和lacI都存在
 
-['TetR',['Plac','LacI','IPTG'],[('beta_{TR}',0.8),('k_{IPTG}',0.5),('k_{I}',0.5),('alpha_{TR}',0.05)],'{{beta_{TR}}}*1/(1+LacI*1/(1+IPTG/{{k_{IPTG}}})/{{k_{I}}})-{{alpha_{TR}}}*TetR']
+['TetR',['Plac','LacI','IPTG'],[('beta_{TR}',0.8),('k_{IPTG}',0.5),('k_{I}',0.5),('tetR',150),('alpha_{TR}',0.05)],'{{tetR}}*{{beta_{TR}}}*1/(1+LacI*1/(1+IPTG/{{k_{IPTG}}})/{{k_{I}}})-{{alpha_{TR}}}*TetR']
 #全方程
 ['TetR',[],[('alpha_{TR}',0.05)],'-{{alpha_{TR}}}*TetR']
 #当启动子不存在时

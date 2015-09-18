@@ -1,0 +1,59 @@
+['PTAL B',['pCMV','PTAL A'],[('deg',0.93),('TAL B',150),('beta_{PTALA}',2.6),('mju_{PTALA}',2)],'{{TAL B}}*1/(1+(PTAL A/{{beta_{PTALA}}})**{{mju_{PTALA}}})-{{deg}}*PTAL B']
+#全方程
+['PTAL B',[],[('deg',0.93)],'-{{deg}}*PTAL B']
+#当缺少启动子时
+['PTAL B',['pCMV'],[('deg',0.93),('TAL B',150)],'{{TAL B}}-{{deg}}*PTAL B']
+#当启动子存在，而缺失PTAL A时
+
+['PTAL A',['pCMV','PTAL B'],[('deg',0.93),('TAL A',150),('beta_{PTALB}',3),('mju_{PTALB}',2)],'{{TAL A}}*1/(1+(PTAL B/{{beta_{PTALB}}})**{{mju_{PTALB}}})-{{deg}}*PTAL A']
+#全方程
+['PTAL A',[],[('deg',0.93)],'-{{deg}}*PTAL A']
+#当缺少启动子时
+['PTAL A',['pCMV'],[('deg',0.93),('TAL A',150)],'{{TAL A}}-{{deg}}*PTAL A']
+#当启动子存在，而缺少PTAL B时
+
+['PTAL B',['PPIP:KRAB','pCMV','pir'],[('k_{1BKR}',1.12),('k_{3BKR}',1.12),('TAL B',150),('deg',0.93),('k_{r}',3),('k_{3}',0.80),('n_{3}',2),('beta_{PPIPKRAB}',1.7),('mju_{PPIPKRAB}',2)],'({{k_{1BKR}}}+{{k_{3BKR}}}*({{k_{r}}}/({{k_{r}}}+{{k_{3}}}*(pir*1/(1+(PPIP:KRAB/{{beta_{PPIPKRAB}}})**{{mju_{PPIPKRAB}}}))**{{n_{3}}})))*{{TAL B}}-{{deg}}*PTAL B']
+#全方程
+['PTAL B',[],[('deg',0.93)],'-{{deg}}*PTAL B']
+#当缺少启动子时
+['PTAL B',['pCMV'],[('k_{1BKR}',1.12),('k_{3BKR}',1.12),('TAL B',150),('deg',0.93)],'({{k_{1BKR}}}+{{k_{3BKR}}})*{{TAL B}}-{{deg}}*PTAL B']
+#当启动子存在，而缺少pir时
+['PTAL B',['pCMV','pir'],[('k_{1BKR}',1.12),('k_{3BKR}',1.12),('TAL B',150),('deg',0.93),('k_{r}',3),('k_{3}',0.80),('n_{3}',2)],'({{k_{1BKR}}}+{{k_{3BKR}}}*({{k_{r}}}/({{k_{r}}}+{{k_{3}}}*pir**{{n_{3}}})))*{{TAL B}}-{{deg}}*PTAL B']
+#当启动子、pir存在，而PPIP:KRAB不存在时
+
+['PTAL A',['pCMV','etr','PE:KRAB'],[('k_{2AKR}',1.12),('k_{4AKR}',1.12),('TAL A',150),('deg',0.93),('k_{r}',3),('k_{4}',0.83),('n_{4}',2),('beta_{PEKRAB}',2.6),('mju_{PEKRAB}',2)],'({{k_{2AKR}}}+{{k_{4AKR}}}*({{k_{r}}}/({{k_{r}}}+{{k_{4}}}*(etr*1/(1+(PE:KRAB/{{beta_{PEKRAB}}})**{{mju_{PEKRAB}}}))**{{n_{4}}})))*{{TAL A}}-{{deg}}*PTAL A']
+#全方程
+['PTAL A',[],[('deg',0.93)],'-{{deg}}*PTAL A']
+#当缺少启动子时
+['PTAL A',['pCMV'],[('k_{2AKR}',1.12),('k_{4AKR}',1.12),('TAL A',150),('deg',0.93)],'({{k_{2AKR}}}+{{k_{4AKR}}})*{{TAL A}}-{{deg}}*PTAL A']
+#当启动子存在，而etr不存在时
+['PTAL A',['pCMV','etr'],[('k_{2AKR}',1.12),('k_{4AKR}',1.12),('TAL A',150),('deg',0.93),('k_{r}',3),('k_{4}',0.83),('n_{4}',2)],'({{k_{2AKR}}}+{{k_{4AKR}}}*({{k_{r}}}/({{k_{r}}}+{{k_{4}}}*etr**{{n_{4}}})))*{{TAL A}}-{{deg}}*PTAL A']
+#当启动子、etr存在，而PE:KRAB不存在时
+
+['PPIP:KRAB',['pCMV'],[('k_{PIP}',2.35),('deg',0.93),('PIPKRAB',150)],'{{k_{PIP}}}*{{PIPKRAB}}-{{deg}}*PPIP:KRAB']
+#全方程
+['PPIP:KRAB',[],[('deg',0.93)],'-{{deg}}*PPIP:KRAB']
+#当缺少启动子时
+
+['PE:KRAB',['pCMV'],[('k_{E}',2.04),('deg',0.93),('EKRAB',150)],'{{EKRAB}}*{{k_{E}}}-{{deg}}*PE:KRAB']
+#全方程
+['PE:KRAB',[],[('deg',0.93)],'-{{deg}}*PE:KRAB']
+#当缺少启动子时
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

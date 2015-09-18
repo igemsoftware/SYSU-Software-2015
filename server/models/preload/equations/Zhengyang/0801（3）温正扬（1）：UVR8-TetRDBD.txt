@@ -1,7 +1,7 @@
-['UVRB_TetRDBD',['UVR8_TetRDBD_dimer','PABA'],[('k^{UVR8}_{hv}',2.08*10**(-3)),('n_{PABA}',1),('KM_{PABA}',960*10**2),('k^{UVR8}_{decay}',8.4*10**(-1))],'2*{{k^{UVR8}_{hv}}}*UVR8_TetRDBD_dimer*1/(1+(PABA/{{KM_{PABA}}})**{{n_{PABA}}})-2*{{k^{UVR8}_{decay}}}*UVRB_TetRDBD']
+['2UVRB-TetRDBD',['UVR8-TetRDBD(dimer)','PABA'],[('k^{UVR8}_{hv}',2.08*10**(-3)),('n_{PABA}',1),('KM_{PABA}',960*10**2),('k^{UVR8}_{decay}',8.4*10**(-1))],'2*{{k^{UVR8}_{hv}}}*UVR8-TetRDBD(dimer)*1/(1+(PABA/{{KM_{PABA}}})**{{n_{PABA}}})-2*{{k^{UVR8}_{decay}}}*2UVRB-TetRDBD']
 #全方程
-['UVRB_TetRDBD',['UVR8_TetRDBD_dimer'],[('k^{UVR8}_{hv}',2.08*10**(-3)),('k^{UVR8}_{decay}',8.4*10**(-1))],'2*{{k^{UVR8}_{hv}}}*UVR8_TetRDBD_dimer-2*{{k^{UVR8}_{decay}}}*UVRB_TetRDBD']
+['2UVRB-TetRDBD',['UVR8-TetRDBD(dimer)'],[('k^{UVR8}_{hv}',2.08*10**(-3)),('k^{UVR8}_{decay}',8.4*10**(-1))],'2*{{k^{UVR8}_{hv}}}*UVR8-TetRDBD(dimer)-2*{{k^{UVR8}_{decay}}}*2UVRB-TetRDBD']
 #当PABA不存在时
 
-['UVR8_TetRDBD_dimer',['UVRB_TetRDBD'],[('k^{UVR8}_{hv}',2.08*10**(-3)),('k^{UVR8}_{decay}',8.4*10**(-1))],'-{{k^{UVR8}_{hv}}}*UVR8_TetRDBD_dimer+{{k^{UVR8}_{decay}}}*UVRB_TetRDBD**2']
+['UVR8-TetRDBD(dimer)',['2UVRB-TetRDBD'],[('k^{UVR8}_{hv}',2.08*10**(-3)),('k^{UVR8}_{decay}',8.4*10**(-1))],'-{{k^{UVR8}_{hv}}}*UVR8-TetRDBD(dimer)+{{k^{UVR8}_{decay}}}*2UVRB-TetRDBD**2']
 #全方程
