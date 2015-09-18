@@ -1,6 +1,6 @@
 Operon 2011StAndrews
-The PBAD promoter is induced by the binding of L-arabinose to the AraC promoter region. The gene products of PBAD in Escherichia coli allow the cells to take up and catabolize L-arabinose.
-The PBAD promoter is induced by the binding of L-arabinose to the AraC promoter region. The gene products of PBAD in Escherichia coli allow the cells to take up and catabolize L-arabinose.
+The PBAD Promoter is induced by the binding of L-arabinose to the AraC Promoter region. The gene products of PBAD in Escherichia coli allow the cells to take up and catabolize L-arabinose.
+The PBAD Promoter is induced by the binding of L-arabinose to the AraC Promoter region. The gene products of PBAD in Escherichia coli allow the cells to take up and catabolize L-arabinose.
 Arabinose,Operon
 http://2011.igem.org/Team:St_Andrews
 no

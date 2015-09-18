@@ -122,12 +122,28 @@ Modeling.prototype.initMenu = function() {
 Modeling.prototype.initParametersMenu = function(series) {
     // parameters
     $('#parameters-quantity').html('');
+    var vars = [];
     $(series).each(function(ine, ele) {
-        $('#parameters-quantity').append('<div class="field"><div class="ui labeled input"><div class="ui label">'
-                +ele['name']+'</div><input type="number" min=0.00 placeholder="Default is 0.0" name="'
-                +ele['name']+'"></div></div>');
-//        alert(ele['name']);
+        vars.push(ele['name']);
     });
+    var postDataJson = JSON.stringify(vars);
+
+    $.ajax({
+        url: "/modeling/default",
+        data: postDataJson, 
+        type: "POST",
+        contentType: "application/json",
+        dataType: "json",
+        success: function(data) {
+            console.log(data);
+            $(data['initval']).each(function(ind, ele) {
+                $('#parameters-quantity').append('<div class="field"><div class="ui labeled input"><div class="ui label">'
+                        +vars[ind]+'</div><input type="number" min=0.00 placeholder="Default is '+ele+'" name="'
+                        +vars[ind]+'"></div></div>');
+            });
+        }
+    });
+
 }
 
 

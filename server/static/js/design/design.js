@@ -2131,9 +2131,10 @@ $("#createEquationBtn").click(function() {
 });
 
 $("#searchEquationsBtn").click(function() {
-    $(this).addClass("loading");
     var postData = {};
     postData.related = $("#searchParts").val();
+    if (postData.related.length == 0) return;
+    $(this).addClass("loading");
     var postDataJson = JSON.stringify(postData);
     $.ajax({
         type: 'POST',
@@ -2150,6 +2151,7 @@ $("#searchEquationsBtn").click(function() {
             }
             console.log('Equation Results: ')
             console.log(data);
+            $('#equaSearchResultModal .content .equationList').empty();
             for (var i in equations) {
                 var gridElem = Util.createEquationShow();
                 var divider = $("<div class='ui divider'></div>");
