@@ -1,0 +1,10 @@
+Motility 1 2013Nanjing-China
+To gather more and more bacteria stopping in the region with high Atrazine.
+Atrazine will promote the translation of the CI protein. However, the CheZ protein, which represent the motility, will be repressed when the concentration of CI protein is high. So, the consequence will be more and more bacteria stopping in the region with high Atrazine.
+Motility,Atrazine
+http://2013.igem.org/Team:Nanjing-China
+http://2013.igem.org/Team:Nanjing-China/protocol
+1
+PcI_1
+CheZ_1
+{"parts":[{"partID":"RBS:BBa_B0034_1","partName":"RBS","partAttr":"RBS:BBa_B0034","positionX":249,"positionY":41},{"partID":"cheZ_2","partName":"cheZ","partAttr":"cheZ","positionX":352,"positionY":41},{"partID":"RBS:BBa_B0034_3","partName":"RBS","partAttr":"RBS:BBa_B0034","positionX":660,"positionY":41},{"partID":"cI_4","partName":"cI","partAttr":"cI","positionX":770,"positionY":41},{"partID":"CI_5","partName":"CI","partAttr":"CI","positionX":600,"positionY":379},{"partID":"Terminator_6","partName":"Terminator","partAttr":"Terminator","positionX":456,"positionY":41},{"partID":"Terminator_7","partName":"Terminator","partAttr":"Terminator","positionX":870,"positionY":41},{"partID":"Pcl_8","partName":"Pcl","partAttr":"Pcl","positionX":558,"positionY":41},{"partID":"Pcl_9","partName":"Pcl","partAttr":"Pcl","positionX":141,"positionY":41},{"partID":"CheZ_10","partName":"CheZ","partAttr":"CheZ","positionX":352,"positionY":193}],"relationship":[{"start":"RBS:BBa_B0034_1","end":"cheZ_2","type":"normal"},{"start":"RBS:BBa_B0034_3","end":"cI_4","type":"normal"},{"start":"cI_4","end":"Terminator_7","type":"normal"},{"start":"cheZ_2","end":"Terminator_6","type":"normal"},{"start":"Terminator_6","end":"Pcl_8","type":"normal"},{"start":"Pcl_8","end":"RBS:BBa_B0034_3","type":"normal"},{"start":"cI_4","end":"CI_5","type":"promotion"},{"start":"CI_5","end":"Pcl_9","type":"inhibition"},{"start":"RBS:BBa_B0034_1","end":"Pcl_9","type":"normal"},{"start":"cheZ_2","end":"CheZ_10","type":"promotion"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[93,110],"end":[921,109]}],"name":"Motility"}
