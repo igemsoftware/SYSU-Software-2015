@@ -752,6 +752,10 @@ DataManager.getPerProtocolData = function(callback) {
     });
 };
 
+DataManager.getPerProtocols = function() {
+	return this.perProtocols;
+};
+
 /**
  * Get personal protocol by id
  * @method getPerProtocolById

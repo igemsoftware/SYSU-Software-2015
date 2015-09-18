@@ -14,16 +14,23 @@
     color: white !important;
 }
 
+.no-margin {
+    margin: 0 0 !important;
+}
+
 body {
     min-height: 100%;
     height: 100%;
+    width: 100%;
+    overflow: auto;
 }
 
 #drawArea {
 	width: 92%;
+    height: 100%;
 	height: 78%;
-    margin-right: auto;
-    margin-left: auto;
+    margin-left: 4%;
+    margin-right: 5%;
     margin-bottom: 2%;
 	position: relative;
     margin-top: 10px;
@@ -448,24 +455,6 @@ body {
 
 #right-sidebar #addedDevices .divider {
     margin-top: 2px;
-}
-/*=====================================================*/
-::-webkit-scrollbar-track:horizontal {
-    border-radius: 5px;
-    height: 8px;
-}
-
-::-webkit-scrollbar {
-    width: 8px;
-    height: 0;
-    background-color: rgba(179, 179, 179, 0.46);;
-    border: none;
-    border-radius: 5px;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background-color: rgba(179, 179, 179, 0.9);
 }
 
 /*--------------------------------------------------------*/
