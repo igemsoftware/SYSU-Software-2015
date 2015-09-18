@@ -41,5 +41,7 @@ CKEDITOR.editorConfig = function( config ) {
 
     // image upload
     config.extraPlugins = 'uploadimage';
-    config.imageUploadUrl = '/pic/upload';
+    config.image_previewText=' '; //预览区域显示内容
+    // config.imageUploadUrl = '/pic/upload';
+    config.filebrowserImageUploadUrl = '/pic/taskhall/upload';
 };
