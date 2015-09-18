@@ -26,7 +26,6 @@
     .. autoattribute:: is_shared
     .. autoattribute:: is_public
     .. autoattribute:: create_time
-    .. autoattribute:: progress
     .. autoattribute:: protocols
     .. autoattribute:: plasmids
     .. autoattribute:: img

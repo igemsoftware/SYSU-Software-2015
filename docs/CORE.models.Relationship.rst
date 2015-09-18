@@ -9,8 +9,5 @@
     .. autoattribute:: start_id
     .. autoattribute:: end_id
     .. autoattribute:: type
-    .. autoattribute:: equation
-
-
 
 
