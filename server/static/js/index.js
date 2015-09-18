@@ -4,7 +4,7 @@ var btnArrowLeft = userGuideModal.children(".btn-arrow.left");
 var btnArrowRight = userGuideModal.children(".btn-arrow.right");
 
 setTimeout(function(){
-    userGuideInit(9,userGuideModal.children(".content"), circleTab),
+    userGuideInit(24,userGuideModal.children(".content"), circleTab),
     $("#UserGuideBtn").click(function(){
         userGuideModal.modal("show")
     }),
@@ -54,7 +54,7 @@ setTimeout(function(){
 function userGuideInit(a, b, c){
     var d, e;
     for(d = 1; a >= d; d++)
-        e = 10 > d ? "0"+d : d, $("<img>").attr("src","/static/img/user_guide/core design"+e+".jpg").appendTo(b),
+        e = 10 > d ? "0"+d : d, $("<img>").attr("src","/static/img/user_guide/user_guide"+e+".jpg").appendTo(b),
         1 === d ? 
             $("<i>").addClass("circle small icon actived").appendTo(c):
             $("<i>").addClass("circle small icon").appendTo(c);
