@@ -8,6 +8,12 @@ body {
     background: linear-gradient(to right, #6eb6ad, #74c1b7, #87e1d5);
 }
 
+#image-zoom .image {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+}
+
 #main {
     width: 90%;
     background-color: #f8f8f8;
@@ -56,8 +62,9 @@ i {
 }
 
 #content .image-wrapper {
-    max-width: 500px;
+    max-width: 700px;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
 #content .imageWrapper img {

@@ -1,6 +1,6 @@
 {% extends 'person/person.html' %}
 
-{% block title %}Design{% endblock %}
+{% block title %}Core - Design{% endblock %}
 
 {% block head %}
   {{ super() }}
@@ -191,7 +191,7 @@
         </div>
         <div class="ui divider"></div>
         <div class="text-center">
-            <button class="ui tiny button float-right">
+            <button class="ui tiny button float-right" id="equationHelp">
               Help
             </button>
             <h3>Create a new equation</h3>
@@ -255,6 +255,65 @@
           <div class="ui cancel button">Cancel</div>
           <div class="ui button ired white" id="createParam">Create</div>
         </div>
+      </div>
+    </div>
+<!-- coefficient modal -->
+
+<!-- coefficient modal -->
+    <div class="ui long modal" id="equationHelpModal">
+      <i class="close icon"></i>
+      <div class="header">How to create an equation ?</div>
+      <div class="content">
+        {% raw %}
+        <h4>Basic Components of a Qualified Equation</h4>
+        <ul>
+          <li>1.  The Target variable. (The variable which the ODE is meant for)</li>
+          <li>2.  The required variables. (The variables related to the target variable)</li>
+          <li>3.  Coefficients(Parameters). (All the parameters needed for the equation. You have to enter the accurate value of each parameter.)</li>
+          <li>4.  Formula. (The form of the equation)</li>
+        </ul>
+        <h5>Example</h5>
+        <p>$$\frac{d[LuxUp]}{dt}=\beta_{cu}\frac{LuxU}{k_{cu}+[LuxU]}-d[LuxUp]$$<p>
+        <ul>
+          <li>1.  The target variable is $LuxUp$</li>
+          <li>2.  The required variable is $LuxU$</li>
+          <li>3.  The parameters needed are $\beta_{cu}$ and $k_{cu}$</li>
+          <li>4.  The formula is $\beta_{cu}\frac{LuxU}{k_{cu}+[LuxU]}-d[LuxUp]$</li>
+        </ul>
+        <h4>Note: Qualified Input Format</h4>
+        <h5>Example:</h5>
+        <p>$$\frac{d[LuxUp]}{dt}=\beta_{cu}\frac{LuxU}{k_{cu}+[LuxU]}-d[LuxUp]$$</p>
+        <ul>
+          <li>1.  Target variable: $LuxUp$
+            <ul>
+              <li>a)  Must be inputted as ‘String’</li>
+              <li>b)  The correct input: ‘LuxUp’</li>
+              <li>c)  The name of the variable must accords with the corresponding part </li>
+            </ul>
+          </li>
+          <li>2.  Required variables: $LuxU$
+            <ul>
+              <li>a)  Must be inputted as ‘array’, like[‘a’,’b’,’c’,’d’]</li>
+              <li>b)  The correct input:[‘LuxU’]</li>
+            </ul>
+          </li>
+          <li>3.  Parameters: $\beta_{cu}$, $k_{cu}$
+            <ul>
+              <li>a)  must be inputted as two-dimensional arrays</li>
+              <li>b)  If $\beta_{cu}$ equals to 0.1: (‘beta_{cu}’, 0.1)</li>
+              <li>c)  If $k_{cu}$ equals to 2: (‘k_{cu}’, 0.2)</li>
+              <li>d)  The correct input should be：[(“beta_{cu}”, 0.1), (“k_{cu}”, 0.2)]</li>
+            </ul>
+          </li>
+          <li>4.  Formula:  $\beta_{cu}\frac{LuxU}{k_{cu}+[LuxU]}-d[LuxUp]$
+            <ul>
+              <li>a)  The correct input should be: ‘{{beta_{cu}}}*LuxU/({{K_{cu}}}+LuxU)-{{d}}*LuxUp’</li>
+            </ul>
+          </li>
+        </ul>
+        <h4>So the whole equation should be input as:</h4>
+        <h5>[”LuxUp”, [”LuxU”], [(“beta_{cu}”, 0.1), (“k_{cu}”, 0.2)], ”{{beta_{cu}}}*LuxU/({{K_{cu}}}+LuxU)-{{d}}*LuxUp”]</h5>
+        {% endraw %}
       </div>
     </div>
 <!-- coefficient modal -->

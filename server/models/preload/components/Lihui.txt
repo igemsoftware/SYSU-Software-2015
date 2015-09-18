@@ -84,6 +84,7 @@ GFP	protein
 RFP	protein			
 RBS	RBS	BBa_B0032		
 OHHL	chemical			
+oHHL	unknown			
 Promoter	promoter	BBa_J23100		
 RBS	RBS	BBa_B0034		
 yenR	gene	BBa_K1381004	1	Escherichia coli 

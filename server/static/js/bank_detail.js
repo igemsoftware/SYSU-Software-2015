@@ -23,4 +23,7 @@ $(document).ready(function() {
     });
 
     $("#right-column > .ui.sticky").sticky({offset: 60, context: "#content"});
+    $(".image-wrapper").click(function() {
+        $('#image-zoom').dimmer('show');
+    });
 });

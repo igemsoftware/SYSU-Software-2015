@@ -13,15 +13,15 @@
   <div class="ui page dimmer" id="main-switcher">
     <div class="content">
       <div class="center">
-        <a href="/taskhall" class="link">
+        <a href="{{url_for('taskhall.taskhall_index')}}" class="link">
           <img src="/static/img/common/co-development_circular.png" class="ui codev image">
           <div class="description">Co-development</div>
         </a>
-        <a href="/design" class="link">
+        <a href="{{url_for('main.design')}}" class="link">
           <img src="/static/img/common/design_circular.png" class="ui design image">
           <div class="description">Design</div>
         </a>
-        <a href="/bank" class="link">
+        <a href="{{url_for('bank.index')}}" class="link">
           <img src="/static/img/common/bank_circular.png" class="ui bank image">
           <div class="description">Bank</div>
         </a>

@@ -456,3 +456,22 @@ def replot_design(id):
         print traceback.format_exc()
         return jsonify(x_axis=[], variables=[], name=d.name)
 
+
+@modeling.route('/default', methods=["POST"])
+def get_default():
+    """
+        :Method: POST 
+        :Usage: Get the default value of parts.
+        :Input: A list of components.
+    """
+
+    data = request.get_json()
+    default = []
+    for ele in data:
+        c = ComponentPrototype.query.filter_by(attr=ele).first()
+        if c:
+            default.append(c.initval)
+        else:
+            default.append(0.0)
+    return jsonify(initval=default)
+
