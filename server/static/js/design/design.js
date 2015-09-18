@@ -289,7 +289,7 @@ Design.prototype.putNewDevice = function(elem) {
     console.log(device);
     var parts = device.parts;
     var connections = device.relationship;
-    var nodeElems = Util._loadCircuitCNodes(parts);
+    var nodeElems = Util.loadCircuitCNodes(parts);
     Util.loadCircuitLinks(connections, nodeElems);
     Util.loadBackbone(device.backbone);
     setDrawLineStyle();
@@ -1022,7 +1022,7 @@ DesignMenu.prototype.enableLoadDesignBtn = function() {
                     var parts = curcuitChart.parts;
                     var connections = curcuitChart.relationship;
                     var backbones = curcuitChart.backbone;
-                    var nodeElems = Util._loadCircuitCNodes(parts);
+                    var nodeElems = Util.loadCircuitCNodes(parts);
                     Util.loadBackbone(backbones);
                     Util.loadCircuitLinks(connections, nodeElems);
                     design.setDesignName(curcuitChart.name);
@@ -2024,22 +2024,6 @@ $("#customCreate").click(function() {
     DataManager.addPart(part);
     leftBar.addCustomPart(part);
 
-});
-
-$("#equationPartA").change(function() {
-    var partAttrA = $(this).attr("value");
-    var partAttrB = $("#equationPartB").attr("value");
-    if (partAttrA != "" && partAttrB != "") {
-        rightBar.showEquation(partAttrA, partAttrB);
-    }
-});
-
-$("#equationPartB").change(function() {
-    var partAttrA = $("#equationPartA").attr("value");
-    var partAttrB = $(this).attr("value");
-    if (partAttrA != "" && partAttrB != "") {
-        rightBar.showEquation(partAttrA, partAttrB);
-    }
 });
 
 $('#loadingData').dimmer('show');

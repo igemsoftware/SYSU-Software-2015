@@ -81,7 +81,7 @@ Util.downloadImage = function(fileName, content){
     aLink.dispatchEvent(evt);
 }
 
-Util._loadCircuitCNodes = function(parts) {
+Util.loadCircuitCNodes = function(parts) {
     var nodeElems = [];
     var that = this;
     var mostHeight = 0;
@@ -94,8 +94,8 @@ Util._loadCircuitCNodes = function(parts) {
     });
 
     for (var i in parts) {
-        if (parts[i].positionY > mostHeight) {
-            mostHeight = parts[i].positionY;
+        if (parts[i].positionY + 80 > mostHeight) {
+            mostHeight = parts[i].positionY + 80;
         }
     }
     if (mostHeight > design.drawAreaHeight) {
