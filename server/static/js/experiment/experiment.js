@@ -746,6 +746,7 @@ DataManager.getPerProtocolData = function(callback) {
 	this.newId = 0;
 	var that = this;
     $.get("/protocol/design/"+$.getUrlParam('id'), function(data, status) {
+        console.log(data['Personal Protocols']);
         that.perProtocols = data['protocols'];
         callback(that.perProtocols);
     });
