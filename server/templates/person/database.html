@@ -35,24 +35,20 @@
     <div id="database-detail" v-show="selectedRecord !== null">
       <div id="detail-header">
         <div class="title">[[selectedRecord.name]]</div>
-        <div id="detail-progress" class="detail header meta">
-          <div class="text">progress:</div>
-          <div v-repeat="item in ['design', 'modeling', 'experiment']"
-          v-show="selectedRecord.progress >= $index"
-          class="progress [[item]]"
-          data-content="[[item | capitalize]]"></div>
-        </div>
         <div id="detail-tags" class="detail header meta">
-          <div class="text">tags:</div>
+          <div class="text">status:</div>
           <a class="ui tag label" v-repeat="tag in selectedRecord.tags">[[tag]]</a>
         </div>
         <div id="detail-short-desc" class="detail header meta">
-          <div class="text">introduction:</div>
+          <div class="text">introduction: [[selectedRecord.introduction]]</div>
+        </div>
+        <div id="detail-source" class="detail header meta">
+          <div class="text">source: [[selectedRecord.source]]</div>
         </div>
       </div>
       <div id="detail-tabs">
         <div class="ui pointing secondary menu">
-          <a v-repeat="i in ['Description', 'Equations', 'Charts', 'Plasmids', 'References']"
+          <a v-repeat="i in ['Description', 'Equations', 'Charts', 'Plasmids']"
           class="item"
           v-class="active: selectedTab === i"
           v-on="click: selectTab(i)">[[i]]</a>
@@ -60,14 +56,10 @@
         <div class="ui tab basic segment" v-class="active: selectedTab === 'Description'" id="details-description-tab">
           <div class="ui header" v-show="selectedRecord.img">Image:</div>
           <img v-attr="src: selectedRecord.img" alt="" class="ui image" v-show="selectedRecord.img">
-          <div class="ui header">Brief Description:</div>
-          <div class="brief">
-            [[design.brief_description]]
-          </div>
           <div class="ui divider"></div>
           <div class="ui header">Full Description:</div>
           <div class="full">
-            [[design.full_description]]
+            [[design.description]]
           </div>
         </div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 'Equations'"></div>
@@ -75,7 +67,6 @@
           <v-graph design-id="[[selectedRecord.id]]"></v-graph>
         </div>
         <div class="ui tab basic segment" v-class="active: selectedTab === 'Plasmids'"></div>
-        <div class="ui tab basic segment" v-class="active: selectedTab === 'References'"></div>
       </div>
     </div>
   </div>

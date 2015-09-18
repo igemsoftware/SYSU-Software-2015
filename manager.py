@@ -139,7 +139,6 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
                 c = Design(name=random_text(2).capitalize()+' design(auto)', 
                         brief_description = random_text(4),
                         full_description = random_text(100),
-                        references = random_text(4),
 
                         rate = random.randint(1, 100),
                         eval_efficiency = random.randint(1, 5),
@@ -150,7 +149,6 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
                         eval_safety = random.randint(1, 5),
                         eval_completeness = random.randint(1, 5),
 
-                        progress = random.randint(1, 100),
                         likes = random.randint(1, 100),
 
                         is_finished = is_finished,
