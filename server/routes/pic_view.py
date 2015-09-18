@@ -5,7 +5,7 @@ from . import pic
 import os
 from flask import current_app, request, send_from_directory, \
         abort, jsonify, url_for, render_template, \
-        send_from_directory, send_file, safe_join
+        send_from_directory, send_file, safe_join, make_response
 from datetime import datetime
 from werkzeug import secure_filename
 import hashlib
@@ -26,10 +26,10 @@ def upload():
     if request.method == 'POST':
         file = request.files['file']
         if not file:
-            return jsonify(uploaded=0, error={message: 'Please select a file'})
+            return jsonify(uploaded=0, error={'message': 'Please select a file'})
         elif not allowed_file(file.filename):
             return jsonify(uploaded=0,
-                error={message: 'The file extension format is not allowed'})
+                error={'message': 'The file extension format is not allowed'})
         else:
             filename = file.filename
             extension = '.'+filename.rsplit('.', 1)[1]
@@ -55,6 +55,51 @@ def upload():
                     filename=filename)
     else:
         return render_template('test/upload_picture.html')
+
+@pic.route('/taskhall/upload', methods=['POST'])
+def uploadTaskhall():
+    """
+        :Method: POST 
+        :Usage: The entrance of uploading file. 
+    """
+    file = request.files['upload']
+    error = ''
+    if not file:
+        return jsonify(uploaded=0, error={'message': 'Please select a file'})
+    elif not allowed_file(file.filename):
+        return jsonify(uploaded=0,
+            error={'message': 'The file extension format is not allowed'})
+    else:
+        callback = request.args.get("CKEditorFuncNum")
+
+        filename = file.filename
+        extension = '.'+filename.rsplit('.', 1)[1]
+
+        # avoid filename collision
+        filename = hashlib.md5( filename.encode('utf-8')+datetime.now().strftime('%y-%m-%d %H-%M-%S') ).hexdigest() + extension
+        fileadr = os.path.join(current_app.config['UPLOAD_FOLDER_FULL'], filename)
+        file.save(fileadr)
+
+        # pic compress and crop
+        from PIL import Image
+        img = Image.open(fileadr)
+        l = min(*img.size)
+        print (img.size[0]-l/2, img.size[1]-l/2,
+                        img.size[0]+l/2, img.size[1]+l/2)
+        print img.size
+        img = img.crop((img.size[0]/2-l/2, img.size[1]/2-l/2,
+                        img.size[0]/2+l/2, img.size[1]/2+l/2))
+        img.save(fileadr)
+
+        url=url_for('pic.fetch', filename=filename, _external=True)
+        res = """
+            <script type="text/javascript">
+          window.parent.CKEDITOR.tools.callFunction(%s, '%s', '%s');
+        </script>
+        """ % (callback, url, error)
+        response = make_response(res)
+        response.headers["Content-Type"] = "text/html"
+        return response
 
 @pic.route('/fetch/<path:filename>')
 def fetch(filename):
