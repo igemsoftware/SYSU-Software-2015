@@ -17,7 +17,6 @@
     .. autoattribute:: id
     .. autoattribute:: related_count 
     .. autoattribute:: _content
-    .. autoattribute:: printable
     .. autoattribute:: content
 
     .. autoattribute:: target

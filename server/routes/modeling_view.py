@@ -421,7 +421,7 @@ def replot_design(id):
         :Method: POST 
         :Usage: Get the modeling result of a design with parameters.
         :Output: A list of modeling result.
-        :Example Output: The same as the output of :http:get:`/modeling/design/<int:id>` .
+        :Example Output: The same as the output of ``/modeling/design/<int:id>`` .
     """
 
 

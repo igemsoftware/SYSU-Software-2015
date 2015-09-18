@@ -1,6 +1,4 @@
 from server import create_app
-from gevent.wsgi import WSGIServer
-from gevent import monkey
 
 # Change the host and port here
 HOST = '0.0.0.0'
