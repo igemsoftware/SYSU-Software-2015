@@ -1807,7 +1807,6 @@ RightBar.prototype._rightTriggerAnimation = function() {
  *
  */
 RightBar.prototype.processDropedPart = function(part) {
-    this.updateEquationView(part);
     this.updateAddedView(part);
 }
 
@@ -1826,59 +1825,6 @@ RightBar.prototype.processDropedDevice = function(device) {
         this.updateSearchBar();
         this.rightbarWorker.showView(this.elemsDeviceList, this.view.devices);
     }
-}
-
-/**
- * Update equation view
- * @method updateEquationView
- * @for RightBar
- * @param {Part} part A part data structure
- *
- */
-RightBar.prototype.updateEquationView = function(part) {
-    if (this.isPartAddedEquationMenu(part)) {
-        return;
-    } else {
-        this.addDropdownItem(part, $("#equationDropdownA .menu"))
-        this.addDropdownItem(part, $("#equationDropdownB .menu"))
-    }
-}
-
-/**
- * Add part to the dropdown menu
- * @method addDropdownItem
- * @for RightBar
- * @param {Part} part A part data structure
- * @param {elem} dropdownMenuElem A dropdown menu Dom elem
- *
- */
-RightBar.prototype.addDropdownItem = function(part, dropdownMenuElem) {
-    var itemDiv = $("<div></div>");
-    itemDiv.addClass("item");
-    itemDiv.attr("data-value", part.name);
-    var imgElem = $("<img/>");
-    imgElem.addClass("ui mini avatar image");
-    imgElem.attr("src", Util.getImagePath(part.type, 70));
-    imgElem.appendTo(itemDiv);
-    itemDiv.append(part.name);
-    dropdownMenuElem.append(itemDiv);
-}
-
-/**
- * Check if is the part added in the equation menu
- * @method isPartAddedEquationMenu
- * @for RightBar
- * @param {Part} part A part data structure
- *
- */
-RightBar.prototype.isPartAddedEquationMenu = function(part) {
-    var flag = false;
-    $("#equationDropdownA .menu").each(function() {
-        if ($(this).text() == part.attr) {
-            flag = true;
-        }
-    })
-    return flag;
 }
 
 /**
@@ -1985,22 +1931,6 @@ RightBar.prototype.enableSearchAddInput = function() {
         }
     });
 };
-
-/**
- * Show equation
- * @method showEquation
- * @for RightBar
- * @param {String} partAttrA A part attr
- * @param {String} partAttrB A part attr
- *
- */
-RightBar.prototype.showEquation = function(partAttrA, partAttrB) {
-    var equationStr = DataManager.getEquation(partAttrA, partAttrB);
-    var pElem = $("<p></p>");
-    pElem.text(equationStr);
-    $("#showEquation").append(pElem);
-    MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
-}
 
 /**
  * Init equation parts
@@ -2193,8 +2123,40 @@ $("#searchEquationsBtn").click(function() {
         dataType : 'json',
         data : postDataJson,
         success: function(data) {
+            var equations = data['equations'];
+            if (equations.length == 0) {
+                $("#searchEquationsBtn").removeClass("loading");
+                $("#searchEquationErrorModel").modal('show');
+                return;
+            }
+            console.log('Equation Results: ')
             console.log(data);
+            for (var i in equations) {
+                var gridElem = Util.createEquationShow();
+                var divider = $("<div class='ui divider'></div>");
+                var requirStr = "";
+                var coeff = "";
+                var coeffStr = "";
+                console.log(equations[i].target);                
+                for (var j in equations[i].requirement) {
+                    requirStr += equations[i].requirement[j] + ", ";
+                }
+                for (var j in equations[i].coeffList) {
+                    var name = Object.getOwnPropertyNames(equations[i].coeffList[j]);
+                    var value = equations[i].coeffList[j][name];
+                    coeffStr = "( " + name + ', ' + value + '), ';
+                    console.log(name);
+                }
+                gridElem.find('.target').text(equations[i].target);
+                gridElem.find('.requirement').text(requirStr);
+                gridElem.find('.coefficient').text(coeffStr);
+                gridElem.find('.formular').text("$" + equations[i].formular + "$");
+                gridElem.appendTo($('#equaSearchResultModal .content .equationList'));
+                divider.appendTo($('#equaSearchResultModal .content .equationList'));
+            }
+            MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
             $("#equaSearchResultModal").modal('show');
+            $("#searchEquationsBtn").removeClass("loading");
         }
     });
 });
@@ -2205,11 +2167,4 @@ $('.coupled.modal')
     allowMultiple: true
   })
 ;
-// open second modal on first modal buttons
-$('.second.modal')
-  .modal('attach events', '.first.modal .button')
-;
-// show first immediately
-// $('.first.modal')
-//   .modal('show')
-// ;
+
