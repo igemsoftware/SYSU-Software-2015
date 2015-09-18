@@ -66,6 +66,7 @@ def get_system_from_related(design_set):
 #                print 'checking %s' % e.packed()
                 e.update_from_db()
                 related = set(e.related)
+                if not related <= design_set: continue
                 if not related:
                     # empty requirment will be added if and only if current equation set is empty
                     if not component_set:
@@ -347,6 +348,9 @@ def plot_design(id):
         d = Design.query.get(id)
         system, var_mapper = get_system_from_design(id)
         if not system: raise Exception("Cannot find the system.")
+
+        from pprint import pprint
+        pprint(system)
 
         ODEModel, system, names = getModel(system)
         if not ODEModel: raise Exception("Build ODE system error.")
