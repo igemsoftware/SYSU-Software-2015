@@ -25,7 +25,9 @@
         <div class="ui tab basic segment" v-class="active: selectedTab === 'Description'" id="details-description-tab">
           {% if design.img %}
           <div class="ui header">Image:</div>
-          <img src="data:image/jpeg;base64,{{design.img}}" alt="" class="ui fluid image">
+          <a href="{{url_for('bank.get_detailed', id=design.id)}}" id="design-image">
+            <img src="{{design.img}}" alt="" class="ui image">
+          </a>
           {% endif %}
           <div class="ui header">Brief Description:</div>
           <div class="brief">
