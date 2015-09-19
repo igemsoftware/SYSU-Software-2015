@@ -82,7 +82,7 @@ class User(UserMixin, db.Model):
         kwargs['username'] = kwargs['username'][:128]
         super(User, self).__init__(**kwargs)
         if self.username != "Administrator" and send_email:
-            self.send_email(subject='Welcome to FLAME', template='email/greeting',
+            self.send_email(subject='Welcome to CORE', template='email/greeting',
                             user=self, async=async_mail)
 
     # messages
