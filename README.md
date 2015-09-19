@@ -1,7 +1,7 @@
 <p align="center"><img src="https://raw.githubusercontent.com/igemsoftware/SYSU-Software-2015/master/server/static/img/common/logo.png"></p>
 
 <p align="center">
-  <a href="https://magnum.travis-ci.com/igemsoftware/SYSU-Software-2015"><img src="https://travis-ci.org/igemsoftware/SYSU-Software-2015.svg?branch=master" alt="Build Status"></a>
+  <a href="https://travis-ci.org/igemsoftware/SYSU-Software-2015.svg?branch=master"><img src="https://travis-ci.org/igemsoftware/SYSU-Software-2015.svg?branch=master" alt="Build Status"></a>
 </p>
 
 ## Introduction
@@ -24,14 +24,17 @@ Here list only the main dependencies. For a complete list, please see `requireme
 ## Installation
 
 ### For Normal Users
-In most cases, you *won't* care about how to install the server, because we have one that is accessible publicly :smile:
-The online version is located [here](http://core.sysusoftware.info).
+In most cases, you *won't* care about how to install the server, because we have one that is accessible publicly :smile:.
+
+The online version is hosted [here](http://core.sysusoftware.info).
+
+Besides, we also provide an online version of the docuementations, which is hosted [here](http://coredocs.sysusoftware.info).
 
 ### For Advanced Users
-If you really want to host a seperate copy of the server, you have two options.
+If you really want to host a separate copy of the server, you have two options.
 
-1. The BLUE pill: use one of our releases [here](https://github.com/igemsoftware/SYSU-Software-2015/releases). It's designed specially for easy deploying.
-2. The RED pill: you will need knowledges about python and the command line. General instructions can be found below. Note that you normally **really** don't need to get your hands dirty. Discussion about this can be found in **Advanced Usage** section of this file.
+1. The BLUE pill: use one of our releases [here](https://github.com/igemsoftware/SYSU-Software-2015/releases). It's designed especially for easy deploying.
+2. The RED pill: you will need knowledge about python and the command line. General instructions can be found below. Note that you normally **really** don't need to get your hands dirty. Discussion about this can be found in **Advanced Usage** section of this file.
 
 Basic command-line setup instructions:
 ```
@@ -51,18 +54,18 @@ python core.py
 ## Advanced usage
 
 ### On the shoulders of giants:
-The primitive CORE contains nothing except few necessary information to support the software. If you want to start with some parts, devices and tasks that we collected for you, run `python manager.py testinit` instead. You can acquire many useful components and feel less lonely.
+The primitive CORE contains nothing except few necessary information to support the software. If you want to start with some parts, devices and tasks that we collected for you, run `python manager.py userinit` instead. You can acquire many useful components and feel less lonely.
 
 ### Share a database within lab:
 It is **highly recommended** to deploy CORE on a public (like world-wide-web) or semi-public (like laboratory) server. Because users can cooperate with each other by answering others' question or by sharing their devices.
 
 We assume that you are a lab server manager and possess the basic ability of deploying a server-based software (or ask students in CS for help). You just need to change the `HOST` and `PORT` in `core.py` and re-run `python core.py` to restart the software.
 
-### Multiple-platfrom development
-If your are a developer who hopes to use CORE on IOS, Android or other platforms, we provide miscellaneous interfaces for further development:
+### Multiple-platform development
+If you are a developer who hopes to use CORE on IOS, Android or other platforms, we provide miscellaneous interfaces for further development:
 
-- Deploy CORE on an accessable server without modifying anything.
-- Access the interface via any platform to retrive/update the information.
+- Deploy CORE on an accessible server without modifying anything.
+- Access the interface via any platform to retrieve/update the information.
 
 ## Documentation
 
@@ -70,16 +73,39 @@ If your are a developer who hopes to use CORE on IOS, Android or other platforms
 - Build with `sphinx-build -b html -d _build/doctrees . _build/html`
 - See in `_build/html/index.html`
 
+An online version is hosted [here](http://coredocs.sysusoftware.info).
+
 ## FAQ
+
+## Libraries used
+### Backend
+* Flask and various plugins
+* nose
+* numpy
+* scipy
+* SQLAlchemy
+* WTForms
+* gevent
+
+### Frontend
+* Semantic UI
+* jsPlumb
+* vue.js
+* angularPlasmid.js
+* highcharts.js
+* fullCalendar
+* MathJax
+* Math.js
+
 
 ## Credits
 
-SYSU-Software-2015
+SYSU-Software-2015 and all the developers of the libraries used in this project.
 
 ## LICENSE
 
 CORE uses LGPL 3.0 license. See more details in `LICENSE`.
 
-## Version Log
+## Change Log
 1. 0.8.0: released on Sept 14th, 2015.
 

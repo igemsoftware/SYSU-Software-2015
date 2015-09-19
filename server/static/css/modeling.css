@@ -1,3 +1,7 @@
+#topbar-bottom-line {
+    background: linear-gradient(to right, #bec578, #ebf595, #87e1d5);
+}
+
 .float-right {
 	float: right;
 }
@@ -23,9 +27,9 @@
 }
 
 #simulation-box, #experiment-box {
-    box-shadow: 5px 5px 10px #989898 !important;/*opera或ie9*/  
-    -moz-box-shadow: 5px 5px 10px #989898 !important;/*firefox*/  
-    -webkit-box-shadow: 5px 5px 10px #989898 !important;/*webkit*/  
+    box-shadow: 5px 5px 10px #989898 !important;/*opera或ie9*/
+    -moz-box-shadow: 5px 5px 10px #989898 !important;/*firefox*/
+    -webkit-box-shadow: 5px 5px 10px #989898 !important;/*webkit*/
 }
 
 #experiment-menu.active {
@@ -96,7 +100,7 @@
 
 #chooseModal #designList {
 	height: 90%;
-	overflow: auto;	
+	overflow: auto;
 }
 
 #chooseModal #designList .title {

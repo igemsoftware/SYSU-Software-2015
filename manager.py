@@ -205,6 +205,38 @@ def testinit(slient=False, noinit=False, quickcheck=False, Skipbio=False):
         
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
 
+
+@manager.command
+def userinit():
+    init()
+    with app.app_context():
+        print bcolors.HEADER+'Adding test components ...',
+ 
+        # add default protocols 
+        for dir in app.config.get('INIT_PRELOAD_PROTOCOL_DIRS', []):
+            for filename in get_file_list(dir):
+                protocol = Protocol().load_from_file(filename)
+
+        # add testing parts
+        for dir in app.config.get('INIT_PRELOAD_PART_DIRS', []):
+            for filename in get_file_list(dir):
+                preload_parts(filename)
+
+        # add testing equations 
+        for dir in app.config.get('INIT_PRELOAD_EQUATION_DIRS', []):
+            for filename in get_file_list(dir):
+                EquationBase.preload_from_file(filename)
+
+        for dir in app.config.get('INIT_PRELOAD_NEW_DEVICE_DIRS', []):
+            for filename in get_file_list(dir):
+                device = Device.new_load_from_file(filename)
+        
+        print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
+
+
+
+
+
 if __name__ == '__main__':
     manager.run()
 
