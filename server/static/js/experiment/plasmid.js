@@ -1,16 +1,44 @@
+/**
+ * @file plasmid.js
+ * @description Plasmid function
+ * @author JinJin Lin
+ * @mail jinjin.lin@outlook.com
+ * @date Sept 13 2015
+ * @copyright 2015 SYSU-Software. All rights reserved.
+ * 
+ */
+
 "use strict";
 var plasmid;
 var currentPart;
 
+/**
+ * @class Plasmid
+ * @method constructor
+ *
+ */
 function Plasmid() {
 	this.plasmidCirs = [];
 	this.circuitCount = 0;
 }
 
+/**
+ * Init the plasmid events
+ * @method constructor
+ * @for Plasmid
+ * 
+ */
 Plasmid.prototype.init = function() {
 	this.addReadPartInfoEvent($("#readPartInfo"));
 }
 
+/**
+ * Get the marker by part
+ * @method getMarkerByPart
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getMarkerByPart = function(part) {
 	var marker = {};
 	marker.name = part.name
@@ -27,6 +55,13 @@ Plasmid.prototype.getMarkerByPart = function(part) {
 	return marker;
 }
 
+/**
+ * Get the marker in style by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getMakerStyleIn = function(part) {
 	if (part.type == 'promoter') {
 		return "fill:rgba(170,0,85,0.9)";
@@ -42,6 +77,13 @@ Plasmid.prototype.getMakerStyleIn = function(part) {
 	}
 }
 
+/**
+ * Get the marker out style by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getMarkerStyleOut = function(part) {
 	if (part.type == 'promoter') {
 		return "fill:rgba(238,255,221,0.6)";
@@ -57,6 +99,13 @@ Plasmid.prototype.getMarkerStyleOut = function(part) {
 	}
 }
 
+/**
+ * Get the vadjust of marker by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getVadjust = function(part) {
 	if (part.type == 'promoter') {
 		return "65";
@@ -72,6 +121,13 @@ Plasmid.prototype.getVadjust = function(part) {
 	}
 }
 
+/**
+ * Get the valign of marker by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getValign = function(part) {
 	if (part.type == 'promoter') {
 		return "outer";
@@ -87,6 +143,13 @@ Plasmid.prototype.getValign = function(part) {
 	}
 }
 
+/**
+ * Get the showline of marker by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getShowline = function(part) {
 	if (part.type == 'promoter') {
 		return 1;
@@ -102,6 +165,13 @@ Plasmid.prototype.getShowline = function(part) {
 	}
 }
 
+/**
+ * Get the markers length by part
+ * @method getMakerStyleIn
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.getMarkersLength = function(markers) {
 	var length = 0;
 	for (var i in markers) {
@@ -110,6 +180,15 @@ Plasmid.prototype.getMarkersLength = function(markers) {
 	return length;
 }
 
+/**
+ * Format circuit
+ * @method formatCircuit
+ * @for Plasmid
+ * @param {Circiut} circuit A circuit data structure
+ * @param {number} length The length of circuit
+ * @param {function} callback
+ * 
+ */
 Plasmid.prototype.formatCircuit = function(circuit, length, callback) {
 	var that = this;
 	var xmlDocs;
@@ -140,18 +219,40 @@ Plasmid.prototype.formatCircuit = function(circuit, length, callback) {
 	});
 }
 
+/**
+ * Load the circuits
+ * @method loadCircuits
+ * @for Plasmid
+ * @param {list} circuits A list of circuits
+ * @param {function} callback
+ * 
+ */
 Plasmid.prototype.loadCircuits = function(circuits, callback) {
 	for (var i in circuits) {
 		this.formatCircuit(circuits[i], circuits.length, callback);
 	}
 }
 
+/**
+ * Add read part information event
+ * @method addReadPartInfoEvent
+ * @for Plasmid
+ * @param {elem} moreElem A dom element
+ * 
+ */
 Plasmid.prototype.addReadPartInfoEvent = function(moreElem) {
     moreElem.click(function() {
         $("#readPartInfoModal").modal({transition: 'horizontal flip'}).modal('show');
     });
 }
 
+/**
+ * Write part information to the modal
+ * @method writePartInfoToModal
+ * @for Plasmid
+ * @param {Part} part A part data structure
+ * 
+ */
 Plasmid.prototype.writePartInfoToModal = function(part) {
     var infoModal = $("#readPartInfoModal");
     infoModal.find('.partName').text(part.name);
@@ -305,7 +406,12 @@ $("#choose").click(function() {
 	});
 });
 
-
+/**
+ * Init the open designs button
+ * @method initOpenList
+ * @param {list} designs A list of designs
+ * 
+ */
 function initOpenList(designs) {
     $("#designList").empty();
     for (var i in designs) {
@@ -328,6 +434,11 @@ function initOpenList(designs) {
     }
 }
 
+/**
+ * Get design data
+ * @method getDesignData
+ * 
+ */
 function getDesignData() {
     $.get("/design/all", function(data, status) {
         console.log("Personal Designs:");

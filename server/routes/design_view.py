@@ -202,6 +202,7 @@ def data_fetch_device():
     devices = [] 
     for device in Device.query.filter_by().all():
         device.update_from_db()
+        if (device.name == 'Sunlight responsor system 2015SYSU-Software'): continue
         devices.append({'name': device.name,
                   'parts': map(lambda x: x.jsonify(), device.parts),
                   'relationship': device.relationship,
@@ -215,6 +216,76 @@ def data_fetch_device():
 
     return jsonify(deviceList=devices)
 
+@design.route('/data/fetch/system')
+def data_fetch_system():
+    """
+        :Usage: Get all systems. 
+        :Output: A list of systems.
+        :Output Example: 
+
+        .. code-block:: json
+
+            {
+                "deviceList": [
+                {
+                  "interfaceA": "Fusaric Acid_1",
+                  "interfaceB": "FadP_1",
+                  "introduction": "protects banana plants from Fusarium oxysporum. The Banana Guard system senses fusaric acid and, in response, produces fungal growth inhibitors to prevent infection of the banana plant. In addition we have also implemented a Kill-switch that disables our system when fusaric acid is not present. For this, we have optimized the circuit design, assessed the potential of BananaGuard in the soil, and analyzed the robustness of the system using different mathematical models.",
+                  "parts": [
+                    {
+                      "partID": "Fusaric Acid_1",
+                      "partName": "Fusaric Acid",
+                      "positionX": 300.0,
+                      "positionY": 300.0
+                    },
+                    {
+                      "partID": "FadP_1",
+                      "partName": "FadP",
+                      "positionX": 300.0,
+                      "positionY": 300.0
+                    },
+                    {
+                      "partID": "fadP_1",
+                      "partName": "fadP",
+                      "positionX": 300.0,
+                      "positionY": 300.0
+                    }
+                  ],
+                  "relationship": [
+                    {
+                      "end": "FadP_1",
+                      "start": "Fusaric Acid_1",
+                      "type": "inhibition"
+                    },
+                    {
+                      "end": "FadP_1",
+                      "start": "fadP_1",
+                      "type": "promotion"
+                    }
+                  ],
+                  "risk": -1,
+                  "source": "http://2014.igem.org/Team:Wageningen_UR/project/fungal_sensing",
+                  "title": "Sensor"
+                }]
+            }
+
+    """
+    systems = [] 
+    for system in Device.query.filter_by().all():
+        system.update_from_db()
+        if (system.name == 'Sunlight responsor system 2015SYSU-Software'):
+	        systems.append({'name': system.name,
+	                  'parts': map(lambda x: x.jsonify(), system.parts),
+	                  'relationship': system.relationship,
+	                  'interfaceA': system.interfaceA,
+	                  'interfaceB': system.interfaceB,
+	                  'backbone': system.backbone,
+	                   'full_description': system.full_description,
+	                   'source': system.source,
+	                   'risk': system.risk,
+	                  })
+
+    return jsonify(systemList=systems)
 
 @design.route('/data/<int:id>', methods=['GET'])
 def get_design(id):
