@@ -24,8 +24,11 @@ Here list only the main dependencies. For a complete list, please see `requireme
 ## Installation
 
 ### For Normal Users
-In most cases, you *won't* care about how to install the server, because we have one that is accessible publicly :smile:
-The online version is located [here](http://core.sysusoftware.info).
+In most cases, you *won't* care about how to install the server, because we have one that is accessible publicly :smile:.
+
+The online version is hosted [here](http://core.sysusoftware.info).
+
+Besides, we also provide an online version of the docuementations, which is hosted [here](http://coredocs.sysusoftware.info).
 
 ### For Advanced Users
 If you really want to host a seperate copy of the server, you have two options.
@@ -69,6 +72,8 @@ If your are a developer who hopes to use CORE on IOS, Android or other platforms
 - `cd docs/`
 - Build with `sphinx-build -b html -d _build/doctrees . _build/html`
 - See in `_build/html/index.html`
+
+An online version is hosted [here](http://coredocs.sysusoftware.info).
 
 ## FAQ
 
