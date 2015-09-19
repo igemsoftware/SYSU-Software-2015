@@ -142,8 +142,7 @@ def get_finished_list():
         :Note: Login required
         :Usage: Get the list of finished but not shared designs. 
         :Input: A list of :class:`Design` . 
-        
-        :Output Example: 
+       Output Example: 
 
         .. code-block:: json
 
@@ -190,7 +189,11 @@ def get_detailed(id):
 
     d = Design.query.get(id)
     if not d: abort(404)#return jsonify(error='This design doesn\'t exist')
+#    from datetime import datetime
+#    start = datetime.now()
     system, var_mapper = get_system_from_design(id)
+#    end = datetime.now()
+#    print '>>>>', (end-start).total_seconds()
 
     print 'here'
     print system

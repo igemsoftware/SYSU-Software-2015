@@ -1,3 +1,7 @@
+#topbar-bottom-line {
+    background: linear-gradient(to right, #5ca9b6, #72d3e3, #71d1e1);
+}
+
 .float-right {
 	float: right;
 }
@@ -27,9 +31,9 @@
 }
 
 #calendar-box, #PlaPro {
-    box-shadow: 5px 5px 10px #989898 !important;/*opera或ie9*/  
-    -moz-box-shadow: 5px 5px 10px #989898 !important;/*firefox*/  
-    -webkit-box-shadow: 5px 5px 10px #989898 !important;/*webkit*/  
+    box-shadow: 5px 5px 10px #989898 !important;/*opera或ie9*/
+    -moz-box-shadow: 5px 5px 10px #989898 !important;/*firefox*/
+    -webkit-box-shadow: 5px 5px 10px #989898 !important;/*webkit*/
 }
 
 #leftbox {
@@ -156,9 +160,9 @@
     -webkit-transition: right 0.5s;   /* Safari 和 Chrome */
     background-color: rgba(44, 44, 44, 0.7);
 
-    box-shadow: 5px 2px 10px #989898;/*opera或ie9*/  
-    -moz-box-shadow: 5px 2px 10px #989898;/*firefox*/  
-    -webkit-box-shadow: 5px 2px 10px #989898;/*webkit*/  
+    box-shadow: 5px 2px 10px #989898;/*opera或ie9*/
+    -moz-box-shadow: 5px 2px 10px #989898;/*firefox*/
+    -webkit-box-shadow: 5px 2px 10px #989898;/*webkit*/
 }
 
 #left-sidebar .trigger-left {
@@ -329,11 +333,11 @@
     transition: right 0.5s;
     -webkit-transition: right 0.5s;   /* Safari 和 Chrome */
     background-color: rgba(44, 44, 44, 0.7);
-	color: #EDEDEF;	
+	color: #EDEDEF;
 
-    box-shadow: 5px 2px 10px #989898;/*opera或ie9*/  
-    -moz-box-shadow: 5px 2px 10px #989898;/*firefox*/  
-    -webkit-box-shadow: 5px 2px 10px #989898;/*webkit*/  
+    box-shadow: 5px 2px 10px #989898;/*opera或ie9*/
+    -moz-box-shadow: 5px 2px 10px #989898;/*firefox*/
+    -webkit-box-shadow: 5px 2px 10px #989898;/*webkit*/
 }
 
 #right-sidebar .trigger-right {
@@ -455,7 +459,7 @@
 	color: #ffffff;              /* text color */
 }
 
-.fc-event { 
+.fc-event {
 	font-size: 20px !important;
 }
 
@@ -493,7 +497,7 @@
 
 #chooseModal #designList {
 	height: 90%;
-	overflow: auto;	
+	overflow: auto;
 }
 
 #chooseModal #designList .title {
