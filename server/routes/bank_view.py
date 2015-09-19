@@ -189,11 +189,11 @@ def get_detailed(id):
 
     d = Design.query.get(id)
     if not d: abort(404)#return jsonify(error='This design doesn\'t exist')
-    from datetime import datetime
-    start = datetime.now()
+#    from datetime import datetime
+#    start = datetime.now()
     system, var_mapper = get_system_from_design(id)
-    end = datetime.now()
-    print '>>>>', (end-start).total_seconds()
+#    end = datetime.now()
+#    print '>>>>', (end-start).total_seconds()
 
     print 'here'
     print system
