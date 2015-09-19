@@ -77,14 +77,35 @@ An online version is hosted [here](http://coredocs.sysusoftware.info).
 
 ## FAQ
 
+## Libraries used
+### Backend
+* Flask and various plugins
+* nose
+* numpy
+* scipy
+* SQLAlchemy
+* WTForms
+* gevent
+
+### Frontend
+* Semantic UI
+* jsPlumb
+* vue.js
+* angularPlasmid.js
+* highcharts.js
+* fullCalendar
+* MathJax
+* Math.js
+
+
 ## Credits
 
-SYSU-Software-2015
+SYSU-Software-2015 and all the developers of the libraries used in this project.
 
 ## LICENSE
 
 CORE uses LGPL 3.0 license. See more details in `LICENSE`.
 
-## Version Log
+## Change Log
 1. 0.8.0: released on Sept 14th, 2015.
 
