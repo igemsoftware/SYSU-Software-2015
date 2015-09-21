@@ -470,7 +470,7 @@ def get_default():
     for ele in data:
         c = ComponentPrototype.query.filter_by(attr=ele).first()
         if c:
-            default.append(c.initval)
+            default.append(float(c.initval))
         else:
             default.append(0.0)
     return jsonify(initval=default)
