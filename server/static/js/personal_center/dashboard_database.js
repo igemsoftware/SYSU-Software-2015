@@ -58,6 +58,9 @@ var vDatabase = new Vue({
             } else if (i === 'Rating') {
                 this.$broadcast('rating-init');
             }
+        },
+        shareUrlFor : function(id) {
+            return window.location.origin + '/embedded/' + id.toString();
         }
     },
     filters : {
