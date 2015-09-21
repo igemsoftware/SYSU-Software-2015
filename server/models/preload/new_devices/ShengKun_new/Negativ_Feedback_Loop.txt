@@ -1,0 +1,10 @@
+Negativ_Feedback_Loop
+A Negative feedback loop.
+This is a Negative feedback loop with trigger. The LacI protein would be expressed and inhibits the pLac, and inhibits the expressing of LacI.There is IPTG as a trigger.
+Negative feedback loop,LacI
+by dsk,9/17/2015
+Not available
+1
+IPTG
+LacI
+{"parts":[{"partID":"IPTG_14","partName":"IPTG","partAttr":"IPTG","positionX":204,"positionY":14},{"partID":"Plac_15","partName":"Plac","partAttr":"Plac","positionX":203,"positionY":166},{"partID":"RBS:BBa_B0034_16","partName":"RBS","partAttr":"RBS:BBa_B0034","positionX":316,"positionY":167},{"partID":"lacI_17","partName":"lacI","partAttr":"lacI","positionX":435,"positionY":167},{"partID":"T0_18","partName":"T0","partAttr":"T0","positionX":550,"positionY":167},{"partID":"LacI _20","partName":"LacI ","partAttr":"LacI ","positionX":435,"positionY":330}],"relationship":[{"start":"IPTG_14","end":"Plac_15","type":"promotion"},{"start":"Plac_15","end":"RBS:BBa_B0034_16","type":"normal"},{"start":"RBS:BBa_B0034_16","end":"lacI_17","type":"normal"},{"start":"lacI_17","end":"T0_18","type":"normal"},{"start":"lacI_17","end":"LacI _20","type":"promotion"},{"start":"LacI _20","end":"Plac_15","type":"inhibition"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[175,235],"end":[579,235]}],"name":"Negativ_Feedback_Loop"}

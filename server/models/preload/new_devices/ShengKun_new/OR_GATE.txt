@@ -1,0 +1,10 @@
+OR_GATE
+This is an OR GATE.
+This is an OR GATE. The input is L-arabinose or IPTG, the output is GFP.Either IPTG or L-arabinose existing can the GFP express.This device can be set on one or two circuit.
+ORGATE,IPTG,L-arabinose,GFP
+by dsk,9/17/2015
+Not available
+1
+IPTG,L-arabinose
+GFP
+{"parts":[{"partID":"IPTG_43","partName":"IPTG","partAttr":"IPTG","positionX":187,"positionY":13},{"partID":"L-arabinose_44","partName":"L-arabinose","partAttr":"L-arabinose","positionX":194,"positionY":168},{"partID":"AraC_45","partName":"AraC","partAttr":"AraC","positionX":289,"positionY":142},{"partID":"PBAD_46","partName":"PBAD","partAttr":"PBAD","positionX":289,"positionY":286},{"partID":"Plac_48","partName":"Plac","partAttr":"Plac","positionX":290,"positionY":13},{"partID":"RBS:BBa_B0030_49","partName":"RBS","partAttr":"RBS:BBa_B0030","positionX":379,"positionY":13},{"partID":"RBS:BBa_B0030_50","partName":"RBS","partAttr":"RBS:BBa_B0030","positionX":379,"positionY":286},{"partID":"gfp_51","partName":"gfp","partAttr":"gfp","positionX":471,"positionY":13},{"partID":"gfp_52","partName":"gfp","partAttr":"gfp","positionX":471,"positionY":286},{"partID":"T0_54","partName":"T0","partAttr":"T0","positionX":561,"positionY":286},{"partID":"T0_55","partName":"T0","partAttr":"T0","positionX":564,"positionY":13},{"partID":"GFP_56","partName":"GFP","partAttr":"GFP","positionX":471,"positionY":150}],"relationship":[{"start":"L-arabinose_44","end":"PBAD_46","type":"promotion"},{"start":"AraC_45","end":"PBAD_46","type":"inhibition"},{"start":"IPTG_43","end":"Plac_48","type":"promotion"},{"start":"Plac_48","end":"RBS:BBa_B0030_49","type":"normal"},{"start":"RBS:BBa_B0030_49","end":"gfp_51","type":"normal"},{"start":"PBAD_46","end":"RBS:BBa_B0030_50","type":"normal"},{"start":"RBS:BBa_B0030_50","end":"gfp_52","type":"normal"},{"start":"gfp_51","end":"T0_55","type":"normal"},{"start":"gfp_52","end":"T0_54","type":"normal"},{"start":"gfp_51","end":"GFP_56","type":"promotion"},{"start":"gfp_52","end":"GFP_56","type":"promotion"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[],"name":"OR_GATE"}

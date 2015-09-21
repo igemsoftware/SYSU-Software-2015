@@ -1,0 +1,10 @@
+Inverter_iptg_cfp
+This is an Inverter.
+This is an Inverter. The input is IPTG, the output is CFP.The system is under the regulation of TetR.
+Inverter,IPTG,CFP
+by dsk,9/17/2015
+Not available
+1
+IPTG
+CFP
+{"parts":[{"partID":"IPTG_13","partName":"IPTG","partAttr":"IPTG","positionX":96,"positionY":0},{"partID":"Plac_14","partName":"Plac","partAttr":"Plac","positionX":96,"positionY":139},{"partID":"RBS:BBa_B0034_15","partName":"RBS","partAttr":"RBS:BBa_B0034","positionX":192,"positionY":139},{"partID":"tetR_16","partName":"tetR","partAttr":"tetR","positionX":288,"positionY":139},{"partID":"T0_17","partName":"T0","partAttr":"T0","positionX":384,"positionY":139},{"partID":"Ptet_18","partName":"Ptet","partAttr":"Ptet","positionX":487,"positionY":139},{"partID":"RBS:BBa_B0034_34","partName":"RBS","partAttr":"RBS:BBa_B0034","positionX":584,"positionY":139},{"partID":"cfp_35","partName":"cfp","partAttr":"cfp","positionX":679,"positionY":139},{"partID":"CFP_36","partName":"CFP","partAttr":"CFP","positionX":679,"positionY":300},{"partID":"T0_37","partName":"T0","partAttr":"T0","positionX":780,"positionY":139},{"partID":"TetR_39","partName":"TetR","partAttr":"TetR","positionX":406,"positionY":313}],"relationship":[{"start":"IPTG_13","end":"Plac_14","type":"promotion"},{"start":"cfp_35","end":"CFP_36","type":"promotion"},{"start":"Plac_14","end":"RBS:BBa_B0034_15","type":"normal"},{"start":"RBS:BBa_B0034_15","end":"tetR_16","type":"normal"},{"start":"tetR_16","end":"T0_17","type":"normal"},{"start":"T0_17","end":"Ptet_18","type":"normal"},{"start":"Ptet_18","end":"RBS:BBa_B0034_34","type":"normal"},{"start":"RBS:BBa_B0034_34","end":"cfp_35","type":"normal"},{"start":"cfp_35","end":"T0_37","type":"normal"},{"start":"tetR_16","end":"TetR_39","type":"promotion"},{"start":"TetR_39","end":"Ptet_18","type":"inhibition"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[61,209],"end":[832,207]}],"name":"Inverter_iptg_cfp"}

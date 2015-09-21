@@ -460,6 +460,9 @@ class Device(db.Model, BioBase):
         d.interfaceB = f.readline().strip() #.split(',')
 
         json_obj = json.loads(f.readline().strip())
+        if Device.query.filter_by(name=json_obj['name']).first() != None:
+            print "\tIgnore the same name device."
+            return Device.query.filter_by(name=json_obj['name']).first()
 
         d.commit_to_db()
         d.update_from_db()

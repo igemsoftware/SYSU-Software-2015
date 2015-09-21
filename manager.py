@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from server import create_app, db
-from flask.ext.script import Manager, Shell, Command
+from flask.ext.script import Manager, Shell, Command, Option
 #from flask.ext.migrate import Migrate, MigrateCommand
 
 from server.models import * 
@@ -232,6 +232,18 @@ def userinit():
                 device = Device.new_load_from_file(filename)
         
         print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
+
+
+@manager.command
+def adddevice(filedir):
+    with app.app_context():
+        print bcolors.HEADER+'Adding device ...',
+
+        for filename in get_file_list(filedir):
+            device = Device.new_load_from_file(filename)
+        
+        print bcolors.OKGREEN+'OK'+'\nTestinit done.'+bcolors.ENDC
+
 
 
 

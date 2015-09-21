@@ -1,0 +1,10 @@
+Inverter_atc_gfp
+This is an Inverter.
+This is an Inverter. The input is ATC, the output is GFP.The system is under the regulation of lacI.
+Inverter,ATC,GFP
+by dsk,9/17/2015
+Not available
+1
+ATC
+GFP
+{"parts":[{"partID":"ATC_1","partName":"ATC","partAttr":"ATC","positionX":163,"positionY":0},{"partID":"Ptet_2","partName":"Ptet","partAttr":"Ptet","positionX":163,"positionY":131},{"partID":"RBS:BBa_B0034_3","partName":"RBS","partAttr":"RBS:BBa_B0034","positionX":262,"positionY":131},{"partID":"lacI_4","partName":"lacI","partAttr":"lacI","positionX":360,"positionY":131},{"partID":"T0_5","partName":"T0","partAttr":"T0","positionX":461,"positionY":131},{"partID":"Plac_6","partName":"Plac","partAttr":"Plac","positionX":587,"positionY":131},{"partID":"RBS:BBa_B0034_7","partName":"RBS","partAttr":"RBS:BBa_B0034","positionX":690,"positionY":131},{"partID":"gfp_8","partName":"gfp","partAttr":"gfp","positionX":789,"positionY":131},{"partID":"T0_9","partName":"T0","partAttr":"T0","positionX":889,"positionY":131},{"partID":"LacI _11","partName":"LacI ","partAttr":"LacI ","positionX":480,"positionY":316},{"partID":"GFP_12","partName":"GFP","partAttr":"GFP","positionX":789,"positionY":306}],"relationship":[{"start":"gfp_8","end":"GFP_12","type":"promotion"},{"start":"lacI_4","end":"LacI _11","type":"promotion"},{"start":"LacI _11","end":"Plac_6","type":"inhibition"},{"start":"ATC_1","end":"Ptet_2","type":"promotion"},{"start":"Ptet_2","end":"RBS:BBa_B0034_3","type":"normal"},{"start":"RBS:BBa_B0034_3","end":"lacI_4","type":"normal"},{"start":"lacI_4","end":"T0_5","type":"normal"},{"start":"T0_5","end":"Plac_6","type":"normal"},{"start":"Plac_6","end":"RBS:BBa_B0034_7","type":"normal"},{"start":"RBS:BBa_B0034_7","end":"gfp_8","type":"normal"},{"start":"gfp_8","end":"T0_9","type":"normal"}],"interfaceA":"interfaceB-partName","interfaceB":"interfaceA-partName","backbone":[{"start":[130,201],"end":[922,200]}],"name":"Inverter_atc_gfp"}
