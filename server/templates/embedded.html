@@ -15,7 +15,7 @@
        v-class="active: selectedTab === i"
        v-on="click: selectTab(i)">[[i]]</a>
     <div class="right menu">
-      <a class="item" id="embedded-edit-in-core" href="/bank/detail/{{design.id}}"><i class="edit icon"></i>View In CORE</a>
+      <a class="item" id="embedded-edit-in-core" href="/bank/detail/{{design.id}}" target="_blank"><i class="edit icon"></i>View In CORE</a>
     </div>
     <div id="embedded-topbar-bottom-line"></div>
   </div>
@@ -26,7 +26,7 @@
         <div class="ui tab basic segment" v-class="active: selectedTab === 'Description'" id="details-description-tab">
           {% if design.img %}
           <div class="ui header">Image:</div>
-          <a href="{{url_for('bank.get_detailed', id=design.id)}}" id="design-image">
+          <a href="{{url_for('bank.get_detailed', id=design.id)}}" id="design-image" target="_blank">
             <img src="{{design.img}}" alt="" class="ui image">
           </a>
           {% endif %}
