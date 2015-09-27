@@ -240,7 +240,7 @@ Modeling.prototype.enableGetPlot = function() {
         });
         var serie = {};
         var series = [];
-        serie.data = xArray;
+        serie.data = yArray;
         serie.name = name;
         series.push(serie);
         that.drawChart($("#myChart"), xArray, series);
