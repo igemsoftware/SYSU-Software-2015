@@ -33,19 +33,21 @@
   {% set unread_count = current_user.msg_box.filter_by(isread=False).count() if logged_in else 0 %}
   <template id="topbar-template">
     <div class="ui secondary menu" id="topbar">
-      {% if logged_in %}
       <div class="ui circular image" id="topbar-avatar">
         <img src="{{current_user.avatar or '/static/img/avatar.jpg'}}" alt="avatar">
+        {% if logged_in %}
         <div class="ui red circular label">{{unread_count}}</div>
+        {% endif %}
       </div>
-      {% endif %}
       <div class="ui popup transition hidden" id="topbar-avatar-popup">
         <div class="ui link list">
         {% if logged_in %}
           <a class="item" href="/person">Personal Center</a>
-          <a class="item" href="/person/notifs">Notifications <div class="ui red circular label">{{unread_count}}</div></a>
+          <a class="item" href="/person/notifs">Notifications<div class="ui red circular label">{{unread_count}}</div></a>
+          <a class="item" href="mailto:sysu.software2015@gmail.com">Feedback</a>
           <a href="{{url_for('auth.logout')}}" class="item">Log Out</a>
         {% else %}
+          <a class="item" href="mailto:sysu.software2015@gmail.com">Feedback</a>
           <a href="{{url_for('auth.login')}}" class="item">Log In</a>
         {% endif %}
         </div>
