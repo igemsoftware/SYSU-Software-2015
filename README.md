@@ -110,4 +110,5 @@ CORE uses LGPL 3.0 license. See more details in `LICENSE`.
 
 ## Change Log
 1. 0.8.0: released on Sept 14th, 2015.
+2. 1.0.0: released on Sept 19th, 2015.
 
