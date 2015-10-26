@@ -2,9 +2,9 @@
 
 <p align="center">
   <a href="https://travis-ci.org/igemsoftware/SYSU-Software-2015.svg?branch=master"><img src="https://travis-ci.org/igemsoftware/SYSU-Software-2015.svg?branch=master" alt="Build Status"></a>
-  <h3>iGem 2015 Best Software! ^_^</h3>
-  <h4>Thank you! See you next year :-)</h4>
 </p>
+<p align="center">iGEM 2015 Best Software! ^_^</p>
+<p align="center">Thank you! See you next year :-)</p>
 
 ## Introduction
 
